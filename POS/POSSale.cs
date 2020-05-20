@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using POS.LookUpForms;
 using CrystalDecisions.CrystalReports.Engine;
 using POS.Report;
+using POS.Helper;
 
 namespace POS
 {
@@ -569,10 +570,10 @@ namespace POS
             DataTable dt = new DataTable();
             SqlParameter p = new SqlParameter("SalePosID", SaleInvoiceNo);
             p.Direction = ParameterDirection.InputOutput; cmd.Parameters.Add(p);
-            cmd.Parameters.AddWithValue("@CompanyID", 1);
-            cmd.Parameters.AddWithValue("@UserID", 1);
-            cmd.Parameters.AddWithValue("@FiscalID", 4);
-            cmd.Parameters.AddWithValue("@WHID", 1007);
+            cmd.Parameters.AddWithValue("@CompanyID", CompanyInfo.CompanyID);
+            cmd.Parameters.AddWithValue("@UserID", CompanyInfo.UserID);
+            cmd.Parameters.AddWithValue("@FiscalID", CompanyInfo.FiscalID);
+            cmd.Parameters.AddWithValue("@WHID", CompanyInfo.WareHouseID);
             cmd.Parameters.AddWithValue("@TaxAmount", txtTotalTax.Text == "" ? 0 : Convert.ToDecimal(txtTotalTax.Text));
             cmd.Parameters.AddWithValue("@GrossAmount", Convert.ToDecimal(txtGrossAmount.Text));
             cmd.Parameters.AddWithValue("@DiscountPercentage", txtDiscountPercentage.Text == "" ? 0 : Convert.ToDecimal(txtDiscountPercentage.Text));
@@ -580,11 +581,16 @@ namespace POS
             cmd.Parameters.AddWithValue("@DiscountTotal", Convert.ToDecimal(txtTotalDiscount.Text));
             cmd.Parameters.AddWithValue("@OtherCharges", txtOtherCharges.Text == "" ? 0 : Convert.ToDecimal(txtOtherCharges.Text));
             cmd.Parameters.AddWithValue("@NetAmount", Convert.ToDecimal(txtNetAmount.Text));
+            cmd.Parameters.AddWithValue("@SalePosDate", Convert.ToDateTime(System.DateTime.Now.Date));
+            
             cmd.Parameters.AddWithValue("@AmountReceive", txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text));
             cmd.Parameters.AddWithValue("@AmountReturn", txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text));
             cmd.Parameters.AddWithValue("@AmountInAccount", txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text));
             cmd.Parameters.AddWithValue("@AmountPayable", txtPayableAmount.Text == "" ? 0 : Convert.ToDecimal(txtPayableAmount.Text));
             cmd.Parameters.AddWithValue("@AmountReceivable", txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text));
+            cmd.Parameters.AddWithValue("@CustomerPhone", txtCustPhone.Text == "" ? null : Convert.ToString(txtCustPhone.Text));
+            cmd.Parameters.AddWithValue("@CustomerName", txtCustName.Text == "" ? null : Convert.ToString(txtCustName.Text));
+
             if (directReturn==true)
             {
                 cmd.Parameters.AddWithValue("@DirectReturn", true);
@@ -600,12 +606,14 @@ namespace POS
                 var value = new List<string[]>();
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
                 value.Add(ss);
-                frmReport obj = new frmReport();
+                frmCrystal obj = new frmCrystal();
                 string reportName = "";
                 if (directReturn == false)
                 {
                     reportName = "SaleInvoice";
-                    obj.loadReport("rpt_sale_invoice", reportName, value);
+                    //obj.loadReport("rpt_sale_invoice", reportName, value);
+                    obj.loadSaleReport("rpt_sale_invoice", reportName, value);
+                    obj.loadSaleKitchenReport("rpt_sale_invoice", reportName, value);
                 }
                 //else
                 //{
@@ -633,8 +641,11 @@ namespace POS
             }
             catch (Exception ex)
             {
-                tran.Rollback();
-                MessageBox.Show(ex.Message, "Important Message", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                //if (tran != null)
+                //{
+                //    tran.Rollback();
+                //}
+                    MessageBox.Show(ex.Message, "Important Message", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             finally
             {
@@ -741,6 +752,8 @@ namespace POS
             txtReceivableAmount.Text = "0";
             txtProductCode.Text = "";
             cmbProducts.SelectedValue = "0";
+            txtCustName.Clear();
+            txtCustPhone.Clear();
             directReturn = false;
         }
 
@@ -1002,6 +1015,8 @@ namespace POS
                 txtPayableAmount.Text = "0.00";
                 txtAmountReturn.Text = "0.00";
                 txtReceivableAmount.Text = "0.00";
+                txtCustName.Text= Convert.ToString(dt.Rows[0]["CustomerName"]);
+                txtCustPhone.Text = Convert.ToString(dt.Rows[0]["CustomerPhone"]);
                 txtAmountReceive.ReadOnly = true;
                 for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
@@ -1030,6 +1045,15 @@ namespace POS
         {
             Dashboard obj = new Dashboard();
             obj.Show();
+        }
+
+        private void txtCustPhone_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                txtCustName.Focus();
+                
+            }
         }
     }
 }

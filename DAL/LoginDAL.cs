@@ -20,8 +20,8 @@ namespace DAL
             con.Open();
             tran = con.BeginTransaction();
             SqlCommand cmd;
-            cmd = new SqlCommand(@"select GLUser.Userid,GLUser.UserPassword,GLUser.UserName,GLCompany.* from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid
-            where UserPassword = '"+ obj.Password + "' and UserName = '"+ obj.UserName + "'", con);
+            cmd = new SqlCommand(@"select GLUser.Userid,GLUser.UserPassword,GLUser.UserName,GLCompany.*,gen_PosConfiguration.WHID,FiscalID from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner join gen_PosConfiguration on gen_PosConfiguration.CompanyID=GLCompany.Companyid
+            where UserPassword = '" + obj.Password + "' and UserName = '"+ obj.UserName + "'", con);
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
             da.SelectCommand = cmd;

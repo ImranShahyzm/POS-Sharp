@@ -66,6 +66,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label18 = new System.Windows.Forms.Label();
             this.btnDashboard = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -84,7 +85,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label18 = new System.Windows.Forms.Label();
+            this.txtCustName = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtCustPhone = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tlpProductCategoriesl.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -104,15 +108,15 @@
             this.tableLayoutPanel1.Controls.Add(this.tlpProductCategoriesl, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.ItemSaleGrid, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel4, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ItemSaleGrid, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.14953F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87.85046F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.51852F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 76.48148F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 188F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -131,13 +135,13 @@
             this.tlpProductCategoriesl.Controls.Add(this.tableLayoutPanel2, 0, 2);
             this.tlpProductCategoriesl.Controls.Add(this.tlpProductCategories, 0, 0);
             this.tlpProductCategoriesl.Controls.Add(this.tlpProducts, 0, 1);
-            this.tlpProductCategoriesl.Location = new System.Drawing.Point(502, 68);
+            this.tlpProductCategoriesl.Location = new System.Drawing.Point(502, 130);
             this.tlpProductCategoriesl.Name = "tlpProductCategoriesl";
             this.tlpProductCategoriesl.RowCount = 3;
             this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.33862F));
             this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.66138F));
             this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.tlpProductCategoriesl.Size = new System.Drawing.Size(498, 469);
+            this.tlpProductCategoriesl.Size = new System.Drawing.Size(498, 407);
             this.tlpProductCategoriesl.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -155,7 +159,7 @@
             this.tableLayoutPanel2.Controls.Add(this.btnReturn, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnSalesStatus, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnCashIn, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 381);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 319);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -259,7 +263,7 @@
             this.tlpProductCategories.Name = "tlpProductCategories";
             this.tlpProductCategories.RowCount = 1;
             this.tlpProductCategories.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpProductCategories.Size = new System.Drawing.Size(492, 86);
+            this.tlpProductCategories.Size = new System.Drawing.Size(492, 71);
             this.tlpProductCategories.TabIndex = 0;
             // 
             // tlpProducts
@@ -271,14 +275,14 @@
             this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProducts.Location = new System.Drawing.Point(3, 95);
+            this.tlpProducts.Location = new System.Drawing.Point(3, 80);
             this.tlpProducts.Name = "tlpProducts";
             this.tlpProducts.RowCount = 3;
             this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpProducts.Size = new System.Drawing.Size(492, 280);
+            this.tlpProducts.Size = new System.Drawing.Size(492, 233);
             this.tlpProducts.TabIndex = 1;
             // 
             // panel1
@@ -555,6 +559,16 @@
             this.panel2.Size = new System.Drawing.Size(503, 183);
             this.panel2.TabIndex = 4;
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(11, 91);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(230, 18);
+            this.label18.TabIndex = 10;
+            this.label18.Text = "{ALT+A} = Focuses Amount Recieved";
+            // 
             // btnDashboard
             // 
             this.btnDashboard.BackColor = System.Drawing.Color.RoyalBlue;
@@ -601,10 +615,11 @@
             // 
             this.ItemSaleGrid.AllowUserToAddRows = false;
             this.ItemSaleGrid.AllowUserToDeleteRows = false;
+            this.ItemSaleGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ItemSaleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ItemSaleGrid.Location = new System.Drawing.Point(3, 68);
+            this.ItemSaleGrid.Location = new System.Drawing.Point(3, 133);
             this.ItemSaleGrid.Name = "ItemSaleGrid";
-            this.ItemSaleGrid.Size = new System.Drawing.Size(492, 469);
+            this.ItemSaleGrid.Size = new System.Drawing.Size(492, 404);
             this.ItemSaleGrid.TabIndex = 2;
             this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
             this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
@@ -614,6 +629,11 @@
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel3.BackColor = System.Drawing.Color.Transparent;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.txtCustPhone);
+            this.panel3.Controls.Add(this.label20);
+            this.panel3.Controls.Add(this.txtCustName);
+            this.panel3.Controls.Add(this.label19);
             this.panel3.Controls.Add(this.cmbProducts);
             this.panel3.Controls.Add(this.label11);
             this.panel3.Controls.Add(this.label10);
@@ -621,7 +641,7 @@
             this.panel3.Controls.Add(this.label9);
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(493, 59);
+            this.panel3.Size = new System.Drawing.Size(493, 121);
             this.panel3.TabIndex = 5;
             // 
             // cmbProducts
@@ -640,22 +660,23 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(193, 39);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(47, 14);
+            this.label11.Size = new System.Drawing.Size(46, 14);
             this.label11.TabIndex = 5;
             this.label11.Text = "Product:";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(6, 39);
+            this.label10.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(13, 39);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(74, 14);
+            this.label10.Size = new System.Drawing.Size(72, 14);
             this.label10.TabIndex = 3;
             this.label10.Text = "Product Code:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtProductCode
             // 
@@ -669,17 +690,18 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Red;
             this.label9.Location = new System.Drawing.Point(4, 3);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(131, 29);
+            this.label9.Size = new System.Drawing.Size(166, 31);
             this.label9.TabIndex = 0;
             this.label9.Text = "CORBIS POS";
             // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.Transparent;
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.lblSaleType);
             this.panel4.Controls.Add(this.lblDateTime);
             this.panel4.Controls.Add(this.label13);
@@ -689,37 +711,37 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(502, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(503, 59);
+            this.panel4.Size = new System.Drawing.Size(503, 121);
             this.panel4.TabIndex = 6;
             // 
             // lblSaleType
             // 
             this.lblSaleType.AutoSize = true;
-            this.lblSaleType.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSaleType.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSaleType.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.lblSaleType.Location = new System.Drawing.Point(5, 3);
             this.lblSaleType.Name = "lblSaleType";
-            this.lblSaleType.Size = new System.Drawing.Size(112, 26);
+            this.lblSaleType.Size = new System.Drawing.Size(96, 21);
             this.lblSaleType.TabIndex = 9;
             this.lblSaleType.Text = "Sale Return";
             // 
             // lblDateTime
             // 
             this.lblDateTime.AutoSize = true;
-            this.lblDateTime.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDateTime.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDateTime.Location = new System.Drawing.Point(315, 15);
             this.lblDateTime.Name = "lblDateTime";
-            this.lblDateTime.Size = new System.Drawing.Size(62, 14);
+            this.lblDateTime.Size = new System.Drawing.Size(61, 15);
             this.lblDateTime.TabIndex = 8;
             this.lblDateTime.Text = "Date & Time";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(6, 40);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(54, 14);
+            this.label13.Size = new System.Drawing.Size(55, 15);
             this.label13.TabIndex = 7;
             this.label13.Text = "Bar Code:";
             // 
@@ -727,16 +749,16 @@
             // 
             this.txtProductBarCode.Location = new System.Drawing.Point(62, 36);
             this.txtProductBarCode.Name = "txtProductBarCode";
-            this.txtProductBarCode.Size = new System.Drawing.Size(247, 20);
+            this.txtProductBarCode.Size = new System.Drawing.Size(154, 20);
             this.txtProductBarCode.TabIndex = 6;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(153, 13);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(54, 14);
+            this.label12.Size = new System.Drawing.Size(54, 15);
             this.label12.TabIndex = 5;
             this.label12.Text = "Invoice #:";
             // 
@@ -754,15 +776,42 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label18
+            // txtCustName
             // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(11, 91);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(230, 18);
-            this.label18.TabIndex = 10;
-            this.label18.Text = "{ALT+A} = Focuses Amount Recieved";
+            this.txtCustName.Location = new System.Drawing.Point(87, 79);
+            this.txtCustName.Name = "txtCustName";
+            this.txtCustName.Size = new System.Drawing.Size(402, 20);
+            this.txtCustName.TabIndex = 10;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(1, 79);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(84, 14);
+            this.label19.TabIndex = 11;
+            this.label19.Text = "Customer Name:";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(-2, 58);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(87, 14);
+            this.label20.TabIndex = 12;
+            this.label20.Text = "Customer Phone:";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // txtCustPhone
+            // 
+            this.txtCustPhone.Location = new System.Drawing.Point(87, 58);
+            this.txtCustPhone.Name = "txtCustPhone";
+            this.txtCustPhone.Size = new System.Drawing.Size(402, 20);
+            this.txtCustPhone.TabIndex = 13;
+            this.txtCustPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustPhone_KeyDown);
             // 
             // frmPOSSale
             // 
@@ -850,6 +899,10 @@
         private System.Windows.Forms.Button btnReturn;
         private System.Windows.Forms.Button btnDashboard;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox txtCustName;
+        private System.Windows.Forms.TextBox txtCustPhone;
+        private System.Windows.Forms.Label label20;
     }
 }
 

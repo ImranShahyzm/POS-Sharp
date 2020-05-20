@@ -1,5 +1,6 @@
 ﻿using BLL;
 using Common;
+using POS.Helper;
 using POS.Report;
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,10 @@ namespace POS
                     objFrm.Show();
                     objcom.Userid = Convert.ToInt32(dt.Rows[0]["Userid"]);
                     CommonClass.CompanyName = dt.Rows[0]["Title"].ToString();
+                    CompanyInfo.CompanyID = Convert.ToInt32(dt.Rows[0]["CompanyID"]);
+                    CompanyInfo.FiscalID = Convert.ToInt32(dt.Rows[0]["FiscalID"]);
+                    CompanyInfo.WareHouseID = Convert.ToInt32(dt.Rows[0]["WHID"]);
+                    CompanyInfo.UserID = Convert.ToInt32(dt.Rows[0]["Userid"]);
                     this.Hide();
                 }
                 else
