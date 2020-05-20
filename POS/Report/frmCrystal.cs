@@ -64,6 +64,7 @@ namespace POS.Report
             var ImageValue = (dt2.Rows[0]["CompanyImage"]).ToString();
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             rpt.SetParameterValue("ServerName", Serverpath);
+            rpt.SetParameterValue("Username", CompanyInfo.username);
             crystalReportViewer1.ReportSource = rpt;
             crystalReportViewer1.Refresh();
             //rpt.PrintToPrinter(1, false, 0, 0);
@@ -105,6 +106,7 @@ namespace POS.Report
             var ImageValue = (dt2.Rows[0]["CompanyImage"]).ToString();
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             rpt.SetParameterValue("ServerName", Serverpath);
+            rpt.SetParameterValue("Username", CompanyInfo.username);
             crystalReportViewer1.ReportSource = rpt;
             crystalReportViewer1.Refresh();
             //rpt.PrintToPrinter(1, false, 0, 0);
