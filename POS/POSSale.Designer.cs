@@ -30,16 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tlpProductCategoriesl = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnCashOut = new System.Windows.Forms.Button();
-            this.btnNewSale = new System.Windows.Forms.Button();
-            this.btnUnCompleteSale = new System.Windows.Forms.Button();
-            this.btnReturn = new System.Windows.Forms.Button();
-            this.btnSalesStatus = new System.Windows.Forms.Button();
-            this.btnCashIn = new System.Windows.Forms.Button();
-            this.tlpProductCategories = new System.Windows.Forms.TableLayoutPanel();
-            this.tlpProducts = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label17 = new System.Windows.Forms.Label();
             this.txtPayableAmount = new System.Windows.Forms.TextBox();
@@ -70,8 +60,11 @@
             this.btnDashboard = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.txtCustPhone = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtCustName = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.cmbProducts = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -84,33 +77,40 @@
             this.txtProductBarCode = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
+            this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
+            this.tlpProductCategoriesl = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnCashOut = new System.Windows.Forms.Button();
+            this.btnNewSale = new System.Windows.Forms.Button();
+            this.btnUnCompleteSale = new System.Windows.Forms.Button();
+            this.btnReturn = new System.Windows.Forms.Button();
+            this.btnSalesStatus = new System.Windows.Forms.Button();
+            this.btnCashIn = new System.Windows.Forms.Button();
+            this.tlpProductCategories = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpProducts = new System.Windows.Forms.TableLayoutPanel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.txtCustName = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.txtCustPhone = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tlpProductCategoriesl.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
+            this.tlpProductCategoriesl.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.50397F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.49603F));
-            this.tableLayoutPanel1.Controls.Add(this.tlpProductCategoriesl, 1, 1);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.5726F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.4274F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel4, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.ItemSaleGrid, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tlpProductCategoriesl, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -123,167 +123,8 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1008, 729);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1219, 729);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // tlpProductCategoriesl
-            // 
-            this.tlpProductCategoriesl.ColumnCount = 1;
-            this.tlpProductCategoriesl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpProductCategoriesl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpProductCategoriesl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpProductCategoriesl.Controls.Add(this.tableLayoutPanel2, 0, 2);
-            this.tlpProductCategoriesl.Controls.Add(this.tlpProductCategories, 0, 0);
-            this.tlpProductCategoriesl.Controls.Add(this.tlpProducts, 0, 1);
-            this.tlpProductCategoriesl.Location = new System.Drawing.Point(502, 130);
-            this.tlpProductCategoriesl.Name = "tlpProductCategoriesl";
-            this.tlpProductCategoriesl.RowCount = 3;
-            this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.33862F));
-            this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.66138F));
-            this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.tlpProductCategoriesl.Size = new System.Drawing.Size(498, 407);
-            this.tlpProductCategoriesl.TabIndex = 0;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 6;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel2.Controls.Add(this.btnCashOut, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnNewSale, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnUnCompleteSale, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnReturn, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnSalesStatus, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.btnCashIn, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 319);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 85F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(492, 85);
-            this.tableLayoutPanel2.TabIndex = 2;
-            // 
-            // btnCashOut
-            // 
-            this.btnCashOut.BackColor = System.Drawing.Color.Yellow;
-            this.btnCashOut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnCashOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCashOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCashOut.Location = new System.Drawing.Point(246, 3);
-            this.btnCashOut.Name = "btnCashOut";
-            this.btnCashOut.Size = new System.Drawing.Size(75, 79);
-            this.btnCashOut.TabIndex = 7;
-            this.btnCashOut.Text = "Cash Out";
-            this.btnCashOut.UseVisualStyleBackColor = false;
-            this.btnCashOut.Click += new System.EventHandler(this.btnCashOut_Click);
-            // 
-            // btnNewSale
-            // 
-            this.btnNewSale.BackColor = System.Drawing.Color.Yellow;
-            this.btnNewSale.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNewSale.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewSale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewSale.Location = new System.Drawing.Point(327, 3);
-            this.btnNewSale.Name = "btnNewSale";
-            this.btnNewSale.Size = new System.Drawing.Size(75, 79);
-            this.btnNewSale.TabIndex = 6;
-            this.btnNewSale.Text = "All Sales";
-            this.btnNewSale.UseVisualStyleBackColor = false;
-            this.btnNewSale.Click += new System.EventHandler(this.btnNewSale_Click);
-            // 
-            // btnUnCompleteSale
-            // 
-            this.btnUnCompleteSale.BackColor = System.Drawing.Color.Yellow;
-            this.btnUnCompleteSale.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnUnCompleteSale.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUnCompleteSale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUnCompleteSale.Location = new System.Drawing.Point(408, 3);
-            this.btnUnCompleteSale.Name = "btnUnCompleteSale";
-            this.btnUnCompleteSale.Size = new System.Drawing.Size(81, 79);
-            this.btnUnCompleteSale.TabIndex = 5;
-            this.btnUnCompleteSale.Text = "Direct Return";
-            this.btnUnCompleteSale.UseVisualStyleBackColor = false;
-            this.btnUnCompleteSale.Click += new System.EventHandler(this.btnUnCompleteSale_Click);
-            // 
-            // btnReturn
-            // 
-            this.btnReturn.BackColor = System.Drawing.Color.Yellow;
-            this.btnReturn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnReturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReturn.Location = new System.Drawing.Point(3, 3);
-            this.btnReturn.Name = "btnReturn";
-            this.btnReturn.Size = new System.Drawing.Size(75, 79);
-            this.btnReturn.TabIndex = 2;
-            this.btnReturn.Text = "Replace (ALT +R)";
-            this.btnReturn.UseVisualStyleBackColor = false;
-            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
-            // 
-            // btnSalesStatus
-            // 
-            this.btnSalesStatus.BackColor = System.Drawing.Color.Yellow;
-            this.btnSalesStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnSalesStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSalesStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSalesStatus.Location = new System.Drawing.Point(84, 3);
-            this.btnSalesStatus.Name = "btnSalesStatus";
-            this.btnSalesStatus.Size = new System.Drawing.Size(75, 79);
-            this.btnSalesStatus.TabIndex = 1;
-            this.btnSalesStatus.Text = "Sales Status";
-            this.btnSalesStatus.UseVisualStyleBackColor = false;
-            // 
-            // btnCashIn
-            // 
-            this.btnCashIn.BackColor = System.Drawing.Color.Yellow;
-            this.btnCashIn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnCashIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCashIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCashIn.Location = new System.Drawing.Point(165, 3);
-            this.btnCashIn.Name = "btnCashIn";
-            this.btnCashIn.Size = new System.Drawing.Size(75, 79);
-            this.btnCashIn.TabIndex = 0;
-            this.btnCashIn.Text = "Cash In";
-            this.btnCashIn.UseVisualStyleBackColor = false;
-            this.btnCashIn.Click += new System.EventHandler(this.btnCashIn_Click);
-            // 
-            // tlpProductCategories
-            // 
-            this.tlpProductCategories.ColumnCount = 6;
-            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProductCategories.Location = new System.Drawing.Point(3, 3);
-            this.tlpProductCategories.Name = "tlpProductCategories";
-            this.tlpProductCategories.RowCount = 1;
-            this.tlpProductCategories.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpProductCategories.Size = new System.Drawing.Size(492, 71);
-            this.tlpProductCategories.TabIndex = 0;
-            // 
-            // tlpProducts
-            // 
-            this.tlpProducts.ColumnCount = 6;
-            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProducts.Location = new System.Drawing.Point(3, 80);
-            this.tlpProducts.Name = "tlpProducts";
-            this.tlpProducts.RowCount = 3;
-            this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpProducts.Size = new System.Drawing.Size(492, 233);
-            this.tlpProducts.TabIndex = 1;
             // 
             // panel1
             // 
@@ -554,9 +395,9 @@
             this.panel2.Controls.Add(this.btnDashboard);
             this.panel2.Controls.Add(this.btnClear);
             this.panel2.Controls.Add(this.btnSave);
-            this.panel2.Location = new System.Drawing.Point(502, 543);
+            this.panel2.Location = new System.Drawing.Point(717, 543);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(503, 183);
+            this.panel2.Size = new System.Drawing.Size(499, 183);
             this.panel2.TabIndex = 4;
             // 
             // label18
@@ -611,19 +452,6 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // ItemSaleGrid
-            // 
-            this.ItemSaleGrid.AllowUserToAddRows = false;
-            this.ItemSaleGrid.AllowUserToDeleteRows = false;
-            this.ItemSaleGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ItemSaleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ItemSaleGrid.Location = new System.Drawing.Point(3, 133);
-            this.ItemSaleGrid.Name = "ItemSaleGrid";
-            this.ItemSaleGrid.Size = new System.Drawing.Size(492, 404);
-            this.ItemSaleGrid.TabIndex = 2;
-            this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
-            this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
-            // 
             // panel3
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -643,6 +471,43 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(493, 121);
             this.panel3.TabIndex = 5;
+            // 
+            // txtCustPhone
+            // 
+            this.txtCustPhone.Location = new System.Drawing.Point(87, 58);
+            this.txtCustPhone.Name = "txtCustPhone";
+            this.txtCustPhone.Size = new System.Drawing.Size(402, 20);
+            this.txtCustPhone.TabIndex = 13;
+            this.txtCustPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustPhone_KeyDown);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(-2, 58);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(87, 14);
+            this.label20.TabIndex = 12;
+            this.label20.Text = "Customer Phone:";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // txtCustName
+            // 
+            this.txtCustName.Location = new System.Drawing.Point(87, 79);
+            this.txtCustName.Name = "txtCustName";
+            this.txtCustName.Size = new System.Drawing.Size(402, 20);
+            this.txtCustName.TabIndex = 10;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(1, 79);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(84, 14);
+            this.label19.TabIndex = 11;
+            this.label19.Text = "Customer Name:";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // cmbProducts
             // 
@@ -709,9 +574,9 @@
             this.panel4.Controls.Add(this.label12);
             this.panel4.Controls.Add(this.txtInvoiceNo);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(502, 3);
+            this.panel4.Location = new System.Drawing.Point(717, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(503, 121);
+            this.panel4.Size = new System.Drawing.Size(499, 121);
             this.panel4.TabIndex = 6;
             // 
             // lblSaleType
@@ -772,52 +637,189 @@
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             this.txtInvoiceNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtInvoiceNo_KeyPress);
             // 
+            // ItemSaleGrid
+            // 
+            this.ItemSaleGrid.AllowUserToAddRows = false;
+            this.ItemSaleGrid.AllowUserToDeleteRows = false;
+            this.ItemSaleGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ItemSaleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ItemSaleGrid.Location = new System.Drawing.Point(3, 133);
+            this.ItemSaleGrid.Name = "ItemSaleGrid";
+            this.ItemSaleGrid.Size = new System.Drawing.Size(708, 404);
+            this.ItemSaleGrid.TabIndex = 2;
+            this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
+            this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
+            this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
+            // 
+            // tlpProductCategoriesl
+            // 
+            this.tlpProductCategoriesl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlpProductCategoriesl.ColumnCount = 1;
+            this.tlpProductCategoriesl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpProductCategoriesl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpProductCategoriesl.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpProductCategoriesl.Controls.Add(this.tableLayoutPanel2, 0, 2);
+            this.tlpProductCategoriesl.Controls.Add(this.tlpProductCategories, 0, 0);
+            this.tlpProductCategoriesl.Controls.Add(this.tlpProducts, 0, 1);
+            this.tlpProductCategoriesl.Location = new System.Drawing.Point(718, 130);
+            this.tlpProductCategoriesl.Name = "tlpProductCategoriesl";
+            this.tlpProductCategoriesl.RowCount = 3;
+            this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.33862F));
+            this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.66138F));
+            this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tlpProductCategoriesl.Size = new System.Drawing.Size(498, 407);
+            this.tlpProductCategoriesl.TabIndex = 0;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 6;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel2.Controls.Add(this.btnCashOut, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnNewSale, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnUnCompleteSale, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnReturn, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnSalesStatus, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnCashIn, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 319);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 85F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(492, 85);
+            this.tableLayoutPanel2.TabIndex = 2;
+            // 
+            // btnCashOut
+            // 
+            this.btnCashOut.BackColor = System.Drawing.Color.Yellow;
+            this.btnCashOut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCashOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCashOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCashOut.Location = new System.Drawing.Point(246, 3);
+            this.btnCashOut.Name = "btnCashOut";
+            this.btnCashOut.Size = new System.Drawing.Size(75, 79);
+            this.btnCashOut.TabIndex = 7;
+            this.btnCashOut.Text = "Cash Out";
+            this.btnCashOut.UseVisualStyleBackColor = false;
+            this.btnCashOut.Click += new System.EventHandler(this.btnCashOut_Click);
+            // 
+            // btnNewSale
+            // 
+            this.btnNewSale.BackColor = System.Drawing.Color.Yellow;
+            this.btnNewSale.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNewSale.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewSale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNewSale.Location = new System.Drawing.Point(327, 3);
+            this.btnNewSale.Name = "btnNewSale";
+            this.btnNewSale.Size = new System.Drawing.Size(75, 79);
+            this.btnNewSale.TabIndex = 6;
+            this.btnNewSale.Text = "All Sales";
+            this.btnNewSale.UseVisualStyleBackColor = false;
+            this.btnNewSale.Click += new System.EventHandler(this.btnNewSale_Click);
+            // 
+            // btnUnCompleteSale
+            // 
+            this.btnUnCompleteSale.BackColor = System.Drawing.Color.Yellow;
+            this.btnUnCompleteSale.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnUnCompleteSale.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUnCompleteSale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUnCompleteSale.Location = new System.Drawing.Point(408, 3);
+            this.btnUnCompleteSale.Name = "btnUnCompleteSale";
+            this.btnUnCompleteSale.Size = new System.Drawing.Size(81, 79);
+            this.btnUnCompleteSale.TabIndex = 5;
+            this.btnUnCompleteSale.Text = "Direct Return";
+            this.btnUnCompleteSale.UseVisualStyleBackColor = false;
+            this.btnUnCompleteSale.Click += new System.EventHandler(this.btnUnCompleteSale_Click);
+            // 
+            // btnReturn
+            // 
+            this.btnReturn.BackColor = System.Drawing.Color.Yellow;
+            this.btnReturn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnReturn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReturn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReturn.Location = new System.Drawing.Point(3, 3);
+            this.btnReturn.Name = "btnReturn";
+            this.btnReturn.Size = new System.Drawing.Size(75, 79);
+            this.btnReturn.TabIndex = 2;
+            this.btnReturn.Text = "Replace (ALT +R)";
+            this.btnReturn.UseVisualStyleBackColor = false;
+            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
+            // 
+            // btnSalesStatus
+            // 
+            this.btnSalesStatus.BackColor = System.Drawing.Color.Yellow;
+            this.btnSalesStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnSalesStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalesStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSalesStatus.Location = new System.Drawing.Point(84, 3);
+            this.btnSalesStatus.Name = "btnSalesStatus";
+            this.btnSalesStatus.Size = new System.Drawing.Size(75, 79);
+            this.btnSalesStatus.TabIndex = 1;
+            this.btnSalesStatus.Text = "Sales Status";
+            this.btnSalesStatus.UseVisualStyleBackColor = false;
+            // 
+            // btnCashIn
+            // 
+            this.btnCashIn.BackColor = System.Drawing.Color.Yellow;
+            this.btnCashIn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCashIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCashIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCashIn.Location = new System.Drawing.Point(165, 3);
+            this.btnCashIn.Name = "btnCashIn";
+            this.btnCashIn.Size = new System.Drawing.Size(75, 79);
+            this.btnCashIn.TabIndex = 0;
+            this.btnCashIn.Text = "Cash In";
+            this.btnCashIn.UseVisualStyleBackColor = false;
+            this.btnCashIn.Click += new System.EventHandler(this.btnCashIn_Click);
+            // 
+            // tlpProductCategories
+            // 
+            this.tlpProductCategories.ColumnCount = 6;
+            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProductCategories.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProductCategories.Location = new System.Drawing.Point(3, 3);
+            this.tlpProductCategories.Name = "tlpProductCategories";
+            this.tlpProductCategories.RowCount = 1;
+            this.tlpProductCategories.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpProductCategories.Size = new System.Drawing.Size(492, 71);
+            this.tlpProductCategories.TabIndex = 0;
+            // 
+            // tlpProducts
+            // 
+            this.tlpProducts.ColumnCount = 6;
+            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpProducts.Location = new System.Drawing.Point(3, 80);
+            this.tlpProducts.Name = "tlpProducts";
+            this.tlpProducts.RowCount = 3;
+            this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpProducts.Size = new System.Drawing.Size(492, 233);
+            this.tlpProducts.TabIndex = 1;
+            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // txtCustName
-            // 
-            this.txtCustName.Location = new System.Drawing.Point(87, 79);
-            this.txtCustName.Name = "txtCustName";
-            this.txtCustName.Size = new System.Drawing.Size(402, 20);
-            this.txtCustName.TabIndex = 10;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(1, 79);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(84, 14);
-            this.label19.TabIndex = 11;
-            this.label19.Text = "Customer Name:";
-            this.label19.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(-2, 58);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(87, 14);
-            this.label20.TabIndex = 12;
-            this.label20.Text = "Customer Phone:";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // txtCustPhone
-            // 
-            this.txtCustPhone.Location = new System.Drawing.Point(87, 58);
-            this.txtCustPhone.Name = "txtCustPhone";
-            this.txtCustPhone.Size = new System.Drawing.Size(402, 20);
-            this.txtCustPhone.TabIndex = 13;
-            this.txtCustPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustPhone_KeyDown);
             // 
             // frmPOSSale
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 729);
+            this.ClientSize = new System.Drawing.Size(1219, 729);
             this.Controls.Add(this.tableLayoutPanel1);
             this.KeyPreview = true;
             this.MinimizeBox = false;
@@ -826,17 +828,17 @@
             this.Text = "Corbis Solution";
             this.Load += new System.EventHandler(this.frmPOSSale_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tlpProductCategoriesl.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).EndInit();
+            this.tlpProductCategoriesl.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
