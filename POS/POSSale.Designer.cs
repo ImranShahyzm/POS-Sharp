@@ -616,6 +616,7 @@
             this.txtProductBarCode.Name = "txtProductBarCode";
             this.txtProductBarCode.Size = new System.Drawing.Size(154, 20);
             this.txtProductBarCode.TabIndex = 6;
+            this.txtProductBarCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductBarCode_KeyDown);
             // 
             // label12
             // 

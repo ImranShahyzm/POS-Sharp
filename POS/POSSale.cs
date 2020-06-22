@@ -124,7 +124,7 @@ namespace POS
 
                 b.Font = new Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
-                b.Name = dt.Rows[i]["itemid"].ToString() + "-" + dt.Rows[i]["ItemSalesPrice"].ToString() + "-" + dt.Rows[i]["TotalTax"].ToString();
+                b.Name = dt.Rows[i]["itemid"].ToString() + "-" + dt.Rows[i]["ItemSalesPrice"].ToString() + "-" + dt.Rows[i]["TotalTax"].ToString() + "-" + dt.Rows[i]["cartonSize"].ToString(); 
                 b.Text = dt.Rows[i]["itenName"].ToString();
                 b.Click += new EventHandler(load_Products_grid);
                 if (i > 18)
@@ -501,6 +501,38 @@ namespace POS
             cnn.Close();
             return dt;
         }
+        private DataTable getProductBarcode(int categoryID, int productID = 0, string ManualNumber = "")
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            string SqlString = @" select data_InventItemsBarcode.SystemBarcode,data_InventItemsBarcodeDetail.BarcodeNumber,InventItems.ItemId,InventItems.ItenName,InventItems.ItemSalesPrice,cast(isnull(t.TotalTax,0) as numeric(18,2)) as TotalTax,cast(isnull(((InventItems.ItemSalesPrice*t.TotalTax)/100),0) as numeric(18,2)) as TaxAmount,InventItems.cartonSize
+                                from InventItems
+                                left outer
+                                join (select InventItems.ItemId,sum(gen_TaxDetailInfo.TaxPercentage) as TotalTax
+                                from InventItems
+                                inner join gen_TaxGroupInfo on InventItems.TaxGroupID = gen_TaxGroupInfo.TaxGroupID
+                                inner
+                                join gen_TaxGroupDetail on gen_TaxGroupInfo.TaxGroupID = gen_TaxGroupDetail.TaxGroupID
+                                inner
+                                join gen_TaxInfo on gen_TaxGroupDetail.TaxID = gen_TaxInfo.TaxID
+                                inner
+                                join gen_TaxDetailInfo on gen_TaxInfo.TaxID = gen_TaxDetailInfo.TaxID
+                                where GETDATE() between FromDate and ToDate
+                                group by InventItems.ItemId)t on InventItems.ItemId = t.ItemId left join data_InventItemsBarcode on data_InventItemsBarcode.ItemID=InventItems.ItemId left join data_InventItemsBarcodeDetail on data_InventItemsBarcodeDetail.RegisterID=data_InventItemsBarcode.RegisterID 
+                                ";
+            
+             if (ManualNumber != "")
+            {
+                SqlString += " where data_InventItemsBarcodeDetail.BarcodeNumber='"+ManualNumber+ "' or data_InventItemsBarcode.SystemBarcode='" + ManualNumber + "'";
+            }
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            return dt;
+        }
         private void AddProducts(string productName, int id, decimal rates, decimal taxPercentage,decimal CartonSize=0)
         {
 
@@ -533,7 +565,7 @@ namespace POS
             if (!recordExist)
             {
                 string[] row = { id.ToString(), productName, rates.ToString(), "+", "0", "-", "+", "1", "-", total, "Delete", taxPercentage.ToString(), taxAmount,Convert.ToString(CartonSize) };
-                ItemSaleGrid.Rows.Add(row);
+                ItemSaleGrid.Rows.Insert(0,row);
             }
             GrossAmount_Total();
         }
@@ -1205,6 +1237,32 @@ namespace POS
             
                 CalculateDetail();
             
+        }
+
+        private void txtProductBarCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                string Barcode = txtProductBarCode.Text.ToString();
+                {
+                    if (!string.IsNullOrEmpty(Barcode))
+                    {
+                        DataTable dt = getProductBarcode(0,0, Barcode);
+                        if (dt.Rows.Count > 0)
+                        {
+                            AddProducts(dt.Rows[0]["itenName"].ToString(), Convert.ToInt32(dt.Rows[0]["ItemId"].ToString()), Convert.ToDecimal(dt.Rows[0]["ItemSalesPrice"]), Convert.ToDecimal(dt.Rows[0]["TotalTax"]));
+                            txtProductBarCode.Clear();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid Barcode Number...");
+                            txtProductBarCode.Clear();
+                            return;
+                        }
+                       }
+                }
+                
+            }
         }
     }
 }
