@@ -16,6 +16,7 @@ namespace POS.Helper
         public static int WareHouseID { get; set; }
         public static int FiscalID { get; set; }
         public static int UserID { get; set; }
+        public static string username { get; set; }
 
     }
 }

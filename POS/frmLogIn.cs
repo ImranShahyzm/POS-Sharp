@@ -68,6 +68,7 @@ namespace POS
                     CompanyInfo.FiscalID = Convert.ToInt32(dt.Rows[0]["FiscalID"]);
                     CompanyInfo.WareHouseID = Convert.ToInt32(dt.Rows[0]["WHID"]);
                     CompanyInfo.UserID = Convert.ToInt32(dt.Rows[0]["Userid"]);
+                    CompanyInfo.username= Convert.ToString(dt.Rows[0]["UserName"]);
                     this.Hide();
                 }
                 else

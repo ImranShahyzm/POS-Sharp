@@ -87,7 +87,7 @@ namespace POS
 
                         b1.Font = new Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
-                        b1.Name = dt1.Rows[j]["itemid"].ToString() + "-" + dt1.Rows[j]["ItemSalesPrice"].ToString() + "-" + dt1.Rows[j]["TotalTax"].ToString();
+                        b1.Name = dt1.Rows[j]["itemid"].ToString() + "-" + dt1.Rows[j]["ItemSalesPrice"].ToString() + "-" + dt1.Rows[j]["TotalTax"].ToString() + "-" + dt1.Rows[j]["cartonSize"].ToString();
                         b1.Text = dt1.Rows[j]["itenName"].ToString();
                         b1.Click += new EventHandler(load_Products_grid);
                         if (j > 18)
@@ -124,7 +124,7 @@ namespace POS
 
                 b.Font = new Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
-                b.Name = dt.Rows[i]["itemid"].ToString() + "-" + dt.Rows[i]["ItemSalesPrice"].ToString() + "-" + dt.Rows[i]["TotalTax"].ToString();
+                b.Name = dt.Rows[i]["itemid"].ToString() + "-" + dt.Rows[i]["ItemSalesPrice"].ToString() + "-" + dt.Rows[i]["TotalTax"].ToString() + "-" + dt.Rows[i]["cartonSize"].ToString(); 
                 b.Text = dt.Rows[i]["itenName"].ToString();
                 b.Click += new EventHandler(load_Products_grid);
                 if (i > 18)
@@ -142,7 +142,8 @@ namespace POS
             int id = Convert.ToInt32(values[0]);
             decimal rates = Convert.ToDecimal(values[1]);
             decimal taxes = Convert.ToDecimal(values[2]);
-            AddProducts(productName, id, rates, taxes);
+            decimal CartonSize = Convert.ToDecimal(values[3]);
+            AddProducts(productName, id, rates, taxes, CartonSize);
 
             //CheckLastAmountForOpening();
         }
@@ -215,6 +216,8 @@ namespace POS
             ID.HeaderText = "ID";
             ID.Visible = false;
 
+
+
             var Product = new DataGridViewTextBoxColumn();
             Product.Name = "Product";
             Product.HeaderText = "Products";
@@ -231,18 +234,34 @@ namespace POS
             buttonPlus.Name = "";
             buttonPlus.HeaderText = " ";
             buttonPlus.Width = 20;
+            var buttonPlus1 = new DataGridViewButtonColumn();
+            buttonPlus1.Name = "";
+            buttonPlus1.HeaderText = " ";
+            buttonPlus1.Width = 20;
 
             var Quantity = new DataGridViewTextBoxColumn();
             Quantity.Name = "Quantity";
             Quantity.HeaderText = "Quantity";
             Quantity.Width = 40;
-            Quantity.ReadOnly = true;
+            
+            Quantity.ReadOnly = false;
+
+            var CartonQuantity = new DataGridViewTextBoxColumn();
+            CartonQuantity.Name = "Bundle";
+            CartonQuantity.HeaderText = "Bundle";
+            CartonQuantity.Width = 40;
+            CartonQuantity.ReadOnly = true;
 
             var buttonSubtract = new DataGridViewButtonColumn();
             buttonSubtract.Name = "";
-            buttonPlus.HeaderText = " ";
+            buttonSubtract.HeaderText = " ";
             //buttonSubtract.Text = "+";
             buttonSubtract.Width = 20;
+            var buttonSubtract1 = new DataGridViewButtonColumn();
+            buttonSubtract1.Name = "";
+            buttonSubtract1.HeaderText = " ";
+            //buttonSubtract.Text = "+";
+            buttonSubtract1.Width = 20;
 
             var ItemTotal = new DataGridViewTextBoxColumn();
             ItemTotal.Name = "Total";
@@ -268,10 +287,21 @@ namespace POS
             ItemTaxAmount.Width = 80;
             ItemTaxAmount.ReadOnly = true;
 
+            var CartonSize = new DataGridViewTextBoxColumn();
+            CartonSize.Name = "CartonSize";
+            CartonSize.HeaderText = "CartonSize";
+            CartonSize.Visible = false;
 
+            var SaleDetailID = new DataGridViewTextBoxColumn();
+            SaleDetailID.Name = "SaleDetailID";
+            SaleDetailID.HeaderText = "SaleDetailID";
+            SaleDetailID.Visible = false;
             ItemSaleGrid.Columns.Add(ID);
             ItemSaleGrid.Columns.Add(Product);
             ItemSaleGrid.Columns.Add(Rate);
+            ItemSaleGrid.Columns.Add(buttonPlus1);
+            ItemSaleGrid.Columns.Add(CartonQuantity);
+            ItemSaleGrid.Columns.Add(buttonSubtract1);
             ItemSaleGrid.Columns.Add(buttonPlus);
             ItemSaleGrid.Columns.Add(Quantity);
             ItemSaleGrid.Columns.Add(buttonSubtract);
@@ -279,7 +309,10 @@ namespace POS
             ItemSaleGrid.Columns.Add(buttonCol);
             ItemSaleGrid.Columns.Add(ItemTax);
             ItemSaleGrid.Columns.Add(ItemTaxAmount);
-
+            ItemSaleGrid.Columns.Add(CartonSize);
+            ItemSaleGrid.Columns.Add(SaleDetailID);
+            
+            //Index last 14 
         }
         private void GrossAmount_Total()
         {
@@ -327,7 +360,7 @@ namespace POS
                 if (accAmount >= netAmount)
                 {
                     //txtAmountReturn.Text = (accAmount - netAmount).ToString();
-                    txtPayableAmount.Text = (accAmount - netAmount).ToString();
+                    txtPayableAmount.Text = (netAmount).ToString();
                     txtReceivableAmount.Text = "0.00";
                 }
                 else
@@ -355,6 +388,36 @@ namespace POS
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+        private void CalculateDetail()
+        {
+            for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
+            {
+
+                int id = Convert.ToInt32( ItemSaleGrid.Rows[i].Cells[0].Value.ToString());
+                DataTable dt = getProduct(0, Convert.ToInt32(id));
+                var taxPercentage = Convert.ToDecimal(dt.Rows[0]["TotalTax"]);
+                string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
+                string total = (Convert.ToDecimal(rateValue) * 1).ToString();
+                string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rateValue)) / 100) * 1).ToString();
+
+                string value = ItemSaleGrid.Rows[i].Cells[7].Value.ToString();
+                    decimal Bundle = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value.ToString());
+                    decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[13].Value.ToString());
+                   
+                    decimal rate = Convert.ToDecimal(rateValue);
+                    decimal qty = Convert.ToDecimal(value);
+                   
+
+                    
+                    ItemSaleGrid.Rows[i].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate,2);
+                    ItemSaleGrid.Rows[i].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * ((Bundle * BundleSize) + qty);
+
+                    
+                    GrossAmount_Total();
+                   
+                
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -405,7 +468,7 @@ namespace POS
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = @" select InventItems.ItemId,InventItems.ItenName,InventItems.ItemSalesPrice,cast(isnull(t.TotalTax,0) as numeric(18,2)) as TotalTax,cast(isnull(((InventItems.ItemSalesPrice*t.TotalTax)/100),0) as numeric(18,2)) as TaxAmount
+            string SqlString = @" select InventItems.ItemId,InventItems.ItenName,InventItems.ItemSalesPrice,cast(isnull(t.TotalTax,0) as numeric(18,2)) as TotalTax,cast(isnull(((InventItems.ItemSalesPrice*t.TotalTax)/100),0) as numeric(18,2)) as TaxAmount,InventItems.cartonSize
                                 from InventItems
                                 left outer
                                 join (select InventItems.ItemId,sum(gen_TaxDetailInfo.TaxPercentage) as TotalTax
@@ -438,7 +501,39 @@ namespace POS
             cnn.Close();
             return dt;
         }
-        private void AddProducts(string productName, int id, decimal rates, decimal taxPercentage)
+        private DataTable getProductBarcode(int categoryID, int productID = 0, string ManualNumber = "")
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            string SqlString = @" select data_InventItemsBarcode.SystemBarcode,data_InventItemsBarcodeDetail.BarcodeNumber,InventItems.ItemId,InventItems.ItenName,InventItems.ItemSalesPrice,cast(isnull(t.TotalTax,0) as numeric(18,2)) as TotalTax,cast(isnull(((InventItems.ItemSalesPrice*t.TotalTax)/100),0) as numeric(18,2)) as TaxAmount,InventItems.cartonSize
+                                from InventItems
+                                left outer
+                                join (select InventItems.ItemId,sum(gen_TaxDetailInfo.TaxPercentage) as TotalTax
+                                from InventItems
+                                inner join gen_TaxGroupInfo on InventItems.TaxGroupID = gen_TaxGroupInfo.TaxGroupID
+                                inner
+                                join gen_TaxGroupDetail on gen_TaxGroupInfo.TaxGroupID = gen_TaxGroupDetail.TaxGroupID
+                                inner
+                                join gen_TaxInfo on gen_TaxGroupDetail.TaxID = gen_TaxInfo.TaxID
+                                inner
+                                join gen_TaxDetailInfo on gen_TaxInfo.TaxID = gen_TaxDetailInfo.TaxID
+                                where GETDATE() between FromDate and ToDate
+                                group by InventItems.ItemId)t on InventItems.ItemId = t.ItemId left join data_InventItemsBarcode on data_InventItemsBarcode.ItemID=InventItems.ItemId left join data_InventItemsBarcodeDetail on data_InventItemsBarcodeDetail.RegisterID=data_InventItemsBarcode.RegisterID 
+                                ";
+            
+             if (ManualNumber != "")
+            {
+                SqlString += " where data_InventItemsBarcodeDetail.BarcodeNumber='"+ManualNumber+ "' or data_InventItemsBarcode.SystemBarcode='" + ManualNumber + "'";
+            }
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            return dt;
+        }
+        private void AddProducts(string productName, int id, decimal rates, decimal taxPercentage,decimal CartonSize=0)
         {
 
             string total = (Convert.ToDecimal(rates) * 1).ToString();
@@ -450,13 +545,16 @@ namespace POS
                 if (id == Convert.ToInt32(ItemSaleGrid.Rows[i].Cells[0].Value.ToString()))
                 {
 
-                    string value = ItemSaleGrid.Rows[i].Cells[4].Value.ToString();
+                    string value = ItemSaleGrid.Rows[i].Cells[7].Value.ToString();
+                    decimal Bundle = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value.ToString());
+                    decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[13].Value.ToString());
                     string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
                     decimal rate = Convert.ToDecimal(rateValue);
-                    int qty = Convert.ToInt32(value);
+                    decimal qty = Convert.ToDecimal(value);
                     qty++;
+                    
                     ItemSaleGrid.Rows[i].Cells["Quantity"].Value = qty;
-                    ItemSaleGrid.Rows[i].Cells["Total"].Value = qty * rate;
+                    ItemSaleGrid.Rows[i].Cells["Total"].Value = ((Bundle*BundleSize)+qty) * rate;
                     ItemSaleGrid.Rows[i].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * qty;
 
                     recordExist = true;
@@ -466,8 +564,8 @@ namespace POS
             }
             if (!recordExist)
             {
-                string[] row = { id.ToString(), productName, rates.ToString(), "+", "1", "-", total, "Delete", taxPercentage.ToString(), taxAmount };
-                ItemSaleGrid.Rows.Add(row);
+                string[] row = { id.ToString(), productName, rates.ToString(), "+", "0", "-", "+", "1", "-", total, "Delete", taxPercentage.ToString(), taxAmount,Convert.ToString(CartonSize) };
+                ItemSaleGrid.Rows.Insert(0,row);
             }
             GrossAmount_Total();
         }
@@ -533,21 +631,30 @@ namespace POS
             dt1.Columns.Add("DiscountPercentage");
             dt1.Columns.Add("DiscountAmount");
             dt1.Columns.Add("TotalAmount");
+            dt1.Columns.Add("CartonSize");
+            dt1.Columns.Add("Carton");
+            dt1.Columns.Add("TotalQuantity");
+            dt1.Columns.Add("SalePosDetailID");
 
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
                 DataRow dRow = dt1.NewRow();
                 i = i + 1;
+                var TQty = Convert.ToDecimal(row.Cells[7].Value.ToString())+(Convert.ToDecimal(row.Cells[4].Value.ToString()) * Convert.ToDecimal(row.Cells[13].Value.ToString()));
                 dRow[0] = i;
                 dRow[1] = row.Cells[0].Value.ToString();
-                dRow[2] = row.Cells[4].Value.ToString();
+                dRow[2] = TQty.ToString();
                 dRow[3] = row.Cells[2].Value.ToString();
-                dRow[4] = row.Cells[8].Value.ToString();
-                dRow[5] = row.Cells[9].Value.ToString();
+                dRow[4] = row.Cells[11].Value.ToString();
+                dRow[5] = row.Cells[12].Value.ToString();
                 dRow[6] = 0;
                 dRow[7] = 0;
-                dRow[8] = row.Cells[6].Value.ToString();
+                dRow[8] = row.Cells[9].Value.ToString();
+                dRow[9] = row.Cells[13].Value.ToString();
+                dRow[10] = row.Cells[4].Value.ToString();
+                dRow[11] = row.Cells[7].Value.ToString();
+                dRow[12] = Convert.ToString(row.Cells[14].Value);
 
                 dt1.Rows.Add(dRow);
             }
@@ -586,8 +693,15 @@ namespace POS
             cmd.Parameters.AddWithValue("@AmountReceive", txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text));
             cmd.Parameters.AddWithValue("@AmountReturn", txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text));
             cmd.Parameters.AddWithValue("@AmountInAccount", txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text));
-            cmd.Parameters.AddWithValue("@AmountPayable", txtPayableAmount.Text == "" ? 0 : Convert.ToDecimal(txtPayableAmount.Text));
-            cmd.Parameters.AddWithValue("@AmountReceivable", txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text));
+            if (SaleInvoiceNo > 0)
+            {
+                cmd.Parameters.AddWithValue("@AmountPayable", txtPayableAmount.Text == "" ? Convert.ToDecimal(txtAccAmount.Text) : Convert.ToDecimal(txtPayableAmount.Text));
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@AmountPayable", txtPayableAmount.Text == "" ? 0 : Convert.ToDecimal(txtPayableAmount.Text));
+            }
+                cmd.Parameters.AddWithValue("@AmountReceivable", txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text));
             cmd.Parameters.AddWithValue("@CustomerPhone", txtCustPhone.Text == "" ? null : Convert.ToString(txtCustPhone.Text));
             cmd.Parameters.AddWithValue("@CustomerName", txtCustName.Text == "" ? null : Convert.ToString(txtCustName.Text));
 
@@ -613,7 +727,7 @@ namespace POS
                     reportName = "SaleInvoice";
                     //obj.loadReport("rpt_sale_invoice", reportName, value);
                     obj.loadSaleReport("rpt_sale_invoice", reportName, value);
-                    obj.loadSaleKitchenReport("rpt_sale_invoice", reportName, value);
+                    obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
                 }
                 //else
                 //{
@@ -829,39 +943,76 @@ namespace POS
         }
         private void ItemSaleGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 3)
+            if (e.ColumnIndex == 6)
             {
                 string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString();
                 string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
                 string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
+                decimal Bundle = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString());
+                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
                 decimal rate = Convert.ToDecimal(rateValue);
-                int qty = Convert.ToInt32(value);
+                decimal qty = Convert.ToDecimal(value);
                 qty++;
                 ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value = qty;
-                ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = qty * rate;
+                ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
+                ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
+            }
+
+            if (e.ColumnIndex == 3)
+            {
+                string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString();
+                string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
+                string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
+                decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString());
+                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
+                decimal rate = Convert.ToDecimal(rateValue);
+                decimal Bundle = Convert.ToDecimal(value);
+                Bundle++;
+                ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value = Bundle;
+                ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
                 ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
             }
             else if (e.ColumnIndex == 5)
             {
+                string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString();
+                string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
+                string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
+                decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString());
+                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
+                decimal rate = Convert.ToDecimal(rateValue);
+                decimal Bundle = Convert.ToDecimal(value);
+                if (Bundle > 1)
+                {
+                    Bundle--;
+                    ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value = Bundle;
+                    ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
+                    ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
+                }
+            }
+            else if (e.ColumnIndex == 8)
+            {
                 string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString();
                 string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
                 string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
+                decimal Bundle = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString());
+                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
                 decimal rate = Convert.ToDecimal(rateValue);
-                int qty = Convert.ToInt32(value);
+                decimal qty = Convert.ToDecimal(value);
                 if (qty > 1)
                 {
                     qty--;
                     ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value = qty;
-                    ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = qty * rate;
+                    ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
                     ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
                 }
             }
-            else if (e.ColumnIndex == 7)
+            else if (e.ColumnIndex == 10)
             {
                 int id = Convert.ToInt32(ItemSaleGrid.Rows[e.RowIndex].Index);
                 ItemSaleGrid.Rows.RemoveAt(id);
                 ItemSaleGrid.Refresh();
             }
+            CalculateDetail();
             GrossAmount_Total();
         }
 
@@ -888,10 +1039,28 @@ namespace POS
         }
         private void Column1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            // allowed only numeric value  ex.10
+            //if (!char.IsControl(e.KeyChar)
+            //    && !char.IsDigit(e.KeyChar))
+            //{
+            //    e.Handled = true;
+            //}
+
+            // allowed numeric and one dot  ex. 10.23
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)
+                 && e.KeyChar != '.')
             {
                 e.Handled = true;
             }
+
+            // only allow one decimal point
+            if (e.KeyChar == '.'
+                && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+            CalculateDetail();
+
         }
 
         private void cmbProducts_KeyDown(object sender, KeyEventArgs e)
@@ -1025,12 +1194,17 @@ namespace POS
                             dtdetail.Rows[i]["ItenName"].ToString(),
                             dtdetail.Rows[i]["ItemRate"].ToString(),
                             "+",
-                            Convert.ToInt32(dtdetail.Rows[i]["Quantity"]).ToString(),
+                            Convert.ToInt32(dtdetail.Rows[i]["Carton"]).ToString(),
+                            "-",
+                             "+",
+                            Convert.ToInt32(dtdetail.Rows[i]["TotalQuantity"]).ToString(),
                             "-",
                             dtdetail.Rows[i]["TotalAmount"].ToString(),
                             "Delete",
                             dtdetail.Rows[i]["TaxPercentage"].ToString(),
-                            dtdetail.Rows[i]["TaxAmount"].ToString()};
+                            dtdetail.Rows[i]["TaxAmount"].ToString(),
+                    dtdetail.Rows[i]["CartonSize"].ToString(),
+                    dtdetail.Rows[i]["SalePosDetailID"].ToString()};
                     ItemSaleGrid.Rows.Add(row);
                 }
 
@@ -1052,6 +1226,41 @@ namespace POS
             if(e.KeyCode==Keys.Enter)
             {
                 txtCustName.Focus();
+                
+            }
+        }
+
+      
+
+        private void ItemSaleGrid_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+                CalculateDetail();
+            
+        }
+
+        private void txtProductBarCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                string Barcode = txtProductBarCode.Text.ToString();
+                {
+                    if (!string.IsNullOrEmpty(Barcode))
+                    {
+                        DataTable dt = getProductBarcode(0,0, Barcode);
+                        if (dt.Rows.Count > 0)
+                        {
+                            AddProducts(dt.Rows[0]["itenName"].ToString(), Convert.ToInt32(dt.Rows[0]["ItemId"].ToString()), Convert.ToDecimal(dt.Rows[0]["ItemSalesPrice"]), Convert.ToDecimal(dt.Rows[0]["TotalTax"]));
+                            txtProductBarCode.Clear();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid Barcode Number...");
+                            txtProductBarCode.Clear();
+                            return;
+                        }
+                       }
+                }
                 
             }
         }
