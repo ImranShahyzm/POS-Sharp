@@ -71,6 +71,8 @@ namespace POS
             cmd.Parameters.AddWithValue("@SourceName", cmbCashType.Text);
             cmd.Parameters.AddWithValue("@Amount", txtCashInAmount.Text == "" ? 0 : Convert.ToDecimal(txtCashInAmount.Text));
             cmd.Parameters.AddWithValue("@CashType", true);
+            cmd.Parameters.AddWithValue("@SalePosDate", dtCashDate.Value);
+            
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt1 = new DataTable();
             da.SelectCommand = cmd;

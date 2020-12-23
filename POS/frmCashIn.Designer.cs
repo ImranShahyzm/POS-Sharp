@@ -37,6 +37,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cmbCashType = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.dtCashDate = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +57,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(21, 163);
+            this.label2.Location = new System.Drawing.Point(66, 163);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 18);
             this.label2.TabIndex = 20;
@@ -132,17 +134,36 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(21, 122);
+            this.label4.Location = new System.Drawing.Point(54, 122);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 18);
             this.label4.TabIndex = 26;
             this.label4.Text = "Cash Type:";
+            // 
+            // dtCashDate
+            // 
+            this.dtCashDate.Location = new System.Drawing.Point(153, 83);
+            this.dtCashDate.Name = "dtCashDate";
+            this.dtCashDate.Size = new System.Drawing.Size(213, 20);
+            this.dtCashDate.TabIndex = 27;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(87, 83);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 18);
+            this.label1.TabIndex = 28;
+            this.label1.Text = "Date:";
             // 
             // frmCashIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 361);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.dtCashDate);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbCashType);
             this.Controls.Add(this.panel2);
@@ -171,5 +192,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbCashType;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DateTimePicker dtCashDate;
+        private System.Windows.Forms.Label label1;
     }
 }

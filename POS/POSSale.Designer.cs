@@ -71,6 +71,9 @@
             this.txtProductCode = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.SalePosID = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.lblSaleType = new System.Windows.Forms.Label();
             this.lblDateTime = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -89,6 +92,7 @@
             this.tlpProductCategories = new System.Windows.Forms.TableLayoutPanel();
             this.tlpProducts = new System.Windows.Forms.TableLayoutPanel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.txtPrint = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -391,6 +395,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel2.Controls.Add(this.txtPrint);
             this.panel2.Controls.Add(this.label18);
             this.panel2.Controls.Add(this.btnDashboard);
             this.panel2.Controls.Add(this.btnClear);
@@ -567,6 +572,9 @@
             // 
             this.panel4.BackColor = System.Drawing.Color.Transparent;
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.SalePosID);
+            this.panel4.Controls.Add(this.label21);
+            this.panel4.Controls.Add(this.txtSaleDate);
             this.panel4.Controls.Add(this.lblSaleType);
             this.panel4.Controls.Add(this.lblDateTime);
             this.panel4.Controls.Add(this.label13);
@@ -578,6 +586,33 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(499, 121);
             this.panel4.TabIndex = 6;
+            // 
+            // SalePosID
+            // 
+            this.SalePosID.Location = new System.Drawing.Point(224, 36);
+            this.SalePosID.MaxLength = 10;
+            this.SalePosID.Name = "SalePosID";
+            this.SalePosID.Size = new System.Drawing.Size(100, 20);
+            this.SalePosID.TabIndex = 12;
+            this.SalePosID.Visible = false;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(211, 101);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(33, 15);
+            this.label21.TabIndex = 11;
+            this.label21.Text = "Date:";
+            // 
+            // txtSaleDate
+            // 
+            this.txtSaleDate.Location = new System.Drawing.Point(272, 96);
+            this.txtSaleDate.Name = "txtSaleDate";
+            this.txtSaleDate.Size = new System.Drawing.Size(200, 20);
+            this.txtSaleDate.TabIndex = 10;
+            this.txtSaleDate.ValueChanged += new System.EventHandler(this.txtSaleDate_ValueChanged);
             // 
             // lblSaleType
             // 
@@ -760,8 +795,9 @@
             this.btnSalesStatus.Name = "btnSalesStatus";
             this.btnSalesStatus.Size = new System.Drawing.Size(75, 79);
             this.btnSalesStatus.TabIndex = 1;
-            this.btnSalesStatus.Text = "Sales Status";
+            this.btnSalesStatus.Text = "All Returns";
             this.btnSalesStatus.UseVisualStyleBackColor = false;
+            this.btnSalesStatus.Click += new System.EventHandler(this.btnSalesStatus_Click);
             // 
             // btnCashIn
             // 
@@ -815,6 +851,17 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // txtPrint
+            // 
+            this.txtPrint.Location = new System.Drawing.Point(171, 49);
+            this.txtPrint.Name = "txtPrint";
+            this.txtPrint.Size = new System.Drawing.Size(75, 28);
+            this.txtPrint.TabIndex = 11;
+            this.txtPrint.Text = "Print";
+            this.txtPrint.UseVisualStyleBackColor = true;
+            this.txtPrint.Visible = false;
+            this.txtPrint.Click += new System.EventHandler(this.txtPrint_Click);
             // 
             // frmPOSSale
             // 
@@ -906,6 +953,10 @@
         private System.Windows.Forms.TextBox txtCustName;
         private System.Windows.Forms.TextBox txtCustPhone;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.DateTimePicker txtSaleDate;
+        private System.Windows.Forms.TextBox SalePosID;
+        private System.Windows.Forms.Button txtPrint;
     }
 }
 

@@ -36,8 +36,8 @@ namespace POS.LookUpForms
         {
 
             var ID = new DataGridViewTextBoxColumn();
-            ID.Name = "SalePosID";
-            ID.HeaderText = "SalePosID";
+            ID.Name = "SalePOSNO";
+            ID.HeaderText = "Sale No";
             ID.Visible = false;
 
             var TaxAmount = new DataGridViewTextBoxColumn();
@@ -103,11 +103,11 @@ namespace POS.LookUpForms
             string SqlString = " ";
             if (txtInvoiceSearch.Text=="")
             {
-                SqlString = " select SalePosID,TaxAmount,GrossAmount,OtherCharges,NetAmount,AmountReceive,AmountReturn from data_salePosInfo where SalePosDate='" + dtpSaleFromDate.Text + "' ";
+                SqlString = " select SALEPOSNO,TaxAmount,GrossAmount,OtherCharges,NetAmount,AmountReceive,AmountReturn from data_salePosInfo where SalePosDate='" + dtpSaleFromDate.Text + "' ";
             }
             else
             {
-                SqlString = " select SalePosID,TaxAmount,GrossAmount,OtherCharges,NetAmount,AmountReceive,AmountReturn from data_salePosInfo where SalePosDate='" + dtpSaleFromDate.Text + "' and SalePosID like '" + txtInvoiceSearch.Text+"%'";
+                SqlString = " select SalePOSNO,TaxAmount,GrossAmount,OtherCharges,NetAmount,AmountReceive,AmountReturn from data_salePosInfo where SalePosDate='" + dtpSaleFromDate.Text + "' and SalePosNO like '" + txtInvoiceSearch.Text+"%'";
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
@@ -141,7 +141,7 @@ namespace POS.LookUpForms
             if (e.KeyChar == (char)13)
             {
                 DataGridViewRow dgr = dgvSaleInvoices.CurrentRow;
-                SaleInvoiceNo = dgr.Cells["SalePosID"].Value.ToString();
+                SaleInvoiceNo = dgr.Cells["SalePOSNO"].Value.ToString();
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

@@ -135,5 +135,13 @@ namespace POS
             frmReport obj = new frmReport();
             obj.Show();
         }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                btnSave.Focus();
+            }
+        }
     }
 }

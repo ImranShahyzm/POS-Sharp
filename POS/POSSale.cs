@@ -20,7 +20,10 @@ namespace POS
     {
         public bool directReturn = false;
         public int SaleInvoiceNo = 0;
+        public int SalePosMasterID = 0;
         public decimal netAmountForReturn = 0;
+
+        public bool SaleReturn = false;
         public frmPOSSale()
         {
             InitializeComponent();
@@ -664,7 +667,7 @@ namespace POS
             con.Open();
             tran = con.BeginTransaction();
             SqlCommand cmd;
-            if (SaleInvoiceNo == 0)
+            if (SaleReturn==false)
             {
                 cmd = new SqlCommand("data_SalePosInfo_Insert", con);
             }
@@ -675,9 +678,11 @@ namespace POS
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
-            SqlParameter p = new SqlParameter("SalePosID", SaleInvoiceNo);
-            p.Direction = ParameterDirection.InputOutput; cmd.Parameters.Add(p);
+            SqlParameter p = new SqlParameter("SalePosID", SalePosMasterID);
+            p.Direction = ParameterDirection.InputOutput;
+            cmd.Parameters.Add(p);
             cmd.Parameters.AddWithValue("@CompanyID", CompanyInfo.CompanyID);
+            cmd.Parameters.AddWithValue("@SaleInvoiceNo", SaleInvoiceNo);
             cmd.Parameters.AddWithValue("@UserID", CompanyInfo.UserID);
             cmd.Parameters.AddWithValue("@FiscalID", CompanyInfo.FiscalID);
             cmd.Parameters.AddWithValue("@WHID", CompanyInfo.WareHouseID);
@@ -688,7 +693,7 @@ namespace POS
             cmd.Parameters.AddWithValue("@DiscountTotal", Convert.ToDecimal(txtTotalDiscount.Text));
             cmd.Parameters.AddWithValue("@OtherCharges", txtOtherCharges.Text == "" ? 0 : Convert.ToDecimal(txtOtherCharges.Text));
             cmd.Parameters.AddWithValue("@NetAmount", Convert.ToDecimal(txtNetAmount.Text));
-            cmd.Parameters.AddWithValue("@SalePosDate", Convert.ToDateTime(System.DateTime.Now.Date));
+            cmd.Parameters.AddWithValue("@SalePosDate", Convert.ToDateTime(txtSaleDate.Value.Date));
             
             cmd.Parameters.AddWithValue("@AmountReceive", txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text));
             cmd.Parameters.AddWithValue("@AmountReturn", txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text));
@@ -879,21 +884,55 @@ namespace POS
             getInvoiceNumber();
             txtProductCode.Select();
             txtProductCode.Focus();
+            SaleReturn = false;
             //txtAmountReceive.ReadOnly = false;
         }
 
         private void getInvoiceNumber()
         {
+
+
+
+            int SaleVoucherNo = GetVoucherNoI(Fieldname: "SalePOSNo", TableName: "data_SalePosInfo", CheckTaxable: false,
+                    PrimaryKeyValue: 0, PrimaryKeyFieldName: "SalePosID", voucherDate: Convert.ToDateTime(txtSaleDate.Value.Date), voucherDateFieldName: "SalePosDate",
+                    companyID:CompanyInfo.CompanyID, FiscalID: CompanyInfo.FiscalID);
+            txtInvoiceNo.Text = Convert.ToString(SaleVoucherNo);
+        }
+        public Int32 GetVoucherNoI(string Fieldname, string TableName, bool CheckTaxable, Int32 PrimaryKeyValue,
+          string PrimaryKeyFieldName, DateTime? voucherDate, string voucherDateFieldName = "",
+          Int32 companyID = 0, string companyFieldName = "CompanyID", Int32 FiscalID = 0,
+          string FiscalIDFieldName = "FiscalID", bool IsTaxable = false)
+        {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
-            SqlConnection cnn;
-            cnn = new SqlConnection(connectionString);
-            cnn.Open();
-            string SqlString = " select isnull(Max(SalePosID), 0) + 1 as SalePosID from data_SalePosInfo";
-            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
-            cnn.Close();
-            txtInvoiceNo.Text = dt.Rows[0]["SalePosID"].ToString();
+            try
+            {
+                DataTable dt = new DataTable();
+                SqlConnection con = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetVoucherNoPos", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter();
+                cmd.Parameters.Add(new SqlParameter("@Fieldname", Fieldname));
+                cmd.Parameters.Add(new SqlParameter("@TableName", TableName));
+                cmd.Parameters.Add(new SqlParameter("@CheckTaxable", CheckTaxable));
+                cmd.Parameters.Add(new SqlParameter("@PrimaryKeyValue", PrimaryKeyValue));
+                cmd.Parameters.Add(new SqlParameter("@PrimaryKeyFieldName", PrimaryKeyFieldName));
+                cmd.Parameters.Add(new SqlParameter("@voucherDate", voucherDate));
+                cmd.Parameters.Add(new SqlParameter("@voucherDateFieldName", voucherDateFieldName));
+                cmd.Parameters.Add(new SqlParameter("@companyID", companyID));
+                cmd.Parameters.Add(new SqlParameter("@companyFieldName", companyFieldName));
+                cmd.Parameters.Add(new SqlParameter("@FiscalID", FiscalID));
+                cmd.Parameters.Add(new SqlParameter("@FiscalIDFieldName", FiscalIDFieldName));
+                cmd.Parameters.Add(new SqlParameter("@IsTaxable", IsTaxable));
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+                return Convert.ToInt32(dt.Rows[0][0]);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
         private void txtAmountReceive_Click(object sender, EventArgs e)
@@ -1101,6 +1140,7 @@ namespace POS
             txtInvoiceNo.ReadOnly = false;
             txtInvoiceNo.Text = "";
             txtInvoiceNo.Focus();
+            SaleReturn = true;
         }
         private void loadDirectReturn()
         {
@@ -1139,11 +1179,12 @@ namespace POS
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter();
 
-            string whereclause = " where SalePosID=" + InvoiceNo;
+            string whereclause = " where SaleposNo=" + InvoiceNo+" and SalePOsDate="+txtSaleDate.Value.Date+"";
             cmd.Parameters.AddWithValue("@SelectMaster", 1);
             cmd.Parameters.AddWithValue("@SelectDetail", 1);
             cmd.Parameters.AddWithValue("@InvoiceNo", InvoiceNo);
-            //cmd.Parameters.AddWithValue("@WhereClauseDetail", whereclause);
+            
+            cmd.Parameters.AddWithValue("@SaleDate", txtSaleDate.Value.Date);
             da.SelectCommand = cmd;
             try
             {
@@ -1186,7 +1227,10 @@ namespace POS
                 txtReceivableAmount.Text = "0.00";
                 txtCustName.Text= Convert.ToString(dt.Rows[0]["CustomerName"]);
                 txtCustPhone.Text = Convert.ToString(dt.Rows[0]["CustomerPhone"]);
+                SalePosID.Text= Convert.ToString(dt.Rows[0]["SalePosID"]);
                 txtAmountReceive.ReadOnly = true;
+                txtPrint.Visible = true;
+                SaleReturn = true;
                 for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
                     string[] row = {
@@ -1263,6 +1307,43 @@ namespace POS
                 }
                 
             }
+        }
+
+        private void txtSaleDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (SaleReturn == false)
+            {
+                getInvoiceNumber();
+            }
+        }
+
+        private void txtPrint_Click(object sender, EventArgs e)
+        {
+            string SaleInvoiceNO = SalePosID.Text.ToString();
+            var value = new List<string[]>();
+            string[] ss = { "@SaleInvoice", SaleInvoiceNO };
+            value.Add(ss);
+            frmCrystal obj = new frmCrystal();
+            string reportName = "";
+            if (directReturn == false)
+            {
+                reportName = "SaleInvoice";
+                //obj.loadReport("rpt_sale_invoice", reportName, value);
+                obj.loadSaleReport("rpt_sale_invoice", reportName, value);
+                obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
+            }
+           
+        }
+
+        private void btnSalesStatus_Click(object sender, EventArgs e)
+        {
+            using (frmReturnInvoices obj = new frmReturnInvoices())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+                   
+                }
+            };
         }
     }
 }
