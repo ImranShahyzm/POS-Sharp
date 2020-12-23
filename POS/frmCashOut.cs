@@ -1,4 +1,6 @@
-﻿using System;
+﻿using POS.Helper;
+using POS.LookUpForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -93,12 +95,17 @@ namespace POS
             cmd.Parameters.AddWithValue("@SourceName", cmbCashType.Text);
             cmd.Parameters.AddWithValue("@Amount", txtCashOutAmount.Text == "" ? 0 : Convert.ToDecimal(txtCashOutAmount.Text));
             cmd.Parameters.AddWithValue("@CashType", false);
+            cmd.Parameters.AddWithValue("@SalePosDate", dtCashDate.Value);
+            cmd.Parameters.AddWithValue("@CompanyID", CompanyInfo.CompanyID);
+            cmd.Parameters.AddWithValue("@FiscalID", CompanyInfo.FiscalID);
+            cmd.Parameters.AddWithValue("@UserID", CompanyInfo.UserID);
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt1 = new DataTable();
             da.SelectCommand = cmd;
             try
             {
-                cmd.Transaction = tran; da.Fill(dt1);
+                cmd.Transaction = tran;
+                da.Fill(dt1);
                 tran.Commit();
                 MessageBox.Show("Cash Out Successfully Done.");
                 this.Close();
@@ -152,6 +159,12 @@ namespace POS
         {
             if (!(Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)Keys.Back)))
                 e.Handled = true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            frmClosingLookUp frm = new frmClosingLookUp();
+            frm.Show();
         }
     }
 }

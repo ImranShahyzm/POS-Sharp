@@ -110,10 +110,51 @@ namespace POS.Report
             crystalReportViewer1.ReportSource = rpt;
             crystalReportViewer1.Refresh();
             rpt.PrintToPrinter(1, false, 0, 0);
-            rpt.Dispose();
+            
             //this.ShowDialog();
+            rpt.Dispose();
 
         }
+        public void CashBook(string StoreProcedure, string ReportName, List<string[]> parameters)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            ReportDocument rpt = new ReportDocument();
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlCommand cmd = new SqlCommand(StoreProcedure, cnn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
 
+            for (int i = 0; i < parameters.Count; i++)
+            {
+                cmd.Parameters.AddWithValue(parameters[i][0], parameters[i][1]);
+            }
+            da.SelectCommand = cmd;
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            cnn.Close();
+
+            DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
+
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "DayBook.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+
+            rpt.SetParameterValue("CompanyName", dt2.Rows[0]["Title"]);
+            rpt.SummaryInfo.ReportTitle = "Cash Book";
+            rpt.SummaryInfo.ReportAuthor = "Admin";
+           
+            
+         
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            //rpt.SetParameterValue("ServerName", Serverpath);
+            //rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            this.ShowDialog();
+            rpt.Dispose();
+
+
+        }
     }
 }

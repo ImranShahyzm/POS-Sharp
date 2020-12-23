@@ -137,6 +137,7 @@ namespace POS.Report
             reportViewer1.ZoomMode = ZoomMode.Percent;
             reportViewer1.ZoomPercent = 100;
         }
+      
 
         public void PrintSales(object sender, RenderingCompleteEventArgs e)
         {

@@ -45,15 +45,27 @@ namespace POS
             string[] para2 = { "@ToDate", dtpSaleToDate.Text };
             value.Add(para1);
             value.Add(para2);
-            using (frmReport obj = new frmReport())
+            //using (frmReport obj = new frmReport())
+            //{
+            //    string reportName = "";
+            //    string WhereClause = "";
+            //    reportName = "DailyCashBook";
+            //    WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
+            //    obj.PreviewReport("rpt_CashBook", reportName, value);
+            //    obj.ShowDialog();
+            //};
+            using (frmCrystal obj = new frmCrystal())
             {
                 string reportName = "";
                 string WhereClause = "";
                 reportName = "DailyCashBook";
                 WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
-                obj.PreviewReport("rpt_CashBook", reportName, value);
-                obj.ShowDialog();
-            };
-        }
+                obj.CashBook("rpt_CashBook", reportName, value);
+                //obj.ShowDialog();
+            };        }
+
+       
+
+
     }
 }
