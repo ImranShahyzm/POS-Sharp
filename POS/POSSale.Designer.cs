@@ -56,11 +56,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnStock = new System.Windows.Forms.Button();
+            this.txtPrint = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
-            this.btnDashboard = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.lblShopName = new System.Windows.Forms.Label();
             this.txtCustPhone = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.txtCustName = new System.Windows.Forms.TextBox();
@@ -92,7 +94,14 @@
             this.tlpProductCategories = new System.Windows.Forms.TableLayoutPanel();
             this.tlpProducts = new System.Windows.Forms.TableLayoutPanel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.txtPrint = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.stockTranscationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stockArrivalListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manualStockInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stockReturnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cashBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.syncToServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -101,6 +110,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.tlpProductCategoriesl.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -116,7 +126,7 @@
             this.tableLayoutPanel1.Controls.Add(this.ItemSaleGrid, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tlpProductCategoriesl, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.51852F));
@@ -127,7 +137,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1219, 729);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1219, 705);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -157,7 +167,7 @@
             this.panel1.Controls.Add(this.txtDiscountPercentage);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.txtGrossAmount);
-            this.panel1.Location = new System.Drawing.Point(3, 543);
+            this.panel1.Location = new System.Drawing.Point(3, 519);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(492, 183);
             this.panel1.TabIndex = 3;
@@ -395,15 +405,40 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel2.Controls.Add(this.btnStock);
             this.panel2.Controls.Add(this.txtPrint);
             this.panel2.Controls.Add(this.label18);
-            this.panel2.Controls.Add(this.btnDashboard);
             this.panel2.Controls.Add(this.btnClear);
             this.panel2.Controls.Add(this.btnSave);
-            this.panel2.Location = new System.Drawing.Point(717, 543);
+            this.panel2.Location = new System.Drawing.Point(717, 519);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(499, 183);
             this.panel2.TabIndex = 4;
+            // 
+            // btnStock
+            // 
+            this.btnStock.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStock.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStock.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnStock.Location = new System.Drawing.Point(378, 5);
+            this.btnStock.Name = "btnStock";
+            this.btnStock.Size = new System.Drawing.Size(115, 31);
+            this.btnStock.TabIndex = 12;
+            this.btnStock.Text = "Stock Arrival";
+            this.btnStock.UseVisualStyleBackColor = false;
+            this.btnStock.Click += new System.EventHandler(this.btnStock_Click);
+            // 
+            // txtPrint
+            // 
+            this.txtPrint.Location = new System.Drawing.Point(171, 49);
+            this.txtPrint.Name = "txtPrint";
+            this.txtPrint.Size = new System.Drawing.Size(75, 28);
+            this.txtPrint.TabIndex = 11;
+            this.txtPrint.Text = "Print";
+            this.txtPrint.UseVisualStyleBackColor = true;
+            this.txtPrint.Visible = false;
+            this.txtPrint.Click += new System.EventHandler(this.txtPrint_Click);
             // 
             // label18
             // 
@@ -414,20 +449,6 @@
             this.label18.Size = new System.Drawing.Size(230, 18);
             this.label18.TabIndex = 10;
             this.label18.Text = "{ALT+A} = Focuses Amount Recieved";
-            // 
-            // btnDashboard
-            // 
-            this.btnDashboard.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDashboard.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDashboard.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnDashboard.Location = new System.Drawing.Point(10, 48);
-            this.btnDashboard.Name = "btnDashboard";
-            this.btnDashboard.Size = new System.Drawing.Size(152, 31);
-            this.btnDashboard.TabIndex = 2;
-            this.btnDashboard.Text = "Dashboard (Alt+D)";
-            this.btnDashboard.UseVisualStyleBackColor = false;
-            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
             // 
             // btnClear
             // 
@@ -463,6 +484,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel3.BackColor = System.Drawing.Color.Transparent;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.lblShopName);
             this.panel3.Controls.Add(this.txtCustPhone);
             this.panel3.Controls.Add(this.label20);
             this.panel3.Controls.Add(this.txtCustName);
@@ -474,8 +496,19 @@
             this.panel3.Controls.Add(this.label9);
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(493, 121);
+            this.panel3.Size = new System.Drawing.Size(493, 115);
             this.panel3.TabIndex = 5;
+            // 
+            // lblShopName
+            // 
+            this.lblShopName.AutoSize = true;
+            this.lblShopName.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShopName.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.lblShopName.Location = new System.Drawing.Point(176, 1);
+            this.lblShopName.Name = "lblShopName";
+            this.lblShopName.Size = new System.Drawing.Size(166, 31);
+            this.lblShopName.TabIndex = 14;
+            this.lblShopName.Text = "CORBIS POS";
             // 
             // txtCustPhone
             // 
@@ -584,7 +617,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(717, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(499, 121);
+            this.panel4.Size = new System.Drawing.Size(499, 115);
             this.panel4.TabIndex = 6;
             // 
             // SalePosID
@@ -679,9 +712,9 @@
             this.ItemSaleGrid.AllowUserToDeleteRows = false;
             this.ItemSaleGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ItemSaleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ItemSaleGrid.Location = new System.Drawing.Point(3, 133);
+            this.ItemSaleGrid.Location = new System.Drawing.Point(3, 124);
             this.ItemSaleGrid.Name = "ItemSaleGrid";
-            this.ItemSaleGrid.Size = new System.Drawing.Size(708, 404);
+            this.ItemSaleGrid.Size = new System.Drawing.Size(708, 389);
             this.ItemSaleGrid.TabIndex = 2;
             this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
             this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
@@ -697,13 +730,13 @@
             this.tlpProductCategoriesl.Controls.Add(this.tableLayoutPanel2, 0, 2);
             this.tlpProductCategoriesl.Controls.Add(this.tlpProductCategories, 0, 0);
             this.tlpProductCategoriesl.Controls.Add(this.tlpProducts, 0, 1);
-            this.tlpProductCategoriesl.Location = new System.Drawing.Point(718, 130);
+            this.tlpProductCategoriesl.Location = new System.Drawing.Point(718, 124);
             this.tlpProductCategoriesl.Name = "tlpProductCategoriesl";
             this.tlpProductCategoriesl.RowCount = 3;
             this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.33862F));
             this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.66138F));
             this.tlpProductCategoriesl.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.tlpProductCategoriesl.Size = new System.Drawing.Size(498, 407);
+            this.tlpProductCategoriesl.Size = new System.Drawing.Size(498, 389);
             this.tlpProductCategoriesl.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -721,7 +754,7 @@
             this.tableLayoutPanel2.Controls.Add(this.btnReturn, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnSalesStatus, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnCashIn, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 319);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 301);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -826,7 +859,7 @@
             this.tlpProductCategories.Name = "tlpProductCategories";
             this.tlpProductCategories.RowCount = 1;
             this.tlpProductCategories.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpProductCategories.Size = new System.Drawing.Size(492, 71);
+            this.tlpProductCategories.Size = new System.Drawing.Size(492, 66);
             this.tlpProductCategories.TabIndex = 0;
             // 
             // tlpProducts
@@ -838,30 +871,83 @@
             this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlpProducts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tlpProducts.Location = new System.Drawing.Point(3, 80);
+            this.tlpProducts.Location = new System.Drawing.Point(3, 75);
             this.tlpProducts.Name = "tlpProducts";
             this.tlpProducts.RowCount = 3;
             this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpProducts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpProducts.Size = new System.Drawing.Size(492, 233);
+            this.tlpProducts.Size = new System.Drawing.Size(492, 220);
             this.tlpProducts.TabIndex = 1;
             // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // txtPrint
+            // menuStrip1
             // 
-            this.txtPrint.Location = new System.Drawing.Point(171, 49);
-            this.txtPrint.Name = "txtPrint";
-            this.txtPrint.Size = new System.Drawing.Size(75, 28);
-            this.txtPrint.TabIndex = 11;
-            this.txtPrint.Text = "Print";
-            this.txtPrint.UseVisualStyleBackColor = true;
-            this.txtPrint.Visible = false;
-            this.txtPrint.Click += new System.EventHandler(this.txtPrint_Click);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.stockTranscationsToolStripMenuItem,
+            this.reportsToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1219, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // stockTranscationsToolStripMenuItem
+            // 
+            this.stockTranscationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.stockArrivalListToolStripMenuItem,
+            this.manualStockInToolStripMenuItem,
+            this.stockReturnToolStripMenuItem,
+            this.syncToServerToolStripMenuItem});
+            this.stockTranscationsToolStripMenuItem.Name = "stockTranscationsToolStripMenuItem";
+            this.stockTranscationsToolStripMenuItem.Size = new System.Drawing.Size(116, 20);
+            this.stockTranscationsToolStripMenuItem.Text = "Stock Transcations";
+            // 
+            // stockArrivalListToolStripMenuItem
+            // 
+            this.stockArrivalListToolStripMenuItem.Name = "stockArrivalListToolStripMenuItem";
+            this.stockArrivalListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stockArrivalListToolStripMenuItem.Text = "Stock Arrival List";
+            this.stockArrivalListToolStripMenuItem.Click += new System.EventHandler(this.stockArrivalListToolStripMenuItem_Click);
+            // 
+            // manualStockInToolStripMenuItem
+            // 
+            this.manualStockInToolStripMenuItem.Name = "manualStockInToolStripMenuItem";
+            this.manualStockInToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.manualStockInToolStripMenuItem.Text = "Manual Stock In";
+            this.manualStockInToolStripMenuItem.Click += new System.EventHandler(this.manualStockInToolStripMenuItem_Click);
+            // 
+            // stockReturnToolStripMenuItem
+            // 
+            this.stockReturnToolStripMenuItem.Name = "stockReturnToolStripMenuItem";
+            this.stockReturnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stockReturnToolStripMenuItem.Text = "Stock Return";
+            // 
+            // reportsToolStripMenuItem
+            // 
+            this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cashBookToolStripMenuItem});
+            this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+            this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.reportsToolStripMenuItem.Text = "Reports";
+            // 
+            // cashBookToolStripMenuItem
+            // 
+            this.cashBookToolStripMenuItem.Name = "cashBookToolStripMenuItem";
+            this.cashBookToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.cashBookToolStripMenuItem.Text = "Cash Book";
+            this.cashBookToolStripMenuItem.Click += new System.EventHandler(this.cashBookToolStripMenuItem_Click);
+            // 
+            // syncToServerToolStripMenuItem
+            // 
+            this.syncToServerToolStripMenuItem.Name = "syncToServerToolStripMenuItem";
+            this.syncToServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.syncToServerToolStripMenuItem.Text = "Sync to Server";
+            this.syncToServerToolStripMenuItem.Click += new System.EventHandler(this.syncToServerToolStripMenuItem_Click);
             // 
             // frmPOSSale
             // 
@@ -869,7 +955,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1219, 729);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
+            this.MainMenuStrip = this.menuStrip1;
             this.MinimizeBox = false;
             this.Name = "frmPOSSale";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -887,7 +975,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).EndInit();
             this.tlpProductCategoriesl.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -947,7 +1038,6 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox txtPayableAmount;
         private System.Windows.Forms.Button btnReturn;
-        private System.Windows.Forms.Button btnDashboard;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtCustName;
@@ -957,6 +1047,16 @@
         private System.Windows.Forms.DateTimePicker txtSaleDate;
         private System.Windows.Forms.TextBox SalePosID;
         private System.Windows.Forms.Button txtPrint;
+        private System.Windows.Forms.Button btnStock;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem stockTranscationsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stockArrivalListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manualStockInToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stockReturnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cashBookToolStripMenuItem;
+        private System.Windows.Forms.Label lblShopName;
+        private System.Windows.Forms.ToolStripMenuItem syncToServerToolStripMenuItem;
     }
 }
 

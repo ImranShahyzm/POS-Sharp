@@ -13,6 +13,7 @@ using POS.LookUpForms;
 using CrystalDecisions.CrystalReports.Engine;
 using POS.Report;
 using POS.Helper;
+using System.Net.Http;
 
 namespace POS
 {
@@ -31,7 +32,7 @@ namespace POS
             timer1.Start();
             laodCategories();
             loadProducts();
-
+            lblShopName.Text ="( "+ CompanyInfo.WareHouseName+" )";
             loadNewSale();
 
         }
@@ -1344,6 +1345,43 @@ namespace POS
                    
                 }
             };
+        }
+
+        private async void btnStock_Click(object sender, EventArgs e)
+        {
+            await STATICClass.GetStokcIssue();
+            using (frmStockArrival obj = new frmStockArrival())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void cashBookToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCashBookReport obj = new frmCashBookReport();
+            obj.Show();
+        }
+
+        private void stockArrivalListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmStockArrivalList obj = new frmStockArrivalList();
+            obj.ShowDialog();
+        }
+
+        private void manualStockInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManualStockIN obj = new frmManualStockIN();
+            obj.ShowDialog();
+        }
+
+        private void syncToServerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmDataSyncServer obj =new  frmDataSyncServer();
+            obj.ShowDialog();
+
         }
     }
 }

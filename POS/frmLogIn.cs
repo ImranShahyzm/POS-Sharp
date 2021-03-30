@@ -60,6 +60,7 @@ namespace POS
                 DataTable dt = objbll.checkLoginBLL(objcom);
                 if (dt.Rows.Count > 0)
                 {
+                    CompanyInfo.WareHouseName = Convert.ToString(dt.Rows[0]["WareHouseName"]);
                     frmPOSSale objFrm = new frmPOSSale();
                     objFrm.Show();
                     objcom.Userid = Convert.ToInt32(dt.Rows[0]["Userid"]);
@@ -69,6 +70,7 @@ namespace POS
                     CompanyInfo.WareHouseID = Convert.ToInt32(dt.Rows[0]["WHID"]);
                     CompanyInfo.UserID = Convert.ToInt32(dt.Rows[0]["Userid"]);
                     CompanyInfo.username= Convert.ToString(dt.Rows[0]["UserName"]);
+                    
                     this.Hide();
                 }
                 else

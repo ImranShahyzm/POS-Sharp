@@ -126,6 +126,16 @@
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MetroFramework, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroFramework.RunTime.1.2.0.3\lib\net40-Client\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroFramework.Design.1.2.0.3\lib\net40\MetroFramework.Design.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroFramework.Fonts.1.2.0.3\lib\net40\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Activities.Design.Services, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
@@ -151,6 +161,9 @@
     <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SAPBusinessObjects.WPF.Viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <HintPath>..\packages\CrystalReports.13.0.5.891\lib\net40\SAPBusinessObjects.WPF.Viewer.dll</HintPath>
     </Reference>
@@ -164,6 +177,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Printing" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
@@ -201,13 +217,34 @@
     <Compile Include="frmCashIn.Designer.cs">
       <DependentUpon>frmCashIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\STATICClass.cs" />
     <Compile Include="Helper\CompanyInfo.cs" />
+    <Compile Include="Helper\data_StockTransferInfoModel.cs" />
+    <Compile Include="Helper\RightsClass.cs" />
     <Compile Include="LocalReportExtention.cs" />
+    <Compile Include="LookUpForms\frmDataSyncServer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmDataSyncServer.Designer.cs">
+      <DependentUpon>frmDataSyncServer.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmClosingLookUp.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LookUpForms\frmClosingLookUp.Designer.cs">
       <DependentUpon>frmClosingLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmManualStockIN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmManualStockIN.Designer.cs">
+      <DependentUpon>frmManualStockIN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmManualStockLookUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmManualStockLookUp.Designer.cs">
+      <DependentUpon>frmManualStockLookUp.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\frmProductLookUp.cs">
       <SubType>Form</SubType>
@@ -226,6 +263,24 @@
     </Compile>
     <Compile Include="LookUpForms\frmSaleInvoiceLookUp.Designer.cs">
       <DependentUpon>frmSaleInvoiceLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockArrival.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockArrival.Designer.cs">
+      <DependentUpon>frmStockArrival.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockArrivalList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockArrivalList.Designer.cs">
+      <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\StockInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\StockInForm.Designer.cs">
+      <DependentUpon>StockInForm.cs</DependentUpon>
     </Compile>
     <Compile Include="POSSale.cs">
       <SubType>Form</SubType>
@@ -317,8 +372,17 @@
     <EmbeddedResource Include="frmCashIn.resx">
       <DependentUpon>frmCashIn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmDataSyncServer.resx">
+      <DependentUpon>frmDataSyncServer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmClosingLookUp.resx">
       <DependentUpon>frmClosingLookUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmManualStockIN.resx">
+      <DependentUpon>frmManualStockIN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmManualStockLookUp.resx">
+      <DependentUpon>frmManualStockLookUp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmProductLookUp.resx">
       <DependentUpon>frmProductLookUp.cs</DependentUpon>
@@ -328,6 +392,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmSaleInvoiceLookUp.resx">
       <DependentUpon>frmSaleInvoiceLookUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmStockArrival.resx">
+      <DependentUpon>frmStockArrival.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmStockArrivalList.resx">
+      <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\StockInForm.resx">
+      <DependentUpon>StockInForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="POSSale.resx">
       <DependentUpon>POSSale.cs</DependentUpon>
@@ -474,6 +547,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.2.sql" />
+    <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">

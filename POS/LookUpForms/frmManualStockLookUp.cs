@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MetroFramework.Forms;
+using POS.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -12,22 +14,24 @@ using System.Windows.Forms;
 
 namespace POS.LookUpForms
 {
-    public partial class frmProductLookUp : Form
+    public partial class frmManualStockLookUp : MetroForm
     {
-        public int ProductID { get; set; }
+        public int ArrivalID { get; set; }
         public string ManualNumber { get; set; }
-        public frmProductLookUp()
+
+        public string ArrivalDate { get; set; }
+        public frmManualStockLookUp()
         {
             InitializeComponent();
             loadProducts();
         }
         bool onload = false;
-        public frmProductLookUp(string manualNumber)
+        public frmManualStockLookUp(string manualNumber)
         {
             InitializeComponent();
         }
 
-        private void frmProductLookUp_Load(object sender, EventArgs e)
+        private void frmManualStockLookUp_Load(object sender, EventArgs e)
         {
             txtProductSearch.Select();
             txtProductSearch.Focus();
@@ -42,19 +46,25 @@ namespace POS.LookUpForms
             ID.Visible = false;
 
             var Product = new DataGridViewTextBoxColumn();
-            Product.Name = "ItenName";
-            Product.HeaderText = "ItenName";
+            Product.Name = "ArrivalDate";
+            Product.HeaderText = "Arrival Date";
             Product.Width = 180;
 
             var ManualNumber = new DataGridViewTextBoxColumn();
-            ManualNumber.Name = "ManualNumber";
-            ManualNumber.HeaderText = "ManualNumber";
+            ManualNumber.Name = "ManualNo";
+            ManualNumber.HeaderText = "Manual No";
+            ManualNumber.Width = 180;
+
+            var VehicleNo = new DataGridViewTextBoxColumn();
+            ManualNumber.Name = "VehicleNo";
+            ManualNumber.HeaderText = "Vehicle No";
             ManualNumber.Width = 180;
 
 
             dgvProducts.Columns.Add(ID);
             dgvProducts.Columns.Add(Product);
             dgvProducts.Columns.Add(ManualNumber);
+            dgvProducts.Columns.Add(VehicleNo);
 
         }
         private void loadProducts()
@@ -63,27 +73,28 @@ namespace POS.LookUpForms
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems";
+            string SqlString = " Select ArrivalID,Format(ArrivalDate , 'dd-MMM-yyyy') as ArrivalDate,ManualNo,VehicleNo from data_StockArrivalInfo Where ArrivalToWHID="+CompanyInfo.WareHouseID+"";
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             cnn.Close();
             dgvProducts.DataSource = dt;
-            this.dgvProducts.Columns["ItemId"].Visible = false;
-            this.dgvProducts.Columns["Product"].Width = 250;
+            this.dgvProducts.Columns["ArrivalID"].Visible = false;
+            this.dgvProducts.Columns["ArrivalDate"].Width = 150;
         }
 
         private void txtProductSearch_TextChanged(object sender, EventArgs e)
         {
             string searchValue = txtProductSearch.Text;
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems where ManualNumber= '" + searchValue + "'";
+            string SqlString = " Select ArrivalID,Format(ArrivalDate , 'dd-MMM-yyyy') as ArrivalDate,ManualNo,VehicleNo from data_StockArrivalInfo Where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and  ManualNumber= '" + searchValue + "'";
+            
             if (searchValue=="")
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems";
+                SqlString = " Select ArrivalID,Format(ArrivalDate , 'dd-MMM-yyyy') as ArrivalDate,ManualNo,VehicleNo from data_StockArrivalInfo Where ArrivalToWHID=" + CompanyInfo.WareHouseID + "";
             }
             else
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems where ManualNumber= '" + searchValue + "'";
+                SqlString = " Select ArrivalID,Format(ArrivalDate , 'dd-MMM-yyyy') as ArrivalDate,ManualNo,VehicleNo from data_StockArrivalInfo Where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and  ManualNumber= '" + searchValue + "'";
             }
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection cnn;
@@ -94,8 +105,8 @@ namespace POS.LookUpForms
             sda.Fill(dt);
             cnn.Close();
             dgvProducts.DataSource = dt;
-            this.dgvProducts.Columns["ItemId"].Visible = false;
-            this.dgvProducts.Columns["Product"].Width = 250;
+            this.dgvProducts.Columns["ArrivalID"].Visible = false;
+            this.dgvProducts.Columns["ArrivalDate"].Width = 150;
         }
 
         private void dgvProducts_DoubleClick(object sender, EventArgs e)
@@ -105,10 +116,10 @@ namespace POS.LookUpForms
 
         private void dgvProducts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            string value = dgvProducts.Rows[e.RowIndex].Cells["ItemId"].Value.ToString();
-            string manualNumber = dgvProducts.Rows[e.RowIndex].Cells["ManualNumber"].Value.ToString();
+            string value = dgvProducts.Rows[e.RowIndex].Cells["ArrivalID"].Value.ToString();
+            string manualNumber = dgvProducts.Rows[e.RowIndex].Cells["ManualNo"].Value.ToString();
             ManualNumber = manualNumber;
-            ProductID = Convert.ToInt32(value);
+            ArrivalID = Convert.ToInt32(value);
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -119,10 +130,10 @@ namespace POS.LookUpForms
             if (e.KeyChar == (char)13)
             {
                 DataGridViewRow dgr = dgvProducts.Rows[dgvProducts.CurrentRow.Index-1];
-                string value = dgr.Cells["ItemId"].Value.ToString();
-                string manualNumber = dgr.Cells["ManualNumber"].Value.ToString();
+                string value = dgr.Cells["ArrivalID"].Value.ToString();
+                string manualNumber = dgr.Cells["ManualNo"].Value.ToString();
                 ManualNumber = manualNumber;
-                ProductID = Convert.ToInt32(value);
+                ArrivalID = Convert.ToInt32(value);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -135,5 +146,7 @@ namespace POS.LookUpForms
                 dgvProducts.Focus();
             }
         }
+
+      
     }
 }
