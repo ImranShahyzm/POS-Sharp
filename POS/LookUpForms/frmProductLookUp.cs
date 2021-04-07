@@ -16,16 +16,17 @@ namespace POS.LookUpForms
     {
         public int ProductID { get; set; }
         public string ManualNumber { get; set; }
-        public frmProductLookUp()
+        public frmProductLookUp(int GroupId=0)
         {
             InitializeComponent();
-            loadProducts();
+            loadProducts(GroupId);
+            txtMainGroupID.Text = GroupId.ToString();
         }
         bool onload = false;
-        public frmProductLookUp(string manualNumber)
-        {
-            InitializeComponent();
-        }
+        //public frmProductLookUp(string manualNumber)
+        //{
+        //    InitializeComponent();
+        //}
 
         private void frmProductLookUp_Load(object sender, EventArgs e)
         {
@@ -57,13 +58,17 @@ namespace POS.LookUpForms
             dgvProducts.Columns.Add(ManualNumber);
 
         }
-        private void loadProducts()
+        private void loadProducts(int MainGroupId=0)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems";
+            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID ";
+            if(MainGroupId>0)
+            {
+                SqlString=SqlString+ " where InventCategory.ItemGroupID=" + MainGroupId+"";
+            }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -76,14 +81,52 @@ namespace POS.LookUpForms
         private void txtProductSearch_TextChanged(object sender, EventArgs e)
         {
             string searchValue = txtProductSearch.Text;
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems where ManualNumber= '" + searchValue + "'";
+            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
             if (searchValue=="")
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems";
+                
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where 0=0";
             }
             else
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems where ManualNumber= '" + searchValue + "'";
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
+            }
+            if (Convert.ToDecimal(txtMainGroupID.Text)>0)
+            {
+                SqlString = SqlString + " and InventCategory.ItemGroupID=" + Convert.ToInt32(txtMainGroupID.Text) + "";
+            }
+                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            dgvProducts.DataSource = dt;
+            this.dgvProducts.Columns["ItemId"].Visible = false;
+            this.dgvProducts.Columns["Product"].Width = 250;
+            if(dt.Rows.Count<=0)
+            {
+                SearchByName();
+            }
+            
+        }
+        private void SearchByName()
+        {
+            string searchValue = txtProductSearch.Text;
+            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
+            if (searchValue == "")
+            {
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where 0=0";
+            }
+            else
+            {
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
+            }
+            if (Convert.ToDecimal(txtMainGroupID.Text) > 0)
+            {
+                SqlString = SqlString + " and InventCategory.ItemGroupID=" + Convert.ToInt32(txtMainGroupID.Text) + "";
             }
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection cnn;
@@ -97,7 +140,6 @@ namespace POS.LookUpForms
             this.dgvProducts.Columns["ItemId"].Visible = false;
             this.dgvProducts.Columns["Product"].Width = 250;
         }
-
         private void dgvProducts_DoubleClick(object sender, EventArgs e)
         {
 

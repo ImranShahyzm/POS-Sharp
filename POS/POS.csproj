@@ -276,6 +276,12 @@
     <Compile Include="LookUpForms\frmStockArrivalList.Designer.cs">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\POSSaleNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\POSSaleNew.Designer.cs">
+      <DependentUpon>POSSaleNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\StockInForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -398,6 +404,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmStockArrivalList.resx">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\POSSaleNew.resx">
+      <DependentUpon>POSSaleNew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\StockInForm.resx">
       <DependentUpon>StockInForm.cs</DependentUpon>

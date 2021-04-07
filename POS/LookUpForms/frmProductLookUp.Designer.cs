@@ -31,6 +31,7 @@
             this.dgvProducts = new System.Windows.Forms.DataGridView();
             this.txtProductSearch = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.txtMainGroupID = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,11 +69,20 @@
             this.label11.TabIndex = 6;
             this.label11.Text = "Search By Manual Number:";
             // 
+            // txtMainGroupID
+            // 
+            this.txtMainGroupID.Location = new System.Drawing.Point(37, 28);
+            this.txtMainGroupID.Name = "txtMainGroupID";
+            this.txtMainGroupID.Size = new System.Drawing.Size(35, 20);
+            this.txtMainGroupID.TabIndex = 7;
+            this.txtMainGroupID.Visible = false;
+            // 
             // frmProductLookUp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 368);
+            this.Controls.Add(this.txtMainGroupID);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.txtProductSearch);
             this.Controls.Add(this.dgvProducts);
@@ -91,5 +101,6 @@
         private System.Windows.Forms.DataGridView dgvProducts;
         private System.Windows.Forms.TextBox txtProductSearch;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtMainGroupID;
     }
 }
