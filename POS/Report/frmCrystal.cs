@@ -1,4 +1,5 @@
-﻿using CrystalDecisions.CrystalReports.Engine;
+﻿using Common;
+using CrystalDecisions.CrystalReports.Engine;
 using POS.Helper;
 using System;
 using System.Collections.Generic;
@@ -114,6 +115,110 @@ namespace POS.Report
             //this.ShowDialog();
             rpt.Dispose();
 
+        }
+        public DataTable ItemStockReport(int CompanyID ,string ReportName,DateTime dateTo)
+        {
+            DataTable dt;
+
+            string Sql = @"
+           select  case when isnull(sum(Quantity) ,0) = 0 then 0 else isnull(Sum(Amount),0)/isnull(sum(Quantity) ,0) end ";
+            
+            Sql += @"as WeightedRate,  isnull(sum(Quantity) ,0) ";
+            
+            Sql += @"as Quantity , isnull(Sum(Amount),0)  as StockAmount , s.ItemId , InventItems.ItenName, InventItems.ReOrderLevel , InventUOM.UOMName , InventItems.CategoryID,InventCategory.CategoryName ,InventCategory.ItemGroupID,InventItemGroup.ItemGroupName  
+             from (
+            select a.StockRate * a.Quantity as Amount,a.Quantity ,a.ItemId   from data_ProductInflow a inner join  InventItems b on a.ItemId =b.ItemId
+            left join InventCategory c on b.CategoryID = c.CategoryID where 0 = 0 ";
+
+            //if (this.ItemID > 0)
+            //{
+            //    Sql += " and a.ItemId = " + this.ItemID;
+            //}
+
+            //if (this.CategoryID > 0)
+            //{
+            //    Sql += " and b.CategoryID = " + this.CategoryID;
+            //}
+            //if (this.ItemGroupID > 0)
+            //{
+            //    Sql += " and c.ItemGroupID  = " + this.ItemGroupID;
+            //}
+            //if (this.WHID > 0)
+            //{
+            //    Sql += " and  a.WHID=" + this.WHID;
+            //}
+            
+            
+            //if (this.ItemBrandId > 0)
+            //{
+            //    Sql += " and  b.ItemBrandId=" + this.ItemBrandId;
+            //}
+            Sql += " and a.StockDate <= '" + dateTo + "' ";
+            Sql += " and a.CompanyID = " + CompanyID;
+            Sql += @" union all 
+select - a.StockRate * a.Quantity as Amount,-a.Quantity as Quantity ,a.ItemId from data_ProductOutflow a inner join  InventItems b on a.ItemId =
+b.ItemId left join InventCategory c on b.CategoryID = c.CategoryID where 0 = 0 ";
+            //if (this.ItemID > 0)
+            //{
+            //    Sql += " and a.ItemId = " + this.ItemID;
+            //}
+            //if (this.CategoryID > 0)
+            //{
+            //    Sql += " and b.CategoryID = " + this.CategoryID;
+            //}
+            //if (this.ItemGroupID > 0)
+            //{
+            //    Sql += " and c.ItemGroupID  = " + this.ItemGroupID;
+            //}
+            //if (this.WHID > 0)
+            //{
+            //    Sql += " and  a.WHID=" + this.WHID;
+            //}
+            //if (this.TransferToShedId > 0)
+            //{
+            //    Sql += " and  a.ShedId=" + this.TransferToShedId;
+            //}
+            //if (this.TaxMode != "OVERALL")
+            //{
+            //    Sql += " and  a.IsTaxable = " + (this.TaxMode == "TAXABLE" ? 1 : 0);
+            //}
+            //if (this.ItemBrandId > 0)
+            //{
+            //    Sql += " and  b.ItemBrandId=" + this.ItemBrandId;
+            //}
+            Sql += " and a.StockDate <= '" + dateTo + "' ";
+            Sql += " and a.CompanyID = " + CompanyID;
+            Sql += @" )s   inner join  InventItems  on s.ItemId = InventItems.ItemId
+ inner join InventUOM on InventItems.UOMId = InventUOM.UOMId
+left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID
+ left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.CategoryID
+group by s.ItemId , InventItems.ItenName ,InventItems.ReOrderLevel, InventUOM.UOMName ,InventItems.CategoryID,InventCategory.ItemGroupID, 
+InventCategory.CategoryName, InventItemGroup.ItemGroupName,CartonSize";
+            
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            return dt;
+        }
+        public void StockReport(string reportName,DateTime dateTo)
+        {
+            ReportDocument rpt = new ReportDocument();
+            DataTable dt = ItemStockReport(CompanyInfo.CompanyID,reportName,dateTo);
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "ItemStockReport.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+            
+            rpt.SummaryInfo.ReportTitle = "Item Stock Report";
+            
+            rpt.SetParameterValue("CompanyName",CompanyInfo.WareHouseName);
+            rpt.SetParameterValue("UserName", CompanyInfo.username);
+
+
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            //rpt.SetParameterValue("ServerName", Serverpath);
+            //rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            this.ShowDialog();
+            rpt.Dispose();
         }
         public void CashBook(string StoreProcedure, string ReportName, List<string[]> parameters)
         {

@@ -55,7 +55,8 @@ namespace POS.Helper
             POSdata_StockArrival_delete,
             POSdata_StockArrivalManualInfo_Insert,
             POSdata_StockArrivalInfo_SelectAll,
-            POSdata_SaleandReturnInfoServer_SelectAll
+            POSdata_SaleandReturnInfoServer_SelectAll,
+            PosApi_AllInevntory_Insert
 
 
         }
@@ -174,6 +175,66 @@ namespace POS.Helper
             ParamList.Add(new SqlParameter("@data_StockTransferRawDetail", dt));
 
             DataTable ret = STATICClass.ExecuteInsert(SP.POSAPI_StockRaw_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+        public DataTable AddGroupsTableColumns(DataTable dt)
+        {
+
+            dt.Columns.Add("ItemGroupID");
+
+            dt.Columns.Add("ItemGroupName");
+            dt.Columns.Add("CompanyID");
+            dt.Columns.Add("ItemMainGroupID");
+            return dt;
+        }
+        public DataTable AddMainGroupsTableColumns(DataTable dt)
+        {
+
+            dt.Columns.Add("ItemMainGroupID");
+
+            dt.Columns.Add("EntryUserID");
+            dt.Columns.Add("EntryUserDateTime");
+            dt.Columns.Add("ModifyUserID");
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID");
+            dt.Columns.Add("ItemMainGroupName");
+
+            return dt;
+        }
+        public bool insertAllInventory(DataSet dt, int StockTransferID)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+            
+            ParamList.Add(new SqlParameter("@POSAPI_InventItems", dt.Tables[0]));
+            if(dt.Tables[2].Rows.Count<=0)
+            {
+                var Grpudt = AddGroupsTableColumns(dt.Tables[2]);
+
+                ParamList.Add(new SqlParameter("@InventItemGroup", Grpudt));
+            }
+            if (dt.Tables[3].Rows.Count<=0)
+            {
+                var Grpudt = AddMainGroupsTableColumns(dt.Tables[3]);
+
+                ParamList.Add(new SqlParameter("@gen_ItemMainGroupInfo", Grpudt));
+            }
+            ParamList.Add(new SqlParameter("@inventCategory", dt.Tables[1]));
+            
+            ParamList.Add(new SqlParameter("@inventUOM", dt.Tables[4]));
+
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllInevntory_Insert.ToString()
                 , ParamList);
             if (ret.Columns.Contains("StockTransferID"))
             {

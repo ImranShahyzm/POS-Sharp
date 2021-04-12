@@ -61,6 +61,26 @@
             this.label18 = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.SalePosID = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
+            this.lblSaleType = new System.Windows.Forms.Label();
+            this.lblDateTime = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtProductBarCode = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtInvoiceNo = new System.Windows.Forms.TextBox();
+            this.tlpProductCategoriesl = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnCashOut = new System.Windows.Forms.Button();
+            this.btnNewSale = new System.Windows.Forms.Button();
+            this.btnUnCompleteSale = new System.Windows.Forms.Button();
+            this.btnReturn = new System.Windows.Forms.Button();
+            this.btnSalesStatus = new System.Windows.Forms.Button();
+            this.btnCashIn = new System.Windows.Forms.Button();
+            this.tlpProductCategories = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpProducts = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblShopName = new System.Windows.Forms.Label();
             this.txtCustPhone = new System.Windows.Forms.TextBox();
@@ -72,27 +92,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.txtProductCode = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.SalePosID = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
-            this.lblSaleType = new System.Windows.Forms.Label();
-            this.lblDateTime = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txtProductBarCode = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtInvoiceNo = new System.Windows.Forms.TextBox();
             this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
-            this.tlpProductCategoriesl = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnCashOut = new System.Windows.Forms.Button();
-            this.btnNewSale = new System.Windows.Forms.Button();
-            this.btnUnCompleteSale = new System.Windows.Forms.Button();
-            this.btnReturn = new System.Windows.Forms.Button();
-            this.btnSalesStatus = new System.Windows.Forms.Button();
-            this.btnCashIn = new System.Windows.Forms.Button();
-            this.tlpProductCategories = new System.Windows.Forms.TableLayoutPanel();
-            this.tlpProducts = new System.Windows.Forms.TableLayoutPanel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.stockTranscationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,17 +100,18 @@
             this.manualStockInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stockReturnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syncToServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pOSFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pOSFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.tlpProductCategoriesl.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,10 +123,10 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.4274F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel4, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.ItemSaleGrid, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tlpProductCategoriesl, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ItemSaleGrid, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -140,6 +141,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1219, 705);
             this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint_1);
             // 
             // panel1
             // 
@@ -479,129 +481,6 @@
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // panel3
-            // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel3.BackColor = System.Drawing.Color.Transparent;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.lblShopName);
-            this.panel3.Controls.Add(this.txtCustPhone);
-            this.panel3.Controls.Add(this.label20);
-            this.panel3.Controls.Add(this.txtCustName);
-            this.panel3.Controls.Add(this.label19);
-            this.panel3.Controls.Add(this.cmbProducts);
-            this.panel3.Controls.Add(this.label11);
-            this.panel3.Controls.Add(this.label10);
-            this.panel3.Controls.Add(this.txtProductCode);
-            this.panel3.Controls.Add(this.label9);
-            this.panel3.Location = new System.Drawing.Point(3, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(493, 115);
-            this.panel3.TabIndex = 5;
-            // 
-            // lblShopName
-            // 
-            this.lblShopName.AutoSize = true;
-            this.lblShopName.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblShopName.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.lblShopName.Location = new System.Drawing.Point(176, 1);
-            this.lblShopName.Name = "lblShopName";
-            this.lblShopName.Size = new System.Drawing.Size(166, 31);
-            this.lblShopName.TabIndex = 14;
-            this.lblShopName.Text = "CORBIS POS";
-            // 
-            // txtCustPhone
-            // 
-            this.txtCustPhone.Location = new System.Drawing.Point(87, 58);
-            this.txtCustPhone.Name = "txtCustPhone";
-            this.txtCustPhone.Size = new System.Drawing.Size(402, 20);
-            this.txtCustPhone.TabIndex = 13;
-            this.txtCustPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustPhone_KeyDown);
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(-2, 58);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(87, 14);
-            this.label20.TabIndex = 12;
-            this.label20.Text = "Customer Phone:";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // txtCustName
-            // 
-            this.txtCustName.Location = new System.Drawing.Point(87, 79);
-            this.txtCustName.Name = "txtCustName";
-            this.txtCustName.Size = new System.Drawing.Size(402, 20);
-            this.txtCustName.TabIndex = 10;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(1, 79);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(84, 14);
-            this.label19.TabIndex = 11;
-            this.label19.Text = "Customer Name:";
-            this.label19.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // cmbProducts
-            // 
-            this.cmbProducts.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cmbProducts.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cmbProducts.FormattingEnabled = true;
-            this.cmbProducts.Items.AddRange(new object[] {
-            "select Product"});
-            this.cmbProducts.Location = new System.Drawing.Point(246, 34);
-            this.cmbProducts.Name = "cmbProducts";
-            this.cmbProducts.Size = new System.Drawing.Size(243, 21);
-            this.cmbProducts.TabIndex = 6;
-            this.cmbProducts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbProducts_KeyDown);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(193, 39);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(46, 14);
-            this.label11.TabIndex = 5;
-            this.label11.Text = "Product:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(13, 39);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(72, 14);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Product Code:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // txtProductCode
-            // 
-            this.txtProductCode.Location = new System.Drawing.Point(87, 35);
-            this.txtProductCode.MaxLength = 10;
-            this.txtProductCode.Name = "txtProductCode";
-            this.txtProductCode.Size = new System.Drawing.Size(100, 20);
-            this.txtProductCode.TabIndex = 2;
-            this.txtProductCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductCode_KeyDown);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Red;
-            this.label9.Location = new System.Drawing.Point(4, 3);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(166, 31);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "CORBIS POS";
-            // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.Transparent;
@@ -706,20 +585,6 @@
             this.txtInvoiceNo.TabIndex = 4;
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             this.txtInvoiceNo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtInvoiceNo_KeyPress);
-            // 
-            // ItemSaleGrid
-            // 
-            this.ItemSaleGrid.AllowUserToAddRows = false;
-            this.ItemSaleGrid.AllowUserToDeleteRows = false;
-            this.ItemSaleGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ItemSaleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ItemSaleGrid.Location = new System.Drawing.Point(3, 124);
-            this.ItemSaleGrid.Name = "ItemSaleGrid";
-            this.ItemSaleGrid.Size = new System.Drawing.Size(708, 389);
-            this.ItemSaleGrid.TabIndex = 2;
-            this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
-            this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
-            this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
             // 
             // tlpProductCategoriesl
             // 
@@ -882,6 +747,143 @@
             this.tlpProducts.Size = new System.Drawing.Size(492, 220);
             this.tlpProducts.TabIndex = 1;
             // 
+            // panel3
+            // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel3.BackColor = System.Drawing.Color.Transparent;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.lblShopName);
+            this.panel3.Controls.Add(this.txtCustPhone);
+            this.panel3.Controls.Add(this.label20);
+            this.panel3.Controls.Add(this.txtCustName);
+            this.panel3.Controls.Add(this.label19);
+            this.panel3.Controls.Add(this.cmbProducts);
+            this.panel3.Controls.Add(this.label11);
+            this.panel3.Controls.Add(this.label10);
+            this.panel3.Controls.Add(this.txtProductCode);
+            this.panel3.Controls.Add(this.label9);
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(493, 115);
+            this.panel3.TabIndex = 5;
+            // 
+            // lblShopName
+            // 
+            this.lblShopName.AutoSize = true;
+            this.lblShopName.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShopName.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.lblShopName.Location = new System.Drawing.Point(176, 1);
+            this.lblShopName.Name = "lblShopName";
+            this.lblShopName.Size = new System.Drawing.Size(166, 31);
+            this.lblShopName.TabIndex = 14;
+            this.lblShopName.Text = "CORBIS POS";
+            // 
+            // txtCustPhone
+            // 
+            this.txtCustPhone.Location = new System.Drawing.Point(87, 58);
+            this.txtCustPhone.Name = "txtCustPhone";
+            this.txtCustPhone.Size = new System.Drawing.Size(402, 20);
+            this.txtCustPhone.TabIndex = 13;
+            this.txtCustPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustPhone_KeyDown);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(-2, 58);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(87, 14);
+            this.label20.TabIndex = 12;
+            this.label20.Text = "Customer Phone:";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // txtCustName
+            // 
+            this.txtCustName.Location = new System.Drawing.Point(87, 79);
+            this.txtCustName.Name = "txtCustName";
+            this.txtCustName.Size = new System.Drawing.Size(402, 20);
+            this.txtCustName.TabIndex = 10;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(1, 79);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(84, 14);
+            this.label19.TabIndex = 11;
+            this.label19.Text = "Customer Name:";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // cmbProducts
+            // 
+            this.cmbProducts.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbProducts.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbProducts.FormattingEnabled = true;
+            this.cmbProducts.Items.AddRange(new object[] {
+            "select Product"});
+            this.cmbProducts.Location = new System.Drawing.Point(246, 34);
+            this.cmbProducts.Name = "cmbProducts";
+            this.cmbProducts.Size = new System.Drawing.Size(243, 21);
+            this.cmbProducts.TabIndex = 6;
+            this.cmbProducts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbProducts_KeyDown);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(193, 39);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(46, 14);
+            this.label11.TabIndex = 5;
+            this.label11.Text = "Product:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(13, 39);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(72, 14);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Product Code:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // txtProductCode
+            // 
+            this.txtProductCode.Location = new System.Drawing.Point(87, 35);
+            this.txtProductCode.MaxLength = 10;
+            this.txtProductCode.Name = "txtProductCode";
+            this.txtProductCode.Size = new System.Drawing.Size(100, 20);
+            this.txtProductCode.TabIndex = 2;
+            this.txtProductCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductCode_KeyDown);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.Red;
+            this.label9.Location = new System.Drawing.Point(4, 3);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(166, 31);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "CORBIS POS";
+            // 
+            // ItemSaleGrid
+            // 
+            this.ItemSaleGrid.AllowUserToAddRows = false;
+            this.ItemSaleGrid.AllowUserToDeleteRows = false;
+            this.ItemSaleGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ItemSaleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ItemSaleGrid.Location = new System.Drawing.Point(3, 124);
+            this.ItemSaleGrid.Name = "ItemSaleGrid";
+            this.ItemSaleGrid.Size = new System.Drawing.Size(708, 389);
+            this.ItemSaleGrid.TabIndex = 2;
+            this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
+            this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
+            this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
+            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -912,34 +914,42 @@
             // stockArrivalListToolStripMenuItem
             // 
             this.stockArrivalListToolStripMenuItem.Name = "stockArrivalListToolStripMenuItem";
-            this.stockArrivalListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stockArrivalListToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.stockArrivalListToolStripMenuItem.Text = "Stock Arrival List";
             this.stockArrivalListToolStripMenuItem.Click += new System.EventHandler(this.stockArrivalListToolStripMenuItem_Click);
             // 
             // manualStockInToolStripMenuItem
             // 
             this.manualStockInToolStripMenuItem.Name = "manualStockInToolStripMenuItem";
-            this.manualStockInToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.manualStockInToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.manualStockInToolStripMenuItem.Text = "Manual Stock In";
             this.manualStockInToolStripMenuItem.Click += new System.EventHandler(this.manualStockInToolStripMenuItem_Click);
             // 
             // stockReturnToolStripMenuItem
             // 
             this.stockReturnToolStripMenuItem.Name = "stockReturnToolStripMenuItem";
-            this.stockReturnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stockReturnToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.stockReturnToolStripMenuItem.Text = "Stock Return";
             // 
             // syncToServerToolStripMenuItem
             // 
             this.syncToServerToolStripMenuItem.Name = "syncToServerToolStripMenuItem";
-            this.syncToServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.syncToServerToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.syncToServerToolStripMenuItem.Text = "Sync to Server";
             this.syncToServerToolStripMenuItem.Click += new System.EventHandler(this.syncToServerToolStripMenuItem_Click);
+            // 
+            // pOSFormToolStripMenuItem
+            // 
+            this.pOSFormToolStripMenuItem.Name = "pOSFormToolStripMenuItem";
+            this.pOSFormToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.pOSFormToolStripMenuItem.Text = "POS Form";
+            this.pOSFormToolStripMenuItem.Click += new System.EventHandler(this.pOSFormToolStripMenuItem_Click);
             // 
             // reportsToolStripMenuItem
             // 
             this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cashBookToolStripMenuItem});
+            this.cashBookToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
             this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.reportsToolStripMenuItem.Text = "Reports";
@@ -947,24 +957,27 @@
             // cashBookToolStripMenuItem
             // 
             this.cashBookToolStripMenuItem.Name = "cashBookToolStripMenuItem";
-            this.cashBookToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.cashBookToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cashBookToolStripMenuItem.Text = "Cash Book";
             this.cashBookToolStripMenuItem.Click += new System.EventHandler(this.cashBookToolStripMenuItem_Click);
             // 
-            // pOSFormToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            this.pOSFormToolStripMenuItem.Name = "pOSFormToolStripMenuItem";
-            this.pOSFormToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pOSFormToolStripMenuItem.Text = "POS Form";
-            this.pOSFormToolStripMenuItem.Click += new System.EventHandler(this.pOSFormToolStripMenuItem_Click);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "Stock Report";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // frmPOSSale
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::POS.Properties.Resources.slider_01;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1219, 729);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
+            this.DoubleBuffered = true;
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MinimizeBox = false;
@@ -977,13 +990,13 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).EndInit();
             this.tlpProductCategoriesl.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -1067,6 +1080,7 @@
         private System.Windows.Forms.Label lblShopName;
         private System.Windows.Forms.ToolStripMenuItem syncToServerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pOSFormToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 

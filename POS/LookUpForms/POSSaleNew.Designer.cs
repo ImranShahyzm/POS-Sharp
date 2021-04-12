@@ -77,6 +77,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
             this.txtProductID = new System.Windows.Forms.TextBox();
             this.txtdetailAmount = new System.Windows.Forms.TextBox();
             this.txtTaxAmount = new System.Windows.Forms.TextBox();
@@ -93,7 +94,6 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -115,6 +115,7 @@
             this.btnStock.TabIndex = 12;
             this.btnStock.Text = "Stock Arrival";
             this.btnStock.UseVisualStyleBackColor = false;
+            this.btnStock.Click += new System.EventHandler(this.btnStock_Click);
             // 
             // txtPrint
             // 
@@ -632,6 +633,17 @@
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(8, 113);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(77, 14);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "Search Barcode";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // txtProductID
             // 
             this.txtProductID.Location = new System.Drawing.Point(9, 139);
@@ -790,17 +802,6 @@
             this.txtInvoiceNo.TabIndex = 4;
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(8, 113);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(77, 14);
-            this.label10.TabIndex = 24;
-            this.label10.Text = "Search Barcode";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // POSSaleNew
             // 

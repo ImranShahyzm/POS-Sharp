@@ -34,6 +34,11 @@ namespace POS
             loadProducts();
             lblShopName.Text ="( "+ CompanyInfo.WareHouseName+" )";
             loadNewSale();
+            if(true)
+            {
+                tableLayoutPanel1.Hide();
+                
+            }
 
         }
         private void loadProducts()
@@ -1349,6 +1354,8 @@ namespace POS
 
         private async void btnStock_Click(object sender, EventArgs e)
         {
+
+            await STATICClass.GetAllInventory();
             await STATICClass.GetStokcIssue();
             using (frmStockArrival obj = new frmStockArrival())
             {
@@ -1388,6 +1395,27 @@ namespace POS
         {
             POSSaleNew frm = new POSSaleNew();
             frm.Show();
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmStockReport obj = new frmStockReport();
+            obj.ShowDialog();
         }
     }
 }

@@ -1433,6 +1433,8 @@ namespace POS
 
         private async void btnStock_Click(object sender, EventArgs e)
         {
+
+            await STATICClass.GetAllInventory();
             await STATICClass.GetStokcIssue();
             using (frmStockArrival obj = new frmStockArrival())
             {

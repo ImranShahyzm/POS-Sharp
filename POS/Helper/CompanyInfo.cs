@@ -19,6 +19,7 @@ namespace POS.Helper
         public static string username { get; set; }
         public static int BranchID { get; set; }
         public static string WareHouseName { get; set; }
+       
 
     }
 }

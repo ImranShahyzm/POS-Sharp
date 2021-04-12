@@ -303,6 +303,12 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\frmStockReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmStockReport.Designer.cs">
+      <DependentUpon>frmStockReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\frmCashBookReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -320,6 +326,13 @@
     </Compile>
     <Compile Include="Report\frmReport.Designer.cs">
       <DependentUpon>frmReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ItemStockReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ItemStockReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Report\SaleThermalPrintKitchen.cs">
       <DependentUpon>SaleThermalPrintKitchen.rpt</DependentUpon>
@@ -422,6 +435,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Report\DailyCashbook.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -431,6 +445,9 @@
       <LastGenOutput>DayBook.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmStockReport.resx">
+      <DependentUpon>frmStockReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmCashBookReport.resx">
       <DependentUpon>frmCashBookReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -439,6 +456,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmReport.resx">
       <DependentUpon>frmReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ItemStockReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ItemStockReport.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleInvoiceReturn.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -557,8 +579,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DbScripts\Script 1.0.0.2.sql" />
+    <Content Include="DbScripts\Script 1.0.0.3.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
+    <None Include="Resources\CorbisPos.png" />
+    <None Include="Resources\CorbisPos1.png" />
+    <None Include="Resources\slider-01.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -576,8 +602,6 @@
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
