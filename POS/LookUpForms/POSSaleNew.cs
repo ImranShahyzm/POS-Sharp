@@ -614,7 +614,7 @@ namespace POS
                 //ClearFields();
                 txtProductID.Focus();
 
-                string[] row = { id.ToString(), cmbProducts.Text, txtRate.Text.ToString(), txtQuantity.Text.ToString(),    txtTax.Text.ToString(),txtTaxAmount.Text.ToString(), txtdetailAmount.Text.ToString()};
+                string[] row = { id.ToString(), cmbProducts.Text, txtRate.Text.ToString(), txtQuantity.Text.ToString(),    txtTax.Text.ToString(),txtTaxAmount.Text.ToString(), txtdetailAmount.Text.ToString(), txtAvailableQty.Text.ToString() };
                 ItemSaleGrid.Rows.Insert(0,row);
             }
             GrossAmount_Total();

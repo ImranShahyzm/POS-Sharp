@@ -68,9 +68,16 @@ namespace POS.Report
             rpt.SetParameterValue("Username", CompanyInfo.username);
             crystalReportViewer1.ReportSource = rpt;
             crystalReportViewer1.Refresh();
-            rpt.PrintToPrinter(1, false, 0, 0);
-            rpt.Dispose();
-            //this.ShowDialog();
+            if (CompanyInfo.isPrinter)
+            {
+                rpt.PrintToPrinter(1, false, 0, 0);
+            }
+            else
+            {
+             
+                this.ShowDialog();
+                rpt.Dispose();
+            }
 
         }
         public void loadSaleKitchenReport(string StoreProcedure, string ReportName, List<string[]> parameters)
@@ -110,10 +117,16 @@ namespace POS.Report
             rpt.SetParameterValue("Username", CompanyInfo.username);
             crystalReportViewer1.ReportSource = rpt;
             crystalReportViewer1.Refresh();
-            rpt.PrintToPrinter(1, false, 0, 0);
-            
-            //this.ShowDialog();
-            rpt.Dispose();
+            if (CompanyInfo.isPrinter)
+            {
+                rpt.PrintToPrinter(1, false, 0, 0);
+            }
+            else
+            {
+
+                this.ShowDialog();
+                rpt.Dispose();
+            }
 
         }
         public DataTable ItemStockReport(int CompanyID ,string ReportName,DateTime dateTo)
