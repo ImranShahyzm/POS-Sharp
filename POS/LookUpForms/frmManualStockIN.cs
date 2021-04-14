@@ -21,6 +21,7 @@ namespace POS.LookUpForms
             InitializeComponent();
             loadProducts();
             getArrivalNo();
+            txtStockRate.Text = "1";
         }
         public void getArrivalNo()
         {
@@ -166,7 +167,7 @@ namespace POS.LookUpForms
             if (!recordExist)
             {
                 
-                if(txtQuantity.Text=="" || txtStockRate.Text=="" || txtItemID.Text=="")
+                if(txtQuantity.Text=="" || txtItemID.Text=="")
                 {
                     MessageBox.Show("Please Fill All the Fields...");
                     return;
@@ -190,6 +191,7 @@ namespace POS.LookUpForms
             txtQuantity.Clear();
             txtStockRate.Clear();
             txtNetAmount.Clear();
+            txtStockRate.Text="1";
         }
         public void ClearFieldsAllData()
         {
@@ -238,6 +240,8 @@ namespace POS.LookUpForms
                     else
                     {
                         cmbProducts.SelectedValue = dt.Rows[0]["ItemId"].ToString();
+                        txtItemID.Text = dt.Rows[0]["ItemId"].ToString(); 
+                        txtQuantity.Focus();
                     }
                     string ids = cmbProducts.SelectedValue.ToString();
                     {
@@ -273,7 +277,8 @@ namespace POS.LookUpForms
                 {
                     if (Convert.ToDecimal(txtQuantity.Text) > 0)
                     {
-                        txtStockRate.Focus();
+                        AddProducts(Convert.ToInt32(txtItemID.Text));
+                        //txtStockRate.Focus();
                     }
                 }
             }

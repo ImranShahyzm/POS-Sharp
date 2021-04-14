@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.txtArrivalID = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtArrivalDate = new System.Windows.Forms.DateTimePicker();
@@ -46,19 +48,17 @@
             this.txtNetAmount = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgvStockInDetail = new System.Windows.Forms.DataGridView();
+            this.cmbProducts = new System.Windows.Forms.ComboBox();
+            this.txtItemID = new System.Windows.Forms.TextBox();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             this.ItemID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Itemname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ManualNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cmbProducts = new System.Windows.Forms.ComboBox();
-            this.txtItemID = new System.Windows.Forms.TextBox();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockInDetail)).BeginInit();
@@ -86,6 +86,33 @@
             this.panel1.Size = new System.Drawing.Size(918, 81);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.Red;
+            this.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnDelete.Location = new System.Drawing.Point(806, 15);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btnDelete.Size = new System.Drawing.Size(75, 28);
+            this.btnDelete.TabIndex = 13;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Visible = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.Color.Teal;
+            this.btnSearch.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnSearch.Location = new System.Drawing.Point(806, 14);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.btnSearch.Size = new System.Drawing.Size(75, 28);
+            this.btnSearch.TabIndex = 13;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // txtArrivalID
             // 
@@ -197,7 +224,7 @@
             // 
             // txtQuantity
             // 
-            this.txtQuantity.Location = new System.Drawing.Point(599, 168);
+            this.txtQuantity.Location = new System.Drawing.Point(810, 168);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(95, 20);
             this.txtQuantity.TabIndex = 6;
@@ -210,6 +237,7 @@
             this.txtStockRate.Name = "txtStockRate";
             this.txtStockRate.Size = new System.Drawing.Size(99, 20);
             this.txtStockRate.TabIndex = 7;
+            this.txtStockRate.Visible = false;
             this.txtStockRate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtStockRate_KeyDown);
             this.txtStockRate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtStockRate_KeyPress);
             // 
@@ -220,6 +248,7 @@
             this.txtNetAmount.ReadOnly = true;
             this.txtNetAmount.Size = new System.Drawing.Size(100, 20);
             this.txtNetAmount.TabIndex = 8;
+            this.txtNetAmount.Visible = false;
             // 
             // panel2
             // 
@@ -247,45 +276,6 @@
             this.dgvStockInDetail.TabIndex = 0;
             this.dgvStockInDetail.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockInDetail_CellClick);
             // 
-            // ItemID
-            // 
-            this.ItemID.HeaderText = "Product ID";
-            this.ItemID.Name = "ItemID";
-            this.ItemID.ReadOnly = true;
-            this.ItemID.Width = 50;
-            // 
-            // Itemname
-            // 
-            this.Itemname.HeaderText = "ProductName";
-            this.Itemname.Name = "Itemname";
-            this.Itemname.ReadOnly = true;
-            this.Itemname.Width = 400;
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            this.Quantity.ReadOnly = true;
-            // 
-            // Rate
-            // 
-            this.Rate.HeaderText = "Stock Rate";
-            this.Rate.Name = "Rate";
-            this.Rate.ReadOnly = true;
-            // 
-            // NetAmount
-            // 
-            this.NetAmount.HeaderText = "Net Amount";
-            this.NetAmount.Name = "NetAmount";
-            this.NetAmount.ReadOnly = true;
-            // 
-            // ManualNo
-            // 
-            this.ManualNo.HeaderText = "Manual No";
-            this.ManualNo.Name = "ManualNo";
-            this.ManualNo.ReadOnly = true;
-            this.ManualNo.Visible = false;
-            // 
             // cmbProducts
             // 
             this.cmbProducts.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -295,7 +285,7 @@
             "select Product"});
             this.cmbProducts.Location = new System.Drawing.Point(219, 167);
             this.cmbProducts.Name = "cmbProducts";
-            this.cmbProducts.Size = new System.Drawing.Size(374, 21);
+            this.cmbProducts.Size = new System.Drawing.Size(579, 21);
             this.cmbProducts.TabIndex = 7;
             // 
             // txtItemID
@@ -343,32 +333,46 @@
             this.btnClear.UseVisualStyleBackColor = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
-            // btnSearch
+            // ItemID
             // 
-            this.btnSearch.BackColor = System.Drawing.Color.Teal;
-            this.btnSearch.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnSearch.Location = new System.Drawing.Point(806, 14);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btnSearch.Size = new System.Drawing.Size(75, 28);
-            this.btnSearch.TabIndex = 13;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = false;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            this.ItemID.HeaderText = "Product ID";
+            this.ItemID.Name = "ItemID";
+            this.ItemID.ReadOnly = true;
+            this.ItemID.Width = 50;
             // 
-            // btnDelete
+            // Itemname
             // 
-            this.btnDelete.BackColor = System.Drawing.Color.Red;
-            this.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnDelete.Location = new System.Drawing.Point(806, 15);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.btnDelete.Size = new System.Drawing.Size(75, 28);
-            this.btnDelete.TabIndex = 13;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = false;
-            this.btnDelete.Visible = false;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.Itemname.HeaderText = "ProductName";
+            this.Itemname.Name = "Itemname";
+            this.Itemname.ReadOnly = true;
+            this.Itemname.Width = 600;
+            // 
+            // Quantity
+            // 
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            this.Quantity.ReadOnly = true;
+            // 
+            // Rate
+            // 
+            this.Rate.HeaderText = "Stock Rate";
+            this.Rate.Name = "Rate";
+            this.Rate.ReadOnly = true;
+            this.Rate.Visible = false;
+            // 
+            // NetAmount
+            // 
+            this.NetAmount.HeaderText = "Net Amount";
+            this.NetAmount.Name = "NetAmount";
+            this.NetAmount.ReadOnly = true;
+            this.NetAmount.Visible = false;
+            // 
+            // ManualNo
+            // 
+            this.ManualNo.HeaderText = "Manual No";
+            this.ManualNo.Name = "ManualNo";
+            this.ManualNo.ReadOnly = true;
+            this.ManualNo.Visible = false;
             // 
             // frmManualStockIN
             // 
@@ -417,19 +421,19 @@
         private System.Windows.Forms.TextBox txtNetAmount;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.DataGridView dgvStockInDetail;
+        private System.Windows.Forms.ComboBox cmbProducts;
+        private System.Windows.Forms.TextBox txtItemID;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.TextBox txtArrivalID;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Itemname;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
         private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
-        private System.Windows.Forms.ComboBox cmbProducts;
-        private System.Windows.Forms.TextBox txtItemID;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.DataGridViewTextBoxColumn ManualNo;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.TextBox txtArrivalID;
-        private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.Button btnDelete;
     }
 }

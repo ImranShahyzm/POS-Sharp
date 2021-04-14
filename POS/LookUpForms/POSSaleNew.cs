@@ -58,7 +58,11 @@ namespace POS
             cmbProducts.DisplayMember = "ItenName";
             cmbProducts.DataSource = dt;
         }
-
+        private void setAvailableStock(int ItemId)
+        {
+            var Stock = STATICClass.GetStockQuantityItem(ItemId, CompanyInfo.WareHouseID,txtSaleDate.Value, CompanyInfo.CompanyID, "", "", false);
+            txtAvailableQty.Text = Convert.ToString(Stock);
+        }
         private void laodCategories()
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -636,6 +640,7 @@ namespace POS
                                 txtProductCode.Text = obj.ManualNumber;
                                 cmbProducts.SelectedValue = id.ToString();
                                var dtReturn= getProduct(0, Convert.ToInt32(id));
+                                setAvailableStock(id);
                                 txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                 txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                 txtQuantity.Focus();
@@ -645,6 +650,12 @@ namespace POS
                     else
                     {
                         cmbProducts.SelectedValue = dt.Rows[0]["ItemId"].ToString();
+                        
+                        txtRate.Text = Convert.ToString(dt.Rows[0]["ItemSalesPrice"]);
+                        txtTax.Text = Convert.ToString(dt.Rows[0]["TotalTax"]);
+                        txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
+                        setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
+                        txtQuantity.Focus();
                     }
                     string ids = cmbProducts.SelectedValue.ToString();
                     {
@@ -1341,6 +1352,7 @@ namespace POS
             txtTax.Clear();
             txtTaxAmount.Clear();
             txtdetailAmount.Clear();
+            txtProductCode.Clear();
             txtTax.ReadOnly = true;
             txtTaxAmount.ReadOnly = true;
             txtdetailAmount.ReadOnly = true;

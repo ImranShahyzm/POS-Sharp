@@ -218,18 +218,23 @@ namespace POS.Helper
             ParamList.Add(p);
             
             ParamList.Add(new SqlParameter("@POSAPI_InventItems", dt.Tables[0]));
-            if(dt.Tables[2].Rows.Count<=0)
-            {
-                var Grpudt = AddGroupsTableColumns(dt.Tables[2]);
 
-                ParamList.Add(new SqlParameter("@InventItemGroup", Grpudt));
-            }
+            DataTable MainGrpudt = dt.Tables[2];
             if (dt.Tables[3].Rows.Count<=0)
             {
-                var Grpudt = AddMainGroupsTableColumns(dt.Tables[3]);
+                 MainGrpudt = AddMainGroupsTableColumns(dt.Tables[2]);
 
-                ParamList.Add(new SqlParameter("@gen_ItemMainGroupInfo", Grpudt));
+                
             }
+            ParamList.Add(new SqlParameter("@gen_ItemMainGroupInfo", MainGrpudt));
+            DataTable GroupDt= dt.Tables[3];
+            if (dt.Tables[3].Rows.Count<=0)
+            {
+                GroupDt = AddGroupsTableColumns(dt.Tables[3]);
+
+                
+            }
+            ParamList.Add(new SqlParameter("@InventItemGroup", GroupDt));
             ParamList.Add(new SqlParameter("@inventCategory", dt.Tables[1]));
             
             ParamList.Add(new SqlParameter("@inventUOM", dt.Tables[4]));

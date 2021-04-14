@@ -18,14 +18,55 @@ namespace POS.Helper
 {
     public static class STATICClass
     {
-        //public static string BaseURL= "http://103.86.135.182:1034/";
+        public static string BaseURL= "http://103.86.135.182:1034/";
 
-        public static string BaseURL = "http://localhost:44333/";
+        //public static string BaseURL = "http://localhost:44333/";
         public static string Connection()
         {
             return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
         }
+        public static decimal GetStockQuantityItem(Int32 ItemID, Int32 WHID, DateTime StockDate, Int32 CompanyID, string SourceName,
+          string EditWC, bool IsTaxable = false)
+        {
+            DataTable dt = new DataTable(); decimal StockQty = 0; string ItemName;
+            SqlConnection con = new SqlConnection(STATICClass.Connection());
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            SqlCommand cmd = new SqlCommand("GetStockQuantity", con);
+            cmd.CommandType = CommandType.StoredProcedure; SqlDataAdapter da = new SqlDataAdapter();
+            SqlParameter p = new SqlParameter("@StockQty", StockQty); p.Precision = 14; p.Scale = 2;
+            p.Direction = ParameterDirection.InputOutput; cmd.Parameters.Add(p);
 
+            SqlParameter Name = new SqlParameter("@ItemName", SqlDbType.VarChar, 200); /*Name.Size = 200;*/
+            Name.Direction = ParameterDirection.InputOutput; cmd.Parameters.Add(Name);
+
+            cmd.Parameters.Add(new SqlParameter("@ItemID", ItemID));
+            cmd.Parameters.Add(new SqlParameter("@WHID", WHID));
+            cmd.Parameters.Add(new SqlParameter("@StockDate", StockDate));
+            cmd.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+            cmd.Parameters.Add(new SqlParameter("@SourceName", SourceName));
+            cmd.Parameters.Add(new SqlParameter("@EditWC", EditWC));
+            cmd.Parameters.Add(new SqlParameter("@IsTaxable", IsTaxable));
+            da.SelectCommand = cmd;
+            try
+            {
+                cmd.Transaction = tran; da.Fill(dt); tran.Commit();
+                StockQty = Convert.ToDecimal(p.Value.ToString());
+                ItemName = Name.Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                return StockQty;
+            }
+            finally
+            {
+                con.Close();
+            }
+            return StockQty;
+
+        }
         public static List<T> ConvertToList<T>(DataTable dt)
             {
                 var columnNames = dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName.ToLower()).ToList();
