@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MetroFramework.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -12,9 +13,11 @@ using System.Windows.Forms;
 
 namespace POS.LookUpForms
 {
-    public partial class frmSaleInvoiceLookUp : Form
+    public partial class frmSaleInvoiceLookUp :MetroForm
     {
         public string SaleInvoiceNo { get; set; }
+
+        public DateTime SaleInvoiceDate { get; set; }
         public frmSaleInvoiceLookUp()
         {
             InitializeComponent();
@@ -142,9 +145,33 @@ namespace POS.LookUpForms
             {
                 DataGridViewRow dgr = dgvSaleInvoices.CurrentRow;
                 SaleInvoiceNo = dgr.Cells["SalePOSNO"].Value.ToString();
+                SaleInvoiceDate = dtpSaleFromDate.Value;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+        }
+
+        private void txtInvoiceSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                dtpSaleFromDate.Select();
+                dtpSaleFromDate.Focus();
+            }
+        }
+
+        private void dtpSaleFromDate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                dgvSaleInvoices.Select();
+                dgvSaleInvoices.Focus();
+            }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

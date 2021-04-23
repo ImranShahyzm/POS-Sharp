@@ -41,6 +41,11 @@ namespace POS.Helper
 
         public DateTime ArrivalDate { get; set; }
 
+
+
+        public Int32 IssuanceID { get; set; }
+        public Int32 IssuanceType { get; set; }
+
         public enum SP
         {
             data_StockTransferInfo_Insert,
@@ -56,7 +61,9 @@ namespace POS.Helper
             POSdata_StockArrivalManualInfo_Insert,
             POSdata_StockArrivalInfo_SelectAll,
             POSdata_SaleandReturnInfoServer_SelectAll,
-            PosApi_AllInevntory_Insert
+            PosApi_AllInevntory_Insert,
+            POSdata_StockIssuancetoPosKitchenDetailInfo_Insert,
+            POSdata_StockIssuance_delete
 
 
         }
@@ -71,7 +78,8 @@ namespace POS.Helper
             ToBranchID,
             IsTaxable,
             Remarks,
-            ArrivalID
+            ArrivalID,
+            IssuanceID
 
         }
 
@@ -316,6 +324,43 @@ namespace POS.Helper
         }
 
 
+        public bool InsertStockIssuanceDetaildata(DataTable dt, data_StockTransferInfoModel model)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.IssuanceID.ToString(), model.IssuanceID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@RefID", model.RefID));
+            ParamList.Add(new SqlParameter("@IssuanceDate", model.ArrivalDate));
+            ParamList.Add(new SqlParameter("@UserID", CompanyInfo.UserID));
+            ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
+            //ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
+            ParamList.Add(new SqlParameter("@FiscalID", CompanyInfo.FiscalID));
+            ParamList.Add(new SqlParameter("@FromWHID", CompanyInfo.WareHouseID));
+            ParamList.Add(new SqlParameter("@LocationID", CompanyInfo.LocationID));
+            ParamList.Add(new SqlParameter("@IssuanceType", model.IssuanceType));
+
+            ParamList.Add(new SqlParameter("@Remarks", model.Remarks));
+
+
+            ParamList.Add(new SqlParameter("@BranchID", CompanyInfo.BranchID));
+            ParamList.Add(new SqlParameter("@data_StockIssuancetoPosKitchenDetail", dt));
+
+            DataTable ret = STATICClass.ExecuteInsert(SP.POSdata_StockIssuancetoPosKitchenDetailInfo_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("IssuanceID"))
+            {
+                model.IssuanceID = Convert.ToInt32(ret.Rows[0]["IssuanceID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+
+
         public string Delete(Int32 MasterID)
         {
             List<SqlParameter> ParamList = new List<SqlParameter>();
@@ -332,7 +377,15 @@ namespace POS.Helper
                 , ParamList);
             return ret.Rows[0]["MESSAGE"].ToString();
         }
-        
+        public string IssuanceDelete(Int32 MasterID)
+        {
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter(Fields.IssuanceID.ToString(), MasterID));
+            DataTable ret = STATICClass.ExecuteDelete(SP.POSdata_StockIssuance_delete.ToString()
+                , ParamList);
+            return ret.Rows[0]["MESSAGE"].ToString();
+        }
+
         public DataTable GetArrivedRawData(int RefId)
         {
             DataTable ds = new DataTable();

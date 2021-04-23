@@ -911,7 +911,21 @@ namespace POS
                 }
                 else
                 {
-                    MessageBox.Show("Please Enter Invoice Number!");
+                    using (frmSaleInvoiceLookUp obj = new frmSaleInvoiceLookUp())
+                    {
+                        if (obj.ShowDialog() == DialogResult.OK)
+                        {
+                            string id = obj.SaleInvoiceNo;
+                            if (id != "")
+                            {
+                                clearAll();
+                                txtSaleDate.Value = obj.SaleInvoiceDate;
+                                loadWholeInvoice(id);
+                                txtInvoiceNo.Text = id;
+                            }
+                        }
+                    };
+                    //MessageBox.Show("Please Enter Invoice Number!");
                 }
             }
         }
@@ -1553,11 +1567,6 @@ namespace POS
         }
 
         private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtSaleDate_ValueChanged_1(object sender, EventArgs e)
         {
 
         }

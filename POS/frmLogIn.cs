@@ -70,7 +70,8 @@ namespace POS
                     CompanyInfo.WareHouseID = Convert.ToInt32(dt.Rows[0]["WHID"]);
                     CompanyInfo.UserID = Convert.ToInt32(dt.Rows[0]["Userid"]);
                     CompanyInfo.username= Convert.ToString(dt.Rows[0]["UserName"]);
-                    
+                    CompanyInfo.LocationID=Convert.ToString(dt.Rows[0]["LocationID"]);
+                    CompanyInfo.isKhaakiSoft= Convert.ToBoolean(dt.Rows[0]["isKhaakiSoft"]);
                     this.Hide();
                 }
                 else

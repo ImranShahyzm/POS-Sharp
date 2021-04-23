@@ -234,6 +234,18 @@
     <Compile Include="LookUpForms\frmClosingLookUp.Designer.cs">
       <DependentUpon>frmClosingLookUp.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\fromStockIssuanceLookUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\fromStockIssuanceLookUp.Designer.cs">
+      <DependentUpon>fromStockIssuanceLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockIssuance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockIssuance.Designer.cs">
+      <DependentUpon>frmStockIssuance.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmManualStockIN.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -275,6 +287,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmStockArrivalList.Designer.cs">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\PosKhaakiStyle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\PosKhaakiStyle.Designer.cs">
+      <DependentUpon>PosKhaakiStyle.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\POSSaleNew.cs">
       <SubType>Form</SubType>
@@ -397,6 +415,12 @@
     <EmbeddedResource Include="LookUpForms\frmClosingLookUp.resx">
       <DependentUpon>frmClosingLookUp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\fromStockIssuanceLookUp.resx">
+      <DependentUpon>fromStockIssuanceLookUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmStockIssuance.resx">
+      <DependentUpon>frmStockIssuance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmManualStockIN.resx">
       <DependentUpon>frmManualStockIN.cs</DependentUpon>
     </EmbeddedResource>
@@ -417,6 +441,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmStockArrivalList.resx">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\PosKhaakiStyle.resx">
+      <DependentUpon>PosKhaakiStyle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\POSSaleNew.resx">
       <DependentUpon>POSSaleNew.cs</DependentUpon>
@@ -578,8 +605,11 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DbScripts\KhaakiChanges.sql" />
+    <Content Include="DbScripts\Script 1.0.0.5.sql" />
     <Content Include="DbScripts\Script 1.0.0.2.sql" />
     <Content Include="DbScripts\Script 1.0.0.3.sql" />
+    <Content Include="DbScripts\Script 1.0.0.4.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <None Include="Resources\CorbisPos.png" />
