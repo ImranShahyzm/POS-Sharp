@@ -17,6 +17,11 @@ namespace POS.Helper
         public static int FiscalID { get; set; }
         public static int UserID { get; set; }
         public static string username { get; set; }
+        public static int BranchID { get; set; }
+        public static string WareHouseName { get; set; }
+        public static string LocationID { get; set; }
+        public static bool isPrinter = false;
+        public static bool isKhaakiSoft = true;
 
     }
 }

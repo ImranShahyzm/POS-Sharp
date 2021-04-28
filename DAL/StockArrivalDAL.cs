@@ -1,5 +1,4 @@
-﻿using Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -10,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class LoginDAL
+   public class StockArrivalDAL
     {
-        public DataTable SaveForm(LogInCommon obj )
+        public DataTable GetAllPendingArrival(int BranchID ,int WHID)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
@@ -20,9 +19,9 @@ namespace DAL
             con.Open();
             tran = con.BeginTransaction();
             SqlCommand cmd;
-            cmd = new SqlCommand(@"select InventWareHouse.BranchID,GLUser.Userid,GLUser.UserPassword,GLUser.UserName,GLCompany.*,gen_PosConfiguration.WHID,FiscalID,InventWareHouse.WHDesc as WareHouseName,gen_PosConfiguration.LocationID,gen_PosConfiguration.IsKhaakiSoft from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner join gen_PosConfiguration on gen_PosConfiguration.CompanyID=GLCompany.Companyid
-           inner join InventWareHouse on InventWareHouse.WHID=gen_PosConfiguration.WHID
-            where UserPassword = '" + obj.Password + "' and UserName = '"+ obj.UserName + "'", con);
+            cmd = new SqlCommand(@"SELECT       TransferIDref as StockTransferID,  Format(TransferDate,'dd-MMM-yyyy') as FormatTransferDate , TransferNo, InventWareHouse.WHDesc,  Remarks
+FROM            data_RawStockTransfer inner join InventWareHouse on InventWareHouse.WHID=data_RawStockTransfer.TransferFromWHID 
+            where  TransferToWHID = " + WHID+"", con);
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
             da.SelectCommand = cmd;
@@ -36,8 +35,10 @@ namespace DAL
                 tran.Rollback();
                 throw ex;
             }
-          
+
             return dt;
         }
+
+
     }
 }

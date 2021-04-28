@@ -35,12 +35,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dptSaleToDate = new System.Windows.Forms.DateTimePicker();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSaleInvoices)).BeginInit();
-            this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,6 +72,7 @@
             this.txtInvoiceSearch.Size = new System.Drawing.Size(123, 20);
             this.txtInvoiceSearch.TabIndex = 7;
             this.txtInvoiceSearch.TextChanged += new System.EventHandler(this.txtProductSearch_TextChanged);
+            this.txtInvoiceSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceSearch_KeyDown);
             this.txtInvoiceSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtInvoiceSearch_KeyPress);
             // 
             // dtpSaleFromDate
@@ -85,6 +83,7 @@
             this.dtpSaleFromDate.Size = new System.Drawing.Size(153, 20);
             this.dtpSaleFromDate.TabIndex = 9;
             this.dtpSaleFromDate.ValueChanged += new System.EventHandler(this.dtpSaleFromDate_ValueChanged);
+            this.dtpSaleFromDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dtpSaleFromDate_KeyDown);
             // 
             // label1
             // 
@@ -116,26 +115,6 @@
             this.dptSaleToDate.TabIndex = 11;
             this.dptSaleToDate.Visible = false;
             // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.Teal;
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(783, 52);
-            this.panel2.TabIndex = 25;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.Control;
-            this.label3.Location = new System.Drawing.Point(4, 13);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(140, 29);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Sale Invoices";
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
@@ -165,7 +144,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dptSaleToDate);
             this.Controls.Add(this.label1);
@@ -174,11 +152,9 @@
             this.Controls.Add(this.txtInvoiceSearch);
             this.Controls.Add(this.dgvSaleInvoices);
             this.Name = "frmSaleInvoiceLookUp";
-            this.Text = "   Corbis Solution\'s";
+            this.Text = "  Sale Invoices";
             this.Load += new System.EventHandler(this.frmSaleInvoiceLookUp_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSaleInvoices)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -194,8 +170,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dptSaleToDate;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnClose;
     }
