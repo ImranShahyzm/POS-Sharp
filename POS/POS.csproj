@@ -606,6 +606,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DbScripts\KhaakiChanges.sql" />
+    <Content Include="DbScripts\KhaakiChangesInvopice.sql" />
+    <Content Include="DbScripts\SaleInvoiceChangings.sql" />
     <Content Include="DbScripts\Script 1.0.0.5.sql" />
     <Content Include="DbScripts\Script 1.0.0.2.sql" />
     <Content Include="DbScripts\Script 1.0.0.3.sql" />

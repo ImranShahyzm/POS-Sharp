@@ -95,6 +95,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
+            this.chkExchange = new System.Windows.Forms.CheckBox();
             this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -108,6 +109,9 @@
             this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DiscountOnQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SchemeID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Exchange = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.txtExchangeAmt = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -196,7 +200,8 @@
             this.NetAmount,
             this.Qty,
             this.DiscountOnQuantity,
-            this.SchemeID});
+            this.SchemeID,
+            this.Exchange});
             this.ItemSaleGrid.Location = new System.Drawing.Point(23, 243);
             this.ItemSaleGrid.Name = "ItemSaleGrid";
             this.ItemSaleGrid.Size = new System.Drawing.Size(1041, 281);
@@ -296,6 +301,8 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel1.Controls.Add(this.label13);
+            this.panel1.Controls.Add(this.txtExchangeAmt);
             this.panel1.Controls.Add(this.label18);
             this.panel1.Controls.Add(this.txtPrint);
             this.panel1.Controls.Add(this.btnStock);
@@ -329,6 +336,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1034, 140);
             this.panel1.TabIndex = 9;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint_1);
             // 
             // label17
             // 
@@ -350,6 +358,7 @@
             this.txtPayableAmount.Size = new System.Drawing.Size(163, 40);
             this.txtPayableAmount.TabIndex = 22;
             this.txtPayableAmount.TabStop = false;
+            this.txtPayableAmount.TextChanged += new System.EventHandler(this.txtPayableAmount_TextChanged);
             // 
             // label16
             // 
@@ -372,6 +381,7 @@
             this.txtReceivableAmount.Size = new System.Drawing.Size(149, 40);
             this.txtReceivableAmount.TabIndex = 20;
             this.txtReceivableAmount.TabStop = false;
+            this.txtReceivableAmount.TextChanged += new System.EventHandler(this.txtReceivableAmount_TextChanged);
             this.txtReceivableAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtReceivableAmount_KeyPress);
             // 
             // label15
@@ -409,7 +419,7 @@
             // 
             // txtOtherCharges
             // 
-            this.txtOtherCharges.Location = new System.Drawing.Point(88, 36);
+            this.txtOtherCharges.Location = new System.Drawing.Point(447, 8);
             this.txtOtherCharges.MaxLength = 10;
             this.txtOtherCharges.Name = "txtOtherCharges";
             this.txtOtherCharges.Size = new System.Drawing.Size(89, 20);
@@ -435,6 +445,7 @@
             this.txtAmountReceive.Name = "txtAmountReceive";
             this.txtAmountReceive.Size = new System.Drawing.Size(100, 40);
             this.txtAmountReceive.TabIndex = 14;
+            this.txtAmountReceive.TextChanged += new System.EventHandler(this.txtAmountReceive_TextChanged);
             this.txtAmountReceive.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAmountReceive_KeyDown);
             this.txtAmountReceive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAmountReceive_KeyPress);
             // 
@@ -464,7 +475,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(4, 42);
+            this.label6.Location = new System.Drawing.Point(363, 12);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(80, 14);
             this.label6.TabIndex = 11;
@@ -485,15 +496,16 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(179, 39);
+            this.label5.Location = new System.Drawing.Point(177, 42);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 14);
             this.label5.TabIndex = 9;
             this.label5.Text = "Net Amount:";
+            this.label5.Click += new System.EventHandler(this.label5_Click_1);
             // 
             // txtNetAmount
             // 
-            this.txtNetAmount.Location = new System.Drawing.Point(256, 36);
+            this.txtNetAmount.Location = new System.Drawing.Point(255, 35);
             this.txtNetAmount.Name = "txtNetAmount";
             this.txtNetAmount.ReadOnly = true;
             this.txtNetAmount.Size = new System.Drawing.Size(100, 20);
@@ -586,6 +598,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.chkExchange);
             this.panel5.Controls.Add(this.txtDtGross);
             this.panel5.Controls.Add(this.txtSchemeID);
             this.panel5.Controls.Add(this.txtMinQty);
@@ -877,6 +890,16 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
+            // chkExchange
+            // 
+            this.chkExchange.AutoSize = true;
+            this.chkExchange.Location = new System.Drawing.Point(106, 98);
+            this.chkExchange.Name = "chkExchange";
+            this.chkExchange.Size = new System.Drawing.Size(112, 17);
+            this.chkExchange.TabIndex = 33;
+            this.chkExchange.Text = "Exchange Invoice";
+            this.chkExchange.UseVisualStyleBackColor = true;
+            // 
             // ProductId
             // 
             this.ProductId.HeaderText = "ProductID";
@@ -888,7 +911,7 @@
             this.ProductName.HeaderText = "ProductName";
             this.ProductName.Name = "ProductName";
             this.ProductName.ReadOnly = true;
-            this.ProductName.Width = 200;
+            this.ProductName.Width = 180;
             // 
             // Rate
             // 
@@ -906,6 +929,7 @@
             this.GrossAmount.HeaderText = "Gross Amount";
             this.GrossAmount.Name = "GrossAmount";
             this.GrossAmount.ReadOnly = true;
+            this.GrossAmount.Width = 80;
             // 
             // Tax
             // 
@@ -950,12 +974,40 @@
             this.DiscountOnQuantity.HeaderText = "Disc Min Quantity";
             this.DiscountOnQuantity.Name = "DiscountOnQuantity";
             this.DiscountOnQuantity.ReadOnly = true;
+            this.DiscountOnQuantity.Width = 80;
             // 
             // SchemeID
             // 
             this.SchemeID.HeaderText = "SchemeID";
             this.SchemeID.Name = "SchemeID";
             this.SchemeID.Visible = false;
+            // 
+            // Exchange
+            // 
+            this.Exchange.HeaderText = "Exchange";
+            this.Exchange.Name = "Exchange";
+            this.Exchange.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Exchange.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Exchange.Width = 60;
+            // 
+            // txtExchangeAmt
+            // 
+            this.txtExchangeAmt.Location = new System.Drawing.Point(88, 36);
+            this.txtExchangeAmt.Name = "txtExchangeAmt";
+            this.txtExchangeAmt.ReadOnly = true;
+            this.txtExchangeAmt.Size = new System.Drawing.Size(83, 20);
+            this.txtExchangeAmt.TabIndex = 24;
+            this.txtExchangeAmt.TabStop = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(26, 38);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(54, 14);
+            this.label13.TabIndex = 25;
+            this.label13.Text = "Exchange";
             // 
             // PosKhaakiStyle
             // 
@@ -1046,6 +1098,7 @@
         private System.Windows.Forms.TextBox txtMinQty;
         private System.Windows.Forms.TextBox txtSchemeID;
         private System.Windows.Forms.TextBox txtDtGross;
+        private System.Windows.Forms.CheckBox chkExchange;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
@@ -1059,6 +1112,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
         private System.Windows.Forms.DataGridViewTextBoxColumn DiscountOnQuantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn SchemeID;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Exchange;
+        private System.Windows.Forms.TextBox txtExchangeAmt;
+        private System.Windows.Forms.Label label13;
     }
 }
 

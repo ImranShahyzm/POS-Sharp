@@ -64,7 +64,7 @@ namespace POS.LookUpForms
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID ";
+            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID ";
             if(MainGroupId>0)
             {
                 SqlString=SqlString+ " where InventCategory.ItemGroupID=" + MainGroupId+"";
@@ -81,15 +81,15 @@ namespace POS.LookUpForms
         private void txtProductSearch_TextChanged(object sender, EventArgs e)
         {
             string searchValue = txtProductSearch.Text;
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
+            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
             if (searchValue=="")
             {
                 
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where 0=0";
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where 0=0";
             }
             else
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
             }
             if (Convert.ToDecimal(txtMainGroupID.Text)>0)
             {
@@ -115,14 +115,14 @@ namespace POS.LookUpForms
         private void SearchByName()
         {
             string searchValue = txtProductSearch.Text;
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
+            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
             if (searchValue == "")
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where 0=0";
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where 0=0";
             }
             else
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
             }
             if (Convert.ToDecimal(txtMainGroupID.Text) > 0)
             {
