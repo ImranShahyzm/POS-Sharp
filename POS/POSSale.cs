@@ -1454,5 +1454,11 @@ namespace POS
             frmCashOut obj = new frmCashOut();
             obj.ShowDialog();
         }
+
+        private void billWiseRecoveryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCashInAgainstBill frm = new frmCashInAgainstBill();
+            frm.ShowDialog();
+        }
     }
 }

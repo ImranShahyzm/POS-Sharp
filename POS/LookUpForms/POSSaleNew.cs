@@ -240,7 +240,20 @@ namespace POS
         }
         private void POSSaleNew_Load(object sender, EventArgs e)
         {
-            //SetupDataGridView();
+            
+
+            cmbInvoicetype.DisplayMember = "Text";
+            cmbInvoicetype.ValueMember = "Value";
+
+            var items = new[] {
+    new { Text = "Cash Invoice", Value = "1" },
+    new { Text = "Home Delivery-Cash", Value = "2" },
+    new { Text = "Home Delivery-Credit", Value = "3" }
+};
+
+            cmbInvoicetype.DataSource = items;
+
+
         }
 
         private void SetupDataGridView()
@@ -763,9 +776,10 @@ namespace POS
             cmd.Parameters.AddWithValue("@DiscountAmount", txtDiscountAmount.Text == "" ? 0 : Convert.ToDecimal(txtDiscountAmount.Text));
             cmd.Parameters.AddWithValue("@DiscountTotal", Convert.ToDecimal(txtTotalDiscount.Text));
             cmd.Parameters.AddWithValue("@OtherCharges", txtOtherCharges.Text == "" ? 0 : Convert.ToDecimal(txtOtherCharges.Text));
-            cmd.Parameters.AddWithValue("@NetAmount", Convert.ToDecimal(txtNetAmount.Text));
+            cmd.Parameters.AddWithValue("@NetAmount", txtNetAmount.Text == "" ? 0 : Convert.ToDecimal(txtNetAmount.Text));
             cmd.Parameters.AddWithValue("@SalePosDate", Convert.ToDateTime(txtSaleDate.Value.Date));
-            
+            cmd.Parameters.AddWithValue("@MenuId", Convert.ToInt32(cmbSalemenu.SelectedValue));
+            cmd.Parameters.AddWithValue("@InvoiceType", Convert.ToInt32(cmbInvoicetype.SelectedValue));
             cmd.Parameters.AddWithValue("@AmountReceive", txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text));
             cmd.Parameters.AddWithValue("@AmountReturn", txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text));
             cmd.Parameters.AddWithValue("@AmountInAccount", txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text));
@@ -802,7 +816,7 @@ namespace POS
                 {
                     reportName = "SaleInvoice";
                     //obj.loadReport("rpt_sale_invoice", reportName, value);
-                    obj.loadSaleReport("rpt_sale_invoice", reportName, value);
+                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
                     obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
                 }
                 //else
@@ -980,20 +994,20 @@ namespace POS
 
             int SaleVoucherNo = GetVoucherNoI(Fieldname: "SalePOSNo", TableName: "data_SalePosInfo", CheckTaxable: false,
                     PrimaryKeyValue: 0, PrimaryKeyFieldName: "SalePosID", voucherDate: Convert.ToDateTime(txtSaleDate.Value.Date), voucherDateFieldName: "SalePosDate",
-                    companyID:CompanyInfo.CompanyID, FiscalID: CompanyInfo.FiscalID);
+                    companyID:CompanyInfo.CompanyID, FiscalID: CompanyInfo.FiscalID, MenuId:Convert.ToInt32(cmbSalemenu.SelectedValue),MenuFieldName:"MenuID");
             txtInvoiceNo.Text = Convert.ToString(SaleVoucherNo);
         }
         public Int32 GetVoucherNoI(string Fieldname, string TableName, bool CheckTaxable, Int32 PrimaryKeyValue,
           string PrimaryKeyFieldName, DateTime? voucherDate, string voucherDateFieldName = "",
           Int32 companyID = 0, string companyFieldName = "CompanyID", Int32 FiscalID = 0,
-          string FiscalIDFieldName = "FiscalID", bool IsTaxable = false)
+          string FiscalIDFieldName = "FiscalID", bool IsTaxable = false,Int32 MenuId=0,string MenuFieldName="")
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             try
             {
                 DataTable dt = new DataTable();
                 SqlConnection con = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("GetVoucherNoPos", con);
+                SqlCommand cmd = new SqlCommand("GetVoucherNoPosFoodMama", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter();
                 cmd.Parameters.Add(new SqlParameter("@Fieldname", Fieldname));
@@ -1008,6 +1022,8 @@ namespace POS
                 cmd.Parameters.Add(new SqlParameter("@FiscalID", FiscalID));
                 cmd.Parameters.Add(new SqlParameter("@FiscalIDFieldName", FiscalIDFieldName));
                 cmd.Parameters.Add(new SqlParameter("@IsTaxable", IsTaxable));
+                cmd.Parameters.Add(new SqlParameter("@MenuId", MenuId));
+                cmd.Parameters.Add(new SqlParameter("@MenuFieldName", MenuFieldName));
                 da.SelectCommand = cmd;
                 da.Fill(dt);
                 return Convert.ToInt32(dt.Rows[0][0]);
@@ -1264,11 +1280,11 @@ namespace POS
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter();
 
-            string whereclause = " where SaleposNo=" + InvoiceNo+" and SalePOsDate="+txtSaleDate.Value.Date+"";
+            string whereclause = " where SaleposNo=" + InvoiceNo+" and SalePOsDate="+txtSaleDate.Value.Date+" and MenuId="+Convert.ToInt32(cmbSalemenu.SelectedValue)+"";
             cmd.Parameters.AddWithValue("@SelectMaster", 1);
             cmd.Parameters.AddWithValue("@SelectDetail", 1);
             cmd.Parameters.AddWithValue("@InvoiceNo", InvoiceNo);
-            
+            cmd.Parameters.AddWithValue("@MenuId", Convert.ToInt32(cmbSalemenu.SelectedValue));
             cmd.Parameters.AddWithValue("@SaleDate", txtSaleDate.Value.Date);
             da.SelectCommand = cmd;
             try
@@ -1313,6 +1329,9 @@ namespace POS
                 txtCustName.Text= Convert.ToString(dt.Rows[0]["CustomerName"]);
                 txtCustPhone.Text = Convert.ToString(dt.Rows[0]["CustomerPhone"]);
                 SalePosID.Text= Convert.ToString(dt.Rows[0]["SalePosID"]);
+                cmbSalemenu.SelectedValue= Convert.ToString(dt.Rows[0]["MenuId"]);
+                var abc = dt.Rows[0]["InvoiceType"];
+                cmbInvoicetype.SelectedIndex= Convert.ToInt32(dt.Rows[0]["InvoiceType"]);
                 txtAmountReceive.ReadOnly = true;
                 txtPrint.Visible = true;
                 SaleReturn = true;
@@ -1442,7 +1461,7 @@ namespace POS
             {
                 reportName = "SaleInvoice";
                 //obj.loadReport("rpt_sale_invoice", reportName, value);
-                obj.loadSaleReport("rpt_sale_invoice", reportName, value);
+                obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
                 obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
             }
            
@@ -1824,8 +1843,9 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
+                cmbInvoicetype.Select();
                 txtProductCode.Select();
-                txtProductCode.Focus();
+                cmbInvoicetype.Focus();
             }
         }
 
@@ -1837,6 +1857,24 @@ namespace POS
         private void txtAccAmount_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void cmbInvoicetype_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtProductCode.Clear();
+                txtProductCode.Focus();
+            }
+        }
+
+        private void cmbSalemenu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            getInvoiceNumber();
         }
     }
 }

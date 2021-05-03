@@ -78,6 +78,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.cmbInvoicetype = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.txtAvailableQty = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -129,6 +131,7 @@
             this.txtPrint.Text = "Print";
             this.txtPrint.UseVisualStyleBackColor = true;
             this.txtPrint.Visible = false;
+            this.txtPrint.Click += new System.EventHandler(this.txtPrint_Click);
             // 
             // label18
             // 
@@ -310,6 +313,7 @@
             this.cmbSalemenu.Name = "cmbSalemenu";
             this.cmbSalemenu.Size = new System.Drawing.Size(146, 21);
             this.cmbSalemenu.TabIndex = 3;
+            this.cmbSalemenu.SelectedIndexChanged += new System.EventHandler(this.cmbSalemenu_SelectedIndexChanged);
             this.cmbSalemenu.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbSalemenu_KeyDown);
             // 
             // label22
@@ -611,6 +615,8 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.cmbInvoicetype);
+            this.panel5.Controls.Add(this.label13);
             this.panel5.Controls.Add(this.label11);
             this.panel5.Controls.Add(this.txtAvailableQty);
             this.panel5.Controls.Add(this.label10);
@@ -644,6 +650,29 @@
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
+            // cmbInvoicetype
+            // 
+            this.cmbInvoicetype.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbInvoicetype.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbInvoicetype.FormattingEnabled = true;
+            this.cmbInvoicetype.Location = new System.Drawing.Point(106, 98);
+            this.cmbInvoicetype.Name = "cmbInvoicetype";
+            this.cmbInvoicetype.Size = new System.Drawing.Size(146, 21);
+            this.cmbInvoicetype.TabIndex = 27;
+            this.cmbInvoicetype.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.cmbInvoicetype.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbInvoicetype_KeyDown);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(24, 105);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(69, 14);
+            this.label13.TabIndex = 28;
+            this.label13.Text = "Invoice Type";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -675,6 +704,7 @@
             this.label10.TabIndex = 24;
             this.label10.Text = "Search Barcode";
             this.label10.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label10.Visible = false;
             // 
             // txtProductID
             // 
@@ -804,6 +834,7 @@
             this.txtProductBarCode.Name = "txtProductBarCode";
             this.txtProductBarCode.Size = new System.Drawing.Size(100, 20);
             this.txtProductBarCode.TabIndex = 6;
+            this.txtProductBarCode.Visible = false;
             this.txtProductBarCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductBarCode_KeyDown);
             // 
             // txtSaleDate
@@ -926,6 +957,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TaxAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.ComboBox cmbInvoicetype;
+        private System.Windows.Forms.Label label13;
     }
 }
 

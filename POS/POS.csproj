@@ -199,6 +199,12 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCreditCardDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreditCardDetails.Designer.cs">
+      <DependentUpon>frmCreditCardDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogIn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,11 +223,24 @@
     <Compile Include="frmCashIn.Designer.cs">
       <DependentUpon>frmCashIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ComoboClass.cs" />
     <Compile Include="Helper\STATICClass.cs" />
     <Compile Include="Helper\CompanyInfo.cs" />
     <Compile Include="Helper\data_StockTransferInfoModel.cs" />
     <Compile Include="Helper\RightsClass.cs" />
     <Compile Include="LocalReportExtention.cs" />
+    <Compile Include="LookUpForms\frmCashInAgainstBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmCashInAgainstBill.Designer.cs">
+      <DependentUpon>frmCashInAgainstBill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmCustomerData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmCustomerData.Designer.cs">
+      <DependentUpon>frmCustomerData.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmDataSyncServer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,6 +252,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmClosingLookUp.Designer.cs">
       <DependentUpon>frmClosingLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmPendingBillsLookUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmPendingBillsLookUp.Designer.cs">
+      <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\fromStockIssuanceLookUp.cs">
       <SubType>Form</SubType>
@@ -352,6 +377,20 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\SaleThermalKhaakiPos.cs">
+      <DependentUpon>SaleThermalKhaakiPos.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleThermalPrintFoodMama.cs">
+      <DependentUpon>SaleThermalPrintFoodMama.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Report\SaleThermalPrintKitchen.cs">
       <DependentUpon>SaleThermalPrintKitchen.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -400,6 +439,9 @@
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmCreditCardDetails.resx">
+      <DependentUpon>frmCreditCardDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogIn.resx">
       <DependentUpon>frmLogIn.cs</DependentUpon>
     </EmbeddedResource>
@@ -409,11 +451,20 @@
     <EmbeddedResource Include="frmCashIn.resx">
       <DependentUpon>frmCashIn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmCashInAgainstBill.resx">
+      <DependentUpon>frmCashInAgainstBill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmCustomerData.resx">
+      <DependentUpon>frmCustomerData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmDataSyncServer.resx">
       <DependentUpon>frmDataSyncServer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmClosingLookUp.resx">
       <DependentUpon>frmClosingLookUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmPendingBillsLookUp.resx">
+      <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\fromStockIssuanceLookUp.resx">
       <DependentUpon>fromStockIssuanceLookUp.cs</DependentUpon>
@@ -493,6 +544,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleInvoice.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleThermalKhaakiPos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleThermalKhaakiPos.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleThermalPrintFoodMama.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleThermalPrintFoodMama.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleThermalPrintKitchen.rpt">
@@ -605,6 +666,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.11.sql" />
+    <Content Include="DbScripts\Script 1.0.0.10.sql" />
+    <Content Include="DbScripts\Script 1.0.0.12.sql" />
+    <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />
     <Content Include="DbScripts\Script 1.0.0.7.sql" />

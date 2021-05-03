@@ -101,12 +101,13 @@
             this.stockReturnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syncToServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pOSFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cashBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cashTranscationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cashBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.billWiseRecoveryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -950,6 +951,31 @@
             this.pOSFormToolStripMenuItem.Text = "POS Form";
             this.pOSFormToolStripMenuItem.Click += new System.EventHandler(this.pOSFormToolStripMenuItem_Click);
             // 
+            // cashTranscationsToolStripMenuItem
+            // 
+            this.cashTranscationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cashInToolStripMenuItem,
+            this.cashOutToolStripMenuItem,
+            this.billWiseRecoveryToolStripMenuItem});
+            this.cashTranscationsToolStripMenuItem.Name = "cashTranscationsToolStripMenuItem";
+            this.cashTranscationsToolStripMenuItem.Size = new System.Drawing.Size(113, 20);
+            this.cashTranscationsToolStripMenuItem.Text = "Cash Transcations";
+            this.cashTranscationsToolStripMenuItem.Click += new System.EventHandler(this.cashTranscationsToolStripMenuItem_Click);
+            // 
+            // cashInToolStripMenuItem
+            // 
+            this.cashInToolStripMenuItem.Name = "cashInToolStripMenuItem";
+            this.cashInToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cashInToolStripMenuItem.Text = "Cash In";
+            this.cashInToolStripMenuItem.Click += new System.EventHandler(this.cashInToolStripMenuItem_Click);
+            // 
+            // cashOutToolStripMenuItem
+            // 
+            this.cashOutToolStripMenuItem.Name = "cashOutToolStripMenuItem";
+            this.cashOutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cashOutToolStripMenuItem.Text = "Cash Out";
+            this.cashOutToolStripMenuItem.Click += new System.EventHandler(this.cashOutToolStripMenuItem_Click);
+            // 
             // reportsToolStripMenuItem
             // 
             this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -973,29 +999,12 @@
             this.toolStripMenuItem1.Text = "Stock Report";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
-            // cashTranscationsToolStripMenuItem
+            // billWiseRecoveryToolStripMenuItem
             // 
-            this.cashTranscationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cashInToolStripMenuItem,
-            this.cashOutToolStripMenuItem});
-            this.cashTranscationsToolStripMenuItem.Name = "cashTranscationsToolStripMenuItem";
-            this.cashTranscationsToolStripMenuItem.Size = new System.Drawing.Size(113, 20);
-            this.cashTranscationsToolStripMenuItem.Text = "Cash Transcations";
-            this.cashTranscationsToolStripMenuItem.Click += new System.EventHandler(this.cashTranscationsToolStripMenuItem_Click);
-            // 
-            // cashInToolStripMenuItem
-            // 
-            this.cashInToolStripMenuItem.Name = "cashInToolStripMenuItem";
-            this.cashInToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.cashInToolStripMenuItem.Text = "Cash In";
-            this.cashInToolStripMenuItem.Click += new System.EventHandler(this.cashInToolStripMenuItem_Click);
-            // 
-            // cashOutToolStripMenuItem
-            // 
-            this.cashOutToolStripMenuItem.Name = "cashOutToolStripMenuItem";
-            this.cashOutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.cashOutToolStripMenuItem.Text = "Cash Out";
-            this.cashOutToolStripMenuItem.Click += new System.EventHandler(this.cashOutToolStripMenuItem_Click);
+            this.billWiseRecoveryToolStripMenuItem.Name = "billWiseRecoveryToolStripMenuItem";
+            this.billWiseRecoveryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.billWiseRecoveryToolStripMenuItem.Text = "Bill Wise Recovery";
+            this.billWiseRecoveryToolStripMenuItem.Click += new System.EventHandler(this.billWiseRecoveryToolStripMenuItem_Click);
             // 
             // frmPOSSale
             // 
@@ -1114,6 +1123,7 @@
         private System.Windows.Forms.ToolStripMenuItem cashTranscationsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cashInToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cashOutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem billWiseRecoveryToolStripMenuItem;
     }
 }
 
