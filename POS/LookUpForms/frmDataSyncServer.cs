@@ -44,24 +44,45 @@ namespace POS
         private async void  btnPreview_Click(object sender, EventArgs e)
         {
 
+            if(CompanyInfo.isKhaakiSoft)
+            {
+
+                btnProgressBar.Value = 9;
+                lblStatus.Text = "Syncing Locations With Server...";
+                await STATICClass.GetAllWareHouseGluserPromo();
+
+            }
+
             var obj = new data_StockTransferInfoModel().SelectAllArrivalStock("where ArrivalDate between '"+dtpSaleFromDate.Value+ "' and '" + dtpSaleToDate.Value+ "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "",true,true, "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
            
             string result = JsonConvert.SerializeObject(obj);
             lblStatus.Visible = true;
-            btnProgressBar.Value = 5;
+            btnProgressBar.Value = 10;
             bool StartInvoices = false;
             bool StartReturnInvoices = false;
-            var Responce=await STATICClass.InsertAllStockArrivaltoServer(result);
-            if(Convert.ToString(Responce).Contains("Done"))
+            string Responce = "";
+            if (obj.Tables[0].Rows.Count > 0)
             {
-                btnProgressBar.Value = 25;
+                 Responce = await STATICClass.InsertAllStockArrivaltoServer(result);
+                if (Convert.ToString(Responce).Contains("Done"))
+                {
+                    btnProgressBar.Value = 20;
+                    lblStatus.Text = "Uploading Invoices to Server...";
+                    StartInvoices = true;
+
+                }
+                else
+                {
+                    lblStatus.Text = Responce;
+                }
+            }
+            else
+
+            {
+                btnProgressBar.Value = 20;
                 lblStatus.Text = "Uploading Invoices to Server...";
                 StartInvoices = true;
 
-            }
-            else
-            {
-                lblStatus.Text = Responce;
             }
             if(StartInvoices==true)
             {
@@ -71,17 +92,26 @@ namespace POS
                 if (Invoices.Tables[0].Rows.Count > 0)
                 {
                     var InvoiceRespomnce = await STATICClass.InsertAllSalesAndReturntoServer(JsonInvoices, dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());
+                    Responce = InvoiceRespomnce;
                 }
                 else
                 {
                     Responce = "Done";
                 }
                     if (Convert.ToString(Responce).Contains("Done"))
-                {
-                    btnProgressBar.Value = 75;
-                    lblStatus.Text = "Uploading Return Invoices to Server...";
-                    StartReturnInvoices = true;
-                }
+                    {
+
+                        btnProgressBar.Value = 75;
+                        lblStatus.Text = "Uploading Return Invoices to Server...";
+                        StartReturnInvoices = true;
+                    }
+                    else
+                    {
+
+                        btnProgressBar.Value = 75;
+                        lblStatus.Text = "Uploading Return Invoices to Server...";
+                        StartReturnInvoices = true;
+                    }
             }
             if (StartReturnInvoices==true)
             {

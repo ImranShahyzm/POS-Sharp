@@ -63,7 +63,8 @@ namespace POS.Helper
             POSdata_SaleandReturnInfoServer_SelectAll,
             PosApi_AllInevntory_Insert,
             POSdata_StockIssuancetoPosKitchenDetailInfo_Insert,
-            POSdata_StockIssuance_delete
+            POSdata_StockIssuance_delete,
+            PosApi_AllGlUserPromoLocations_Insert
 
 
         }
@@ -203,6 +204,48 @@ namespace POS.Helper
             dt.Columns.Add("ItemMainGroupID");
             return dt;
         }
+
+        public DataTable AddVariantTableColumns(DataTable dt)
+        {
+            dt.Columns.Add("ItemVariantInfoId");
+            dt.Columns.Add("EntryUserID"); 
+            dt.Columns.Add("EntryUserDateTime");
+            dt.Columns.Add("ModifyUserID"); 
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID"); 
+            dt.Columns.Add("VariantDescription");
+            dt.Columns.Add("SalePrice"); 
+            dt.Columns.Add("PurchasePrice"); 
+            dt.Columns.Add("avc");
+            return dt;
+        }
+        public DataTable AddAttributeTableColumns(DataTable dt)
+        {
+
+            dt.Columns.Add("AttributeId"); 
+            dt.Columns.Add("EntryUserID"); 
+            dt.Columns.Add("EntryUserDateTime"); 
+            dt.Columns.Add("ModifyUserID");
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID"); 
+            dt.Columns.Add("AttribDescription");
+            return dt;
+        }
+        public DataTable AddSubCategoryTableColumns(DataTable dt)
+        {
+
+            dt.Columns.Add("SubCategoryId"); 
+            dt.Columns.Add("EntryUserID"); 
+            dt.Columns.Add("EntryUserDateTime"); 
+            dt.Columns.Add("ModifyUserID"); 
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID"); 
+            dt.Columns.Add("SubCatDescription");
+
+
+
+            return dt;
+        }
         public DataTable AddMainGroupsTableColumns(DataTable dt)
         {
 
@@ -231,21 +274,37 @@ namespace POS.Helper
             if (dt.Tables[3].Rows.Count<=0)
             {
                  MainGrpudt = AddMainGroupsTableColumns(dt.Tables[2]);
-
-                
             }
             ParamList.Add(new SqlParameter("@gen_ItemMainGroupInfo", MainGrpudt));
             DataTable GroupDt= dt.Tables[3];
             if (dt.Tables[3].Rows.Count<=0)
             {
                 GroupDt = AddGroupsTableColumns(dt.Tables[3]);
-
-                
             }
             ParamList.Add(new SqlParameter("@InventItemGroup", GroupDt));
             ParamList.Add(new SqlParameter("@inventCategory", dt.Tables[1]));
             
             ParamList.Add(new SqlParameter("@inventUOM", dt.Tables[4]));
+
+            DataTable AttributeDt = dt.Tables[5];
+            if(dt.Tables[5].Rows.Count<=0)
+            {
+                AttributeDt = AddVariantTableColumns(dt.Tables[5]);
+            }
+            DataTable SubCategoryDt = dt.Tables[6];
+            if (dt.Tables[6].Rows.Count <= 0)
+            {
+                SubCategoryDt = AddSubCategoryTableColumns(dt.Tables[6]);
+            }
+            DataTable variantDt = dt.Tables[7];
+            if (dt.Tables[7].Rows.Count <= 0)
+            {
+                variantDt = AddVariantTableColumns(dt.Tables[7]);
+            }
+
+            ParamList.Add(new SqlParameter("@gen_ItemAttributeInfo", AttributeDt));
+            ParamList.Add(new SqlParameter("@gen_ItemSubCategoryInfo", SubCategoryDt));
+            ParamList.Add(new SqlParameter("@gen_ItemVariantInfo", variantDt));
 
             DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllInevntory_Insert.ToString()
                 , ParamList);
@@ -353,6 +412,34 @@ namespace POS.Helper
             if (ret.Columns.Contains("IssuanceID"))
             {
                 model.IssuanceID = Convert.ToInt32(ret.Rows[0]["IssuanceID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+
+
+        public bool InsertAllGlUserPromoLocations(DataSet dt, int StockTransferID)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@Pos_InventWareHouse", dt.Tables[0]));
+
+
+            ParamList.Add(new SqlParameter("@Pos_Gluser", dt.Tables[1]));
+            ParamList.Add(new SqlParameter("@Pos_Pes_SchemeInfo", dt.Tables[2]));
+            
+            ParamList.Add(new SqlParameter("@Pos_Pes_SchemeDetail", dt.Tables[3]));
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllGlUserPromoLocations_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
             }
             this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
             ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());

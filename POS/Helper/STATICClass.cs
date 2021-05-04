@@ -18,7 +18,7 @@ namespace POS.Helper
 {
     public static class STATICClass
     {
-        public static string BaseURL= "http://103.86.135.182:1034/";
+        public static string BaseURL = "http://103.86.135.182:1038/";
 
         //public static string BaseURL = "http://localhost:44333/";
         public static string Connection()
@@ -339,6 +339,66 @@ namespace POS.Helper
                     else
                     {
                         
+                        return myDataSet;
+                    }
+                }
+                catch (Exception e)
+                {
+                    var Temp = e.Message;
+                }
+                var i = 0;
+
+                return myDataSet;
+            }
+
+
+
+
+        }
+
+
+
+        public static async Task<DataSet> GetAllWareHouseGluserPromo()
+        {
+
+            DataSet myDataSet = new DataSet();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response;
+                try
+                {
+                    var id = 0;
+                    //id == 0 means select all records    
+                    if (id == 0)
+                    {
+                        data_StockTransferInfoModel scp = new data_StockTransferInfoModel();
+                        response = await client.GetAsync("apipos/GetAllWareHouseGluserPromo?CompanyID=" + CompanyInfo.CompanyID + "&BranchID=" + CompanyInfo.BranchID + "&WHID=" + CompanyInfo.WareHouseID + "");
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            //var abc = response.Content.ReadAsStringAsync().Result;
+                            var Result = await response.Content.ReadAsAsync<string>();
+
+                            //using (Stream stream = response.Content.ReadAsStreamAsync().Result)
+                            //{
+                            //string json = new StreamReader(stream).ReadToEnd();
+
+                            myDataSet = JsonConvert.DeserializeObject<DataSet>(Result);
+                            scp.InsertAllGlUserPromoLocations(myDataSet, 0);
+                            return myDataSet;
+                            //}
+                            // data_StockTransferInfoModel[] reports = await response.Content.ReadAsAsync<data_StockTransferInfoModel[]>();
+
+                        }
+                    }
+                    else
+                    {
+
                         return myDataSet;
                     }
                 }

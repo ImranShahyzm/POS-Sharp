@@ -1,6 +1,6 @@
 ﻿namespace POS.LookUpForms
 {
-    partial class StockInForm
+    partial class StockInDetailKhaakiForm
     {
         /// <summary>
         /// Required designer variable.
@@ -96,28 +96,29 @@
             // 
             this.dgvStockDetailData.AllowUserToAddRows = false;
             this.dgvStockDetailData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStockDetailData.Location = new System.Drawing.Point(18, 66);
+            this.dgvStockDetailData.Location = new System.Drawing.Point(44, 125);
             this.dgvStockDetailData.Name = "dgvStockDetailData";
-            this.dgvStockDetailData.Size = new System.Drawing.Size(732, 354);
+            this.dgvStockDetailData.Size = new System.Drawing.Size(692, 295);
             this.dgvStockDetailData.TabIndex = 7;
             this.dgvStockDetailData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockDetailData_CellClick);
             this.dgvStockDetailData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockDetailData_CellContentClick);
             this.dgvStockDetailData.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockDetailData_CellValidated);
             this.dgvStockDetailData.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvStockDetailData_CellValidating);
+            this.dgvStockDetailData.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvStockDetailData_EditingControlShowing);
             this.dgvStockDetailData.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvStockDetailData_KeyPress);
             // 
             // txtArrivalNo
             // 
             this.txtArrivalNo.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtArrivalNo.Location = new System.Drawing.Point(413, 21);
+            this.txtArrivalNo.Location = new System.Drawing.Point(142, 49);
             this.txtArrivalNo.Name = "txtArrivalNo";
-            this.txtArrivalNo.Size = new System.Drawing.Size(100, 22);
+            this.txtArrivalNo.Size = new System.Drawing.Size(116, 22);
             this.txtArrivalNo.TabIndex = 6;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(299, 21);
+            this.label2.Location = new System.Drawing.Point(23, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(80, 19);
             this.label2.TabIndex = 5;
@@ -143,13 +144,13 @@
             this.txtArrivalDate.Size = new System.Drawing.Size(116, 22);
             this.txtArrivalDate.TabIndex = 3;
             // 
-            // StockInForm
+            // StockInDetailKhaakiForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(827, 555);
             this.Controls.Add(this.panelMain);
-            this.Name = "StockInForm";
+            this.Name = "StockInDetailKhaakiForm";
             this.Text = "Stock Arrival Detail";
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();

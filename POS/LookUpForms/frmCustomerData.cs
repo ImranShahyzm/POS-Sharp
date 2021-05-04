@@ -103,19 +103,19 @@ namespace POS
             //{
             //    con.Close();
             //}
-            if(txtCustomerName.Text!="")
-            {
+            //if(txtCustomerName.Text!="")
+            //{
                 KhaakiObjet.CustomerName = txtCustomerName.Text;
                 KhaakiObjet.CustomerPhone = txtPhoneNo.Text;
                 KhaakiObjet.AllowSave = true;
                 this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Please Enter Customer Number for further Processing...");
-                txtPhoneNo.Focus();
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Please Enter Customer Number for further Processing...");
+            //    txtPhoneNo.Focus();
 
-            }
+            //}
         }
 
         private void clearAll()

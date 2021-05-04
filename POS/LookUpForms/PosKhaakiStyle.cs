@@ -818,22 +818,7 @@ namespace POS
         {
             if (validateSave())
             {
-                this.totalBill      = txtReceivableAmount.Text;
-                this.ReceivedAmount = txtAmountReceive.Text;
-                this.ReturnAmount   = txtAmountReturn.Text;
-               
-                frmCustomerData frm = new frmCustomerData(this);
-                frm.ShowDialog();
-                txtCustName.Text = this.CustomerName;
-                txtCustPhone.Text = this.CustomerPhone;
-                if (this.AllowSave)
-                {
-                    SaveForm();
-                }
-                else
-                {
-                    btnSave.Focus();
-                }
+                SaveForm();
 
             }
 
@@ -2144,7 +2129,19 @@ namespace POS
             {
 
                 GrossAmount_Total();
-                txtCashAmount.Focus();
+                this.totalBill = txtReceivableAmount.Text;
+                this.ReceivedAmount = txtAmountReceive.Text;
+                this.ReturnAmount = txtAmountReturn.Text;
+
+                frmCustomerData frm = new frmCustomerData(this);
+                frm.ShowDialog();
+                txtCustName.Text = this.CustomerName;
+                txtCustPhone.Text = this.CustomerPhone;
+                
+                
+                 txtCashAmount.Focus();
+                
+                
             }
         }
 

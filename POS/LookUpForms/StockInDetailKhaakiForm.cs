@@ -12,9 +12,9 @@ using POS.Helper;
 
 namespace POS.LookUpForms
 {
-    public partial class StockInForm :MetroForm
+    public partial class StockInDetailKhaakiForm :MetroForm
     {
-        public StockInForm(int id)
+        public StockInDetailKhaakiForm(int id)
         {
             InitializeComponent();
             setGriddataAsync(id);
@@ -36,7 +36,12 @@ namespace POS.LookUpForms
             dgvStockDetailData.Columns["ItemId"].Visible = false;
             dgvStockDetailData.Columns["TransferToWHID"].Visible = false;
             dgvStockDetailData.Columns["StockTransferDetailID"].Visible = false;
-            dgvStockDetailData.Columns[3].Width = 200;
+            dgvStockDetailData.Columns[4].Width = 250;
+            dgvStockDetailData.Columns[5].Visible = false;
+
+            dgvStockDetailData.Columns[6].Visible = false;
+
+            dgvStockDetailData.Columns[7].Visible = false;
             dgvStockDetailData.Columns[3].ReadOnly =true;
             dgvStockDetailData.Columns[4].ReadOnly = true;
             dgvStockDetailData.Columns[5].ReadOnly = true;
@@ -44,6 +49,8 @@ namespace POS.LookUpForms
             dgvStockDetailData.Columns[7].ReadOnly = true;
             dgvStockDetailData.Columns[8].ReadOnly = true;
             dgvStockDetailData.Columns[9].ReadOnly = true;
+
+            dgvStockDetailData.Columns[10].ReadOnly = true;
             var deleteButton = new DataGridViewButtonColumn();
             deleteButton.Name = "dataGridViewDeleteButton";
             deleteButton.HeaderText = "Delete";
@@ -94,14 +101,14 @@ namespace POS.LookUpForms
 
         private void dgvStockDetailData_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            if (e.ColumnIndex == 10) // 1 should be your column index
+            if (e.ColumnIndex == 11) // 1 should be your column index
             {
                 int i;
 
                 if (!int.TryParse(Convert.ToString(e.FormattedValue), out i))
                 {
                     e.Cancel = true;
-                    dgvStockDetailData.CurrentRow.Cells[10].Value = "0"; 
+                    dgvStockDetailData.CurrentRow.Cells[11].Value = "0"; 
 
 
                 }
@@ -174,6 +181,41 @@ namespace POS.LookUpForms
 
         private void dgvStockDetailData_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+
+        }
+
+        private void dgvStockDetailData_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            e.Control.KeyPress -= new KeyPressEventHandler(Column1_KeyPress);
+            TextBox ttxb = e.Control as TextBox;
+
+            if (dgvStockDetailData.CurrentCell.ColumnIndex == dgvStockDetailData.Columns["Received"].Index) //Desired Column
+            {
+
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    tb.KeyPress += new KeyPressEventHandler(Column1_KeyPress);
+                }
+                else
+                {
+                    tb.Text = (1).ToString();
+                }
+                if (tb.Text == "")
+                {
+                    tb.Text = (1).ToString();
+                }
+
+            }
+        }
+        
+        private void Column1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            
 
         }
     }
