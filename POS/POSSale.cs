@@ -1428,8 +1428,16 @@ namespace POS
 
         private void stockReturnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmStockIssuance frm = new frmStockIssuance();
-            frm.ShowDialog();
+            if (CompanyInfo.isKhaakiSoft)
+            {
+                frmStockIssuanceKhaaki frm = new frmStockIssuanceKhaaki();
+                frm.ShowDialog();
+            }
+            else
+            {
+                frmStockIssuance frm = new frmStockIssuance();
+                frm.ShowDialog();
+            }
         }
 
         private void frmPOSSale_FormClosing(object sender, FormClosingEventArgs e)
@@ -1458,6 +1466,12 @@ namespace POS
         private void billWiseRecoveryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmCashInAgainstBill frm = new frmCashInAgainstBill();
+            frm.ShowDialog();
+        }
+
+        private void dailySaleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmDailySale frm = new frmDailySale();
             frm.ShowDialog();
         }
     }

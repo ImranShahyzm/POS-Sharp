@@ -287,6 +287,12 @@
     <Compile Include="LookUpForms\frmPendingBillsLookUp.Designer.cs">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\frmStockIssuanceKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockIssuanceKhaaki.Designer.cs">
+      <DependentUpon>frmStockIssuanceKhaaki.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\fromStockIssuanceLookUp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -380,6 +386,12 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\frmDailySale.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailySale.Designer.cs">
+      <DependentUpon>frmDailySale.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\frmStockReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -408,6 +420,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ItemStockReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\SaleRegister.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleRegister.rpt</DependentUpon>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -500,6 +519,9 @@
     <EmbeddedResource Include="LookUpForms\frmPendingBillsLookUp.resx">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmStockIssuanceKhaaki.resx">
+      <DependentUpon>frmStockIssuanceKhaaki.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\fromStockIssuanceLookUp.resx">
       <DependentUpon>fromStockIssuanceLookUp.cs</DependentUpon>
     </EmbeddedResource>
@@ -560,6 +582,9 @@
       <LastGenOutput>DayBook.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailySale.resx">
+      <DependentUpon>frmDailySale.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmStockReport.resx">
       <DependentUpon>frmStockReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -581,6 +606,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleInvoice.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleRegister.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleRegister.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleThermalKhaakiPos.rpt">
@@ -704,6 +734,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.23.sql" />
+    <Content Include="DbScripts\Script 1.0.0.21.sql" />
+    <Content Include="DbScripts\Script 1.0.0.22.sql" />
+    <Content Include="DbScripts\SalesMAnRemovePrimaryKey.sql" />
     <Content Include="DbScripts\Script 1.0.0.16.sql" />
     <Content Include="DbScripts\Script 1.0.0.13.sql" />
     <Content Include="DbScripts\Script 1.0.0.14.sql" />
@@ -728,8 +762,8 @@
     <Content Include="DbScripts\Script 1.0.0.3.sql" />
     <Content Include="DbScripts\Script 1.0.0.4.sql" />
     <Content Include="DbScripts\RemoveInventitemPrimaryKey.sql" />
-    <Content Include="DbScripts\StockArrivalChanges.sql" />
-    <Content Include="DbScripts\StockTransferDetailsql4.sql" />
+    <Content Include="DbScripts\Script 1.0.0.19.sql" />
+    <Content Include="DbScripts\Script 1.0.0.20.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <None Include="Resources\CorbisPos.png" />

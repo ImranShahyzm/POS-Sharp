@@ -1,4 +1,5 @@
 ﻿using MetroFramework.Forms;
+using POS.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,9 +29,58 @@ namespace POS
             lblTotalBill.Text = obj.totalBill;
             lblReturn.Text = obj.ReturnAmount;
             lblTotalReceived.Text = obj.ReceivedAmount;
-            txtCustomerName.Select();
-            txtCustomerName.Focus();
+            loadSaleMansMenuGroup();
+            cmbSalesMan.Select();
+            if(!String.IsNullOrEmpty(KhaakiObjet.SaleManId))
+            {
+                cmbSalesMan.SelectedValue = Convert.ToInt32(KhaakiObjet.SaleManId);
+            }
+            cmbSalesMan.Focus();
           
+        }
+        private void loadSaleMansMenuGroup()
+        {
+
+
+
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            string SqlString = " SELECT SaleManInfoID,SaleManName FROM Gen_saleManInfo where WHID=" + CompanyInfo.WareHouseID+"";
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            DataRow dr = dt.NewRow();
+            dr[0] = "0";
+            dr[1] = "--Select Sales Person--";
+            dt.Rows.InsertAt(dr, 0);
+
+            cmbSalesMan.ValueMember = "SaleManInfoID";
+            cmbSalesMan.DisplayMember = "SaleManName";
+            cmbSalesMan.DataSource = dt;
+
+        }
+        private void GetCustomerName(string PhoneNo)
+        {
+            if (!string.IsNullOrEmpty(PhoneNo))
+            {
+                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+                SqlConnection cnn;
+                cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                string SqlString = " Select Top 1 CustomerName from data_SalePosInfo Where WHID=" + CompanyInfo.WareHouseID + " and CustomerPhone like '%" + PhoneNo + "%'";
+
+                SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                cnn.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    txtCustomerName.Text = Convert.ToString(dt.Rows[0][0]);
+                }
+            }
         }
 
         private void loadCashSource()
@@ -107,7 +157,9 @@ namespace POS
             //{
                 KhaakiObjet.CustomerName = txtCustomerName.Text;
                 KhaakiObjet.CustomerPhone = txtPhoneNo.Text;
-                KhaakiObjet.AllowSave = true;
+                KhaakiObjet.SaleManId = Convert.ToString(cmbSalesMan.SelectedValue);
+
+            KhaakiObjet.AllowSave = true;
                 this.Close();
             //}
             //else
@@ -134,6 +186,7 @@ namespace POS
         private void btnClear_Click(object sender, EventArgs e)
         {
             clearAll();
+
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -163,7 +216,7 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
-                txtPhoneNo.Focus();
+                btnSave.Focus();
             }
             if (e.KeyCode == Keys.Escape)
             {
@@ -176,7 +229,8 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
-                btnSave.Focus();
+                GetCustomerName(txtPhoneNo.Text);
+                txtCustomerName.Focus();
             }
             if (e.KeyCode == Keys.Escape)
             {
@@ -198,6 +252,15 @@ namespace POS
             {
                 KhaakiObjet.AllowSave = false;
                 this.Close();
+            }
+        }
+
+        private void cmbSalesMan_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                txtPhoneNo.Select();
+                txtPhoneNo.Focus();
             }
         }
     }

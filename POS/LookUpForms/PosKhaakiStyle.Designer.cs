@@ -36,6 +36,21 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
+            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GrossAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TaxAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DiscountPercentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DiscountAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DiscountOnQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SchemeID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Exchange = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.label9 = new System.Windows.Forms.Label();
             this.txtProductCode = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -76,6 +91,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.txtSalesManID = new System.Windows.Forms.TextBox();
             this.txtCardName = new System.Windows.Forms.TextBox();
             this.txtCardNumber = new System.Windows.Forms.TextBox();
             this.chkExchange = new System.Windows.Forms.CheckBox();
@@ -104,20 +120,6 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GrossAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TaxAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DiscountPercentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DiscountAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DiscountOnQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SchemeID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Exchange = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -150,6 +152,7 @@
             this.txtPrint.Text = "Print";
             this.txtPrint.UseVisualStyleBackColor = true;
             this.txtPrint.Visible = false;
+            this.txtPrint.Click += new System.EventHandler(this.txtPrint_Click);
             // 
             // label18
             // 
@@ -197,6 +200,7 @@
             this.ItemSaleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ItemSaleGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProductId,
+            this.Code,
             this.ProductName,
             this.Rate,
             this.Quantity,
@@ -219,6 +223,104 @@
             this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
             this.ItemSaleGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ItemSaleGrid_KeyPress);
             this.ItemSaleGrid.Leave += new System.EventHandler(this.ItemSaleGrid_Leave);
+            // 
+            // ProductId
+            // 
+            this.ProductId.HeaderText = "ProductID";
+            this.ProductId.Name = "ProductId";
+            this.ProductId.ReadOnly = true;
+            this.ProductId.Visible = false;
+            // 
+            // Code
+            // 
+            this.Code.HeaderText = "Product Code";
+            this.Code.Name = "Code";
+            this.Code.ReadOnly = true;
+            // 
+            // ProductName
+            // 
+            this.ProductName.HeaderText = "ProductName";
+            this.ProductName.Name = "ProductName";
+            this.ProductName.ReadOnly = true;
+            this.ProductName.Width = 180;
+            // 
+            // Rate
+            // 
+            this.Rate.HeaderText = "Rate";
+            this.Rate.Name = "Rate";
+            this.Rate.ReadOnly = true;
+            // 
+            // Quantity
+            // 
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            // 
+            // GrossAmount
+            // 
+            this.GrossAmount.HeaderText = "Gross Amount";
+            this.GrossAmount.Name = "GrossAmount";
+            this.GrossAmount.ReadOnly = true;
+            this.GrossAmount.Width = 80;
+            // 
+            // Tax
+            // 
+            this.Tax.HeaderText = "Tax";
+            this.Tax.Name = "Tax";
+            this.Tax.ReadOnly = true;
+            this.Tax.Visible = false;
+            // 
+            // TaxAmount
+            // 
+            this.TaxAmount.HeaderText = "Tax Amount";
+            this.TaxAmount.Name = "TaxAmount";
+            this.TaxAmount.ReadOnly = true;
+            this.TaxAmount.Visible = false;
+            // 
+            // DiscountPercentage
+            // 
+            this.DiscountPercentage.HeaderText = "Disc %";
+            this.DiscountPercentage.Name = "DiscountPercentage";
+            this.DiscountPercentage.ReadOnly = true;
+            // 
+            // DiscountAmount
+            // 
+            this.DiscountAmount.HeaderText = "Discount Amount";
+            this.DiscountAmount.Name = "DiscountAmount";
+            this.DiscountAmount.ReadOnly = true;
+            // 
+            // NetAmount
+            // 
+            this.NetAmount.HeaderText = "Net Amount";
+            this.NetAmount.Name = "NetAmount";
+            this.NetAmount.ReadOnly = true;
+            // 
+            // Qty
+            // 
+            this.Qty.HeaderText = "Available";
+            this.Qty.Name = "Qty";
+            this.Qty.Visible = false;
+            // 
+            // DiscountOnQuantity
+            // 
+            this.DiscountOnQuantity.HeaderText = "Disc Min Quantity";
+            this.DiscountOnQuantity.Name = "DiscountOnQuantity";
+            this.DiscountOnQuantity.ReadOnly = true;
+            this.DiscountOnQuantity.Width = 80;
+            // 
+            // SchemeID
+            // 
+            this.SchemeID.HeaderText = "SchemeID";
+            this.SchemeID.Name = "SchemeID";
+            this.SchemeID.Visible = false;
+            // 
+            // Exchange
+            // 
+            this.Exchange.HeaderText = "Exchange";
+            this.Exchange.Name = "Exchange";
+            this.Exchange.ReadOnly = true;
+            this.Exchange.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Exchange.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Exchange.Width = 60;
             // 
             // label9
             // 
@@ -674,6 +776,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.txtSalesManID);
             this.panel5.Controls.Add(this.txtCardName);
             this.panel5.Controls.Add(this.txtCardNumber);
             this.panel5.Controls.Add(this.chkExchange);
@@ -716,6 +819,15 @@
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
+            // txtSalesManID
+            // 
+            this.txtSalesManID.Location = new System.Drawing.Point(884, 66);
+            this.txtSalesManID.MaxLength = 10;
+            this.txtSalesManID.Name = "txtSalesManID";
+            this.txtSalesManID.Size = new System.Drawing.Size(87, 20);
+            this.txtSalesManID.TabIndex = 36;
+            this.txtSalesManID.Visible = false;
+            // 
             // txtCardName
             // 
             this.txtCardName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -752,6 +864,7 @@
             this.txtDtGross.ReadOnly = true;
             this.txtDtGross.Size = new System.Drawing.Size(87, 20);
             this.txtDtGross.TabIndex = 32;
+            this.txtDtGross.Visible = false;
             // 
             // txtSchemeID
             // 
@@ -789,6 +902,7 @@
             this.txtPromoDiscAmt.ReadOnly = true;
             this.txtPromoDiscAmt.Size = new System.Drawing.Size(87, 20);
             this.txtPromoDiscAmt.TabIndex = 28;
+            this.txtPromoDiscAmt.Visible = false;
             // 
             // txtPromoDisc
             // 
@@ -798,6 +912,7 @@
             this.txtPromoDisc.ReadOnly = true;
             this.txtPromoDisc.Size = new System.Drawing.Size(87, 20);
             this.txtPromoDisc.TabIndex = 27;
+            this.txtPromoDisc.Visible = false;
             // 
             // label11
             // 
@@ -809,6 +924,7 @@
             this.label11.TabIndex = 26;
             this.label11.Text = "Available Quantity";
             this.label11.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label11.Visible = false;
             // 
             // txtAvailableQty
             // 
@@ -819,6 +935,7 @@
             this.txtAvailableQty.Size = new System.Drawing.Size(93, 20);
             this.txtAvailableQty.TabIndex = 25;
             this.txtAvailableQty.TabStop = false;
+            this.txtAvailableQty.Visible = false;
             // 
             // label10
             // 
@@ -837,7 +954,7 @@
             this.txtProductID.Location = new System.Drawing.Point(9, 116);
             this.txtProductID.MaxLength = 10;
             this.txtProductID.Name = "txtProductID";
-            this.txtProductID.Size = new System.Drawing.Size(80, 20);
+            this.txtProductID.Size = new System.Drawing.Size(91, 20);
             this.txtProductID.TabIndex = 23;
             this.txtProductID.TabStop = false;
             this.txtProductID.Visible = false;
@@ -852,6 +969,7 @@
             this.txtdetailAmount.Size = new System.Drawing.Size(104, 20);
             this.txtdetailAmount.TabIndex = 22;
             this.txtdetailAmount.TabStop = false;
+            this.txtdetailAmount.Visible = false;
             this.txtdetailAmount.TextChanged += new System.EventHandler(this.txtdetailAmount_TextChanged);
             // 
             // txtTaxAmount
@@ -879,6 +997,7 @@
             this.txtRate.Name = "txtRate";
             this.txtRate.Size = new System.Drawing.Size(100, 20);
             this.txtRate.TabIndex = 6;
+            this.txtRate.Visible = false;
             // 
             // txtQuantity
             // 
@@ -887,6 +1006,7 @@
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(87, 20);
             this.txtQuantity.TabIndex = 7;
+            this.txtQuantity.Visible = false;
             this.txtQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQuantity_KeyDown);
             this.txtQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtQuantity_KeyPress);
             // 
@@ -996,97 +1116,6 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // ProductId
-            // 
-            this.ProductId.HeaderText = "ProductID";
-            this.ProductId.Name = "ProductId";
-            this.ProductId.ReadOnly = true;
-            // 
-            // ProductName
-            // 
-            this.ProductName.HeaderText = "ProductName";
-            this.ProductName.Name = "ProductName";
-            this.ProductName.ReadOnly = true;
-            this.ProductName.Width = 180;
-            // 
-            // Rate
-            // 
-            this.Rate.HeaderText = "Rate";
-            this.Rate.Name = "Rate";
-            this.Rate.ReadOnly = true;
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            // 
-            // GrossAmount
-            // 
-            this.GrossAmount.HeaderText = "Gross Amount";
-            this.GrossAmount.Name = "GrossAmount";
-            this.GrossAmount.ReadOnly = true;
-            this.GrossAmount.Width = 80;
-            // 
-            // Tax
-            // 
-            this.Tax.HeaderText = "Tax";
-            this.Tax.Name = "Tax";
-            this.Tax.ReadOnly = true;
-            this.Tax.Visible = false;
-            // 
-            // TaxAmount
-            // 
-            this.TaxAmount.HeaderText = "Tax Amount";
-            this.TaxAmount.Name = "TaxAmount";
-            this.TaxAmount.ReadOnly = true;
-            this.TaxAmount.Visible = false;
-            // 
-            // DiscountPercentage
-            // 
-            this.DiscountPercentage.HeaderText = "Disc %";
-            this.DiscountPercentage.Name = "DiscountPercentage";
-            this.DiscountPercentage.ReadOnly = true;
-            // 
-            // DiscountAmount
-            // 
-            this.DiscountAmount.HeaderText = "Discount Amount";
-            this.DiscountAmount.Name = "DiscountAmount";
-            this.DiscountAmount.ReadOnly = true;
-            // 
-            // NetAmount
-            // 
-            this.NetAmount.HeaderText = "Net Amount";
-            this.NetAmount.Name = "NetAmount";
-            this.NetAmount.ReadOnly = true;
-            // 
-            // Qty
-            // 
-            this.Qty.HeaderText = "Available";
-            this.Qty.Name = "Qty";
-            this.Qty.Visible = false;
-            // 
-            // DiscountOnQuantity
-            // 
-            this.DiscountOnQuantity.HeaderText = "Disc Min Quantity";
-            this.DiscountOnQuantity.Name = "DiscountOnQuantity";
-            this.DiscountOnQuantity.ReadOnly = true;
-            this.DiscountOnQuantity.Width = 80;
-            // 
-            // SchemeID
-            // 
-            this.SchemeID.HeaderText = "SchemeID";
-            this.SchemeID.Name = "SchemeID";
-            this.SchemeID.Visible = false;
-            // 
-            // Exchange
-            // 
-            this.Exchange.HeaderText = "Exchange";
-            this.Exchange.Name = "Exchange";
-            this.Exchange.ReadOnly = true;
-            this.Exchange.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Exchange.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Exchange.Width = 60;
-            // 
             // PosKhaakiStyle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1185,7 +1214,9 @@
         private System.Windows.Forms.TextBox txtCardAmount;
         private System.Windows.Forms.TextBox txtCardName;
         private System.Windows.Forms.TextBox txtCardNumber;
+        private System.Windows.Forms.TextBox txtSalesManID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Code;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;

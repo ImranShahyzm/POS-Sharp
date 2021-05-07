@@ -97,7 +97,7 @@ namespace POS.LookUpForms
 isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
 ),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID
-from data_salePosInfo where data_SalePosInfo.InvoiceType = 2 and SalePosDate = '" + dtpSaleFromDate.Text + "') a where TotalBillAmount - RecoveryAmount > 0 ";
+from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and SalePosDate = '" + dtpSaleFromDate.Text + "') a where TotalBillAmount - RecoveryAmount > 0 ";
             }
             else
             {
@@ -105,7 +105,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType = 2 and SalePosDate = '
 isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
 ),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID
-from data_salePosInfo where data_SalePosInfo.InvoiceType = 2 and SalePosDate = '" + dtpSaleFromDate.Text + "' and SalePosNO like '" + txtInvoiceSearch.Text + "%') a where TotalBillAmount - RecoveryAmount > 0 ";
+from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and SalePosDate = '" + dtpSaleFromDate.Text + "' and SalePosNO like '" + txtInvoiceSearch.Text + "%') a where TotalBillAmount - RecoveryAmount > 0 ";
                 
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);

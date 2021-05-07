@@ -64,7 +64,10 @@ namespace POS.Helper
             PosApi_AllInevntory_Insert,
             POSdata_StockIssuancetoPosKitchenDetailInfo_Insert,
             POSdata_StockIssuance_delete,
-            PosApi_AllGlUserPromoLocations_Insert
+            PosApi_AllGlUserPromoLocations_Insert,
+            PosApi_AllSalesMan_Insert,
+            POSData_StockInwardRem_loadKhaaki,
+            POSdata_StockReturntoServer_SelectAll
 
 
         }
@@ -112,6 +115,14 @@ namespace POS.Helper
             ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
             ParamList.Add(new SqlParameter("@EditClause", EditClauseDetail));
             ds = STATICClass.SelectAll(SP.POSData_StockInwardRem_load.ToString(), ParamList);
+            return ds;
+        }
+        public DataSet SelectAllRemainingKhaki(string WhereClause = "", string EditClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@EditClause", EditClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSData_StockInwardRem_loadKhaaki.ToString(), ParamList);
             return ds;
         }
 
@@ -260,6 +271,26 @@ namespace POS.Helper
 
             return dt;
         }
+        public bool insertAllSalesMan(DataSet dt, int StockTransferID)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@POS_gen_SaleManInfo", dt.Tables[0]));
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllSalesMan_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
         public bool insertAllInventory(DataSet dt, int StockTransferID)
         {
             bool ReturnValue;
@@ -289,7 +320,7 @@ namespace POS.Helper
             DataTable AttributeDt = dt.Tables[5];
             if(dt.Tables[5].Rows.Count<=0)
             {
-                AttributeDt = AddVariantTableColumns(dt.Tables[5]);
+                AttributeDt = AddAttributeTableColumns(dt.Tables[5]);
             }
             DataTable SubCategoryDt = dt.Tables[6];
             if (dt.Tables[6].Rows.Count <= 0)
@@ -414,6 +445,7 @@ namespace POS.Helper
                 model.IssuanceID = Convert.ToInt32(ret.Rows[0]["IssuanceID"].ToString());
             }
             this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            
             ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
             return ReturnValue;
 
@@ -505,6 +537,20 @@ namespace POS.Helper
             ParamList.Add(new SqlParameter("@WhereClauseReturn", WhereClauseReturn));
             
             ds = STATICClass.SelectAll(SP.POSdata_SaleandReturnInfoServer_SelectAll.ToString(), ParamList);
+            return ds;
+        }
+        public DataSet StockReturnedToServer(string WhereClause = "", bool BoolMaster = true,
+            bool DetailMaster = false, string WhereClauseDetail = "", string WhereClauseReturn = "", bool isSales = true)
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@BoolMaster", BoolMaster));
+            ParamList.Add(new SqlParameter("@DetailMaster", DetailMaster));
+            ParamList.Add(new SqlParameter("@WhereClauseDetail", WhereClauseDetail));
+            ParamList.Add(new SqlParameter("@isSales", isSales));
+            ParamList.Add(new SqlParameter("@WhereClauseReturn", WhereClauseReturn));
+
+            ds = STATICClass.SelectAll(SP.POSdata_StockReturntoServer_SelectAll.ToString(), ParamList);
             return ds;
         }
 

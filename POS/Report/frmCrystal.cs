@@ -311,6 +311,37 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,CartonSize";
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
         }
+
+        public DataTable DailySale(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo,int CategoryID=0)
+        {
+            DataTable dt;
+
+            string Sql = @"
+		    select VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ItemNumber,adgen_ColorInfo.ColorTitle,data_SalePosInfo.SalePosID,data_SalePosInfo.SalePosNo ,format(data_SalePosInfo.SalePosDate,'dd-MMM-yyyy') as SalePosDate,data_SalePosInfo.NetAmount as SaleInfo_NetAmount,
+            data_SalePosInfo.DiscountPercentage as SaleInfo_DPer,data_SalePosInfo.DiscountAmount as SaleInfo_DAmount,data_SalePosDetail.ItemId,
+ data_SalePosDetail.Quantity,data_SalePosDetail.ItemRate,data_SalePosDetail.DiscountPercentage,data_SalePosDetail.DiscountAmount,
+            data_SalePosDetail.TaxAmount,
+            InventItems.ItenName
+            from data_SalePosInfo 
+            inner join data_SalePosDetail on data_SalePosInfo.SalePosID=data_SalePosDetail.SalePosID 
+            left join InventItems on data_SalePosDetail.ItemId = InventItems.ItemId 
+            left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID
+            left join InventItemGroup on InventCategory.ItemGroupID=InventItemGroup.ItemGroupID
+            left join InventWareHouse on data_SalePosInfo.WHID=InventWareHouse.WHID
+            left join adgen_ColorInfo on adgen_ColorInfo.ColorID=InventItems.ColorID
+			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
+            where 0 = 0";
+            Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom + "' and '" + dateTo + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
+            if(CategoryID>0)
+            {
+                Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
+            }
+            Sql=Sql+ " order by data_SalePosInfo.SalePosDate,SalePosNo";
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            return dt;
+        }
+
         public void StockReport(string reportName,DateTime dateTo)
         {
             ReportDocument rpt = new ReportDocument();
@@ -323,6 +354,30 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,CartonSize";
             rpt.SetParameterValue("CompanyName",CompanyInfo.WareHouseName);
             rpt.SetParameterValue("UserName", CompanyInfo.username);
 
+
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            //rpt.SetParameterValue("ServerName", Serverpath);
+            //rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            this.ShowDialog();
+            rpt.Dispose();
+        }
+        public void DailySale(string reportName, DateTime DateFrom,DateTime dateTo,int CategoryID=0)
+        {
+            ReportDocument rpt = new ReportDocument();
+            DataTable dt = DailySale(CompanyInfo.CompanyID, reportName,DateFrom, dateTo,CategoryID);
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleRegister.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+
+            rpt.SummaryInfo.ReportTitle = "Daily Sale Report";
+
+            rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
+            rpt.SetParameterValue("UserName", CompanyInfo.username);
+
+           
+            rpt.SetParameterValue("ReportFiltration","From "+DateFrom.ToString("dd-MM-yyyy") +" To "+dateTo.ToString("dd-MM-yyyy"));
+            rpt.SetParameterValue("SuppressTag", false);
 
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             //rpt.SetParameterValue("ServerName", Serverpath);

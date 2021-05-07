@@ -50,6 +50,7 @@ namespace POS
                 btnProgressBar.Value = 9;
                 lblStatus.Text = "Syncing Locations With Server...";
                 await STATICClass.GetAllWareHouseGluserPromo();
+                await STATICClass.GetAllSalesMan();
 
             }
 
@@ -107,7 +108,7 @@ namespace POS
                     }
                     else
                     {
-
+                    
                         btnProgressBar.Value = 75;
                         lblStatus.Text = "Uploading Return Invoices to Server...";
                         StartReturnInvoices = true;

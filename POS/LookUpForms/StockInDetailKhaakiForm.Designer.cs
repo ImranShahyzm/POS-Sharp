@@ -37,12 +37,22 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtArrivalDate = new System.Windows.Forms.DateTimePicker();
+            this.txtProductCode = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cmbProducts = new System.Windows.Forms.ComboBox();
+            this.txtProductID = new System.Windows.Forms.TextBox();
+            this.txtQuantity = new System.Windows.Forms.TextBox();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockDetailData)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.txtQuantity);
+            this.panelMain.Controls.Add(this.txtProductID);
+            this.panelMain.Controls.Add(this.cmbProducts);
+            this.panelMain.Controls.Add(this.label3);
+            this.panelMain.Controls.Add(this.txtProductCode);
             this.panelMain.Controls.Add(this.btnSave);
             this.panelMain.Controls.Add(this.RefIDHidd);
             this.panelMain.Controls.Add(this.txtRefID);
@@ -144,6 +154,56 @@
             this.txtArrivalDate.Size = new System.Drawing.Size(116, 22);
             this.txtArrivalDate.TabIndex = 3;
             // 
+            // txtProductCode
+            // 
+            this.txtProductCode.Location = new System.Drawing.Point(142, 77);
+            this.txtProductCode.Name = "txtProductCode";
+            this.txtProductCode.Size = new System.Drawing.Size(116, 26);
+            this.txtProductCode.TabIndex = 3;
+            this.txtProductCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductCode_KeyDown);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(23, 77);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 19);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Barcode";
+            // 
+            // cmbProducts
+            // 
+            this.cmbProducts.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbProducts.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbProducts.FormattingEnabled = true;
+            this.cmbProducts.Items.AddRange(new object[] {
+            "select Product"});
+            this.cmbProducts.Location = new System.Drawing.Point(264, 77);
+            this.cmbProducts.Name = "cmbProducts";
+            this.cmbProducts.Size = new System.Drawing.Size(197, 27);
+            this.cmbProducts.TabIndex = 12;
+            this.cmbProducts.Visible = false;
+            // 
+            // txtProductID
+            // 
+            this.txtProductID.Location = new System.Drawing.Point(467, 78);
+            this.txtProductID.MaxLength = 10;
+            this.txtProductID.Name = "txtProductID";
+            this.txtProductID.Size = new System.Drawing.Size(91, 26);
+            this.txtProductID.TabIndex = 24;
+            this.txtProductID.TabStop = false;
+            this.txtProductID.Visible = false;
+            // 
+            // txtQuantity
+            // 
+            this.txtQuantity.Location = new System.Drawing.Point(564, 78);
+            this.txtQuantity.MaxLength = 10;
+            this.txtQuantity.Name = "txtQuantity";
+            this.txtQuantity.Size = new System.Drawing.Size(87, 26);
+            this.txtQuantity.TabIndex = 25;
+            this.txtQuantity.Visible = false;
+            this.txtQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQuantity_KeyDown);
+            // 
             // StockInDetailKhaakiForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -170,5 +230,10 @@
         private System.Windows.Forms.Label RefIDHidd;
         private System.Windows.Forms.TextBox txtRefID;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtProductCode;
+        private System.Windows.Forms.ComboBox cmbProducts;
+        private System.Windows.Forms.TextBox txtProductID;
+        private System.Windows.Forms.TextBox txtQuantity;
     }
 }

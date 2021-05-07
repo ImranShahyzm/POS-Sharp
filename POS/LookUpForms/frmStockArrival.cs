@@ -39,10 +39,11 @@ namespace POS.LookUpForms
         private void dgvStockArrival_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int id = Convert.ToInt32(dgvStockArrival.Rows[dgvStockArrival.CurrentRow.Index].Cells[0].Value);
+            string ArrivalNo= Convert.ToString(dgvStockArrival.Rows[dgvStockArrival.CurrentRow.Index].Cells[2].Value);
             if (CompanyInfo.isKhaakiSoft)
             {
 
-                using (StockInDetailKhaakiForm obj = new StockInDetailKhaakiForm(id))
+                using (StockInDetailKhaakiForm obj = new StockInDetailKhaakiForm(id,ArrivalNo))
                 {
 
                     obj.ShowDialog();

@@ -30,11 +30,11 @@ namespace POS.LookUpForms
             string SqlString = " ";
             if (txtArrivalNo.Text == "")
             {
-                SqlString = " SELECT        ArrivalID,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,Remarks, RefID FROM data_StockArrivalInfo where ArrivalToWHID="+CompanyInfo.WareHouseID+"";
+                SqlString = " SELECT        ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID+"";
             }
             else
             {
-                SqlString = " SELECT        ArrivalID,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,Remarks, RefID FROM data_StockArrivalInfo where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalNo like '" + txtArrivalNo.Text + "%'";
+                SqlString = " SELECT        ArrivalID, TransferNo, format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalNo like '" + txtArrivalNo.Text + "%'";
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
@@ -60,11 +60,11 @@ namespace POS.LookUpForms
             string SqlString = " ";
             if (txtArrivalNo.Text == "")
             {
-                SqlString = " SELECT        ArrivalID,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,Remarks, RefID FROM data_StockArrivalInfo where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalDate = '"+txtArrivalDate.Value+"'";
+                SqlString = "  SELECT        ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalDate = '"+txtArrivalDate.Value+"'";
             }
             else
             {
-                SqlString = " SELECT        ArrivalID,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,Remarks, RefID FROM data_StockArrivalInfo where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalDate = '" + txtArrivalDate.Value + "' and ArrivalNo like '" + txtArrivalNo.Text + "%'";
+                SqlString = "  SELECT        ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalDate = '" + txtArrivalDate.Value + "' and ArrivalNo like '" + txtArrivalNo.Text + "%'";
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
@@ -92,7 +92,7 @@ namespace POS.LookUpForms
             string SqlString = " ";
             if (ArrivalID > 0)
             {
-                SqlString = " Select ItenName as ProductName,Quantity as Received from data_StockArrivalDetail inner join InventItems on InventItems.ItemId=data_StockArrivalDetail.ItemId where ArrivalID=" + ArrivalID + "";
+                SqlString = " Select ItemNumber,ItenName as ProductName,Quantity as Received from data_StockArrivalDetail inner join InventItems on InventItems.ItemId=data_StockArrivalDetail.ItemId where ArrivalID=" + ArrivalID + "";
 
 
                 SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
@@ -103,7 +103,8 @@ namespace POS.LookUpForms
                 {
                     txtArrivalID.Text = Convert.ToString(ArrivalID);
                     dgvDetail.DataSource = dt;
-                    dgvDetail.Columns[0].Width = 300;
+                    dgvDetail.Columns[0].Width = 100;
+                    dgvDetail.Columns[1].Width = 200;
                     btnDelete.Visible = true;
                 }
                 else
