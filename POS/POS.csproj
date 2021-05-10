@@ -386,11 +386,29 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\frmStockMovement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmStockMovement.Designer.cs">
+      <DependentUpon>frmStockMovement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDailySaleManWise.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailySaleManWise.Designer.cs">
+      <DependentUpon>frmDailySaleManWise.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\frmDailySale.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\frmDailySale.Designer.cs">
       <DependentUpon>frmDailySale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmStockKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmStockKhaaki.Designer.cs">
+      <DependentUpon>frmStockKhaaki.cs</DependentUpon>
     </Compile>
     <Compile Include="Report\frmStockReport.cs">
       <SubType>Form</SubType>
@@ -416,12 +434,33 @@
     <Compile Include="Report\frmReport.Designer.cs">
       <DependentUpon>frmReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Report\ItemStockKhaakiStyle.cs">
+      <DependentUpon>ItemStockKhaakiStyle.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Report\ItemStockReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ItemStockReport.rpt</DependentUpon>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\CreditCardWise.cs">
+      <DependentUpon>CreditCardWise.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleRegisterWise.cs">
+      <DependentUpon>SaleRegisterWise.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Report\SaleRegister.cs">
       <AutoGen>True</AutoGen>
@@ -455,6 +494,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SaleThermalPrint.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\StockMovementReportWithouValue.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockMovementReportWithouValue.rpt</DependentUpon>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -582,8 +628,17 @@
       <LastGenOutput>DayBook.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmStockMovement.resx">
+      <DependentUpon>frmStockMovement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailySaleManWise.resx">
+      <DependentUpon>frmDailySaleManWise.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmDailySale.resx">
       <DependentUpon>frmDailySale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmStockKhaaki.resx">
+      <DependentUpon>frmStockKhaaki.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmStockReport.resx">
       <DependentUpon>frmStockReport.cs</DependentUpon>
@@ -597,6 +652,11 @@
     <EmbeddedResource Include="Report\frmReport.resx">
       <DependentUpon>frmReport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\ItemStockKhaakiStyle.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ItemStockKhaakiStyle.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\ItemStockReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ItemStockReport.cs</LastGenOutput>
@@ -606,6 +666,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleInvoice.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\CreditCardWise.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CreditCardWise.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleRegisterWise.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleRegisterWise.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleRegister.rpt">
@@ -631,6 +701,11 @@
     <EmbeddedResource Include="Report\SaleThermalPrint.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SaleThermalPrint.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\StockMovementReportWithouValue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>StockMovementReportWithouValue.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="packages.config" />

@@ -1,5 +1,4 @@
 ﻿using MetroFramework.Forms;
-using POS.Helper;
 using POS.Report;
 using System;
 using System.Collections.Generic;
@@ -15,14 +14,13 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class frmStockReport : MetroForm
+    public partial class frmStockKhaaki : MetroForm
     {
-        public frmStockReport()
+        public frmStockKhaaki()
         {
             InitializeComponent();
-            laodCategories();
-
-
+            
+          
         }
 
         
@@ -40,31 +38,7 @@ namespace POS
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void laodCategories()
-        {
-
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
-            SqlConnection cnn;
-            cnn = new SqlConnection(connectionString);
-            cnn.Open();
-            string SqlString = " Select CategoryID,CategoryName from inventCategory where CompanyID=" + CompanyInfo.CompanyID + "";
-            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
-            cnn.Close();
-            DataRow dr = dt.NewRow();
-            dr[0] = "0";
-            dr[1] = "--Categories--";
-            dt.Rows.InsertAt(dr, 0);
-
-            cmbCategory.ValueMember = "CategoryID";
-            cmbCategory.DisplayMember = "CategoryName";
-            cmbCategory.DataSource = dt;
-
-
-
-        }
-
+        
         private void btnPreview_Click(object sender, EventArgs e)
         {
             var value = new List<string[]>();
@@ -86,17 +60,9 @@ namespace POS
                 string reportName = "";
                 string WhereClause = "";
                 reportName = "STOCKREPORT";
-                //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
-                if (!chkArticlesFilter.Checked)
-                {
-                    obj.StockReport(reportName, dtpSaleToDate.Value, Convert.ToInt32(cmbCategory.SelectedValue),null, null);
-                }
-                else
-                {
-
-
-                    obj.StockReport(reportName, dtpSaleToDate.Value, Convert.ToInt32(cmbCategory.SelectedValue), dtRegisterDate.Value, dtRegisterTo.Value);
-                }
+              //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
+                obj.StockReport(reportName, dtpSaleToDate.Value);
+              
             };        }
 
        

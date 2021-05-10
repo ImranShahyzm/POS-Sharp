@@ -109,6 +109,8 @@
             this.cashBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.dailySaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salesManWiseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stockMovementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -989,7 +991,9 @@
             this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cashBookToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.dailySaleToolStripMenuItem});
+            this.stockMovementToolStripMenuItem,
+            this.dailySaleToolStripMenuItem,
+            this.salesManWiseToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
             this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.reportsToolStripMenuItem.Text = "Reports";
@@ -1014,6 +1018,20 @@
             this.dailySaleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.dailySaleToolStripMenuItem.Text = "Daily Sale";
             this.dailySaleToolStripMenuItem.Click += new System.EventHandler(this.dailySaleToolStripMenuItem_Click);
+            // 
+            // salesManWiseToolStripMenuItem
+            // 
+            this.salesManWiseToolStripMenuItem.Name = "salesManWiseToolStripMenuItem";
+            this.salesManWiseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.salesManWiseToolStripMenuItem.Text = "Sales Man Wise";
+            this.salesManWiseToolStripMenuItem.Click += new System.EventHandler(this.salesManWiseToolStripMenuItem_Click);
+            // 
+            // stockMovementToolStripMenuItem
+            // 
+            this.stockMovementToolStripMenuItem.Name = "stockMovementToolStripMenuItem";
+            this.stockMovementToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.stockMovementToolStripMenuItem.Text = "Stock Movement";
+            this.stockMovementToolStripMenuItem.Click += new System.EventHandler(this.stockMovementToolStripMenuItem_Click);
             // 
             // frmPOSSale
             // 
@@ -1134,6 +1152,8 @@
         private System.Windows.Forms.ToolStripMenuItem cashOutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem billWiseRecoveryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dailySaleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem salesManWiseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stockMovementToolStripMenuItem;
     }
 }
 

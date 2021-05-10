@@ -1,6 +1,6 @@
 ﻿namespace POS
 {
-    partial class frmDailySale
+    partial class frmStockMovement
     {
         /// <summary>
         /// Required designer variable.
@@ -75,11 +75,12 @@
             // 
             // dtpSaleFromDate
             // 
-            this.dtpSaleFromDate.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpSaleFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpSaleFromDate.CustomFormat = "dd-MMM-yyyy";
+            this.dtpSaleFromDate.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpSaleFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpSaleFromDate.Location = new System.Drawing.Point(106, 115);
             this.dtpSaleFromDate.Name = "dtpSaleFromDate";
-            this.dtpSaleFromDate.Size = new System.Drawing.Size(215, 22);
+            this.dtpSaleFromDate.Size = new System.Drawing.Size(215, 26);
             this.dtpSaleFromDate.TabIndex = 25;
             // 
             // label2
@@ -95,23 +96,25 @@
             // 
             // dtpSaleToDate
             // 
-            this.dtpSaleToDate.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpSaleToDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpSaleToDate.CustomFormat = "dd-MMM-yyyy";
+            this.dtpSaleToDate.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpSaleToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpSaleToDate.Location = new System.Drawing.Point(106, 156);
             this.dtpSaleToDate.Name = "dtpSaleToDate";
-            this.dtpSaleToDate.Size = new System.Drawing.Size(215, 22);
+            this.dtpSaleToDate.Size = new System.Drawing.Size(215, 26);
             this.dtpSaleToDate.TabIndex = 27;
             // 
             // cmbCategory
             // 
             this.cmbCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbCategory.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbCategory.FormattingEnabled = true;
             this.cmbCategory.Items.AddRange(new object[] {
             "select Product"});
             this.cmbCategory.Location = new System.Drawing.Point(106, 197);
             this.cmbCategory.Name = "cmbCategory";
-            this.cmbCategory.Size = new System.Drawing.Size(215, 21);
+            this.cmbCategory.Size = new System.Drawing.Size(215, 27);
             this.cmbCategory.TabIndex = 29;
             // 
             // label3
@@ -125,7 +128,7 @@
             this.label3.Text = "Category :";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // frmDailySale
+            // frmStockMovement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -137,9 +140,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtpSaleFromDate);
             this.Controls.Add(this.panel1);
-            this.Name = "frmDailySale";
-            this.Text = "Daily Sale Report";
-            this.Load += new System.EventHandler(this.frmDailySale_Load);
+            this.Name = "frmStockMovement";
+            this.Text = "Stock Movement Report";
+            this.Load += new System.EventHandler(this.frmStockMovement_Load);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

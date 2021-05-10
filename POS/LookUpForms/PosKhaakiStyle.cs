@@ -457,66 +457,72 @@ namespace POS
 
         private void CalculateNetTotal()
         {
-            decimal grossAmount = txtGrossAmount.Text == "" ? 0 : Convert.ToDecimal(txtGrossAmount.Text);
-            decimal totalTaxAmount = txtTotalTax.Text == "" ? 0 : Convert.ToDecimal(txtTotalTax.Text);
-            decimal ExchangeAmount= txtExchangeAmt.Text == "" ? 0 : Convert.ToDecimal(txtExchangeAmt.Text); 
-            decimal discAmount = txtDiscountAmount.Text == "" ? 0 : Convert.ToDecimal(txtDiscountAmount.Text);
-            //  decimal discPercentage = txtDiscountPercentage.Text == "" ? 0 : Convert.ToDecimal(txtDiscountPercentage.Text);
-            decimal otherCharges = txtOtherCharges.Text == "" ? 0 : Convert.ToDecimal(txtOtherCharges.Text);
-            // decimal totalDiscount = ((discPercentage * grossAmount) / 100) + discAmount;
-            decimal totalDiscount = txtTotalDiscount.Text == "" ? 0 : Convert.ToDecimal(txtTotalDiscount.Text);
-            decimal netAmount = grossAmount - totalDiscount + totalTaxAmount + otherCharges-(ExchangeAmount);
-            
-            txtNetAmount.Text = Math.Round(netAmount,2).ToString();
-            if (SaleInvoiceNo == 0)
+            try
             {
-                if (directReturn==true)
+                decimal grossAmount = txtGrossAmount.Text == "" ? 0 : Convert.ToDecimal(txtGrossAmount.Text);
+                decimal totalTaxAmount = txtTotalTax.Text == "" ? 0 : Convert.ToDecimal(txtTotalTax.Text);
+                decimal ExchangeAmount = txtExchangeAmt.Text == "" ? 0 : Convert.ToDecimal(txtExchangeAmt.Text);
+                decimal discAmount = txtDiscountAmount.Text == "" ? 0 : Convert.ToDecimal(txtDiscountAmount.Text);
+                //  decimal discPercentage = txtDiscountPercentage.Text == "" ? 0 : Convert.ToDecimal(txtDiscountPercentage.Text);
+                decimal otherCharges = txtOtherCharges.Text == "" ? 0 : Convert.ToDecimal(txtOtherCharges.Text);
+                // decimal totalDiscount = ((discPercentage * grossAmount) / 100) + discAmount;
+                decimal totalDiscount = txtTotalDiscount.Text == "" ? 0 : Convert.ToDecimal(txtTotalDiscount.Text);
+                decimal netAmount = grossAmount - totalDiscount + totalTaxAmount + otherCharges - (ExchangeAmount);
+
+                txtNetAmount.Text = Math.Round(netAmount, 2).ToString();
+                if (SaleInvoiceNo == 0)
                 {
-                    txtPayableAmount.Text = netAmount.ToString();
-                }
-                else
-                {
-                    txtReceivableAmount.Text = Math.Round(netAmount,2).ToString();
-                }
-                
-            }
-            else
-            {
-                decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
-                decimal accAmount = txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text);
-                if (UpdateInvoice == false)
-                {
-                    //txtAmountReturn.Text = (recAmount - netAmount).ToString();
-                    if (accAmount >= netAmount)
+                    if (directReturn == true)
                     {
-                        //txtAmountReturn.Text = (accAmount - netAmount).ToString();
-                        txtPayableAmount.Text = (netAmount).ToString();
-                        txtReceivableAmount.Text = "0.00";
+                        txtPayableAmount.Text = netAmount.ToString();
                     }
                     else
                     {
-                        txtAmountReturn.Text = "0.00";
-                        txtAmountReceive.Text = "0.00";
-                        txtPayableAmount.Text = "0.00";
-                        txtReceivableAmount.Text = Math.Round((netAmount - accAmount), 2).ToString();
+                        txtReceivableAmount.Text = Math.Round(netAmount, 2).ToString();
                     }
+
                 }
                 else
-
                 {
-                    txtReceivableAmount.Text = Math.Round(netAmount, 2).ToString();
+                    decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
+                    decimal accAmount = txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text);
+                    if (UpdateInvoice == false)
+                    {
+                        //txtAmountReturn.Text = (recAmount - netAmount).ToString();
+                        if (accAmount >= netAmount)
+                        {
+                            //txtAmountReturn.Text = (accAmount - netAmount).ToString();
+                            txtPayableAmount.Text = (netAmount).ToString();
+                            txtReceivableAmount.Text = "0.00";
+                        }
+                        else
+                        {
+                            txtAmountReturn.Text = "0.00";
+                            txtAmountReceive.Text = "0.00";
+                            txtPayableAmount.Text = "0.00";
+                            txtReceivableAmount.Text = Math.Round((netAmount - accAmount), 2).ToString();
+                        }
+                    }
+                    else
+
+                    {
+                        txtReceivableAmount.Text = Math.Round(netAmount, 2).ToString();
+                    }
                 }
-            }
-            decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
-            decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
-            if (payableAmount == 0 && returnAmount > 0)
+                decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+                decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
+                if (payableAmount == 0 && returnAmount > 0)
+                {
+                    txtAmountReceive.Text = "0.00";
+                    txtAmountReceive.ReadOnly = true;
+                }
+                else if (payableAmount > 0)
+                {
+                    txtAmountReceive.ReadOnly = false;
+                }
+            } catch(Exception e)
             {
-                txtAmountReceive.Text = "0.00";
-                txtAmountReceive.ReadOnly = true;
-            }
-            else if (payableAmount > 0)
-            {
-                txtAmountReceive.ReadOnly = false;
+                MessageBox.Show(e.Message);
             }
         }
 
@@ -589,6 +595,20 @@ namespace POS
 
 
         private void txtDiscountPercentage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+        private void txtDiscountAmount_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
             (e.KeyChar != '.'))

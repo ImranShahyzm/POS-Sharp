@@ -1422,8 +1422,17 @@ namespace POS
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmStockReport obj = new frmStockReport();
-            obj.ShowDialog();
+            if (!CompanyInfo.isKhaakiSoft)
+            {
+                //Mistakenly This was food mama style But Wrong Name is given...
+                frmStockKhaaki obj = new frmStockKhaaki();
+                obj.ShowDialog();
+            }
+            else
+            {
+                frmStockReport obj = new frmStockReport();
+                obj.ShowDialog();
+            }
         }
 
         private void stockReturnToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1472,6 +1481,18 @@ namespace POS
         private void dailySaleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmDailySale frm = new frmDailySale();
+            frm.ShowDialog();
+        }
+
+        private void salesManWiseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmDailySaleManWise frm = new frmDailySaleManWise();
+            frm.ShowDialog();
+        }
+
+        private void stockMovementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmStockMovement frm = new frmStockMovement();
             frm.ShowDialog();
         }
     }
