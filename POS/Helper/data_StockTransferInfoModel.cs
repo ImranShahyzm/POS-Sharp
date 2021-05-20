@@ -230,6 +230,19 @@ namespace POS.Helper
             dt.Columns.Add("avc");
             return dt;
         }
+
+        public DataTable AddColorTable(DataTable dt)
+        {
+          
+            dt.Columns.Add("ColorID");
+            dt.Columns.Add("EntryUserID");
+            dt.Columns.Add("EntryUserDateTime");
+            dt.Columns.Add("ModifyUserID");
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID");
+            dt.Columns.Add("ColorTitle");
+            return dt;
+        }
         public DataTable AddAttributeTableColumns(DataTable dt)
         {
 
@@ -332,10 +345,16 @@ namespace POS.Helper
             {
                 variantDt = AddVariantTableColumns(dt.Tables[7]);
             }
+            DataTable ColorsDt = dt.Tables[8];
+            if (dt.Tables[8].Rows.Count <= 0)
+            {
+                ColorsDt = AddColorTable(dt.Tables[8]);
+            }
 
             ParamList.Add(new SqlParameter("@gen_ItemAttributeInfo", AttributeDt));
             ParamList.Add(new SqlParameter("@gen_ItemSubCategoryInfo", SubCategoryDt));
             ParamList.Add(new SqlParameter("@gen_ItemVariantInfo", variantDt));
+            ParamList.Add(new SqlParameter("@adgen_ColorInfo", ColorsDt));
 
             DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllInevntory_Insert.ToString()
                 , ParamList);

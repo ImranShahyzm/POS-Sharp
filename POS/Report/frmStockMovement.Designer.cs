@@ -36,6 +36,8 @@
             this.dtpSaleToDate = new System.Windows.Forms.DateTimePicker();
             this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.cmbSalemenu = new System.Windows.Forms.ComboBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,7 +61,7 @@
             this.panel1.Controls.Add(this.btnPreview);
             this.panel1.Location = new System.Drawing.Point(-27, 276);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(615, 62);
+            this.panel1.Size = new System.Drawing.Size(386, 62);
             this.panel1.TabIndex = 23;
             // 
             // label1
@@ -112,27 +114,56 @@
             this.cmbCategory.FormattingEnabled = true;
             this.cmbCategory.Items.AddRange(new object[] {
             "select Product"});
-            this.cmbCategory.Location = new System.Drawing.Point(106, 197);
+            this.cmbCategory.Location = new System.Drawing.Point(106, 209);
             this.cmbCategory.Name = "cmbCategory";
             this.cmbCategory.Size = new System.Drawing.Size(215, 27);
             this.cmbCategory.TabIndex = 29;
+            this.cmbCategory.Visible = false;
+            this.cmbCategory.SelectedIndexChanged += new System.EventHandler(this.cmbCategory_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(23, 197);
+            this.label3.Location = new System.Drawing.Point(23, 209);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 17);
             this.label3.TabIndex = 30;
             this.label3.Text = "Category :";
+            this.label3.Visible = false;
             this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // cmbSalemenu
+            // 
+            this.cmbSalemenu.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbSalemenu.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbSalemenu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbSalemenu.FormattingEnabled = true;
+            this.cmbSalemenu.Items.AddRange(new object[] {
+            "select Product"});
+            this.cmbSalemenu.Location = new System.Drawing.Point(106, 190);
+            this.cmbSalemenu.Name = "cmbSalemenu";
+            this.cmbSalemenu.Size = new System.Drawing.Size(213, 27);
+            this.cmbSalemenu.TabIndex = 31;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(1, 190);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(99, 19);
+            this.label22.TabIndex = 32;
+            this.label22.Text = "Select Menu:";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // frmStockMovement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(357, 361);
+            this.Controls.Add(this.cmbSalemenu);
+            this.Controls.Add(this.label22);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.cmbCategory);
             this.Controls.Add(this.label2);
@@ -158,5 +189,7 @@
         private System.Windows.Forms.DateTimePicker dtpSaleToDate;
         private System.Windows.Forms.ComboBox cmbCategory;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmbSalemenu;
+        private System.Windows.Forms.Label label22;
     }
 }

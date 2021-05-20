@@ -381,12 +381,44 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\CardWise.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CardWise.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\CashSale.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CashSale.rpt</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\DayBook.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DayBook.rpt</DependentUpon>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\frmDailySaleKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailySaleKhaaki.Designer.cs">
+      <DependentUpon>frmDailySaleKhaaki.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmCashCardWise.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmCashCardWise.Designer.cs">
+      <DependentUpon>frmCashCardWise.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmStockMovementKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmStockMovementKhaaki.Designer.cs">
+      <DependentUpon>frmStockMovementKhaaki.cs</DependentUpon>
     </Compile>
     <Compile Include="Report\frmStockMovement.cs">
       <SubType>Form</SubType>
@@ -452,6 +484,13 @@
     </Compile>
     <Compile Include="Report\CreditCardWise.cs">
       <DependentUpon>CreditCardWise.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleRegisterKhaaki.cs">
+      <DependentUpon>SaleRegisterKhaaki.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -622,6 +661,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Report\CardWise.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CardWise.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\CashSale.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CashSale.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\DailyCashbook.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -629,6 +678,15 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>DayBook.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailySaleKhaaki.resx">
+      <DependentUpon>frmDailySaleKhaaki.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmCashCardWise.resx">
+      <DependentUpon>frmCashCardWise.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmStockMovementKhaaki.resx">
+      <DependentUpon>frmStockMovementKhaaki.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmStockMovement.resx">
       <DependentUpon>frmStockMovement.cs</DependentUpon>
@@ -673,6 +731,11 @@
     <EmbeddedResource Include="Report\CreditCardWise.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CreditCardWise.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleRegisterKhaaki.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleRegisterKhaaki.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleRegisterWise.rpt">
@@ -830,6 +893,7 @@
     <Content Include="DbScripts\Script 1.0.0.11.sql" />
     <Content Include="DbScripts\Script 1.0.0.10.sql" />
     <Content Include="DbScripts\Script 1.0.0.12.sql" />
+    <Content Include="DbScripts\Script 1.0.0.25.sql" />
     <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />
@@ -874,6 +938,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.24.sql">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

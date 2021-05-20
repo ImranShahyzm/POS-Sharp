@@ -1,6 +1,6 @@
 ﻿namespace POS
 {
-    partial class frmDailySaleManWise
+    partial class frmCashCardWise
     {
         /// <summary>
         /// Required designer variable.
@@ -179,7 +179,7 @@
             this.cmbSaleStyle.TabIndex = 37;
             this.cmbSaleStyle.SelectedIndexChanged += new System.EventHandler(this.cmbInvoicetype_SelectedIndexChanged);
             // 
-            // frmDailySaleManWise
+            // frmCashCardWise
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -195,9 +195,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtpSaleFromDate);
             this.Controls.Add(this.panel1);
-            this.Name = "frmDailySaleManWise";
-            this.Text = "Sales Report";
-            this.Load += new System.EventHandler(this.frmDailySaleManWise_Load);
+            this.Name = "frmCashCardWise";
+            this.Text = "Payment Mode Wise";
+            this.Load += new System.EventHandler(this.frmCashCardWise_Load);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

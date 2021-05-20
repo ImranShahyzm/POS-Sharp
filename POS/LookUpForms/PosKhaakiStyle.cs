@@ -553,8 +553,13 @@ namespace POS
                 var SchemeDiscount = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[8].Value.ToString());
                 var MinSchemQuantity = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[12].Value.ToString());
                 var OrderQuantity= Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value.ToString());
+                var defualtQty = 1;
+                if (Convert.ToBoolean(isCheck))
+                {
+                    defualtQty = defualtQty * -1;
+                }
                 var GrossAmount = OrderQuantity * Convert.ToDecimal(rateValue);
-                if (OrderQuantity >= MinSchemQuantity)
+                if (OrderQuantity* defualtQty >= MinSchemQuantity)
                 {
                     var DiscontAmountOnRate = (Convert.ToDecimal(rateValue) / 100) * SchemeDiscount;
                     var DiscountedRate = Convert.ToDecimal(rateValue) - DiscontAmountOnRate;
@@ -1533,6 +1538,7 @@ namespace POS
             txtInvoiceNo.Text = "";
             txtInvoiceNo.Focus();
             UpdateInvoice = true;
+
         }
         private void loadDirectReturn()
         {

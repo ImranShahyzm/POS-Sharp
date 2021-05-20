@@ -45,9 +45,9 @@ namespace POS
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn where Date=cast(GETDATE() as date))
+            string SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn where Date='"+dtCashDate.Value+ @"')
                                   -
-                                  (select isnull(sum(Amount),0) as Amount from data_CashOut where Date=cast(GETDATE() as date)) as Amount
+                                  (select isnull(sum(Amount),0) as Amount from data_CashOut where Date='" + dtCashDate.Value + @"') as Amount
                             ";
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
@@ -165,6 +165,13 @@ namespace POS
         {
             frmClosingLookUp frm = new frmClosingLookUp();
             frm.Show();
+        }
+
+        private void dtCashDate_ValueChanged(object sender, EventArgs e)
+        {
+            
+                loadAvaliableBalance();
+            
         }
     }
 }

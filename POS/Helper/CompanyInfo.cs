@@ -20,7 +20,7 @@ namespace POS.Helper
         public static int BranchID { get; set; }
         public static string WareHouseName { get; set; }
         public static string LocationID { get; set; }
-        public static bool isPrinter = false;
+        public static bool isPrinter = true;
         public static bool isKhaakiSoft = true;
 
     }

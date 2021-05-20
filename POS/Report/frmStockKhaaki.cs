@@ -19,12 +19,36 @@ namespace POS
         public frmStockKhaaki()
         {
             InitializeComponent();
-            
-          
+
+            loadSaleMenuGroup();
+
+        }
+        private void loadSaleMenuGroup()
+        {
+
+
+
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            string SqlString = " SELECT * FROM InventItemGroup";
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            DataRow dr = dt.NewRow();
+            dr[0] = "0";
+            dr[1] = "--Select Menu--";
+            dt.Rows.InsertAt(dr, 0);
+
+            cmbSalemenu.ValueMember = "ItemGroupID";
+            cmbSalemenu.DisplayMember = "ItemGroupName";
+            cmbSalemenu.DataSource = dt;
+
         }
 
-        
-      
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Alt | Keys.P))
@@ -61,12 +85,13 @@ namespace POS
                 string WhereClause = "";
                 reportName = "STOCKREPORT";
               //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
-                obj.StockReport(reportName, dtpSaleToDate.Value);
+                obj.StockReport(reportName, dtpSaleToDate.Value,0,null,null,Convert.ToInt32(cmbSalemenu.SelectedValue));
               
             };        }
 
-       
+        private void label1_Click(object sender, EventArgs e)
+        {
 
-
+        }
     }
 }

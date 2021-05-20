@@ -21,13 +21,37 @@ namespace POS
         {
             InitializeComponent();
             laodCategories();
+            loadSaleMenuGroup();
 
 
 
         }
+        private void loadSaleMenuGroup()
+        {
 
-        
-      
+
+
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            string SqlString = " SELECT * FROM InventItemGroup";
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            DataRow dr = dt.NewRow();
+            dr[0] = "0";
+            dr[1] = "--Select Menu--";
+            dt.Rows.InsertAt(dr, 0);
+
+            cmbSalemenu.ValueMember = "ItemGroupID";
+            cmbSalemenu.DisplayMember = "ItemGroupName";
+            cmbSalemenu.DataSource = dt;
+
+        }
+
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Alt | Keys.P))
@@ -53,7 +77,7 @@ namespace POS
                 //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
                 try
                 {
-                    obj.DailySale(reportName, dtpSaleFromDate.Value, dtpSaleToDate.Value,Convert.ToInt32(cmbCategory.SelectedValue));
+                    obj.rptDailySale(reportName, dtpSaleFromDate.Value, dtpSaleToDate.Value,Convert.ToInt32(cmbCategory.SelectedValue), Convert.ToInt32(cmbSalemenu.SelectedValue));
 
                 }
                 catch(Exception ex)
@@ -104,6 +128,11 @@ namespace POS
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpSaleFromDate_ValueChanged(object sender, EventArgs e)
         {
 
         }

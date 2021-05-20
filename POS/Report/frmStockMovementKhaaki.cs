@@ -15,13 +15,13 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class frmStockMovement : MetroForm
+    public partial class frmStockMovementKhaaki : MetroForm
     {
-        public frmStockMovement()
+        public frmStockMovementKhaaki()
         {
             InitializeComponent();
             laodCategories();
-            loadSaleMenuGroup();
+
 
 
         }
@@ -41,30 +41,7 @@ namespace POS
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void loadSaleMenuGroup()
-        {
-
-
-
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
-            SqlConnection cnn;
-            cnn = new SqlConnection(connectionString);
-            cnn.Open();
-            string SqlString = " SELECT * FROM InventItemGroup";
-            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
-            cnn.Close();
-            DataRow dr = dt.NewRow();
-            dr[0] = "0";
-            dr[1] = "--Select Menu--";
-            dt.Rows.InsertAt(dr, 0);
-
-            cmbSalemenu.ValueMember = "ItemGroupID";
-            cmbSalemenu.DisplayMember = "ItemGroupName";
-            cmbSalemenu.DataSource = dt;
-
-        }
+        
         private void btnPreview_Click(object sender, EventArgs e)
         {
            
@@ -76,7 +53,7 @@ namespace POS
                 //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
                 try
                 {
-                    obj.DailyStockMovement(reportName, dtpSaleFromDate.Value, dtpSaleToDate.Value,0,Convert.ToInt32(cmbCategory.SelectedValue), Convert.ToInt32(cmbSalemenu.SelectedValue));
+                    obj.DailyStockMovement(reportName, dtpSaleFromDate.Value, dtpSaleToDate.Value,0,Convert.ToInt32(cmbCategory.SelectedValue));
 
                 }
                 catch(Exception ex)
@@ -86,7 +63,7 @@ namespace POS
             };
         }
 
-        private void frmStockMovement_Load(object sender, EventArgs e)
+        private void frmStockMovementKhaaki_Load(object sender, EventArgs e)
         {
 
         }
@@ -127,11 +104,6 @@ namespace POS
         }
 
         private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

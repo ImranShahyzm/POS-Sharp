@@ -34,6 +34,7 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbCashType = new System.Windows.Forms.ComboBox();
@@ -41,7 +42,6 @@
             this.lblAvaliableBalance = new System.Windows.Forms.Label();
             this.dtCashDate = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -115,6 +115,16 @@
             this.panel1.Size = new System.Drawing.Size(384, 62);
             this.panel1.TabIndex = 23;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(256, 20);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(84, 32);
+            this.button1.TabIndex = 30;
+            this.button1.Text = "Trans List";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.Teal;
@@ -170,6 +180,7 @@
             this.dtCashDate.Name = "dtCashDate";
             this.dtCashDate.Size = new System.Drawing.Size(210, 20);
             this.dtCashDate.TabIndex = 28;
+            this.dtCashDate.ValueChanged += new System.EventHandler(this.dtCashDate_ValueChanged);
             // 
             // label5
             // 
@@ -180,16 +191,6 @@
             this.label5.Size = new System.Drawing.Size(41, 18);
             this.label5.TabIndex = 29;
             this.label5.Text = "Date:";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(256, 20);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(84, 32);
-            this.button1.TabIndex = 30;
-            this.button1.Text = "Trans List";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // frmCashOut
             // 

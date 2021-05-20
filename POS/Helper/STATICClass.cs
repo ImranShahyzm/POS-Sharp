@@ -18,8 +18,14 @@ namespace POS.Helper
 {
     public static class STATICClass
     {
-        //public static string BaseURL = "http://103.86.135.182:1038/";
-        public static string BaseURL = "http://192.168.18.29:1011/";
+        //*****Khaki Api URL **********//
+       // public static string BaseURL = "http://103.86.135.182:1038/";
+        //******************************//
+
+            //*********** Food Mama Api Url *************//
+       public static string BaseURL = "http://103.86.135.182:1034/";
+        //***************************************//
+        //public static string BaseURL = "http://192.168.18.29:1011/";
 
         //public static string BaseURL = "http://localhost:44333/";
         public static string Connection()
