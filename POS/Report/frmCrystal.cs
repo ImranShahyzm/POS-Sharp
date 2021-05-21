@@ -506,7 +506,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             string DateFromstr = "'" + DateFrom.AddDays(-1).ToString("yyyy-MM-dd") + "'";
             string DateTostr = "'" + DateTo.ToString("yyyy-MM-dd") + "'";
             DataSet ds = new DataSet();
-            string PURCHASE = "", PURCHASERETURN = "", SALE = "", SALERETURN = "", STOCKINOUT = "", MFGOUT = "", MFGIN = "";
+            string PURCHASE = "", PURCHASERETURN = "", SALE = "", SALERETURN = "", StockRETURN = "", MFGOUT = "", MFGIN = "";
             
 
             if (ItemID > 0)
@@ -514,17 +514,23 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
                 PURCHASERETURN += " and data_StockIssuancetoPosKitchenDetail.ItemId = " + ItemID;
 
             }
-            PURCHASERETURN += " and data_StockIssuancetoPosKitchen.CompanyID=" + CompanyInfo.CompanyID + "   and data_StockIssuancetoPosKitchen.IssuanceDate between '" + DateFrom.ToString("yyyy-MM-dd") + "' and '" + DateTo.ToString("yyyy-MM-dd") + "' ";
+            PURCHASERETURN += " and data_StockIssuancetoPosKitchen.FromWHID=" + CompanyInfo.WareHouseID + " and data_StockIssuancetoPosKitchen.CompanyID=" + CompanyInfo.CompanyID + "   and data_StockIssuancetoPosKitchen.IssuanceDate between '" + DateFrom.ToString("yyyy-MM-dd") + "' and '" + DateTo.ToString("yyyy-MM-dd") + "' ";
             if (ItemID > 0)
             {
                 SALE += " and data_SalePosDetail.ItemId = " +ItemID;
             }
-            SALE += " and data_SalePosInfo.CompanyID=" + CompanyInfo.CompanyID + "  and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("yyyy-MM-dd") + "' and '" + DateTo.ToString("yyyy-MM-dd") + "' ";
+            SALE += " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID + " and data_SalePosInfo.CompanyID=" + CompanyInfo.CompanyID + "  and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("yyyy-MM-dd") + "' and '" + DateTo.ToString("yyyy-MM-dd") + "' ";
             if (ItemID > 0)
             {
-                SALERETURN += " and data_StockArrivalDetail.ItemId = " + ItemID;
+                StockRETURN += " and data_StockArrivalDetail.ItemId = " + ItemID;
             }
-            SALERETURN += " and data_StockArrivalInfo.CompanyID=" + CompanyInfo.CompanyID + " and data_StockArrivalInfo.ArrivalDate between '" + DateFrom.ToString("yyyy-MM-dd") + "' and '" + DateTo.ToString("yyyy-MM-dd") + "' ";
+            StockRETURN += " and data_StockArrivalInfo.ArrivalToWHID=" + CompanyInfo.WareHouseID + " and data_StockArrivalInfo.CompanyID=" + CompanyInfo.CompanyID + " and data_StockArrivalInfo.ArrivalDate between '" + DateFrom.ToString("yyyy-MM-dd") + "' and '" + DateTo.ToString("yyyy-MM-dd") + "' ";
+            if (ItemID > 0)
+            {
+                SALERETURN += " and data_SalePosReturnDetail.ItemId = " + ItemID;
+            }
+            SALERETURN += " and data_SalePosReturnInfo.WHID=" + CompanyInfo.WareHouseID + " and data_SalePosReturnInfo.CompanyID=" + CompanyInfo.CompanyID + " and data_SalePosReturnInfo.SalePosReturnDate between '" + DateFrom.ToString("yyyy-MM-dd") + "' and '" + DateTo.ToString("yyyy-MM-dd") + "' ";
+
             string WC = " where InventItems.CompanyID=" + CompanyInfo.CompanyID + " ";
             if (ItemID > 0)
             {
@@ -543,7 +549,8 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             ParamList.Add(new SqlParameter("@PURCHASERETURN", PURCHASERETURN));
             ParamList.Add(new SqlParameter("@SALE", SALE));
             ParamList.Add(new SqlParameter("@SALERETURN", SALERETURN));
-           
+            ParamList.Add(new SqlParameter("@StockRETURN", StockRETURN));
+
             ParamList.Add(new SqlParameter("@FromDate", DateFromstr));
             ParamList.Add(new SqlParameter("@ToDate", DateTostr));
             ParamList.Add(new SqlParameter("@WC", WC));
@@ -586,7 +593,15 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
         {
             ReportDocument rpt = new ReportDocument();
             DataTable dt = get_StockMovement(DateFrom, dateTo,ItemID ,CategoryID,MenuID).Tables[0];
-            rpt.Load(Path.Combine(Application.StartupPath, "Report", "StockMovementReportWithouValue.rpt"));
+            if (CompanyInfo.isKhaakiSoft)
+            {
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "StockMovementReportWithouValue.rpt"));
+            }
+            else
+            {
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "StockMovementReportFoodMama.rpt"));
+                
+            }
             rpt.Database.Tables[0].SetDataSource(dt);
 
             rpt.SummaryInfo.ReportTitle = "Stock Movement Report";

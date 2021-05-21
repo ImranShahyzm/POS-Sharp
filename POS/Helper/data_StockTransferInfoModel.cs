@@ -255,6 +255,60 @@ namespace POS.Helper
             dt.Columns.Add("AttribDescription");
             return dt;
         }
+        public DataTable AddSchemeColumns(DataTable dt)
+        {
+
+            
+            dt.Columns.Add("SchemeID"); 
+            dt.Columns.Add("EntryUserID");
+            dt.Columns.Add("EntryUserDateTime");
+            dt.Columns.Add("ModifyUserID");
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID");
+            dt.Columns.Add("Title"); 
+            dt.Columns.Add("ShortCode");
+            dt.Columns.Add("SchemeTypeID");
+            dt.Columns.Add("BookingStartDate");
+            dt.Columns.Add("BookingEndDate");
+            dt.Columns.Add("DeliveryStartDate");
+            dt.Columns.Add("DeliveryEndDate");
+            dt.Columns.Add("RecoveryStartDate"); 
+            dt.Columns.Add("RecoveryEndDate");
+            dt.Columns.Add("NetAmount");
+            dt.Columns.Add("Remarks");
+            dt.Columns.Add("BranchID");
+            dt.Columns.Add("WithoutRate");
+            dt.Columns.Add("StartTime");
+            dt.Columns.Add("WHID");
+            dt.Columns.Add("PromoPercentage");
+            dt.Columns.Add("EndTime");
+            dt.Columns.Add("BaseQuantity");
+            dt.Columns.Add("PGID");
+            dt.Columns.Add("Sno");
+            dt.Columns.Add("IsExpire");
+            dt.Columns.Add("ApplicableOnAll");
+
+
+
+            return dt;
+        }
+        public DataTable AddSchemeDetailColumns(DataTable dt)
+        {
+
+                dt.Columns.Add("SchemeDetailID"); 
+                dt.Columns.Add("SchemeID");
+                dt.Columns.Add("ItemId");
+                dt.Columns.Add("Qauntity");
+                dt.Columns.Add("Rate");
+                dt.Columns.Add("Discount");
+                dt.Columns.Add("NetAmount");
+                dt.Columns.Add("Remarks");
+                dt.Columns.Add("DiscountPercentage");
+                dt.Columns.Add("CartonForward");
+                dt.Columns.Add("CartonRate");
+            return dt;
+        }
+
         public DataTable AddSubCategoryTableColumns(DataTable dt)
         {
 
@@ -483,9 +537,20 @@ namespace POS.Helper
 
 
             ParamList.Add(new SqlParameter("@Pos_Gluser", dt.Tables[1]));
-            ParamList.Add(new SqlParameter("@Pos_Pes_SchemeInfo", dt.Tables[2]));
             
-            ParamList.Add(new SqlParameter("@Pos_Pes_SchemeDetail", dt.Tables[3]));
+                DataTable SchemeDat = dt.Tables[2];
+                 if (dt.Tables[2].Rows.Count <= 0)
+                {
+                    SchemeDat = AddSchemeColumns(dt.Tables[2]);
+                }
+            ParamList.Add(new SqlParameter("@Pos_Pes_SchemeInfo", SchemeDat));
+            
+            DataTable SchemeDetail = dt.Tables[3];
+            if (dt.Tables[3].Rows.Count <= 0)
+            {
+                SchemeDetail = AddSchemeDetailColumns(dt.Tables[3]);
+            }
+            ParamList.Add(new SqlParameter("@Pos_Pes_SchemeDetail", SchemeDetail));
             DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllGlUserPromoLocations_Insert.ToString()
                 , ParamList);
             if (ret.Columns.Contains("StockTransferID"))

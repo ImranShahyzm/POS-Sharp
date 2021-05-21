@@ -538,6 +538,13 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\StockMovementReportFoodMama.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockMovementReportFoodMama.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Report\StockMovementReportWithouValue.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -768,6 +775,11 @@
       <LastGenOutput>SaleThermalPrint.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\StockMovementReportFoodMama.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>StockMovementReportFoodMama.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\StockMovementReportWithouValue.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>StockMovementReportWithouValue.cs</LastGenOutput>
@@ -894,6 +906,7 @@
     <Content Include="DbScripts\Script 1.0.0.10.sql" />
     <Content Include="DbScripts\Script 1.0.0.12.sql" />
     <Content Include="DbScripts\Script 1.0.0.25.sql" />
+    <Content Include="DbScripts\Script 1.0.0.26.sql" />
     <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />
