@@ -1380,8 +1380,16 @@ namespace POS
 
         private void manualStockInToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmManualStockIN obj = new frmManualStockIN();
-            obj.ShowDialog();
+            if (CompanyInfo.isKhaakiSoft)
+            {
+                frmManualStockINKhaaki obj = new frmManualStockINKhaaki();
+                obj.ShowDialog();
+            }
+            else
+            {
+                frmManualStockIN obj = new frmManualStockIN();
+                obj.ShowDialog();
+            }
         }
 
         private void syncToServerToolStripMenuItem_Click(object sender, EventArgs e)
