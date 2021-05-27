@@ -124,7 +124,6 @@
             this.dtpSaleToDate.Name = "dtpSaleToDate";
             this.dtpSaleToDate.Size = new System.Drawing.Size(153, 25);
             this.dtpSaleToDate.TabIndex = 27;
-            this.dtpSaleToDate.Visible = false;
             // 
             // btnProgressBar
             // 

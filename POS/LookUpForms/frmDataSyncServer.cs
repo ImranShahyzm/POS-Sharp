@@ -55,31 +55,44 @@ namespace POS
 
             var obj = new data_StockTransferInfoModel().SelectAllArrivalStock("where ArrivalDate between '"+dtpSaleFromDate.Value+ "' and '" + dtpSaleToDate.Value+ "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "",true,true, "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
            
-            string result = JsonConvert.SerializeObject(obj);
-            lblStatus.Visible = true;
-            btnProgressBar.Value = 10;
+            
             bool StartInvoices = false;
             bool StartReturnInvoices = false;
             string Responce = "";
             if (obj.Tables[0].Rows.Count > 0)
             {
-                 Responce = await STATICClass.InsertAllStockArrivaltoServer(result);
-                if (Convert.ToString(Responce).Contains("Done"))
-                {
-                    btnProgressBar.Value = 20;
-                    lblStatus.Text = "Uploading Invoices to Server...";
-                    StartInvoices = true;
+                btnProgressBar.Value = 10;
 
-                }
-                else
+                foreach (DataRow row in obj.Tables[0].Rows)
                 {
-                    lblStatus.Text = Responce;
+                    string ArrivalID = row["ArrivalID"].ToString();
+                    string WhereArrivalClause = "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and ArrivalToWHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_StockArrivalInfo.ArrivalID="+ArrivalID+"";
+                    var ArrivalObj = new data_StockTransferInfoModel().SelectAllArrivalStock(WhereArrivalClause,true,true,WhereArrivalClause);
+
+                    string result = JsonConvert.SerializeObject(ArrivalObj);
+                    lblStatus.Visible = true;
+                    
+                    Responce = await STATICClass.InsertAllStockArrivaltoServer(result, ArrivalID);
+                    if (Convert.ToString(Responce).Contains("Done"))
+                    {
+
+                        if (btnProgressBar.Value <= 35)
+                        {
+                            btnProgressBar.Value = btnProgressBar.Value + 1;
+                        }
+                        StartInvoices = true;
+
+                    }
+                    else
+                    {
+                        lblStatus.Text = Responce;
+                    }
                 }
             }
             else
 
             {
-                btnProgressBar.Value = 20;
+                btnProgressBar.Value = 35;
                 lblStatus.Text = "Uploading Invoices to Server...";
                 StartInvoices = true;
 
@@ -88,16 +101,41 @@ namespace POS
             {
                 var Invoices = new data_StockTransferInfoModel().SelectAllInvoicesForUploading("where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", true, true, "where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "" , "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
 
-                string JsonInvoices = JsonConvert.SerializeObject(Invoices);
-                if (Invoices.Tables[0].Rows.Count > 0)
+
+                if(Invoices.Tables[0].Rows.Count>0)
                 {
-                    var InvoiceRespomnce = await STATICClass.InsertAllSalesAndReturntoServer(JsonInvoices, dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());
-                    Responce = InvoiceRespomnce;
+                    foreach(DataRow row in Invoices.Tables[0].Rows)
+                    {
+                        string WhereSaleCluse = "where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_salePosInfo.SalePosID="+Convert.ToInt32(row["SalePosID"])+"";
+                        string whereReturnClause= "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + "";
+                        var InvoiceWiseRecords = new data_StockTransferInfoModel().SelectAllInvoicesForUploading(WhereSaleCluse,true,true, WhereSaleCluse, "");
+
+
+                        string JsonInvoices = JsonConvert.SerializeObject(InvoiceWiseRecords);
+                        if (InvoiceWiseRecords.Tables[0].Rows.Count > 0)
+                        {
+                            var InvoiceRespomnce = await STATICClass.InsertAllSalesAndReturntoServer(JsonInvoices, dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString(), row["SalePosID"].ToString());
+                            Responce = InvoiceRespomnce;
+                            if (Convert.ToString(Responce).Contains("Done"))
+                            {
+                                if (btnProgressBar.Value <= 75)
+                                {
+                                    btnProgressBar.Value = btnProgressBar.Value + 1;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Responce = "Done";
+                        }
+
+                    }
+
+
                 }
-                else
-                {
-                    Responce = "Done";
-                }
+
+
+                
                     if (Convert.ToString(Responce).Contains("Done"))
                     {
 
@@ -118,11 +156,18 @@ namespace POS
 
                 var RInvoices = new data_StockTransferInfoModel().SelectAllInvoicesForUploading("where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", true, true, "where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "",false);
 
-                string RJsonInvoices = JsonConvert.SerializeObject(RInvoices);
                 var RInvoiceRespomnce="";
                 if (RInvoices.Tables[0].Rows.Count > 0)
                 {
-                     RInvoiceRespomnce = await STATICClass.InsertAllSalesReturntoServer(RJsonInvoices, dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());
+                    foreach (DataRow row in RInvoices.Tables[0].Rows)
+                    {
+                        string SaleReturnClause = "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_SalePosReturnInfo.SalePOSReturnID=" + Convert.ToInt32(row["SalePOSReturnID"]) +"";
+                        var ReturnInvoice = new data_StockTransferInfoModel().SelectAllInvoicesForUploading("",true,true,"", SaleReturnClause, false);
+
+                        string RJsonInvoices = JsonConvert.SerializeObject(ReturnInvoice);
+                        RInvoiceRespomnce = await STATICClass.InsertAllSalesReturntoServer(RJsonInvoices, dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString(), Convert.ToString(row["SalePOSReturnID"]));
+
+                    }
                 }
                 else
                 {
@@ -146,6 +191,12 @@ namespace POS
                 }
 
             }
+
+
+            string postingSaleVouchers = await STATICClass.PosAllSaleVouchers( dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());
+
+            
+
 
         }
 

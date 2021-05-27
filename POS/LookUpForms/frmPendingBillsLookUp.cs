@@ -93,19 +93,19 @@ namespace POS.LookUpForms
             string SqlString = " ";
             if (txtInvoiceSearch.Text=="")
             {
-                SqlString = @" select  * from (select data_salePosInfo.SalePOSNo,data_salePosInfo.SalePosDate,data_salePosInfo.CustomerName,data_salePosInfo.CustomerPhone,  data_salePosInfo.NetAmount as TotalBillAmount,
+                SqlString = @" select  * from (select data_salePosInfo.SalePOSNo,data_salePosInfo.SalePosDate,data_salePosInfo.CustomerName,data_salePosInfo.CustomerPhone,  (data_salePosInfo.GrossAmount-data_salePosInfo.DiscountTotal+OtherCharges) as TotalBillAmount,
 isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
 ),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID
-from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and SalePosDate = '" + dtpSaleFromDate.Text + "') a where TotalBillAmount - RecoveryAmount > 0 ";
+from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and SalePosDate <= '" + dtpSaleFromDate.Text + "') a where TotalBillAmount - RecoveryAmount > 0 ";
             }
             else
             {
-                SqlString = @" select  * from (select data_salePosInfo.SalePOSNo,data_salePosInfo.SalePosDate,data_salePosInfo.CustomerName,data_salePosInfo.CustomerPhone,  data_salePosInfo.NetAmount as TotalBillAmount,
+                SqlString = @" select  * from (select data_salePosInfo.SalePOSNo,data_salePosInfo.SalePosDate,data_salePosInfo.CustomerName,data_salePosInfo.CustomerPhone,  (data_salePosInfo.GrossAmount-data_salePosInfo.DiscountTotal+OtherCharges) as TotalBillAmount,
 isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
 ),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID
-from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and SalePosDate = '" + dtpSaleFromDate.Text + "' and SalePosNO like '" + txtInvoiceSearch.Text + "%') a where TotalBillAmount - RecoveryAmount > 0 ";
+from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and SalePosDate <= '" + dtpSaleFromDate.Text + "' and SalePosNO like '" + txtInvoiceSearch.Text + "%') a where TotalBillAmount - RecoveryAmount > 0 ";
                 
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
@@ -139,7 +139,13 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and SalePosDate = '
         {
             if (e.KeyChar == (char)13)
             {
-                DataGridViewRow dgr = dgvSaleInvoices.CurrentRow;
+                int index = 0;
+                if(dgvSaleInvoices.CurrentRow.Index>0)
+                {
+                    index = dgvSaleInvoices.CurrentRow.Index - 1;
+
+                }
+                DataGridViewRow dgr = dgvSaleInvoices.Rows[index];
                 SaleInvoiceNo = dgr.Cells["SalePOSNO"].Value.ToString();
                 SaleInvoiceDate = dtpSaleFromDate.Value;
                 SalePosID= Convert.ToInt32(dgr.Cells["SalePosID"].Value);

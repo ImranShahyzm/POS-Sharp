@@ -23,11 +23,11 @@ namespace POS.Helper
         //******************************//
 
             //*********** Food Mama Api Url *************//
-       public static string BaseURL = "http://103.86.135.182:1034/";
+       //public static string BaseURL = "http://103.86.135.182:1034/";
         //***************************************//
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-       // public static string BaseURL = "http://localhost:44333/";
+        public static string BaseURL = "http://localhost:44333/";
         public static string Connection()
         {
             return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -541,7 +541,7 @@ namespace POS.Helper
 
 
 
-        public static async Task<string> InsertAllStockArrivaltoServer(string JsonDataStr)
+        public static async Task<string> InsertAllStockArrivaltoServer(string JsonDataStr,string ArrivalID="0")
         {
 
           
@@ -558,7 +558,7 @@ namespace POS.Helper
                     //id == 0 means select all records    
                     if (id == 0)
                     {
-                        response = await client.GetAsync("apipos/SetStockArrivalInsertion?JsonDataStr=" + JsonDataStr + "");
+                        response = await client.GetAsync("apipos/SetStockArrivalInsertion?JsonDataStr=" + JsonDataStr + "&WHID=" + CompanyInfo.WareHouseID + "&ArrivalID=" + ArrivalID + "");
                         if (response.IsSuccessStatusCode)
                         {
                            
@@ -590,11 +590,17 @@ namespace POS.Helper
 
 
         }
-
-
-
-        public static async Task<string> InsertAllSalesAndReturntoServer(string JsonInvoiceStr,string DateFrom,string DateTo,string WHID,string CompanyID)
+        public static string Base64Encode(string plainText)
         {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+
+        public static async Task<string> InsertAllSalesAndReturntoServer(string JsonInvoiceStr,string DateFrom,string DateTo,string WHID,string CompanyID,string SalePosID="0")
+        {
+
+            var Base64String = Base64Encode(JsonInvoiceStr);
 
 
             using (var client = new HttpClient())
@@ -602,7 +608,7 @@ namespace POS.Helper
                 client.BaseAddress = new Uri(BaseURL);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
+                
                 HttpResponseMessage response;
                 try
                 {
@@ -610,7 +616,10 @@ namespace POS.Helper
                     //id == 0 means select all records    
                     if (id == 0)
                     {
-                        response = await client.GetAsync("apipos/SetSalesAndReturnInsertion?JsonInvoiceStr=" + JsonInvoiceStr + "&DateFrom="+ DateFrom + "&DateTo=" + DateTo + "&WHID=" + WHID + "&CompanyID=" + CompanyID + "");
+                        //dynamic data = JObject.Parse(JsonInvoiceStr);
+                        response = await client.GetAsync("apipos/SetSalesAndReturnInsertion?JsonInvoiceStr=" + JsonInvoiceStr + "&DateFrom="+ DateFrom + "&DateTo=" + DateTo + "&WHID=" + WHID + "&CompanyID=" + CompanyID + "&SalePosID=" + SalePosID + "");
+                        
+                        var Lengt = JsonInvoiceStr.Length;
                         if (response.IsSuccessStatusCode)
                         {
 
@@ -644,7 +653,7 @@ namespace POS.Helper
         }
 
 
-        public static async Task<string> InsertAllSalesReturntoServer(string JsonInvoiceStr, string DateFrom, string DateTo, string WHID, string CompanyID)
+        public static async Task<string> InsertAllSalesReturntoServer(string JsonInvoiceStr, string DateFrom, string DateTo, string WHID, string CompanyID,string SalePosreturnID="0")
         {
 
 
@@ -661,7 +670,7 @@ namespace POS.Helper
                     //id == 0 means select all records    
                     if (id == 0)
                     {
-                        response = await client.GetAsync("apipos/InsertAllSalesReturntoServer?RJsonInvoiceStr=" + JsonInvoiceStr + "&RDateFrom=" + DateFrom + "&RDateTo=" + DateTo + "&RWHID=" + WHID + "&RCompanyID=" + CompanyID + "");
+                        response = await client.GetAsync("apipos/InsertAllSalesReturntoServer?RJsonInvoiceStr=" + JsonInvoiceStr + "&RDateFrom=" + DateFrom + "&RDateTo=" + DateTo + "&RWHID=" + WHID + "&RCompanyID=" + CompanyID + "&SalePosreturnID="+ SalePosreturnID + "");
                         if (response.IsSuccessStatusCode)
                         {
 
@@ -693,6 +702,59 @@ namespace POS.Helper
 
 
         }
+
+
+
+        public static async Task<string> PosAllSaleVouchers(string DateFrom, string DateTo, string WHID, string CompanyID)
+        {
+
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response;
+                try
+                {
+                    var id = 0;
+                    //id == 0 means select all records    
+                    if (id == 0)
+                    {
+                        response = await client.GetAsync("apipos/InsertPosSaleVouchers?VoucherFrom=" + DateFrom + "&VoucherTo=" + DateTo + "&VWHID=" + WHID + "&VCompanyID=" + CompanyID + "");
+                        if (response.IsSuccessStatusCode)
+                        {
+
+                            var abc = response.Content.ToString();
+                            using (Stream stream = response.Content.ReadAsStreamAsync().Result)
+                            {
+                                string json = new StreamReader(stream).ReadToEnd();
+
+
+                                return json;
+
+                            }
+
+                        }
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    var Temp = e.Message;
+                    return Temp;
+                }
+                var i = 0;
+            }
+            return "NoRecordsTransferrred";
+
+
+
+
+
+        }
+
 
         public static async Task<string> InsertAllStockReturntoServer(string JsonInvoiceStr, string DateFrom, string DateTo, string WHID, string CompanyID)
         {

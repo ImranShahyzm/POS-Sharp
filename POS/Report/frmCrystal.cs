@@ -419,6 +419,20 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             string query = "Select WHID, sum(Quantity*ItemRate) as GrossAmount,sum(DiscountTotal) as DiscountTotal,sum(Quantity) as ReturnQuantity from data_SalePosReturnInfo inner join data_SalePosReturnDetail p on p.SalePosReturnID=data_SalePosReturnInfo.SalePosReturnID where SalePosReturnDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
             DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
+            if(dt.Rows.Count<=0)
+            {
+                DataRow dr = dt.NewRow();
+
+                dr["WHID"] = CompanyInfo.WareHouseID;
+                dr["GrossAmount"] =0;
+                dr["DiscountTotal"] = 0;
+
+                dr["ReturnQuantity"] = 0;
+                
+                dt.Rows.Add(dr);
+
+            }
+
             return dt;
 
         }
@@ -634,8 +648,9 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
 
             rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
             rpt.SetParameterValue("UserName", CompanyInfo.username);
+            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
 
-           
+
             rpt.SetParameterValue("ReportFiltration","From "+DateFrom.ToString("dd-MM-yyyy") +" To "+dateTo.ToString("dd-MM-yyyy"));
             rpt.SetParameterValue("SuppressTag", false);
 
