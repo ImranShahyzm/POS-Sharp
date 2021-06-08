@@ -50,8 +50,8 @@ namespace POS
                 lblStatus.Text = "Syncing Locations With Server...";
                 await STATICClass.GetAllWareHouseGluserPromo();
                 await STATICClass.GetAllSalesMan();
+                await STATICClass.GetAllInventory();
 
-            
 
             var obj = new data_StockTransferInfoModel().SelectAllArrivalStock("where ArrivalDate between '"+dtpSaleFromDate.Value+ "' and '" + dtpSaleToDate.Value+ "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "",true,true, "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
            
@@ -72,7 +72,7 @@ namespace POS
                     string result = JsonConvert.SerializeObject(ArrivalObj);
                     lblStatus.Visible = true;
                     
-                    Responce = await STATICClass.InsertAllStockArrivaltoServer(result, ArrivalID);
+                    Responce = await STATICClass.CheckNewWayofStockArrivalInsert(result, ArrivalID);
                     if (Convert.ToString(Responce).Contains("Done"))
                     {
 

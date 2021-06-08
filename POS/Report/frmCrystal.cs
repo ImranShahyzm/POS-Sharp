@@ -21,6 +21,9 @@ namespace POS.Report
         public frmCrystal()
         {
             InitializeComponent();
+          
+
+
         }
         public DataTable SelectCompanyDetail(string where = "")
         {
@@ -233,7 +236,7 @@ namespace POS.Report
             DataTable dt;
 
             string Sql = @"
-           select Format(isnull(InventItems.RegisterInevntoryDate,'01-01-2017') , 'dd-MMM-yyyy') as Age, varnt.VariantDescription,ab.ColorTitle,InventItems.ItemNumber, case when isnull(sum(Quantity) ,0) = 0 then 0 else isnull(Sum(Amount),0)/isnull(sum(Quantity) ,0) end ";
+           select InventItems.ItemSalesPrice as RetailPrice,Format(isnull(InventItems.RegisterInevntoryDate,'01-01-2017') , 'dd-MMM-yyyy') as Age, varnt.VariantDescription,ab.ColorTitle,InventItems.ItemNumber, case when isnull(sum(Quantity) ,0) = 0 then 0 else isnull(Sum(Amount),0)/isnull(sum(Quantity) ,0) end ";
             
             Sql += @"as WeightedRate,  isnull(sum(Quantity) ,0) ";
             
@@ -315,7 +318,7 @@ left join adgen_ColorInfo ab on ab.ColorID=InventItems.ColorID
                 Sql += " and  InventCategory.ItemGroupID="+MenuID+" ";
             }
 Sql += @" group by s.ItemId , InventItems.ItenName ,InventItems.ReOrderLevel, InventUOM.UOMName ,InventItems.CategoryID,InventCategory.ItemGroupID, 
-InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate,CartonSize,Itemnumber,VariantDescription,ColorTitle";
+InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate,CartonSize,Itemnumber,VariantDescription,ColorTitle,ItemSalesPrice";
             
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
@@ -373,7 +376,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             left join InventWareHouse on data_SalePosInfo.WHID=InventWareHouse.WHID
             left join adgen_ColorInfo on adgen_ColorInfo.ColorID=InventItems.ColorID
 			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
-            where 0 = 0";
+            where 0 = 0 and data_SalePosInfo.DirectReturn=0 ";
             Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
             if (CategoryID > 0)
             {
@@ -385,9 +388,36 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
         }
+        public DataTable SaleActivity(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
+        {
+            DataTable dt;
+            string Sql = @"select Format(SalePosDate , 'dd-MMM-yyyy') as SalePosDateFormat,data_SalePosInfo.SalePOSNo,Sum(data_SalePosInfo.GrossAmount) as SaleInfo_NetAmount,
+            0 as SaleInfo_DPer,Sum(data_SalePosInfo.DiscountAmount) as SaleInfo_DAmount,ISNULL(data_SalePosInfo.CustomerName,'Walking Customer') as Clientname,ISNULL(data_SalePosInfo.CustomerPhone,'') as ClientPhone,
+            sum(data_SalePosDetail.Quantity) as Quantity,0 as DiscountPercentage,sum(data_SalePosInfo.DiscountTotal) as TotalDiscount,
+            Sum(data_SalePosDetail.TaxAmount) as TaxAmount
+            from data_SalePosInfo 
+            inner join data_SalePosDetail on data_SalePosInfo.SalePosID=data_SalePosDetail.SalePosID 
+            left join InventItems on data_SalePosDetail.ItemId = InventItems.ItemId 
+            left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID
+            left join InventItemGroup on InventCategory.ItemGroupID=InventItemGroup.ItemGroupID
+            left join InventWareHouse on data_SalePosInfo.WHID=InventWareHouse.WHID
+            left join adgen_ColorInfo on adgen_ColorInfo.ColorID=InventItems.ColorID
+			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
+            where 0 = 0 and data_SalePosInfo.DirectReturn=0 ";
+            Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
+            if (CategoryID > 0)
+            {
+                Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
+            }
+            Sql = Sql + " Group by  salePosdate,SalePOSNo,data_SalePosInfo.CustomerName,data_SalePosInfo.CustomerPhone ";
+            Sql = Sql + " order by data_SalePosInfo.SalePosDate,SalePOSNo";
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            return dt;
+        }
         public decimal TillNowSaleCalculation()
         {
-            string query = "Select Sum(NetAmount) as NetAmount from data_salePosinfo where WHID="+CompanyInfo.WareHouseID+"";
+            string query = "Select Sum(NetAmount) as NetAmount from data_salePosinfo where data_SalePosInfo.DirectReturn=0 and WHID=" + CompanyInfo.WareHouseID+"";
           DataTable  dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
             if (dt.Rows.Count > 0)
@@ -400,7 +430,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
         }
         public decimal SaleMasterDiscount(DateTime DateFrom, DateTime dateTo)
         {
-            string query = "Select Sum(DiscountAmount) as MasterDiscount from data_SalePosInfo where SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + "";
+            string query = "Select Sum(DiscountAmount) as MasterDiscount from data_SalePosInfo where  data_SalePosInfo.DirectReturn=0 and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + "";
             DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
             return Convert.ToDecimal(dt.Rows[0]["MasterDiscount"]);
@@ -408,7 +438,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
         }
         public DataTable GetCashCardPayments(DateTime DateFrom, DateTime dateTo)
         {
-            string query = "Select WHID,Sum(CardPayment) as CardPayment,(SUm(ISNULL(CashPayment,0)+ISNULL(CardPayment,0)-NetAmount)) as ExchangeAmount,Sum(CashPayment) as CashPayment from data_SalePosInfo where SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
+            string query = "Select WHID,Sum(CardPayment) as CardPayment,(SUm(ISNULL(CashPayment,0)+ISNULL(CardPayment,0)-NetAmount)) as ExchangeAmount,Sum(CashPayment) as CashPayment from data_SalePosInfo where data_SalePosInfo.DirectReturn=0 and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
             DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
             return dt;
@@ -456,7 +486,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             left join InventWareHouse on data_SalePosInfo.WHID=InventWareHouse.WHID
             left join adgen_ColorInfo on adgen_ColorInfo.ColorID=InventItems.ColorID
 			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
-			left join gen_SaleManInfo SalesMan on SalesMan.SaleManInfoID=data_SalePosInfo.SaleManId where 0=0   ";
+			left join gen_SaleManInfo SalesMan on SalesMan.SaleManInfoID=data_SalePosInfo.SaleManId where 0=0  and data_SalePosInfo.DirectReturn=0 ";
             Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom + "' and '" + dateTo + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
             if (CategoryID > 0)
             {
@@ -491,7 +521,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             left join InventWareHouse on data_SalePosInfo.WHID=InventWareHouse.WHID
             left join adgen_ColorInfo on adgen_ColorInfo.ColorID=InventItems.ColorID
 			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
-			left join gen_SaleManInfo SalesMan on SalesMan.SaleManInfoID=data_SalePosInfo.SaleManId where 0=0 
+			left join gen_SaleManInfo SalesMan on SalesMan.SaleManInfoID=data_SalePosInfo.SaleManId where 0=0 and data_SalePosInfo.DirectReturn=0
 ";
             Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID+ " )temp where 0=0";
             //if (CategoryID > 0)
@@ -558,6 +588,10 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             {
                 WC += " and cat.ItemGroupID = " + MenuId;
             }
+            if(CompanyInfo.isKhaakiSoft)
+            {
+                WC += " and ISNULL(s.SaleQuantity,0)+ISNULL(sr.SaleReturnQuantity,0)+isnull(pr.PurchaseReturnQuantity,0)>0";
+            }
             List<SqlParameter> ParamList = new List<SqlParameter>();
            
             ParamList.Add(new SqlParameter("@PURCHASERETURN", PURCHASERETURN));
@@ -617,7 +651,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
                 
             }
             rpt.Database.Tables[0].SetDataSource(dt);
-
+            
             rpt.SummaryInfo.ReportTitle = "Stock Movement Report";
 
             rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
@@ -631,6 +665,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             //rpt.SetParameterValue("ServerName", Serverpath);
             //rpt.SetParameterValue("Username", CompanyInfo.username);
             crystalReportViewer1.ReportSource = rpt;
+            
             crystalReportViewer1.Refresh();
             this.ShowDialog();
             rpt.Dispose();
@@ -686,6 +721,41 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             rpt.SetParameterValue("NetSale", TillNowSaleCalculation());
             rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom,dateTo));
             
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            //rpt.SetParameterValue("ServerName", Serverpath);
+            //rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            this.ShowDialog();
+            rpt.Dispose();
+        }
+
+
+
+        public void SaleActivityReport(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
+        {
+            ReportDocument rpt = new ReportDocument();
+            DataTable dt = SaleActivity(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleActivityKhaaki.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+            if (DateFrom.Date == dateTo.Date)
+            {
+
+                rpt.SummaryInfo.ReportTitle = "Sale Activity Report";
+            }
+            else
+            {
+                rpt.SummaryInfo.ReportTitle = "Sale Activity Report";
+            }
+            rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
+            rpt.SetParameterValue("UserName", CompanyInfo.username);
+
+
+            rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
+            rpt.SetParameterValue("SuppressTag", false);
+            rpt.SetParameterValue("NetSale", TillNowSaleCalculation());
+            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             //rpt.SetParameterValue("ServerName", Serverpath);
             //rpt.SetParameterValue("Username", CompanyInfo.username);
@@ -838,6 +908,16 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             rpt.Dispose();
 
 
+        }
+        
+        private void crystalReportViewer1_Scroll(object sender, ScrollEventArgs e)
+        {
+            // the tabsheet that the report is shown on.
+            Control control = this.crystalReportViewer1.Controls[0].Controls[0];
+            // if a control on the tabsheet has the focus, then the scrollbar associated
+            // with the tabsheet will actually work with the mouse wheel.
+            if (!control.Controls[0].Focused)
+                control.Controls[0].Focus();
         }
     }
 }

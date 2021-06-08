@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.panelMain = new MetroFramework.Controls.MetroPanel();
+            this.txtQuantity = new System.Windows.Forms.TextBox();
+            this.txtProductID = new System.Windows.Forms.TextBox();
+            this.cmbProducts = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtProductCode = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.RefIDHidd = new System.Windows.Forms.Label();
             this.txtRefID = new System.Windows.Forms.TextBox();
@@ -37,17 +42,20 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtArrivalDate = new System.Windows.Forms.DateTimePicker();
-            this.txtProductCode = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cmbProducts = new System.Windows.Forms.ComboBox();
-            this.txtProductID = new System.Windows.Forms.TextBox();
-            this.txtQuantity = new System.Windows.Forms.TextBox();
+            this.txtReceived = new System.Windows.Forms.TextBox();
+            this.txtTotal = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockDetailData)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.label5);
+            this.panelMain.Controls.Add(this.label4);
+            this.panelMain.Controls.Add(this.txtReceived);
+            this.panelMain.Controls.Add(this.txtTotal);
             this.panelMain.Controls.Add(this.txtQuantity);
             this.panelMain.Controls.Add(this.txtProductID);
             this.panelMain.Controls.Add(this.cmbProducts);
@@ -72,6 +80,56 @@
             this.panelMain.VerticalScrollbarBarColor = true;
             this.panelMain.VerticalScrollbarHighlightOnWheel = false;
             this.panelMain.VerticalScrollbarSize = 10;
+            // 
+            // txtQuantity
+            // 
+            this.txtQuantity.Location = new System.Drawing.Point(564, 78);
+            this.txtQuantity.MaxLength = 10;
+            this.txtQuantity.Name = "txtQuantity";
+            this.txtQuantity.Size = new System.Drawing.Size(87, 26);
+            this.txtQuantity.TabIndex = 25;
+            this.txtQuantity.Visible = false;
+            this.txtQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQuantity_KeyDown);
+            // 
+            // txtProductID
+            // 
+            this.txtProductID.Location = new System.Drawing.Point(467, 78);
+            this.txtProductID.MaxLength = 10;
+            this.txtProductID.Name = "txtProductID";
+            this.txtProductID.Size = new System.Drawing.Size(91, 26);
+            this.txtProductID.TabIndex = 24;
+            this.txtProductID.TabStop = false;
+            this.txtProductID.Visible = false;
+            // 
+            // cmbProducts
+            // 
+            this.cmbProducts.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbProducts.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbProducts.FormattingEnabled = true;
+            this.cmbProducts.Items.AddRange(new object[] {
+            "select Product"});
+            this.cmbProducts.Location = new System.Drawing.Point(264, 77);
+            this.cmbProducts.Name = "cmbProducts";
+            this.cmbProducts.Size = new System.Drawing.Size(197, 27);
+            this.cmbProducts.TabIndex = 12;
+            this.cmbProducts.Visible = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(23, 77);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 19);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Barcode";
+            // 
+            // txtProductCode
+            // 
+            this.txtProductCode.Location = new System.Drawing.Point(142, 77);
+            this.txtProductCode.Name = "txtProductCode";
+            this.txtProductCode.Size = new System.Drawing.Size(116, 26);
+            this.txtProductCode.TabIndex = 3;
+            this.txtProductCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductCode_KeyDown);
             // 
             // btnSave
             // 
@@ -122,6 +180,7 @@
             this.txtArrivalNo.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtArrivalNo.Location = new System.Drawing.Point(142, 49);
             this.txtArrivalNo.Name = "txtArrivalNo";
+            this.txtArrivalNo.ReadOnly = true;
             this.txtArrivalNo.Size = new System.Drawing.Size(116, 22);
             this.txtArrivalNo.TabIndex = 6;
             // 
@@ -154,55 +213,43 @@
             this.txtArrivalDate.Size = new System.Drawing.Size(116, 22);
             this.txtArrivalDate.TabIndex = 3;
             // 
-            // txtProductCode
+            // txtReceived
             // 
-            this.txtProductCode.Location = new System.Drawing.Point(142, 77);
-            this.txtProductCode.Name = "txtProductCode";
-            this.txtProductCode.Size = new System.Drawing.Size(116, 26);
-            this.txtProductCode.TabIndex = 3;
-            this.txtProductCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductCode_KeyDown);
+            this.txtReceived.Location = new System.Drawing.Point(564, 78);
+            this.txtReceived.MaxLength = 10;
+            this.txtReceived.Name = "txtReceived";
+            this.txtReceived.ReadOnly = true;
+            this.txtReceived.Size = new System.Drawing.Size(87, 26);
+            this.txtReceived.TabIndex = 29;
             // 
-            // label3
+            // txtTotal
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 77);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 19);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Barcode";
+            this.txtTotal.Location = new System.Drawing.Point(467, 78);
+            this.txtTotal.MaxLength = 10;
+            this.txtTotal.Name = "txtTotal";
+            this.txtTotal.ReadOnly = true;
+            this.txtTotal.Size = new System.Drawing.Size(91, 26);
+            this.txtTotal.TabIndex = 28;
+            this.txtTotal.TabStop = false;
             // 
-            // cmbProducts
+            // label4
             // 
-            this.cmbProducts.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cmbProducts.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cmbProducts.FormattingEnabled = true;
-            this.cmbProducts.Items.AddRange(new object[] {
-            "select Product"});
-            this.cmbProducts.Location = new System.Drawing.Point(264, 77);
-            this.cmbProducts.Name = "cmbProducts";
-            this.cmbProducts.Size = new System.Drawing.Size(197, 27);
-            this.cmbProducts.TabIndex = 12;
-            this.cmbProducts.Visible = false;
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.DarkRed;
+            this.label4.Location = new System.Drawing.Point(478, 56);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(47, 19);
+            this.label4.TabIndex = 30;
+            this.label4.Text = "T.Qty";
             // 
-            // txtProductID
+            // label5
             // 
-            this.txtProductID.Location = new System.Drawing.Point(467, 78);
-            this.txtProductID.MaxLength = 10;
-            this.txtProductID.Name = "txtProductID";
-            this.txtProductID.Size = new System.Drawing.Size(91, 26);
-            this.txtProductID.TabIndex = 24;
-            this.txtProductID.TabStop = false;
-            this.txtProductID.Visible = false;
-            // 
-            // txtQuantity
-            // 
-            this.txtQuantity.Location = new System.Drawing.Point(564, 78);
-            this.txtQuantity.MaxLength = 10;
-            this.txtQuantity.Name = "txtQuantity";
-            this.txtQuantity.Size = new System.Drawing.Size(87, 26);
-            this.txtQuantity.TabIndex = 25;
-            this.txtQuantity.Visible = false;
-            this.txtQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQuantity_KeyDown);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(560, 56);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(85, 19);
+            this.label5.TabIndex = 31;
+            this.label5.Text = "T.Received";
             // 
             // StockInDetailKhaakiForm
             // 
@@ -235,5 +282,9 @@
         private System.Windows.Forms.ComboBox cmbProducts;
         private System.Windows.Forms.TextBox txtProductID;
         private System.Windows.Forms.TextBox txtQuantity;
+        private System.Windows.Forms.TextBox txtReceived;
+        private System.Windows.Forms.TextBox txtTotal;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
     }
 }

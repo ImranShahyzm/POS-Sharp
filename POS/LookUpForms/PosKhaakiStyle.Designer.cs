@@ -91,6 +91,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnReprintPopup = new System.Windows.Forms.Button();
+            this.btnCancelInvoice = new System.Windows.Forms.Button();
+            this.label25 = new System.Windows.Forms.Label();
             this.txtSalesManID = new System.Windows.Forms.TextBox();
             this.txtCardName = new System.Windows.Forms.TextBox();
             this.txtCardNumber = new System.Windows.Forms.TextBox();
@@ -141,6 +144,7 @@
             this.btnStock.TabIndex = 12;
             this.btnStock.Text = "Stock Arrival";
             this.btnStock.UseVisualStyleBackColor = false;
+            this.btnStock.Visible = false;
             this.btnStock.Click += new System.EventHandler(this.btnStock_Click);
             // 
             // txtPrint
@@ -176,6 +180,7 @@
             this.btnClear.TabIndex = 1;
             this.btnClear.Text = "New Sale (ALT+N)";
             this.btnClear.UseVisualStyleBackColor = false;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click_1);
             // 
             // btnSave
             // 
@@ -473,6 +478,7 @@
             this.txtCardAmount.TabIndex = 28;
             this.txtCardAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCardAmount_KeyDown);
             this.txtCardAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCardAmount_KeyPress);
+            this.txtCardAmount.Leave += new System.EventHandler(this.txtCardAmount_Leave);
             // 
             // label23
             // 
@@ -494,6 +500,7 @@
             this.txtCashAmount.TextChanged += new System.EventHandler(this.txtCashAmount_TextChanged);
             this.txtCashAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCashAmount_KeyDown);
             this.txtCashAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCashAmount_KeyPress);
+            this.txtCashAmount.Leave += new System.EventHandler(this.txtCashAmount_Leave);
             // 
             // label13
             // 
@@ -777,6 +784,9 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.btnReprintPopup);
+            this.panel5.Controls.Add(this.btnCancelInvoice);
+            this.panel5.Controls.Add(this.label25);
             this.panel5.Controls.Add(this.txtSalesManID);
             this.panel5.Controls.Add(this.txtCardName);
             this.panel5.Controls.Add(this.txtCardNumber);
@@ -819,6 +829,45 @@
             this.panel5.Size = new System.Drawing.Size(1038, 163);
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // btnReprintPopup
+            // 
+            this.btnReprintPopup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnReprintPopup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReprintPopup.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReprintPopup.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnReprintPopup.Location = new System.Drawing.Point(719, 54);
+            this.btnReprintPopup.Name = "btnReprintPopup";
+            this.btnReprintPopup.Size = new System.Drawing.Size(115, 31);
+            this.btnReprintPopup.TabIndex = 30;
+            this.btnReprintPopup.Text = "Search";
+            this.btnReprintPopup.UseVisualStyleBackColor = false;
+            this.btnReprintPopup.Click += new System.EventHandler(this.btnReprintPopup_Click);
+            // 
+            // btnCancelInvoice
+            // 
+            this.btnCancelInvoice.BackColor = System.Drawing.Color.Red;
+            this.btnCancelInvoice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelInvoice.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelInvoice.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnCancelInvoice.Location = new System.Drawing.Point(710, 121);
+            this.btnCancelInvoice.Name = "btnCancelInvoice";
+            this.btnCancelInvoice.Size = new System.Drawing.Size(200, 38);
+            this.btnCancelInvoice.TabIndex = 30;
+            this.btnCancelInvoice.Text = "Cancel Invoice";
+            this.btnCancelInvoice.UseVisualStyleBackColor = false;
+            this.btnCancelInvoice.Visible = false;
+            this.btnCancelInvoice.Click += new System.EventHandler(this.buttonCancelInvoice_Click);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(651, 86);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(234, 18);
+            this.label25.TabIndex = 30;
+            this.label25.Text = "{ALT+R} = To Reprint Existing Receipt ";
             // 
             // txtSalesManID
             // 
@@ -1231,6 +1280,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DiscountOnQuantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn SchemeID;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Exchange;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Button btnCancelInvoice;
+        private System.Windows.Forms.Button btnReprintPopup;
     }
 }
 

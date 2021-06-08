@@ -16,14 +16,14 @@ namespace POS.Report {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class SaleThermalKhaakiPos : ReportClass {
+    public class SaleActivityKhaaki : ReportClass {
         
-        public SaleThermalKhaakiPos() {
+        public SaleActivityKhaaki() {
         }
         
         public override string ResourceName {
             get {
-                return "SaleThermalKhaakiPos.rpt";
+                return "SaleActivityKhaaki.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace POS.Report {
         
         public override string FullResourceName {
             get {
-                return "POS.Report.SaleThermalKhaakiPos.rpt";
+                return "POS.Report.SaleActivityKhaaki.rpt";
             }
             set {
                 // Do nothing
@@ -50,7 +50,7 @@ namespace POS.Report {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section1 {
+        public CrystalDecisions.CrystalReports.Engine.Section ReportHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[0];
             }
@@ -74,7 +74,7 @@ namespace POS.Report {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,7 +82,7 @@ namespace POS.Report {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection3 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,7 +90,7 @@ namespace POS.Report {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection2 {
+        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[5];
             }
@@ -98,7 +98,7 @@ namespace POS.Report {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
+        public CrystalDecisions.CrystalReports.Engine.Section PageFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[6];
             }
@@ -106,15 +106,7 @@ namespace POS.Report {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
-            get {
-                return this.ReportDefinition.Sections[7];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_ServerName {
+        public CrystalDecisions.Shared.IParameterField Parameter_CompanyName {
             get {
                 return this.DataDefinition.ParameterFields[0];
             }
@@ -122,7 +114,7 @@ namespace POS.Report {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_LanguageSelection {
+        public CrystalDecisions.Shared.IParameterField Parameter_ReportFiltration {
             get {
                 return this.DataDefinition.ParameterFields[1];
             }
@@ -130,7 +122,7 @@ namespace POS.Report {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_TagName {
+        public CrystalDecisions.Shared.IParameterField Parameter_UserName {
             get {
                 return this.DataDefinition.ParameterFields[2];
             }
@@ -138,17 +130,33 @@ namespace POS.Report {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_Username {
+        public CrystalDecisions.Shared.IParameterField Parameter_SuppressTag {
             get {
                 return this.DataDefinition.ParameterFields[3];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_NetSale {
+            get {
+                return this.DataDefinition.ParameterFields[4];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_MasterDiscount {
+            get {
+                return this.DataDefinition.ParameterFields[5];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedSaleThermalKhaakiPos : Component, ICachedReport {
+    public class CachedSaleActivityKhaaki : Component, ICachedReport {
         
-        public CachedSaleThermalKhaakiPos() {
+        public CachedSaleActivityKhaaki() {
         }
         
         [Browsable(false)]
@@ -185,7 +193,7 @@ namespace POS.Report {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            SaleThermalKhaakiPos rpt = new SaleThermalKhaakiPos();
+            SaleActivityKhaaki rpt = new SaleActivityKhaaki();
             rpt.Site = this.Site;
             return rpt;
         }

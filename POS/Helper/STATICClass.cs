@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
@@ -19,7 +20,7 @@ namespace POS.Helper
     public static class STATICClass
     {
         //*****Khaki Api URL **********//
-       // public static string BaseURL = "http://103.86.135.182:1038/";
+      //public static string BaseURL = "http://103.86.135.182:1038/";
         //******************************//
 
             //*********** Food Mama Api Url *************//
@@ -27,7 +28,7 @@ namespace POS.Helper
         //***************************************//
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-        public static string BaseURL = "http://localhost:44333/";
+        static string BaseURL = "http://localhost:44333/";
         public static string Connection()
         {
             return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -361,6 +362,23 @@ namespace POS.Helper
 
 
 
+        }
+
+        public static async Task<string> CheckNewWayofStockArrivalInsert (string JsonDataStr, string ArrivalID = "0")
+        {
+           
+
+            var bodyContent = "JsonDataStr=" + JsonDataStr + "&WHID=" + CompanyInfo.WareHouseID + "&ArrivalID=" + ArrivalID + "";
+            MyModel.Key = "'"+JsonDataStr+"'" ;
+            //StockArrivalFromBranches
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsync(BaseURL+ "/apipos/StockArrivalFromBranches?WHID=" + CompanyInfo.WareHouseID + "&ArrivalID=" + ArrivalID + "", new StringContent(MyModel.Key, Encoding.UTF8, "application/json"));
+
+                return response.Content.ReadAsStringAsync().Result;
+            }
+
+           
         }
 
         public static async Task<DataSet> GetAllSalesMan()
@@ -760,45 +778,56 @@ namespace POS.Helper
         {
 
 
+            //var bodyContent = "JsonDataStr=" + JsonInvoiceStr + "&WHID=" + CompanyInfo.WareHouseID + "&ArrivalID=" + ArrivalID + "";
+            MyModel.Key = "'" + JsonInvoiceStr + "'";
+            //StockArrivalFromBranches
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(BaseURL);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = await client.PostAsync(BaseURL + "apipos/InsertAllStockReturntoServer?RSDateFrom=" + DateFrom + "&RSDateTo=" + DateTo + "&RSWHID=" + WHID + "&RSCompanyID=" + CompanyID + "", new StringContent(MyModel.Key, Encoding.UTF8, "application/json"));
 
-                HttpResponseMessage response;
-                try
-                {
-                    var id = 0;
-                    //id == 0 means select all records    
-                    if (id == 0)
-                    {
-                        response = await client.GetAsync("apipos/InsertAllStockReturntoServer?RJsonStockStr=" + JsonInvoiceStr + "&RSDateFrom=" + DateFrom + "&RSDateTo=" + DateTo + "&RSWHID=" + WHID + "&RSCompanyID=" + CompanyID + "");
-                        if (response.IsSuccessStatusCode)
-                        {
-
-                            var abc = response.Content.ToString();
-                            using (Stream stream = response.Content.ReadAsStreamAsync().Result)
-                            {
-                                string json = new StreamReader(stream).ReadToEnd();
-
-
-                                return json;
-
-                            }
-
-                        }
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    var Temp = e.Message;
-                    return Temp;
-                }
-                var i = 0;
+                return response.Content.ReadAsStringAsync().Result;
             }
-            return "NoRecordsTransferrred";
+
+
+            //using (var client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri(BaseURL);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            //    HttpResponseMessage response;
+            //    try
+            //    {
+            //        var id = 0;
+            //        //id == 0 means select all records    
+            //        if (id == 0)
+            //        {
+            //            response = await client.GetAsync("apipos/InsertAllStockReturntoServer?RJsonStockStr=" + JsonInvoiceStr + "&RSDateFrom=" + DateFrom + "&RSDateTo=" + DateTo + "&RSWHID=" + WHID + "&RSCompanyID=" + CompanyID + "");
+            //            if (response.IsSuccessStatusCode)
+            //            {
+
+            //                var abc = response.Content.ToString();
+            //                using (Stream stream = response.Content.ReadAsStreamAsync().Result)
+            //                {
+            //                    string json = new StreamReader(stream).ReadToEnd();
+
+
+            //                    return json;
+
+            //                }
+
+            //            }
+            //        }
+
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        var Temp = e.Message;
+            //        return Temp;
+            //    }
+            //    var i = 0;
+            //}
+            //return "NoRecordsTransferrred";
 
 
 

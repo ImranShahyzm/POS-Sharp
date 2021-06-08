@@ -40,7 +40,7 @@ namespace POS.LookUpForms
             dgvStockDetailData.Columns["ItemId"].Visible = false;
             dgvStockDetailData.Columns["TransferToWHID"].Visible = false;
             dgvStockDetailData.Columns["StockTransferDetailID"].Visible = false;
-            dgvStockDetailData.Columns[4].Width = 250;
+            dgvStockDetailData.Columns[4].Width = 350;
             dgvStockDetailData.Columns[5].Visible = false;
 
             dgvStockDetailData.Columns[6].Visible = false;
@@ -55,12 +55,13 @@ namespace POS.LookUpForms
             dgvStockDetailData.Columns[9].ReadOnly = true;
 
             dgvStockDetailData.Columns[10].ReadOnly = true;
-            var deleteButton = new DataGridViewButtonColumn();
-            deleteButton.Name = "dataGridViewDeleteButton";
-            deleteButton.HeaderText = "Delete";
-            deleteButton.Text = "Delete";
-            deleteButton.UseColumnTextForButtonValue = true;
-            this.dgvStockDetailData.Columns.Add(deleteButton);
+            //var deleteButton = new DataGridViewButtonColumn();
+            //deleteButton.Name = "dataGridViewDeleteButton";
+            //deleteButton.HeaderText = "Delete";
+            //deleteButton.Text = "Delete";
+            //deleteButton.UseColumnTextForButtonValue = true;
+            //this.dgvStockDetailData.Columns.Add(deleteButton);
+            CalculateDetail();
 
         }
         
@@ -366,7 +367,8 @@ namespace POS.LookUpForms
                        
                         ClearFields();
                         txtProductCode.Focus();
-                        return;
+                    CalculateDetail();
+                    return;
                     }
                 }
             
@@ -382,7 +384,24 @@ namespace POS.LookUpForms
             }
           
             ClearFields();
+            CalculateDetail();
             txtProductCode.Focus();
+        }
+
+        private void CalculateDetail()
+        {
+            int IssuedQty = 0;
+            int Received = 0;
+            for (int i = 0; i < dgvStockDetailData.Rows.Count; i++)
+            {
+                 IssuedQty = IssuedQty+(Convert.ToInt32(dgvStockDetailData.Rows[i].Cells[10].Value));
+
+                 Received = Received+(Convert.ToInt32(dgvStockDetailData.Rows[i].Cells[11].Value));
+                
+
+            }
+            txtTotal.Text = IssuedQty.ToString();
+            txtReceived.Text = Received.ToString();
         }
         private void ClearFields()
         {
@@ -410,6 +429,11 @@ namespace POS.LookUpForms
                     }
                 }
             }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -96,6 +96,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.stockTranscationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.warehouseArrivalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stockArrivalListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manualStockInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stockReturnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,12 +107,14 @@
             this.cashOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.billWiseRecoveryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inventoryListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashBookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.stockMovementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dailySaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salesManWiseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paymentMethodWiseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -911,6 +914,7 @@
             // stockTranscationsToolStripMenuItem
             // 
             this.stockTranscationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.warehouseArrivalToolStripMenuItem,
             this.stockArrivalListToolStripMenuItem,
             this.manualStockInToolStripMenuItem,
             this.stockReturnToolStripMenuItem,
@@ -919,6 +923,13 @@
             this.stockTranscationsToolStripMenuItem.Name = "stockTranscationsToolStripMenuItem";
             this.stockTranscationsToolStripMenuItem.Size = new System.Drawing.Size(116, 20);
             this.stockTranscationsToolStripMenuItem.Text = "Stock Transcations";
+            // 
+            // warehouseArrivalToolStripMenuItem
+            // 
+            this.warehouseArrivalToolStripMenuItem.Name = "warehouseArrivalToolStripMenuItem";
+            this.warehouseArrivalToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.warehouseArrivalToolStripMenuItem.Text = "Warehouse Arrival";
+            this.warehouseArrivalToolStripMenuItem.Click += new System.EventHandler(this.warehouseArrivalToolStripMenuItem_Click);
             // 
             // stockArrivalListToolStripMenuItem
             // 
@@ -990,15 +1001,24 @@
             // reportsToolStripMenuItem
             // 
             this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.inventoryListToolStripMenuItem,
             this.cashBookToolStripMenuItem,
             this.toolStripMenuItem1,
             this.stockMovementToolStripMenuItem,
             this.dailySaleToolStripMenuItem,
             this.salesManWiseToolStripMenuItem,
-            this.paymentMethodWiseToolStripMenuItem});
+            this.paymentMethodWiseToolStripMenuItem,
+            this.toolStripMenuItem2});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
             this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.reportsToolStripMenuItem.Text = "Reports";
+            // 
+            // inventoryListToolStripMenuItem
+            // 
+            this.inventoryListToolStripMenuItem.Name = "inventoryListToolStripMenuItem";
+            this.inventoryListToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.inventoryListToolStripMenuItem.Text = "Inventory List";
+            this.inventoryListToolStripMenuItem.Click += new System.EventHandler(this.inventoryListToolStripMenuItem_Click);
             // 
             // cashBookToolStripMenuItem
             // 
@@ -1041,6 +1061,13 @@
             this.paymentMethodWiseToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.paymentMethodWiseToolStripMenuItem.Text = "Payment Method Wise";
             this.paymentMethodWiseToolStripMenuItem.Click += new System.EventHandler(this.paymentMethodWiseToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(194, 22);
+            this.toolStripMenuItem2.Text = "Sale Activity";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // frmPOSSale
             // 
@@ -1164,6 +1191,9 @@
         private System.Windows.Forms.ToolStripMenuItem salesManWiseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stockMovementToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem paymentMethodWiseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem warehouseArrivalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inventoryListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }
 

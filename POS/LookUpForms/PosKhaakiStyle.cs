@@ -21,6 +21,8 @@ namespace POS
     public partial class PosKhaakiStyle : MetroForm
     {
         public bool directReturn = false;
+
+        public bool InvoiceCancel = false;
         public int SaleInvoiceNo = 0;
         public int SalePosMasterID = 0;
         public decimal netAmountForReturn = 0;
@@ -445,11 +447,11 @@ namespace POS
                 taxAmountTotal += Convert.ToString(ItemSaleGrid.Rows[i].Cells[7].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[7].Value); 
                 TotalDiscount += Convert.ToString(ItemSaleGrid.Rows[i].Cells[9].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[9].Value);
             }
-            txtGrossAmount.Text = Convert.ToString(Math.Round(sum+(-1 * TotalExchanged), 2));
-            txtTotalTax.Text = Convert.ToString(Math.Round(taxAmountTotal, 2));
+            txtGrossAmount.Text = Convert.ToString(Math.Ceiling(sum+(-1 * TotalExchanged)));
+            txtTotalTax.Text = Convert.ToString(Math.Ceiling(taxAmountTotal));
             decimal discAmount = txtDiscountAmount.Text == "" ? 0 : Convert.ToDecimal(txtDiscountAmount.Text);
-            txtTotalDiscount.Text = Convert.ToString(Math.Round(TotalDiscount+discAmount, 2));
-            txtExchangeAmt.Text = Convert.ToString(Math.Round((-1)*TotalExchanged, 2));
+            txtTotalDiscount.Text = Convert.ToString(Math.Ceiling(TotalDiscount+discAmount));
+            txtExchangeAmt.Text = Convert.ToString(Math.Ceiling((-1)*TotalExchanged));
             CalculateNetTotal();
             cashCardPayments();
 
@@ -469,7 +471,7 @@ namespace POS
                 decimal totalDiscount = txtTotalDiscount.Text == "" ? 0 : Convert.ToDecimal(txtTotalDiscount.Text);
                 decimal netAmount = grossAmount - totalDiscount + totalTaxAmount + otherCharges - (ExchangeAmount);
 
-                txtNetAmount.Text = Math.Round(netAmount, 2).ToString();
+                txtNetAmount.Text = Math.Ceiling(netAmount).ToString();
                 if (SaleInvoiceNo == 0)
                 {
                     if (directReturn == true)
@@ -478,7 +480,7 @@ namespace POS
                     }
                     else
                     {
-                        txtReceivableAmount.Text = Math.Round(netAmount, 2).ToString();
+                        txtReceivableAmount.Text = Math.Ceiling(netAmount).ToString();
                     }
 
                 }
@@ -500,13 +502,13 @@ namespace POS
                             txtAmountReturn.Text = "0.00";
                             txtAmountReceive.Text = "0.00";
                             txtPayableAmount.Text = "0.00";
-                            txtReceivableAmount.Text = Math.Round((netAmount - accAmount), 2).ToString();
+                            txtReceivableAmount.Text = Math.Ceiling((netAmount - accAmount)).ToString();
                         }
                     }
                     else
 
                     {
-                        txtReceivableAmount.Text = Math.Round(netAmount, 2).ToString();
+                        txtReceivableAmount.Text = Math.Ceiling(netAmount).ToString();
                     }
                 }
                 decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
@@ -929,9 +931,14 @@ namespace POS
             {
                 cmd = new SqlCommand("data_SalePosInfo_Insert", con);
             }
-            else
+            else if(InvoiceCancel == false)
             {
                 cmd = new SqlCommand("data_SalePosInfo_update", con);
+                SalePosMasterID = Convert.ToInt32(SalePosID.Text);
+            }
+            else
+            {
+                cmd = new SqlCommand("data_SalePosInfo_Cancel", con);
                 SalePosMasterID = Convert.ToInt32(SalePosID.Text);
             }
             cmd.CommandType = CommandType.StoredProcedure;
@@ -991,12 +998,14 @@ namespace POS
                 value.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
-                if (directReturn == false)
+                if (directReturn == false && InvoiceCancel==false)
                 {
                     reportName = "SaleInvoice";
 
                     obj.loadKhaakiInvoice("rpt_sale_invoice", reportName, value);
                 }
+                InvoiceCancel = false;
+                btnCancelInvoice.Visible = false;
                 clearAll();
                 if (SaleInvoiceNo == 0)
                 {
@@ -1159,6 +1168,9 @@ namespace POS
             this.totalBill = "0";
             this.ReceivedAmount = "0";
             this.ReturnAmount = "0";
+            btnCancelInvoice.Visible = false;
+            btnCancelInvoice.Text = "Cancel Invoice";
+            InvoiceCancel = false;
 
         }
 
@@ -1172,6 +1184,8 @@ namespace POS
             txtProductCode.Focus();
             SaleReturn = false;
             UpdateInvoice = false;
+            InvoiceCancel = false;
+            btnSave.Visible = true;
             //txtAmountReceive.ReadOnly = false;
         }
 
@@ -1549,19 +1563,22 @@ namespace POS
 
         private void btnNewSale_Click(object sender, EventArgs e)
         {
-            using (frmSaleInvoiceLookUp obj = new frmSaleInvoiceLookUp())
-            {
-                if (obj.ShowDialog() == DialogResult.OK)
-                {
-                    string id = obj.SaleInvoiceNo;
-                    if (id!="")
-                    {
-                        clearAll();
-                        loadWholeInvoice(id);
-                        txtInvoiceNo.Text = id;
-                    }
-                }
-            };
+            clearAll();
+            loadNewSale();
+            //return true;
+            //using (frmSaleInvoiceLookUp obj = new frmSaleInvoiceLookUp())
+            //{
+            //    if (obj.ShowDialog() == DialogResult.OK)
+            //    {
+            //        string id = obj.SaleInvoiceNo;
+            //        if (id!="")
+            //        {
+            //            clearAll();
+            //            loadWholeInvoice(id);
+            //            txtInvoiceNo.Text = id;
+            //        }
+            //    }
+            //};
         }
         private void loadWholeInvoice(string InvoiceNo)
         {
@@ -1629,7 +1646,20 @@ namespace POS
                 txtAmountReceive.ReadOnly = true;
                 txtPrint.Visible = true;
                 SaleReturn = false;
+                var isCancelled=Convert.ToBoolean(dt.Rows[0]["DirectReturn"]);
+                if(isCancelled==true)
+                {
+                    btnCancelInvoice.Text = "Cancelled";
+                    btnCancelInvoice.Enabled = false;
+                }
+                btnCancelInvoice.Visible = true;
                 txtSalesManID.Text= Convert.ToString(dt.Rows[0]["SaleManID"]);
+
+                txtCashAmount.Text = Convert.ToString(dt.Rows[0]["CashPayment"]);
+
+                txtCardAmount.Text = Convert.ToString(dt.Rows[0]["CardPayment"]);
+
+                txtExchangeAmt.Text = Convert.ToString(dt.Rows[0]["ExchangeAmount"]);
                 this.SaleManId=Convert.ToString(dt.Rows[0]["SaleManID"]);
                 for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
@@ -1657,6 +1687,7 @@ namespace POS
                 txtProductCode.Select();
                 txtProductCode.Focus();
                 txtInvoiceNo.ReadOnly = true;
+                btnSave.Visible = false;
 
             }
             else
@@ -1798,7 +1829,7 @@ namespace POS
                 obj.loadKhaakiInvoice("rpt_sale_invoice", reportName, value);
                 //obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
             }
-            loadNewSale();
+            btnNewSale_Click(sender,e);
            
         }
 
@@ -1816,7 +1847,7 @@ namespace POS
         private async void btnStock_Click(object sender, EventArgs e)
         {
 
-            await STATICClass.GetAllInventory();
+          
             await STATICClass.GetStokcIssue();
             using (frmStockArrival obj = new frmStockArrival())
             {
@@ -2321,6 +2352,7 @@ namespace POS
             {
 
                 e.Handled = true;
+            
 
             }
 
@@ -2330,7 +2362,10 @@ namespace POS
 
 
                 e.Handled = true;
+              
+
             }
+         
 
         }
         private void cashCardPayments()
@@ -2385,6 +2420,56 @@ namespace POS
             }
 
         }
-        
+
+        private void btnClear_Click_1(object sender, EventArgs e)
+        {
+            clearAll();
+            loadNewSale();
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnReprintPopup_Click(object sender, EventArgs e)
+        {
+            loadReturnView();
+            
+        }
+
+        private void buttonCancelInvoice_Click(object sender, EventArgs e)
+        {
+            if (validateSave())
+            {
+                InvoiceCancel = true;
+                GrossAmount_Total();
+                CheckReceivedAmount();
+                this.totalBill = txtReceivableAmount.Text;
+                this.ReceivedAmount = txtAmountReceive.Text;
+                this.ReturnAmount = txtAmountReturn.Text;
+
+                
+                SaveForm();
+
+            }
+        }
+
+        private void txtCashAmount_Leave(object sender, EventArgs e)
+        {
+            decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+            decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
+            decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
+            txtAmountReturn.Text = (recAmount - payableAmount).ToString();
+        }
+
+        private void txtCardAmount_Leave(object sender, EventArgs e)
+        {
+            decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+            decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
+            decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
+            txtAmountReturn.Text = (recAmount - payableAmount).ToString();
+        }
     }
 }

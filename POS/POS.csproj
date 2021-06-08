@@ -229,6 +229,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\Script 1.0.0.30.sql" />
     <Compile Include="frmCreditCardDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -294,6 +295,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmPendingBillsLookUp.Designer.cs">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockListOnScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockListOnScreen.Designer.cs">
+      <DependentUpon>frmStockListOnScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\frmStockIssuanceKhaaki.cs">
       <SubType>Form</SubType>
@@ -408,6 +415,12 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\frmDailySaleActivity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailySaleActivity.Designer.cs">
+      <DependentUpon>frmDailySaleActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\frmDailySaleKhaaki.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -490,6 +503,13 @@
     </Compile>
     <Compile Include="Report\CreditCardWise.cs">
       <DependentUpon>CreditCardWise.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleActivityKhaaki.cs">
+      <DependentUpon>SaleActivityKhaaki.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -622,6 +642,9 @@
     <EmbeddedResource Include="LookUpForms\frmPendingBillsLookUp.resx">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmStockListOnScreen.resx">
+      <DependentUpon>frmStockListOnScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmStockIssuanceKhaaki.resx">
       <DependentUpon>frmStockIssuanceKhaaki.cs</DependentUpon>
     </EmbeddedResource>
@@ -695,6 +718,9 @@
       <LastGenOutput>DayBook.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailySaleActivity.resx">
+      <DependentUpon>frmDailySaleActivity.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmDailySaleKhaaki.resx">
       <DependentUpon>frmDailySaleKhaaki.cs</DependentUpon>
     </EmbeddedResource>
@@ -747,6 +773,11 @@
     <EmbeddedResource Include="Report\CreditCardWise.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CreditCardWise.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleActivityKhaaki.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleActivityKhaaki.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleRegisterKhaaki.rpt">
@@ -916,6 +947,9 @@
     <Content Include="DbScripts\Script 1.0.0.12.sql" />
     <Content Include="DbScripts\Script 1.0.0.25.sql" />
     <Content Include="DbScripts\Script 1.0.0.26.sql" />
+    <Content Include="DbScripts\Script 1.0.0.27.sql" />
+    <Content Include="DbScripts\Script 1.0.0.28.sql" />
+    <Content Include="DbScripts\Script 1.0.0.29.sql" />
     <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />

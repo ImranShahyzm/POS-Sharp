@@ -39,6 +39,13 @@ namespace POS
                 tableLayoutPanel1.Hide();
                 
             }
+            if(CompanyInfo.isKhaakiSoft)
+            {
+
+               manualStockInToolStripMenuItem.Visible = false;
+
+                billWiseRecoveryToolStripMenuItem.Visible = false;
+            }
 
         }
         private void loadProducts()
@@ -1525,6 +1532,41 @@ namespace POS
         {
             frmCashCardWise frm = new frmCashCardWise();
             frm.ShowDialog();
+        }
+
+        private async void  warehouseArrivalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            await STATICClass.GetStokcIssue();
+            using (frmStockArrival obj = new frmStockArrival())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void inventoryListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmStockListOnScreen obj = new frmStockListOnScreen())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            using (frmDailySaleActivity obj = new frmDailySaleActivity())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
         }
     }
 }

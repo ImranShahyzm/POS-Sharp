@@ -52,7 +52,9 @@
             this.dgvSaleInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSaleInvoices.Size = new System.Drawing.Size(730, 339);
             this.dgvSaleInvoices.TabIndex = 0;
+            this.dgvSaleInvoices.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSaleInvoices_CellClick);
             this.dgvSaleInvoices.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSaleInvoices_CellContentClick);
+            this.dgvSaleInvoices.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSaleInvoices_KeyDown);
             this.dgvSaleInvoices.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvSaleInvoices_KeyPress);
             // 
             // label11

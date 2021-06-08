@@ -18,4 +18,10 @@ namespace POS.Helper
             }
        
     }
+    public static class MyModel
+    {
+        public static string Key { get; set; }
+    }
 }
+
+

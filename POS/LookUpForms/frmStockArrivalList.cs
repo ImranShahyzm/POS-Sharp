@@ -105,7 +105,10 @@ namespace POS.LookUpForms
                     dgvDetail.DataSource = dt;
                     dgvDetail.Columns[0].Width = 100;
                     dgvDetail.Columns[1].Width = 200;
-                    btnDelete.Visible = true;
+                    if (!CompanyInfo.isKhaakiSoft)
+                    {
+                        btnDelete.Visible = true;
+                    }
                 }
                 else
                 {

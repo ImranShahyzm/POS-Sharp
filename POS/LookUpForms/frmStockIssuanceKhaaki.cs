@@ -50,7 +50,7 @@ namespace POS.LookUpForms
         }
         public void getIssuanceNo()
         {
-            int SaleVoucherNo = GetVoucherNoI(Fieldname: "IssuanceNo", TableName: "data_StockIssuancetoPosKitchen", CheckTaxable: false,
+            int SaleVoucherNo = GetVoucherNoContinuos(Fieldname: "IssuanceNo", TableName: "data_StockIssuancetoPosKitchen", CheckTaxable: false,
                   PrimaryKeyValue: 0, PrimaryKeyFieldName: "IssuanceID", voucherDate: Convert.ToDateTime(txtArrivalDate.Value.Date), voucherDateFieldName: "IssuanceDate",
                   companyID: CompanyInfo.CompanyID, FiscalID: CompanyInfo.FiscalID);
             txtSerielNo.Text = Convert.ToString(SaleVoucherNo);
@@ -68,6 +68,42 @@ namespace POS.LookUpForms
                 DataTable dt = new DataTable();
                 SqlConnection con = new SqlConnection(connectionString);
                 SqlCommand cmd = new SqlCommand("GetVoucherNoPos", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter();
+                cmd.Parameters.Add(new SqlParameter("@Fieldname", Fieldname));
+                cmd.Parameters.Add(new SqlParameter("@TableName", TableName));
+                cmd.Parameters.Add(new SqlParameter("@CheckTaxable", CheckTaxable));
+                cmd.Parameters.Add(new SqlParameter("@PrimaryKeyValue", PrimaryKeyValue));
+                cmd.Parameters.Add(new SqlParameter("@PrimaryKeyFieldName", PrimaryKeyFieldName));
+                cmd.Parameters.Add(new SqlParameter("@voucherDate", voucherDate));
+                cmd.Parameters.Add(new SqlParameter("@voucherDateFieldName", voucherDateFieldName));
+                cmd.Parameters.Add(new SqlParameter("@companyID", companyID));
+                cmd.Parameters.Add(new SqlParameter("@companyFieldName", companyFieldName));
+                cmd.Parameters.Add(new SqlParameter("@FiscalID", FiscalID));
+                cmd.Parameters.Add(new SqlParameter("@FiscalIDFieldName", FiscalIDFieldName));
+                cmd.Parameters.Add(new SqlParameter("@IsTaxable", IsTaxable));
+                da.SelectCommand = cmd;
+                da.Fill(dt);
+                return Convert.ToInt32(dt.Rows[0][0]);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+        public Int32 GetVoucherNoContinuos(string Fieldname, string TableName, bool CheckTaxable, Int32 PrimaryKeyValue,
+        string PrimaryKeyFieldName, DateTime? voucherDate, string voucherDateFieldName = "",
+        Int32 companyID = 0, string companyFieldName = "CompanyID", Int32 FiscalID = 0,
+        string FiscalIDFieldName = "FiscalID", bool IsTaxable = false)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            try
+            {
+                DataTable dt = new DataTable();
+                SqlConnection con = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetVoucherNoS", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter();
                 cmd.Parameters.Add(new SqlParameter("@Fieldname", Fieldname));
