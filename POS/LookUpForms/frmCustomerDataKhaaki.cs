@@ -115,7 +115,18 @@ namespace POS
         {
             if (validateSave())
             {
-                SaveForm();
+                string message = "Do you want to Save the Data?";
+                string title = "Close Window";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result = MessageBox.Show(message, title, buttons);
+                if (result == DialogResult.Yes)
+                {
+                    SaveForm();
+                }
+                else
+                {
+                    btnSave.Enabled = false;
+                }
             }
         }
         private void LoadCustomerData(string CustomerID)
@@ -275,6 +286,7 @@ namespace POS
 
         private void SaveForm()
         {
+            
 
             int RegisterID = 0;
             if(!string.IsNullOrEmpty(txtRegisterID.Text))
@@ -398,7 +410,19 @@ namespace POS
             {
                 if (validateSave())
                 {
-                    SaveForm();
+                    string message = "Do you want to Save the Data?";
+                    string title = "Close Window";
+                    MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                    DialogResult result = MessageBox.Show(message, title, buttons);
+                    if (result == DialogResult.Yes)
+                    {
+                        SaveForm();
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                   
                 }
                 return true;
             }

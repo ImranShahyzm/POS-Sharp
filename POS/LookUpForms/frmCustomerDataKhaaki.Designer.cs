@@ -97,7 +97,7 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnClear.Location = new System.Drawing.Point(522, 3);
+            this.btnClear.Location = new System.Drawing.Point(525, 3);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(115, 31);
             this.btnClear.TabIndex = 22;
@@ -111,7 +111,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSave.Location = new System.Drawing.Point(393, 3);
+            this.btnSave.Location = new System.Drawing.Point(404, 3);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(115, 31);
             this.btnSave.TabIndex = 21;
@@ -126,9 +126,9 @@
             this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Location = new System.Drawing.Point(22, 512);
+            this.panel1.Location = new System.Drawing.Point(47, 512);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(659, 43);
+            this.panel1.Size = new System.Drawing.Size(670, 43);
             this.panel1.TabIndex = 23;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -138,7 +138,7 @@
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnDelete.Location = new System.Drawing.Point(272, 3);
+            this.btnDelete.Location = new System.Drawing.Point(283, 3);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(115, 31);
             this.btnDelete.TabIndex = 24;
@@ -152,7 +152,7 @@
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSearch.Location = new System.Drawing.Point(272, 3);
+            this.btnSearch.Location = new System.Drawing.Point(283, 3);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(115, 31);
             this.btnSearch.TabIndex = 23;
@@ -202,9 +202,9 @@
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.dtRegisterDate);
             this.panel2.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel2.Location = new System.Drawing.Point(23, 81);
+            this.panel2.Location = new System.Drawing.Point(47, 83);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(655, 423);
+            this.panel2.Size = new System.Drawing.Size(668, 423);
             this.panel2.TabIndex = 34;
             // 
             // txtCnic
@@ -739,7 +739,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(703, 567);
+            this.ClientSize = new System.Drawing.Size(784, 567);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
