@@ -48,10 +48,10 @@ namespace POS
 
                 btnProgressBar.Value = 9;
                 lblStatus.Text = "Syncing Locations With Server...";
-                await STATICClass.GetAllWareHouseGluserPromo();
+            await STATICClass.GetAllInventory();
+            await STATICClass.GetAllWareHouseGluserPromo();
                 await STATICClass.GetAllSalesMan();
-                await STATICClass.GetAllInventory();
-
+            
 
             var obj = new data_StockTransferInfoModel().SelectAllArrivalStock("where ArrivalDate between '"+dtpSaleFromDate.Value+ "' and '" + dtpSaleToDate.Value+ "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "",true,true, "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
            

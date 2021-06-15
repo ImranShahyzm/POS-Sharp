@@ -332,11 +332,11 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Red;
-            this.label9.Location = new System.Drawing.Point(177, 5);
+            this.label9.Location = new System.Drawing.Point(511, 5);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(166, 31);
+            this.label9.Size = new System.Drawing.Size(117, 31);
             this.label9.TabIndex = 0;
-            this.label9.Text = "CORBIS POS";
+            this.label9.Text = "KHAAKI";
             // 
             // txtProductCode
             // 

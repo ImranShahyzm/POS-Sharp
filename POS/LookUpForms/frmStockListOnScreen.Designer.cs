@@ -63,7 +63,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(508, 122);
+            this.label11.Location = new System.Drawing.Point(287, 122);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(118, 14);
             this.label11.TabIndex = 8;
@@ -71,7 +71,7 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(632, 119);
+            this.txtDescription.Location = new System.Drawing.Point(411, 119);
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(123, 20);
             this.txtDescription.TabIndex = 7;
@@ -108,6 +108,7 @@
             this.txtItemCode.Name = "txtItemCode";
             this.txtItemCode.Size = new System.Drawing.Size(123, 20);
             this.txtItemCode.TabIndex = 27;
+            this.txtItemCode.Visible = false;
             this.txtItemCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtItemCode_KeyDown);
             this.txtItemCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtItemCode_KeyPress);
             // 
@@ -120,6 +121,7 @@
             this.label1.Size = new System.Drawing.Size(86, 14);
             this.label1.TabIndex = 28;
             this.label1.Text = "Search By Code:";
+            this.label1.Visible = false;
             // 
             // label5
             // 

@@ -115,6 +115,9 @@
             this.salesManWiseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paymentMethodWiseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.orderSectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.makeOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -904,7 +907,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stockTranscationsToolStripMenuItem,
             this.cashTranscationsToolStripMenuItem,
-            this.reportsToolStripMenuItem});
+            this.reportsToolStripMenuItem,
+            this.orderSectionToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1219, 24);
@@ -980,21 +984,21 @@
             // cashInToolStripMenuItem
             // 
             this.cashInToolStripMenuItem.Name = "cashInToolStripMenuItem";
-            this.cashInToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.cashInToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cashInToolStripMenuItem.Text = "Cash In";
             this.cashInToolStripMenuItem.Click += new System.EventHandler(this.cashInToolStripMenuItem_Click);
             // 
             // cashOutToolStripMenuItem
             // 
             this.cashOutToolStripMenuItem.Name = "cashOutToolStripMenuItem";
-            this.cashOutToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.cashOutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cashOutToolStripMenuItem.Text = "Cash Out";
             this.cashOutToolStripMenuItem.Click += new System.EventHandler(this.cashOutToolStripMenuItem_Click);
             // 
             // billWiseRecoveryToolStripMenuItem
             // 
             this.billWiseRecoveryToolStripMenuItem.Name = "billWiseRecoveryToolStripMenuItem";
-            this.billWiseRecoveryToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.billWiseRecoveryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.billWiseRecoveryToolStripMenuItem.Text = "Bill Wise Recovery";
             this.billWiseRecoveryToolStripMenuItem.Click += new System.EventHandler(this.billWiseRecoveryToolStripMenuItem_Click);
             // 
@@ -1068,6 +1072,28 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(194, 22);
             this.toolStripMenuItem2.Text = "Sale Activity";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // orderSectionToolStripMenuItem
+            // 
+            this.orderSectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newCustomerToolStripMenuItem,
+            this.makeOrderToolStripMenuItem});
+            this.orderSectionToolStripMenuItem.Name = "orderSectionToolStripMenuItem";
+            this.orderSectionToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            this.orderSectionToolStripMenuItem.Text = "Order Section";
+            // 
+            // newCustomerToolStripMenuItem
+            // 
+            this.newCustomerToolStripMenuItem.Name = "newCustomerToolStripMenuItem";
+            this.newCustomerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newCustomerToolStripMenuItem.Text = "New Customer";
+            this.newCustomerToolStripMenuItem.Click += new System.EventHandler(this.newCustomerToolStripMenuItem_Click);
+            // 
+            // makeOrderToolStripMenuItem
+            // 
+            this.makeOrderToolStripMenuItem.Name = "makeOrderToolStripMenuItem";
+            this.makeOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.makeOrderToolStripMenuItem.Text = "Make Order";
             // 
             // frmPOSSale
             // 
@@ -1194,6 +1220,9 @@
         private System.Windows.Forms.ToolStripMenuItem warehouseArrivalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inventoryListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem orderSectionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newCustomerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem makeOrderToolStripMenuItem;
     }
 }
 

@@ -28,8 +28,8 @@ namespace POS.LookUpForms
         {
             loadSaleInvoices();
             CalculateDetail();
-            txtItemCode.Select();
-            txtItemCode.Focus();
+            txtDescription.Select();
+            txtDescription.Focus();
 
         }
 
@@ -152,7 +152,7 @@ left join adgen_ColorInfo ab on ab.ColorID=InventItems.ColorID
             }
             if (!string.IsNullOrEmpty(txtDescription.Text))
             {
-                Sql += " and InventItems.ItenName like '%" + txtDescription.Text + "'";
+                Sql += " and REPLACE (InventItems.ItenName,'-','')  like '%" + txtDescription.Text + "%'";
             }
             Sql += @" group by s.ItemId , InventItems.ItenName ,InventItems.ReOrderLevel, InventUOM.UOMName ,InventItems.CategoryID,InventCategory.ItemGroupID, 
 InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate,CartonSize,Itemnumber,VariantDescription,ColorTitle,ItemSalesPrice";
@@ -196,8 +196,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
         }
         private void txtInvoiceSearch_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)Keys.Back)))
-                e.Handled = true;
+        
         }
 
         private void dgvSaleInvoices_CellContentClick(object sender, DataGridViewCellEventArgs e)

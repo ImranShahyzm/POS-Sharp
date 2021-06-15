@@ -20,7 +20,7 @@ namespace POS.Helper
     public static class STATICClass
     {
         //*****Khaki Api URL **********//
-      //public static string BaseURL = "http://103.86.135.182:1038/";
+            public static string BaseURL = "http://103.86.135.182:1038/";
         //******************************//
 
             //*********** Food Mama Api Url *************//
@@ -28,7 +28,7 @@ namespace POS.Helper
         //***************************************//
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-        static string BaseURL = "http://localhost:44333/";
+        //static string BaseURL = "http://localhost:44333/";
         public static string Connection()
         {
             return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;

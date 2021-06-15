@@ -855,6 +855,7 @@ namespace POS
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            btnSave.Enabled = false;
             if (validateSave())
             {
                 GrossAmount_Total();
@@ -1031,7 +1032,9 @@ namespace POS
                 //{
                 //    tran.Rollback();
                 //}
-                    MessageBox.Show(ex.Message, "Important Message", MessageBoxButtons.OK,MessageBoxIcon.Error);
+
+                btnSave.Enabled = true;
+                MessageBox.Show(ex.Message, "Important Message", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             finally
             {
@@ -1067,23 +1070,31 @@ namespace POS
                 {
                     txtAmountReceive.Focus();
                     MessageBox.Show("Amount Receive should be greater than Receivable Amount!");
+
+                    btnSave.Enabled = true;
                     validateReturnOK = false;
                 }
                 else if (amountReturn < 0)
                 {
                     txtAmountReceive.Focus();
                     MessageBox.Show("Receiable Amount is not fully paid!");
+
+                    btnSave.Enabled = true;
                     validateReturnOK = false;
                 }
                 else if (lblSaleType.Text == "Sale Return" && SaleInvoiceNo == 0)
                 {
                     MessageBox.Show("There is no Invoice No."+ Environment.NewLine +" For New Sale Please Click New Sale button OR Press ( ALT+N ) !");
+
+                    btnSave.Enabled = true;
                     validateReturnOK = false;
                 }
             }
             else
             {
                 validateReturnOK = false;
+
+                btnSave.Enabled = true;
                 MessageBox.Show("There is no item in cart!");
             }
             return validateReturnOK;
@@ -1186,6 +1197,8 @@ namespace POS
             UpdateInvoice = false;
             InvoiceCancel = false;
             btnSave.Visible = true;
+
+            btnSave.Enabled = true;
             //txtAmountReceive.ReadOnly = false;
         }
 

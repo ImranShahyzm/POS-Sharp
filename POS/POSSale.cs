@@ -42,7 +42,7 @@ namespace POS
             if(CompanyInfo.isKhaakiSoft)
             {
 
-               manualStockInToolStripMenuItem.Visible = false;
+               manualStockInToolStripMenuItem.Visible = true;
 
                 billWiseRecoveryToolStripMenuItem.Visible = false;
             }
@@ -1561,6 +1561,17 @@ namespace POS
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             using (frmDailySaleActivity obj = new frmDailySaleActivity())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void newCustomerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmCustomerDataKhaaki obj = new frmCustomerDataKhaaki())
             {
                 if (obj.ShowDialog() == DialogResult.OK)
                 {

@@ -254,12 +254,19 @@
     <Compile Include="frmCashIn.Designer.cs">
       <DependentUpon>frmCashIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\StringCipher.cs" />
     <Compile Include="Helper\ComoboClass.cs" />
     <Compile Include="Helper\STATICClass.cs" />
     <Compile Include="Helper\CompanyInfo.cs" />
     <Compile Include="Helper\data_StockTransferInfoModel.cs" />
     <Compile Include="Helper\RightsClass.cs" />
     <Compile Include="LocalReportExtention.cs" />
+    <Compile Include="LookUpForms\frmCustomerDataKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmCustomerDataKhaaki.Designer.cs">
+      <DependentUpon>frmCustomerDataKhaaki.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmCashInAgainstBill.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -295,6 +302,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmPendingBillsLookUp.Designer.cs">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmSearchCustomerLookup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmSearchCustomerLookup.Designer.cs">
+      <DependentUpon>frmSearchCustomerLookup.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\frmStockListOnScreen.cs">
       <SubType>Form</SubType>
@@ -624,6 +637,9 @@
     <EmbeddedResource Include="frmCashIn.resx">
       <DependentUpon>frmCashIn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmCustomerDataKhaaki.resx">
+      <DependentUpon>frmCustomerDataKhaaki.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmCashInAgainstBill.resx">
       <DependentUpon>frmCashInAgainstBill.cs</DependentUpon>
     </EmbeddedResource>
@@ -641,6 +657,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmPendingBillsLookUp.resx">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmSearchCustomerLookup.resx">
+      <DependentUpon>frmSearchCustomerLookup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmStockListOnScreen.resx">
       <DependentUpon>frmStockListOnScreen.cs</DependentUpon>
@@ -997,6 +1016,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DbScripts\Script 1.0.0.24.sql">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.31.sql">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Content>
   </ItemGroup>

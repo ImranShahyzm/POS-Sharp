@@ -391,9 +391,10 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
         public DataTable SaleActivity(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
         {
             DataTable dt;
-            string Sql = @"select Format(SalePosDate , 'dd-MMM-yyyy') as SalePosDateFormat,data_SalePosInfo.SalePOSNo,Sum(data_SalePosInfo.GrossAmount) as SaleInfo_NetAmount,
-            0 as SaleInfo_DPer,Sum(data_SalePosInfo.DiscountAmount) as SaleInfo_DAmount,ISNULL(data_SalePosInfo.CustomerName,'Walking Customer') as Clientname,ISNULL(data_SalePosInfo.CustomerPhone,'') as ClientPhone,
-            sum(data_SalePosDetail.Quantity) as Quantity,0 as DiscountPercentage,sum(data_SalePosInfo.DiscountTotal) as TotalDiscount,
+            string Sql = @"
+            select Format(SalePosDate , 'dd-MMM-yyyy') as SalePosDateFormat,data_SalePosInfo.SalePOSNo,(data_SalePosInfo.GrossAmount-data_SalePosInfo.ExchangeAmount) as SaleInfo_NetAmount,
+            0 as SaleInfo_DPer,(data_SalePosInfo.DiscountAmount) as SaleInfo_DAmount,ISNULL(data_SalePosInfo.CustomerName,'Walking Customer') as Clientname,ISNULL(data_SalePosInfo.CustomerPhone,'') as ClientPhone,
+            sum(data_SalePosDetail.Quantity) as Quantity,0 as DiscountPercentage,(data_SalePosInfo.DiscountTotal) as TotalDiscount,
             Sum(data_SalePosDetail.TaxAmount) as TaxAmount
             from data_SalePosInfo 
             inner join data_SalePosDetail on data_SalePosInfo.SalePosID=data_SalePosDetail.SalePosID 
@@ -409,7 +410,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             {
                 Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
             }
-            Sql = Sql + " Group by  salePosdate,SalePOSNo,data_SalePosInfo.CustomerName,data_SalePosInfo.CustomerPhone ";
+            Sql = Sql + " Group by  DiscountTotal,ExchangeAmount,data_SalePosInfo.DiscountAmount,GrossAmount,salePosdate,SalePOSNo,data_SalePosInfo.CustomerName,data_SalePosInfo.CustomerPhone ";
             Sql = Sql + " order by data_SalePosInfo.SalePosDate,SalePOSNo";
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
