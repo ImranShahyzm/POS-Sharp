@@ -474,7 +474,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             DataTable dt;
 
             string Sql = @"
-		    select data_SalePosInfo.WHID,SalesMan.SaleManInfoID,SalesMan.SaleManName,VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ItemNumber,adgen_ColorInfo.ColorTitle ,format(data_SalePosInfo.SalePosDate,'dd-MMM-yyyy') as SalePosDate,Sum(data_SalePosInfo.NetAmount) as SaleInfo_NetAmount,
+		    select data_SalePosInfo.WHID,ISNULL(SalesMan.SaleManInfoID,0) as SaleManInfoID,ISNULL(SalesMan.SaleManName,'No Sales Person') as SaleManName,VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ItemNumber,adgen_ColorInfo.ColorTitle ,format(data_SalePosInfo.SalePosDate,'dd-MMM-yyyy') as SalePosDate,Sum(data_SalePosInfo.NetAmount) as SaleInfo_NetAmount,
             0 as SaleInfo_DPer,Sum(data_SalePosInfo.DiscountAmount) as SaleInfo_DAmount,data_SalePosDetail.ItemId,
  sum(data_SalePosDetail.Quantity) as Quantity,sum(data_SalePosDetail.Quantity*data_SalePosDetail.ItemRate) as DetailNet,0 as DiscountPercentage,sum(data_SalePosDetail.DiscountAmount) as DiscountAmount,
             sum(data_SalePosDetail.TaxAmount) as TaxAmount,

@@ -984,21 +984,21 @@
             // cashInToolStripMenuItem
             // 
             this.cashInToolStripMenuItem.Name = "cashInToolStripMenuItem";
-            this.cashInToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cashInToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.cashInToolStripMenuItem.Text = "Cash In";
             this.cashInToolStripMenuItem.Click += new System.EventHandler(this.cashInToolStripMenuItem_Click);
             // 
             // cashOutToolStripMenuItem
             // 
             this.cashOutToolStripMenuItem.Name = "cashOutToolStripMenuItem";
-            this.cashOutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cashOutToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.cashOutToolStripMenuItem.Text = "Cash Out";
             this.cashOutToolStripMenuItem.Click += new System.EventHandler(this.cashOutToolStripMenuItem_Click);
             // 
             // billWiseRecoveryToolStripMenuItem
             // 
             this.billWiseRecoveryToolStripMenuItem.Name = "billWiseRecoveryToolStripMenuItem";
-            this.billWiseRecoveryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.billWiseRecoveryToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.billWiseRecoveryToolStripMenuItem.Text = "Bill Wise Recovery";
             this.billWiseRecoveryToolStripMenuItem.Click += new System.EventHandler(this.billWiseRecoveryToolStripMenuItem_Click);
             // 
@@ -1094,6 +1094,7 @@
             this.makeOrderToolStripMenuItem.Name = "makeOrderToolStripMenuItem";
             this.makeOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.makeOrderToolStripMenuItem.Text = "Make Order";
+            this.makeOrderToolStripMenuItem.Click += new System.EventHandler(this.makeOrderToolStripMenuItem_Click);
             // 
             // frmPOSSale
             // 

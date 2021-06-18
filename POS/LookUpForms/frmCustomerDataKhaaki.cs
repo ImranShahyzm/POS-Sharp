@@ -194,6 +194,7 @@ namespace POS
                 txtBottomLength.Text=Convert.ToString(dt.Rows[0]["BottomLength"]);
                 txtAnkle.Text=Convert.ToString(dt.Rows[0]["Ankle"]);
                 txtRemarks.Text=Convert.ToString(dt.Rows[0]["Remarks"]);
+                txtProfession.Text = Convert.ToString(dt.Rows[0]["Profession"]);
 
                 txtRno.ReadOnly = true;
                 txtCustname.Select();
@@ -300,7 +301,6 @@ namespace POS
 
             ParamList.Add(new SqlParameter("@UserID", CompanyInfo.UserID));
             ParamList.Add(new SqlParameter("@RegisterDate", Convert.ToDateTime(dtRegisterDate.Value)));
-
             ParamList.Add(new SqlParameter("@CName", txtCustname.Text));
             ParamList.Add(new SqlParameter("@CPhone", txtPhone.Text));
             ParamList.Add(new SqlParameter("@Address",txtAddress.Text));
@@ -326,11 +326,10 @@ namespace POS
             ParamList.Add(new SqlParameter("@Ankle",txtAnkle.Text));
             ParamList.Add(new SqlParameter("@Remarks",txtRemarks.Text));
             ParamList.Add(new SqlParameter("@RNo",txtRno.Text));
-
             ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
             ParamList.Add(new SqlParameter("@BranchID", CompanyInfo.BranchID));
-         
             ParamList.Add(new SqlParameter("@WHID", CompanyInfo.WareHouseID));
+            ParamList.Add(new SqlParameter("@Profession", txtProfession.Text));
             try
             {
                 DataTable ret = STATICClass.ExecuteInsert(SP.PosData_tblCustomerData_Insert.ToString()
@@ -618,8 +617,8 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
-                txtAddress.Select();
-                txtAddress.Focus();
+                txtProfession.Select();
+                txtProfession.Focus();
             }
         }
 
@@ -636,8 +635,8 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
             {
-                cmbGender.Select();
-                cmbGender.Focus();
+                btnSave.Select();
+                btnSave.Focus();
             }
         }
 
@@ -645,8 +644,8 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
             {
-                txtNeck.Select();
-                txtNeck.Focus();
+                txtAddress.Select();
+                txtAddress.Focus();
             }
         }
 
@@ -859,6 +858,17 @@ namespace POS
 
                 btnSave.Select();
                 btnSave.Focus();
+
+            }
+        }
+
+        private void txtProfession_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+
+                cmbGender.Select();
+                cmbGender.Focus();
 
             }
         }

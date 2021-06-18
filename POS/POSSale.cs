@@ -1579,5 +1579,16 @@ namespace POS
                 }
             };
         }
+
+        private void makeOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmMakeToOrder obj = new frmMakeToOrder())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
     }
 }

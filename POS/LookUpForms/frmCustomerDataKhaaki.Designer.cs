@@ -86,6 +86,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtCustname = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtProfession = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.metroPanel1.SuspendLayout();
@@ -126,7 +128,7 @@
             this.panel1.Controls.Add(this.btnSearch);
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Location = new System.Drawing.Point(47, 512);
+            this.panel1.Location = new System.Drawing.Point(47, 297);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(670, 43);
             this.panel1.TabIndex = 23;
@@ -184,6 +186,8 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.txtProfession);
+            this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.txtCnic);
             this.panel2.Controls.Add(this.txtRegisterID);
             this.panel2.Controls.Add(this.txtRno);
@@ -204,14 +208,14 @@
             this.panel2.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel2.Location = new System.Drawing.Point(47, 83);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(668, 423);
+            this.panel2.Size = new System.Drawing.Size(668, 208);
             this.panel2.TabIndex = 34;
             // 
             // txtCnic
             // 
-            this.txtCnic.Location = new System.Drawing.Point(26, 106);
+            this.txtCnic.Location = new System.Drawing.Point(8, 75);
             this.txtCnic.Name = "txtCnic";
-            this.txtCnic.Size = new System.Drawing.Size(58, 25);
+            this.txtCnic.Size = new System.Drawing.Size(39, 25);
             this.txtCnic.TabIndex = 48;
             this.txtCnic.Visible = false;
             // 
@@ -236,7 +240,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(11, 24);
+            this.label8.Location = new System.Drawing.Point(16, 24);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(106, 17);
             this.label8.TabIndex = 45;
@@ -283,13 +287,14 @@
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(11, 145);
+            this.metroPanel1.Location = new System.Drawing.Point(14, 96);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(628, 256);
+            this.metroPanel1.Size = new System.Drawing.Size(52, 20);
             this.metroPanel1.TabIndex = 44;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 10;
+            this.metroPanel1.Visible = false;
             // 
             // txtRemarks
             // 
@@ -645,7 +650,7 @@
             this.cmbGender.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbGender.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbGender.FormattingEnabled = true;
-            this.cmbGender.Location = new System.Drawing.Point(460, 114);
+            this.cmbGender.Location = new System.Drawing.Point(461, 83);
             this.cmbGender.Name = "cmbGender";
             this.cmbGender.Size = new System.Drawing.Size(175, 25);
             this.cmbGender.TabIndex = 43;
@@ -656,7 +661,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(392, 117);
+            this.label6.Location = new System.Drawing.Point(392, 83);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(62, 17);
             this.label6.TabIndex = 42;
@@ -664,7 +669,7 @@
             // 
             // txtCity
             // 
-            this.txtCity.Location = new System.Drawing.Point(128, 114);
+            this.txtCity.Location = new System.Drawing.Point(128, 147);
             this.txtCity.Name = "txtCity";
             this.txtCity.Size = new System.Drawing.Size(255, 25);
             this.txtCity.TabIndex = 41;
@@ -674,7 +679,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(82, 117);
+            this.label4.Location = new System.Drawing.Point(82, 150);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 17);
             this.label4.TabIndex = 40;
@@ -682,7 +687,7 @@
             // 
             // txtAddress
             // 
-            this.txtAddress.Location = new System.Drawing.Point(128, 83);
+            this.txtAddress.Location = new System.Drawing.Point(128, 116);
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.Size = new System.Drawing.Size(507, 25);
             this.txtAddress.TabIndex = 39;
@@ -692,7 +697,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(54, 86);
+            this.label3.Location = new System.Drawing.Point(54, 119);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 17);
             this.label3.TabIndex = 38;
@@ -719,7 +724,7 @@
             // 
             // txtCustname
             // 
-            this.txtCustname.Location = new System.Drawing.Point(128, 52);
+            this.txtCustname.Location = new System.Drawing.Point(129, 52);
             this.txtCustname.Name = "txtCustname";
             this.txtCustname.Size = new System.Drawing.Size(254, 25);
             this.txtCustname.TabIndex = 35;
@@ -729,17 +734,35 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 55);
+            this.label1.Location = new System.Drawing.Point(2, 55);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(120, 17);
             this.label1.TabIndex = 34;
             this.label1.Text = "Customer Name:";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(40, 83);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(82, 17);
+            this.label11.TabIndex = 49;
+            this.label11.Text = "Profession:";
+            // 
+            // txtProfession
+            // 
+            this.txtProfession.Location = new System.Drawing.Point(129, 83);
+            this.txtProfession.Name = "txtProfession";
+            this.txtProfession.Size = new System.Drawing.Size(254, 25);
+            this.txtProfession.TabIndex = 50;
+            this.txtProfession.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProfession_KeyDown);
+            // 
             // frmCustomerDataKhaaki
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 567);
+            this.ClientSize = new System.Drawing.Size(784, 402);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
@@ -814,5 +837,7 @@
         private System.Windows.Forms.TextBox txtCnic;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtProfession;
     }
 }

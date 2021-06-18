@@ -261,6 +261,18 @@
     <Compile Include="Helper\data_StockTransferInfoModel.cs" />
     <Compile Include="Helper\RightsClass.cs" />
     <Compile Include="LocalReportExtention.cs" />
+    <Compile Include="LookUpForms\frmCreditCardDetailsMake.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmCreditCardDetailsMake.Designer.cs">
+      <DependentUpon>frmCreditCardDetailsMake.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmMakeToOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmMakeToOrder.Designer.cs">
+      <DependentUpon>frmMakeToOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmCustomerDataKhaaki.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -302,6 +314,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmPendingBillsLookUp.Designer.cs">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmSearchMaketoOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmSearchMaketoOrder.Designer.cs">
+      <DependentUpon>frmSearchMaketoOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\frmSearchCustomerLookup.cs">
       <SubType>Form</SubType>
@@ -637,6 +655,12 @@
     <EmbeddedResource Include="frmCashIn.resx">
       <DependentUpon>frmCashIn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmCreditCardDetailsMake.resx">
+      <DependentUpon>frmCreditCardDetailsMake.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmMakeToOrder.resx">
+      <DependentUpon>frmMakeToOrder.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmCustomerDataKhaaki.resx">
       <DependentUpon>frmCustomerDataKhaaki.cs</DependentUpon>
     </EmbeddedResource>
@@ -657,6 +681,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmPendingBillsLookUp.resx">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmSearchMaketoOrder.resx">
+      <DependentUpon>frmSearchMaketoOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmSearchCustomerLookup.resx">
       <DependentUpon>frmSearchCustomerLookup.cs</DependentUpon>
@@ -969,6 +996,7 @@
     <Content Include="DbScripts\Script 1.0.0.27.sql" />
     <Content Include="DbScripts\Script 1.0.0.28.sql" />
     <Content Include="DbScripts\Script 1.0.0.29.sql" />
+    <Content Include="DbScripts\Script 1.0.0.32.sql" />
     <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />
