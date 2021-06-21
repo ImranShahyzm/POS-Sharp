@@ -67,7 +67,8 @@ namespace POS.Helper
             PosApi_AllGlUserPromoLocations_Insert,
             PosApi_AllSalesMan_Insert,
             POSData_StockInwardRem_loadKhaaki,
-            POSdata_StockReturntoServer_SelectAll
+            POSdata_StockReturntoServer_SelectAll,
+            POSdata_MakeOrderInfoServer_SelectAll
 
 
         }
@@ -637,6 +638,16 @@ namespace POS.Helper
             ds = STATICClass.SelectAll(SP.POSdata_StockReturntoServer_SelectAll.ToString(), ParamList);
             return ds;
         }
-
+        public DataSet SelectAllMaketoOrder(string WhereClause = "", bool BoolMaster = true,
+            bool DetailMaster = false, string WhereClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@BoolMaster", BoolMaster));
+            ParamList.Add(new SqlParameter("@DetailMaster", DetailMaster));
+            ParamList.Add(new SqlParameter("@WhereClauseDetail", WhereClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSdata_MakeOrderInfoServer_SelectAll.ToString(), ParamList);
+            return ds;
+        }
     }
 }

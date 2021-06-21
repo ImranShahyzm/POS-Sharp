@@ -50,7 +50,7 @@ namespace POS
                 lblStatus.Text = "Syncing Locations With Server...";
             await STATICClass.GetAllInventory();
             await STATICClass.GetAllWareHouseGluserPromo();
-                await STATICClass.GetAllSalesMan();
+            await STATICClass.GetAllSalesMan();
             
 
             var obj = new data_StockTransferInfoModel().SelectAllArrivalStock("where ArrivalDate between '"+dtpSaleFromDate.Value+ "' and '" + dtpSaleToDate.Value+ "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "",true,true, "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
@@ -191,6 +191,49 @@ namespace POS
                 }
 
             }
+            bool StartSyncingMakeOrder = true;
+            if (StartSyncingMakeOrder == true)
+            {
+
+                string WhereClause= " where RegisterDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID;
+                var MakeOrders = new data_StockTransferInfoModel().SelectAllMaketoOrder(WhereClause, true,false,"");
+
+                var RInvoiceRespomnce = "";
+                if (MakeOrders.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow row in MakeOrders.Tables[0].Rows)
+                    {
+                         WhereClause = " where RegisterDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and Posdata_MaketoOrderInfo.OrderID=" + Convert.ToInt32(row["OrderID"]) + "";
+                        var OrdersData = new data_StockTransferInfoModel().SelectAllMaketoOrder(WhereClause, true, true, WhereClause);
+
+                        string JsonOrdersData = JsonConvert.SerializeObject(OrdersData);
+                        RInvoiceRespomnce = await STATICClass.InsertAllMakeOrderData(JsonOrdersData, Convert.ToString(row["OrderID"]));
+
+                    }
+                }
+                else
+                {
+                    RInvoiceRespomnce = "Done";
+                }
+
+
+                if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
+                {
+                    btnProgressBar.Value = 100;
+                    lblStatus.Text = "Data Uploaded Successfully...";
+
+                }
+                else
+                {
+                    MessageBox.Show(RInvoiceRespomnce);
+                    lblStatus.Text = "Error Occured During Uploading...";
+
+                    btnProgressBar.Value = 0;
+                    return;
+                }
+
+            }
+
 
 
             string postingSaleVouchers = await STATICClass.PosAllSaleVouchers( dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());

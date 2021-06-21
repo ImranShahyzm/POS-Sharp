@@ -364,6 +364,7 @@ namespace POS
                 dtRegisterDate.Value= Convert.ToDateTime(dt.Rows[0]["RegisterDate"]);
                 dtDeliveryDate.Value = Convert.ToDateTime(dt.Rows[0]["DeliveryDate"]);
                 dtRegisterDate.Enabled = true;
+                txtOrderNo.ReadOnly = true;
                 txtPhone.ReadOnly = true;
 
                 for (int i = 0; i < dtdetail.Rows.Count; i++)
@@ -529,7 +530,7 @@ namespace POS
                 cnn.Close();
                 if (dt.Rows.Count > 0)
                 {
-                    Convert.ToInt32(dt.Rows[0]["OrderID"]);
+                    return Convert.ToInt32(dt.Rows[0]["OrderID"]);
                 }
                 else
                 {

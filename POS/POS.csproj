@@ -1052,5 +1052,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.33.sql">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

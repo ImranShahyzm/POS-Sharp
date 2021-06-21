@@ -76,7 +76,7 @@ namespace POS.LookUpForms
             {
                 dgvSaleInvoices.DataSource = dt;
                 dgvSaleInvoices.Columns[0].Visible = false;
-                dgvSaleInvoices.Columns[1].Visible = false;
+               // dgvSaleInvoices.Columns[1].Visible = false;
             }
             else
             {
