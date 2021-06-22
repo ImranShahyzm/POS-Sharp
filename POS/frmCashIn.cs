@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MetroFramework.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -12,7 +13,7 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class frmCashIn : Form
+    public partial class frmCashIn : MetroForm
     {
         public frmCashIn()
         {
@@ -72,7 +73,7 @@ namespace POS
             cmd.Parameters.AddWithValue("@Amount", txtCashInAmount.Text == "" ? 0 : Convert.ToDecimal(txtCashInAmount.Text));
             cmd.Parameters.AddWithValue("@CashType", true);
             cmd.Parameters.AddWithValue("@SalePosDate", dtCashDate.Value);
-            
+            cmd.Parameters.AddWithValue("@Remarks", txtRemarks.Text);
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt1 = new DataTable();
             da.SelectCommand = cmd;
@@ -132,6 +133,42 @@ namespace POS
         {
             if (!(Char.IsDigit(e.KeyChar) || (e.KeyChar == (char)Keys.Back)))
                 e.Handled = true;
+        }
+
+        private void dtCashDate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                cmbCashType.Select();
+                cmbCashType.Focus();
+            }
+        }
+
+        private void cmbCashType_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                txtCashInAmount.Select();
+                txtCashInAmount.Focus();
+            }
+        }
+
+        private void txtCashInAmount_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                txtRemarks.Select();
+                txtRemarks.Focus();
+            }
+        }
+
+        private void txtRemarks_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                btnSave.Select();
+                btnSave.Focus();
+            }
         }
     }
 }

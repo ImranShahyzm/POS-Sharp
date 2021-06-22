@@ -33,33 +33,33 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.cmbCashType = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dtCashDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtRemarks = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtCashInAmount
             // 
-            this.txtCashInAmount.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCashInAmount.Location = new System.Drawing.Point(153, 163);
+            this.txtCashInAmount.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCashInAmount.Location = new System.Drawing.Point(153, 141);
             this.txtCashInAmount.MaxLength = 10;
             this.txtCashInAmount.Name = "txtCashInAmount";
-            this.txtCashInAmount.Size = new System.Drawing.Size(213, 26);
+            this.txtCashInAmount.Size = new System.Drawing.Size(274, 22);
             this.txtCashInAmount.TabIndex = 18;
+            this.txtCashInAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCashInAmount_KeyDown);
             this.txtCashInAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCashInAmount_KeyPress);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(66, 163);
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(77, 142);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 18);
+            this.label2.Size = new System.Drawing.Size(65, 17);
             this.label2.TabIndex = 20;
             this.label2.Text = "Amount:";
             // 
@@ -69,7 +69,7 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnClear.Location = new System.Drawing.Point(135, 20);
+            this.btnClear.Location = new System.Drawing.Point(408, 21);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(115, 31);
             this.btnClear.TabIndex = 22;
@@ -83,7 +83,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSave.Location = new System.Drawing.Point(13, 21);
+            this.btnSave.Location = new System.Drawing.Point(287, 21);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(115, 31);
             this.btnSave.TabIndex = 21;
@@ -96,87 +96,88 @@
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Location = new System.Drawing.Point(0, 298);
+            this.panel1.Location = new System.Drawing.Point(-13, 276);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(384, 62);
+            this.panel1.Size = new System.Drawing.Size(557, 62);
             this.panel1.TabIndex = 23;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.Teal;
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(384, 52);
-            this.panel2.TabIndex = 24;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.Control;
-            this.label3.Location = new System.Drawing.Point(4, 13);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(85, 29);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Cash In";
             // 
             // cmbCashType
             // 
-            this.cmbCashType.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbCashType.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbCashType.FormattingEnabled = true;
-            this.cmbCashType.Location = new System.Drawing.Point(153, 122);
+            this.cmbCashType.Location = new System.Drawing.Point(153, 109);
             this.cmbCashType.Name = "cmbCashType";
-            this.cmbCashType.Size = new System.Drawing.Size(213, 26);
+            this.cmbCashType.Size = new System.Drawing.Size(213, 23);
             this.cmbCashType.TabIndex = 25;
+            this.cmbCashType.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbCashType_KeyDown);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(54, 122);
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(60, 110);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(74, 18);
+            this.label4.Size = new System.Drawing.Size(82, 17);
             this.label4.TabIndex = 26;
             this.label4.Text = "Cash Type:";
             // 
             // dtCashDate
             // 
+            this.dtCashDate.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtCashDate.Location = new System.Drawing.Point(153, 83);
             this.dtCashDate.Name = "dtCashDate";
-            this.dtCashDate.Size = new System.Drawing.Size(213, 20);
+            this.dtCashDate.Size = new System.Drawing.Size(213, 22);
             this.dtCashDate.TabIndex = 27;
+            this.dtCashDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dtCashDate_KeyDown);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(87, 83);
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(98, 83);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 18);
+            this.label1.Size = new System.Drawing.Size(44, 17);
             this.label1.TabIndex = 28;
             this.label1.Text = "Date:";
+            // 
+            // txtRemarks
+            // 
+            this.txtRemarks.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRemarks.Location = new System.Drawing.Point(153, 169);
+            this.txtRemarks.Multiline = true;
+            this.txtRemarks.Name = "txtRemarks";
+            this.txtRemarks.Size = new System.Drawing.Size(274, 55);
+            this.txtRemarks.TabIndex = 33;
+            this.txtRemarks.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRemarks_KeyDown);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(69, 170);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(73, 17);
+            this.label6.TabIndex = 32;
+            this.label6.Text = "Remarks:";
             // 
             // frmCashIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 361);
+            this.ClientSize = new System.Drawing.Size(533, 361);
+            this.Controls.Add(this.txtRemarks);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtCashDate);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbCashType);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtCashInAmount);
             this.Name = "frmCashIn";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Corbis Solution";
+            this.Text = "Cash Receipt";
             this.Load += new System.EventHandler(this.frmCashIn_Load);
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,11 +189,11 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbCashType;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dtCashDate;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtRemarks;
+        private System.Windows.Forms.Label label6;
     }
 }

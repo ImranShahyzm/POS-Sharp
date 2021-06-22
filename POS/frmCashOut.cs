@@ -1,4 +1,5 @@
-﻿using POS.Helper;
+﻿using MetroFramework.Forms;
+using POS.Helper;
 using POS.LookUpForms;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class frmCashOut : Form
+    public partial class frmCashOut : MetroForm
     {
         public frmCashOut()
         {
@@ -99,6 +100,8 @@ namespace POS
             cmd.Parameters.AddWithValue("@CompanyID", CompanyInfo.CompanyID);
             cmd.Parameters.AddWithValue("@FiscalID", CompanyInfo.FiscalID);
             cmd.Parameters.AddWithValue("@UserID", CompanyInfo.UserID);
+            cmd.Parameters.AddWithValue("@Remarks", txtRemarks.Text);
+            
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt1 = new DataTable();
             da.SelectCommand = cmd;
@@ -172,6 +175,42 @@ namespace POS
             
                 loadAvaliableBalance();
             
+        }
+
+        private void cmbCashType_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                txtCashOutAmount.Select();
+                txtCashOutAmount.Focus();
+            }
+        }
+
+        private void txtCashOutAmount_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtRemarks.Select();
+                txtRemarks.Focus();
+            }
+        }
+
+        private void txtRemarks_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                dtCashDate.Select();
+                dtCashDate.Focus();
+            }
+        }
+
+        private void dtCashDate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                btnSave.Select();
+                btnSave.Focus();
+            }
         }
     }
 }
