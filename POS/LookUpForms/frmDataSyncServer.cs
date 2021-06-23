@@ -235,6 +235,44 @@ namespace POS
             }
 
 
+            bool StartSyncingCashInOut = true;
+            if (StartSyncingCashInOut == true)
+            {
+
+                string WhereClause = " where [Date] between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "'";
+                var CashInOutTrans = new data_StockTransferInfoModel().SelectAllCashInOut(WhereClause, true, true, WhereClause);
+
+                var RInvoiceRespomnce = "";
+                if (CashInOutTrans.Tables[0].Rows.Count > 0)
+                {
+                    string CashInOutTransDate = JsonConvert.SerializeObject(CashInOutTrans);
+                    RInvoiceRespomnce = await STATICClass.InsertAllCashInOut(CashInOutTransDate, dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"));
+
+                }
+                else
+                {
+                    RInvoiceRespomnce = "Done";
+                }
+
+
+                if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
+                {
+                    btnProgressBar.Value = 100;
+                    lblStatus.Text = "Data Uploaded Successfully...";
+
+                }
+                else
+                {
+                    MessageBox.Show(RInvoiceRespomnce);
+                    lblStatus.Text = "Error Occured During Uploading...";
+
+                    btnProgressBar.Value = 0;
+                    return;
+                }
+
+            }
+
+
 
             string postingSaleVouchers = await STATICClass.PosAllSaleVouchers( dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());
 

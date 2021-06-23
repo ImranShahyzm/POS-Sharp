@@ -20,7 +20,7 @@ namespace POS.Helper
     public static class STATICClass
     {
         //*****Khaki Api URL **********//
-          //  public static string BaseURL = "http://103.86.135.182:1038/";
+          // public static string BaseURL = "http://103.86.135.182:1038/";
         //******************************//
 
             //*********** Food Mama Api Url *************//
@@ -28,7 +28,7 @@ namespace POS.Helper
         //***************************************//
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-        static string BaseURL = "http://localhost:44333/";
+       static string BaseURL = "http://localhost:44333/";
         public static string Connection()
         {
             return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -390,6 +390,21 @@ namespace POS.Helper
             using (var client = new HttpClient())
             {
                 var response = await client.PostAsync(BaseURL + "/apipos/InsertMakeOrderServer?OrderWHID=" + CompanyInfo.WareHouseID + "&OrderID=" + OrderID + "", new StringContent(MyModel.Key, Encoding.UTF8, "application/json"));
+
+                return response.Content.ReadAsStringAsync().Result;
+            }
+
+        }
+        public static async Task<string> InsertAllCashInOut(string JsonDataStr, string DateFrom ,string Dateto)
+        {
+
+
+            
+            MyModel.Key = "'" + JsonDataStr + "'";
+
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsync(BaseURL + "/apipos/InsertCashInCashOut?SourceWHID=" + CompanyInfo.WareHouseID + "&CashDateFrom=" + DateFrom + "&CashDateTo=" + Dateto + "", new StringContent(MyModel.Key, Encoding.UTF8, "application/json"));
 
                 return response.Content.ReadAsStringAsync().Result;
             }

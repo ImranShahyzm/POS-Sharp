@@ -68,7 +68,8 @@ namespace POS.Helper
             PosApi_AllSalesMan_Insert,
             POSData_StockInwardRem_loadKhaaki,
             POSdata_StockReturntoServer_SelectAll,
-            POSdata_MakeOrderInfoServer_SelectAll
+            POSdata_MakeOrderInfoServer_SelectAll,
+            POSdata_CashInOutServer_SelectAll
 
 
         }
@@ -647,6 +648,17 @@ namespace POS.Helper
             ParamList.Add(new SqlParameter("@DetailMaster", DetailMaster));
             ParamList.Add(new SqlParameter("@WhereClauseDetail", WhereClauseDetail));
             ds = STATICClass.SelectAll(SP.POSdata_MakeOrderInfoServer_SelectAll.ToString(), ParamList);
+            return ds;
+        }
+        public DataSet SelectAllCashInOut(string WhereClause = "", bool BoolMaster = true,
+            bool DetailMaster = false, string WhereClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@BoolMaster", BoolMaster));
+            ParamList.Add(new SqlParameter("@DetailMaster", DetailMaster));
+            ParamList.Add(new SqlParameter("@WhereClauseDetail", WhereClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSdata_CashInOutServer_SelectAll.ToString(), ParamList);
             return ds;
         }
     }
