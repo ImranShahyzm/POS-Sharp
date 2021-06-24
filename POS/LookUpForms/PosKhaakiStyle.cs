@@ -37,8 +37,9 @@ namespace POS
         public string CardNumber { get; set; }
         public string CardName { get; set; }
         public bool AllowSave { get; set; }
-
+      
         public string SaleManId { get; set; }
+        frmmakeOrderNewKhaaki frmMakeOrder =new frmmakeOrderNewKhaaki();
         public PosKhaakiStyle()
         {
             InitializeComponent();
@@ -320,6 +321,7 @@ namespace POS
         }
         private void PosKhaakiStyle_Load(object sender, EventArgs e)
         {
+          
             //SetupDataGridView();
         }
 
@@ -870,7 +872,7 @@ namespace POS
                 txtCustPhone.Text = this.CustomerPhone;
                 txtSalesManID.Text = this.SaleManId;
                 SaveForm();
-
+                
             }
 
         }
@@ -994,6 +996,8 @@ namespace POS
                 cmd.Transaction = tran; da.Fill(dt1);
                 tran.Commit();
                 string SaleInvoiceNO = p.Value.ToString();
+                frmMakeOrder.SalePosID = Convert.ToInt32(p.Value);
+               
                 var value = new List<string[]>();
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
                 value.Add(ss);
@@ -1007,6 +1011,11 @@ namespace POS
                 }
                 InvoiceCancel = false;
                 btnCancelInvoice.Visible = false;
+                if (frmMakeOrder.AllowSave == true && InvoiceCancel == false)
+                {
+                    frmMakeOrder.Saleview = MakeOrderDetailDataTable();
+                    frmMakeOrder.SaveForm();
+                }
                 clearAll();
                 if (SaleInvoiceNo == 0)
                 {
@@ -1151,6 +1160,8 @@ namespace POS
             ItemSaleGrid.Rows.Clear();
             ItemSaleGrid.Refresh();
             txtTotalTax.Text = "0";
+            SalePosID.Clear();
+            SalePosID.Text="";
             txtGrossAmount.Text = "0";
             txtDiscountPercentage.Text = "0";
             txtDiscountAmount.Text = "0";
@@ -1182,6 +1193,7 @@ namespace POS
             btnCancelInvoice.Visible = false;
             btnCancelInvoice.Text = "Cancel Invoice";
             InvoiceCancel = false;
+            SalePosMasterID = 0;
 
         }
 
@@ -1200,6 +1212,7 @@ namespace POS
 
             btnSave.Enabled = true;
             //txtAmountReceive.ReadOnly = false;
+            frmMakeOrder.clearAll();
         }
 
         private void getInvoiceNumber()
@@ -1267,6 +1280,7 @@ namespace POS
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+           
             if (keyData == (Keys.Alt | Keys.S))
             {
                 if (validateSave())
@@ -1291,6 +1305,12 @@ namespace POS
                 txtAmountReceive.SelectAll();
                 txtAmountReceive.Focus();
                 return true;
+            }
+
+            if(btnMakeOrder.Focused && keyData ==Keys.Tab)
+            {
+                btnSave.Select();
+                btnSave.Focus();
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -1665,6 +1685,10 @@ namespace POS
                     btnCancelInvoice.Text = "Cancelled";
                     btnCancelInvoice.Enabled = false;
                 }
+                else
+                {
+                    btnCancelInvoice.Enabled = true;
+                }
                 btnCancelInvoice.Visible = true;
                 txtSalesManID.Text= Convert.ToString(dt.Rows[0]["SaleManID"]);
 
@@ -1700,7 +1724,8 @@ namespace POS
                 txtProductCode.Select();
                 txtProductCode.Focus();
                 txtInvoiceNo.ReadOnly = true;
-                btnSave.Visible = false;
+                frmMakeOrder.LoadSavedOrderFromInvoice(SalePosID.Text);
+                btnSave.Visible = true;
 
             }
             else
@@ -2191,14 +2216,21 @@ namespace POS
                 decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
                 txtAmountReturn.Text = (recAmount - payableAmount).ToString();
                 //}
-                if (string.IsNullOrEmpty(txtAmountReceive.Text) || Convert.ToDecimal(txtAmountReceive.Text) < Convert.ToDecimal(txtReceivableAmount.Text))
+                try
                 {
-                    MessageBox.Show("Received Amount Can't be Less then Bill Amount...");
+                    if (string.IsNullOrEmpty(txtAmountReceive.Text) || Convert.ToDecimal(txtAmountReceive.Text) < Convert.ToDecimal(txtReceivableAmount.Text))
+                    {
+                        MessageBox.Show("Received Amount Can't be Less then Bill Amount...");
+                        return;
+                    }
+                    else
+                    {
+                        btnMakeOrder.Focus();
+                    }
+                }catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                     return;
-                }
-                else
-                {
-                    btnSave.Focus();
                 }
             }
         }
@@ -2483,6 +2515,120 @@ namespace POS
             decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
             decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
             txtAmountReturn.Text = (recAmount - payableAmount).ToString();
+        }
+        private DataTable MakeOrderDetailDataTable()
+        {
+            DataTable dt1 = new DataTable();
+            dt1.Columns.Add("RowID");
+            dt1.Columns.Add("ItemId");
+            dt1.Columns.Add("Quantity");
+            dt1.Columns.Add("ItemRate");
+            dt1.Columns.Add("TaxPercentage");
+            dt1.Columns.Add("TaxAmount");
+            dt1.Columns.Add("DiscountPercentage");
+            dt1.Columns.Add("DiscountAmount");
+            dt1.Columns.Add("TotalAmount");
+            dt1.Columns.Add("CartonSize");
+            dt1.Columns.Add("Carton");
+            dt1.Columns.Add("TotalQuantity");
+            dt1.Columns.Add("SalePosDetailID");
+            dt1.Columns.Add("SchemeID");
+            dt1.Columns.Add("MinQuantity");
+            dt1.Columns.Add("isExchange");
+            dt1.Columns.Add("ItemNumber");
+            dt1.Columns.Add("ItenName");
+            
+
+            int i = 0;
+            foreach (DataGridViewRow row in ItemSaleGrid.Rows)
+            {
+                DataRow dRow = dt1.NewRow();
+                i = i + 1;
+                var TQty = Convert.ToDecimal(row.Cells[4].Value.ToString());//+(Convert.ToDecimal(row.Cells[4].Value.ToString()) * Convert.ToDecimal(row.Cells[13].Value.ToString()));
+
+                dRow[0] = i;
+                dRow[1] = row.Cells[0].Value.ToString();
+                dRow[2] = TQty.ToString();
+                dRow[3] = row.Cells[3].Value.ToString();
+                dRow[4] = row.Cells[6].Value.ToString();
+                dRow[5] = row.Cells[7].Value.ToString();
+                dRow[6] = row.Cells[8].Value.ToString();
+                dRow[7] = row.Cells[9].Value.ToString();
+                dRow[8] = row.Cells[10].Value.ToString();
+                dRow[9] = 0;
+                dRow[10] = 0;
+                dRow[11] = TQty;
+                dRow[12] = 0;
+                dRow[13] = Convert.ToString(row.Cells[13].Value);
+                dRow[14] = Convert.ToString(row.Cells[12].Value);
+                dRow[15] = Convert.ToBoolean(row.Cells[14].Value);
+                dRow[16] = Convert.ToString(row.Cells[1].Value);
+                dRow[17] = Convert.ToString(row.Cells[2].Value);
+                dt1.Rows.Add(dRow);
+            }
+
+            return dt1;
+
+        }
+
+        private void btnMakeOrder_Click(object sender, EventArgs e)
+        {
+            if (ItemSaleGrid.Rows.Count <= 0)
+            {
+                MessageBox.Show("You Must have Data to Generate Make Order....");
+                return;
+            }
+            else
+            {
+                
+                
+                  
+                    if (frmMakeOrder.ShowDialog() == DialogResult.OK)
+                    {
+                    
+                    }
+                    if(frmMakeOrder.AllowSave)
+                    {
+                        this.CustomerPhone = frmMakeOrder.PhoneNo;
+                        this.CustomerName = frmMakeOrder.CustomerName;
+                        this.SaleManId = frmMakeOrder.SaleManId;
+                        txtCustName.Text = this.CustomerName;
+                        txtCustPhone.Text = this.CustomerPhone;
+                        txtSalesManID.Text = this.SaleManId;
+
+                    btnSave.Enabled = false;
+                    if (validateSave())
+                    {
+                        GrossAmount_Total();
+                        CheckReceivedAmount();
+                        this.totalBill = txtReceivableAmount.Text;
+                        this.ReceivedAmount = txtAmountReceive.Text;
+                        this.ReturnAmount = txtAmountReturn.Text;
+                        SaveForm();
+
+                    }
+                }
+                    else
+                {
+                    btnSave.Select();
+                    btnSave.Focus();
+                }
+                
+            }
+        }
+
+       
+        
+
+        private void btnMakeOrder_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+              
+                btnSave.Select();
+                btnSave.Focus();
+            }
+
         }
     }
 }

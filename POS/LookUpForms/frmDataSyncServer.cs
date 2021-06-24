@@ -21,12 +21,12 @@ namespace POS
         public frmDataSyncServer()
         {
             InitializeComponent();
-            
-          
+
+
         }
 
-        
-      
+
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Alt | Keys.P))
@@ -39,6 +39,22 @@ namespace POS
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+        private void UpdateSyncedOrder(string OrderID)
+        {
+
+
+            SqlConnection db = new SqlConnection(STATICClass.Connection());
+            SqlCommand com = new SqlCommand();
+            com.Connection = db;
+
+
+            com.CommandText = @"update Posdata_MaketoOrderInfo set 
+                           IsOrderSynced=1 where Neck is not null and FFrontNeck is not null and FBackNeck is not null and Hip is not null and Muscle is not null and OrderId=" + OrderID+"";
+            com.ExecuteNonQuery();
+
+            db.Close();
+
+    }
 
 
         private async void  btnPreview_Click(object sender, EventArgs e)
@@ -139,14 +155,14 @@ namespace POS
                     if (Convert.ToString(Responce).Contains("Done"))
                     {
 
-                        btnProgressBar.Value = 75;
+                        btnProgressBar.Value = 60;
                         lblStatus.Text = "Uploading Return Invoices to Server...";
                         StartReturnInvoices = true;
                     }
                     else
                     {
                     
-                        btnProgressBar.Value = 75;
+                        btnProgressBar.Value = 60;
                         lblStatus.Text = "Uploading Return Invoices to Server...";
                         StartReturnInvoices = true;
                     }
@@ -177,8 +193,8 @@ namespace POS
                
                 if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
                 {
-                    btnProgressBar.Value = 100;
-                    lblStatus.Text = "Data Uploaded Successfully...";
+                    btnProgressBar.Value = 70;
+                  
                   
                 }
                 else
@@ -191,7 +207,7 @@ namespace POS
                 }
 
             }
-            bool StartSyncingMakeOrder = true;
+            bool StartSyncingMakeOrder = false;
             if (StartSyncingMakeOrder == true)
             {
 
@@ -205,9 +221,16 @@ namespace POS
                     {
                          WhereClause = " where RegisterDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and Posdata_MaketoOrderInfo.OrderID=" + Convert.ToInt32(row["OrderID"]) + "";
                         var OrdersData = new data_StockTransferInfoModel().SelectAllMaketoOrder(WhereClause, true, true, WhereClause);
-
+                        var abc =(byte[])OrdersData.Tables[0].Rows[0]["ImagePath"];
+                        string base64String = Convert.ToBase64String(abc, 0, abc.Length);
+                        OrdersData.Tables[0].Rows[0]["ImageActualPath"] =base64String;
                         string JsonOrdersData = JsonConvert.SerializeObject(OrdersData);
                         RInvoiceRespomnce = await STATICClass.InsertAllMakeOrderData(JsonOrdersData, Convert.ToString(row["OrderID"]));
+                        if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
+                        {
+                            UpdateSyncedOrder(Convert.ToString(row["OrderID"]));
+                        }
+
 
                     }
                 }
@@ -219,8 +242,8 @@ namespace POS
 
                 if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
                 {
-                    btnProgressBar.Value = 100;
-                    lblStatus.Text = "Data Uploaded Successfully...";
+                    btnProgressBar.Value = 80;
+                  
 
                 }
                 else

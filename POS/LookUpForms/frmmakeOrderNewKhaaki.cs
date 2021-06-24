@@ -8,6 +8,8 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,7 +18,7 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class frmMakeToOrder : MetroForm
+    public partial class frmmakeOrderNewKhaaki : MetroForm
     {
         public int OrderNo = 0;
         public bool directReturn = false;
@@ -27,8 +29,17 @@ namespace POS
         public string totalBill { get; set; }
         public string ReceivedAmount { get; set; }
         public string ReturnAmount { get; set; }
-        public  DataTable Saleview { get; set; }
-        public frmMakeToOrder()
+        public string PhoneNo { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public string SaleManId { get; set; }
+
+        public DataTable Saleview { get; set; }
+        public int SalePosID { get; set; }
+        public  bool AllowSave {get;set;}
+       
+        public frmmakeOrderNewKhaaki()
         {
             InitializeComponent();
             LoadCType();
@@ -37,6 +48,7 @@ namespace POS
             loadProducts();
             loadSaleMenuGroup();
             loadSaleMansMenuGroup();
+          
 
         }
         private void loadSaleMansMenuGroup()
@@ -414,20 +426,182 @@ namespace POS
                 MessageBox.Show("We have no Customer  regarding this No!");
             }
         }
+        public void LoadSavedOrderFromInvoice(string InvoiceID)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            DataTable dtdetail = new DataTable();
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            SqlCommand cmd = new SqlCommand("Posdata_MaketoOrderInfo_SelectAll", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
+
+            string whereclause = " where SalePosID=" + InvoiceID + " and WHID=" + CompanyInfo.WareHouseID + "";
+            string WhereClauseDetail = " where SalePosID=" + InvoiceID;
+            cmd.Parameters.AddWithValue("@SelectMaster", 1);
+            cmd.Parameters.AddWithValue("@WhereClause", whereclause);
+            cmd.Parameters.AddWithValue("@SelectDetail", 1);
+            cmd.Parameters.AddWithValue("@WhereClauseDetail", WhereClauseDetail);
+
+            da.SelectCommand = cmd;
+            try
+            {
+                cmd.Transaction = tran; da.Fill(ds);
+                dt = ds.Tables[0];
+                dtdetail = ds.Tables[1];
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+
+                txtOrderID.Text = Convert.ToString(dt.Rows[0]["OrderID"]);
+                txtOrderNo.Text = Convert.ToString(dt.Rows[0]["Rno"]);
+                txtCustname.Text = Convert.ToString(dt.Rows[0]["CName"]);
+                txtPhone.Text = Convert.ToString(dt.Rows[0]["CPhone"]);
+                txtAddress.Text = Convert.ToString(dt.Rows[0]["Address"]);
+                txtCity.Text = Convert.ToString(dt.Rows[0]["CityName"]);
+                cmbGender.SelectedValue = Convert.ToString(dt.Rows[0]["Gender"]);
+
+                txtCnic.Text = Convert.ToString(dt.Rows[0]["CNIC"]);
+                txtNeck.Text = Convert.ToString(dt.Rows[0]["Neck"]);
+                txtFrontNeck.Text = Convert.ToString(dt.Rows[0]["FFrontNeck"]);
+                txtBackNeck.Text = Convert.ToString(dt.Rows[0]["FBackNeck"]);
+                txtShoulder.Text = Convert.ToString(dt.Rows[0]["Shoulder"]);
+                txtUperBust.Text = Convert.ToString(dt.Rows[0]["FUpperBust"]);
+                txtBust.Text = Convert.ToString(dt.Rows[0]["Bust"]);
+                txtUnderBust.Text = Convert.ToString(dt.Rows[0]["FUnderBust"]);
+                txtArmHole.Text = Convert.ToString(dt.Rows[0]["ArmHole"]);
+                txtSleeve.Text = Convert.ToString(dt.Rows[0]["SleeveLength"]);
+                txtMuscle.Text = Convert.ToString(dt.Rows[0]["Muscle"]);
+                txtElbow.Text = Convert.ToString(dt.Rows[0]["Elbow"]);
+                txtCuff.Text = Convert.ToString(dt.Rows[0]["Cuff"]);
+                txtWaist.Text = Convert.ToString(dt.Rows[0]["Waist"]);
+                txthip.Text = Convert.ToString(dt.Rows[0]["Hip"]);
+                txtBottomLength.Text = Convert.ToString(dt.Rows[0]["BottomLength"]);
+                txtAnkle.Text = Convert.ToString(dt.Rows[0]["Ankle"]);
+                txtRemarks.Text = Convert.ToString(dt.Rows[0]["Remarks"]);
+
+                txtTotalTax.Text = dt.Rows[0]["TaxAmount"].ToString();
+                txtGrossAmount.Text = dt.Rows[0]["GrossAmount"].ToString();
+                txtDiscountPercentage.Text = dt.Rows[0]["DiscountPercentage"].ToString();
+                txtDiscountAmount.Text = dt.Rows[0]["DiscountAmount"].ToString();
+                txtTotalDiscount.Text = dt.Rows[0]["DiscountTotal"].ToString();
+                txtOtherCharges.Text = dt.Rows[0]["OtherCharges"].ToString();
+                txtNetAmount.Text = dt.Rows[0]["NetAmount"].ToString();
+                txtAmountReceive.Text = "0.00";
+                txtAccAmount.Text = dt.Rows[0]["NetAmount"].ToString();
+
+                txtPayableAmount.Text = "0.00";
+                txtAmountReturn.Text = "0.00";
+                txtReceivableAmount.Text = "0.00";
+                cmbSalesMan.SelectedValue = Convert.ToString(dt.Rows[0]["SaleManId"]) == "" ? "0" : Convert.ToString(dt.Rows[0]["SaleManId"]);
+                txtCashAmount.Text = dt.Rows[0]["CashPayment"].ToString();
+                txtCardAmount.Text = dt.Rows[0]["CardPayment"].ToString();
+                txtCardName.Text = dt.Rows[0]["CardName"].ToString();
+                txtCardNumber.Text = dt.Rows[0]["CardNumber"].ToString();
+
+                //dtRegisterDate.Value = Convert.ToDateTime(dt.Rows[0]["RegisterDate"]);
+                dtDeliveryDate.Value = Convert.ToDateTime(dt.Rows[0]["DeliveryDate"]);
+
+                var isSynced = Convert.ToBoolean(dt.Rows[0]["IsOrderSynced"]); 
+                if(isSynced)
+                {
+                    this.panel1.Enabled = false;
+                    this.panel2.Enabled = false;
+                    lblHide.Visible = true;
+                }
+                dtRegisterDate.Enabled = true;
+                txtOrderNo.ReadOnly = true;
+                txtPhone.ReadOnly = true;
+                var checkImage = dt.Rows[0]["ImagePath"];
+                if (checkImage is DBNull)
+                {
+
+                }
+                else
+                { 
+                    byte[] BinaryImage = (byte[])(dt.Rows[0]["ImagePath"]);
+                if (BinaryImage.Length > 0)
+                {
+                    pictureBox1.Image = byteArrayToImage(BinaryImage);
+                    txtImagePath.Text = Convert.ToString(dt.Rows[0]["ImageActualPath"]);
+                }
+
+                }
+                for (int i = 0; i < dtdetail.Rows.Count; i++)
+                {
+                    string[] row = {
+                            Convert.ToString(dtdetail.Rows[i]["ItemId"]),
+                         Convert.ToString(dtdetail.Rows[i]["ItemNumber"]),
+                        Convert.ToString(dtdetail.Rows[i]["ItenName"]),
+                            Convert.ToString(dtdetail.Rows[i]["ItemRate"]),
+                            Convert.ToString(dtdetail.Rows[i]["TotalQuantity"]),
+                            Convert.ToString(Convert.ToDecimal(dtdetail.Rows[i]["ItemRate"])*Convert.ToDecimal(dtdetail.Rows[i]["TotalQuantity"])),
+                            Convert.ToString(dtdetail.Rows[i]["TaxPercentage"]),
+                            Convert.ToString(dtdetail.Rows[i]["TaxAmount"]),
+                            Convert.ToString(dtdetail.Rows[i]["DiscountPercentage"]),
+                            Convert.ToString(dtdetail.Rows[i]["DiscountAmount"]),
+                            Convert.ToString(dtdetail.Rows[i]["TotalAmount"]),
+                            "0",
+                            Convert.ToString(Convert.ToInt32(dtdetail.Rows[i]["MinQuantity"])),
+                            Convert.ToString(dtdetail.Rows[i]["SchemeID"]),
+                            Convert.ToString(dtdetail.Rows[i]["isExchange"]),
+                    };
+                    ItemSaleGrid.Rows.Add(row);
+                    CalculateDetail();
+
+                }
+
+
+                if (string.IsNullOrEmpty(txtNeck.Text))
+                {
+                    txtNeck.Select();
+                    txtNeck.Focus();
+                }
+                else
+                {
+                    dtDeliveryDate.Select();
+                    dtDeliveryDate.Focus();
+                }
+
+
+
+
+
+            }
+            else
+            {
+                
+            }
+        }
         private bool validateSave()
         {
 
             btnSave.Enabled = false;
-            if (ItemSaleGrid.Rows.Count <= 0)
-            {
+            //if (ItemSaleGrid.Rows.Count <= 0)
+            //{
 
                 
-                btnSave.Enabled = true;
-                MessageBox.Show("There is no item in cart!");
-                return false;
+            //    btnSave.Enabled = true;
+            //    MessageBox.Show("There is no item in cart!");
+            //    return false;
 
-            }
-                if (string.IsNullOrEmpty(txtCustname.Text) && string.IsNullOrEmpty(txtPhone.Text))
+            //}
+                if (string.IsNullOrEmpty(txtCustname.Text) || string.IsNullOrEmpty(txtPhone.Text))
             {
                 MessageBox.Show("Customer Name and Phone # are Required Please Add them...");
 
@@ -446,11 +620,11 @@ namespace POS
                 }
                 else
                 {
-                    GrossAmount_Total();
-                    CheckReceivedAmount();
-                    this.totalBill = txtReceivableAmount.Text;
-                    this.ReceivedAmount = txtAmountReceive.Text;
-                    this.ReturnAmount = txtAmountReturn.Text;
+                //    GrossAmount_Total();
+                //    CheckReceivedAmount();
+                //    this.totalBill = txtReceivableAmount.Text;
+                //    this.ReceivedAmount = txtAmountReceive.Text;
+                //    this.ReturnAmount = txtAmountReturn.Text;
                     return true;
                 }
 
@@ -618,10 +792,10 @@ namespace POS
             return dt1;
 
         }
-        private void SaveForm()
+        public void SaveForm()
         {
 
-
+            SetDetailBeforeSave();
             DataTable detailData = MakeDetailDataTable();
 
             int RegisterID = 0;
@@ -635,7 +809,7 @@ namespace POS
             ParamList.Add(p);
 
             ParamList.Add(new SqlParameter("@UserID", CompanyInfo.UserID));
-            ParamList.Add(new SqlParameter("@RegisterDate", Convert.ToDateTime(dtRegisterDate.Value)));
+            ParamList.Add(new SqlParameter("@RegisterDate", Convert.ToDateTime(dtRegisterDate.Value.Date)));
 
             ParamList.Add(new SqlParameter("@CName", txtCustname.Text));
             ParamList.Add(new SqlParameter("@CPhone", txtPhone.Text));
@@ -666,6 +840,10 @@ namespace POS
             ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
             ParamList.Add(new SqlParameter("@BranchID", CompanyInfo.BranchID));         
             ParamList.Add(new SqlParameter("@WHID", CompanyInfo.WareHouseID));
+            if(string.IsNullOrEmpty(txtCustomerID.Text))
+            {
+                txtCustomerID.Text = "0";
+            }
             ParamList.Add(new SqlParameter("@CustomerID", txtCustomerID.Text));
             ParamList.Add(new SqlParameter("@AmountReceivable", txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text)));
             ParamList.Add(new SqlParameter("@TaxAmount", txtTotalTax.Text == "" ? 0 : Convert.ToDecimal(txtTotalTax.Text)));
@@ -680,15 +858,25 @@ namespace POS
             ParamList.Add(new SqlParameter("@AmountReceive", txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text)));
             ParamList.Add(new SqlParameter("@AmountReturn", txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text)));
             ParamList.Add(new SqlParameter("@AmountInAccount", txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text)));
-            ParamList.Add(new SqlParameter("@DeliveryDate", Convert.ToDateTime(dtDeliveryDate.Value)));
+            ParamList.Add(new SqlParameter("@DeliveryDate", Convert.ToDateTime(dtDeliveryDate.Value.Date)));
 
             ParamList.Add(new SqlParameter("@SaleManId", Convert.ToString(cmbSalesMan.SelectedValue)));
             ParamList.Add(new SqlParameter("@CashPayment", txtCashAmount.Text == "" ? 0 : Convert.ToDecimal(txtCashAmount.Text)));
             ParamList.Add(new SqlParameter("@CardPayment", txtCardAmount.Text == "" ? 0 : Convert.ToDecimal(txtCardAmount.Text)));
             ParamList.Add(new SqlParameter("@CardName", txtCardName.Text));
             ParamList.Add(new SqlParameter("@CardNumber", txtCardNumber.Text));
+            if (!(string.IsNullOrEmpty(txtImagePath.Text)))
+                    {
 
-        
+                byte[] ImageUpload = converterDemo(pictureBox1.Image);
+                ParamList.Add(new SqlParameter("@ImagePath", ImageUpload));
+            }
+            ParamList.Add(new SqlParameter("@ImageActualPath", pictureBox1.ImageLocation));
+            
+            ParamList.Add(new SqlParameter("@SalePosID", this.SalePosID));
+
+
+
 
             //ParamList.Add(new SqlParameter("@ExchangeAmount", txtExchangeAmt.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text)));
 
@@ -718,8 +906,14 @@ namespace POS
             }
             clearAll();
         }
+        public  byte[] converterDemo(Image x)
+        {
+            ImageConverter _imageConverter = new ImageConverter();
+            byte[] xByte = (byte[])_imageConverter.ConvertTo(x, typeof(byte[]));
+            return xByte;
+        }
 
-        private void clearAll()
+        public void clearAll()
         {
             ClearTextboxes(this.Controls);
             txtCustname.Clear();
@@ -749,6 +943,10 @@ namespace POS
             txtPhone.Focus();
             txtPhone.ReadOnly = false;
 
+            this.panel1.Enabled = true;
+            this.panel2.Enabled = true;
+            lblHide.Visible = false;
+
         }
         void ClearTextboxes(System.Windows.Forms.Control.ControlCollection ctrls)
         {
@@ -761,13 +959,22 @@ namespace POS
             
         }
 
-        private void frmMakeToOrder_Load(object sender, EventArgs e)
+        private void frmmakeOrderNewKhaaki_Load(object sender, EventArgs e)
         {
-            if(this.Saleview.Rows.Count>0)
+            dtRegisterDate.Enabled = false;
+            this.ControlBox = false;
+            txtPhone.Select();
+            txtPhone.Focus();
+        }
+        public void SetDetailBeforeSave()
+        {
+            ItemSaleGrid.Rows.Clear();
+            ItemSaleGrid.Refresh();
+            if (this.Saleview.Rows.Count > 0)
             {
 
 
-              
+
 
                 for (int i = 0; i < Saleview.Rows.Count; i++)
                 {
@@ -1078,19 +1285,8 @@ namespace POS
                     }
                     else
                     {
-                        using (frmSearchCustomerLookup obj = new frmSearchCustomerLookup())
-                        {
-                            if (obj.ShowDialog() == DialogResult.OK)
-                            {
-                                string Rno = obj.RegisterNo;
-                                txtCustomerID.Text = obj.CustomerID;
-                                LoadCustomerData(obj.CustomerID);
-                            }
-                            else
-                            {
-                                clearAll();
-                            }
-                        };
+                        txtCustname.Select();
+                        txtCustname.Focus();
                     }
 
 
@@ -1323,7 +1519,7 @@ namespace POS
             if (e.KeyCode == Keys.Enter)
             {
 
-                txtRemarks.Select();
+                //txtRemarks.Select();
                 txtRemarks.Focus();
 
             }
@@ -1334,10 +1530,16 @@ namespace POS
             if (e.KeyCode == Keys.Enter)
             {
 
-                dtDeliveryDate.Select();
-                dtDeliveryDate.Focus();
+                BtnSaveT.Select();
+                BtnSaveT.Focus();
 
             }
+        }
+        public Image byteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -2053,9 +2255,9 @@ namespace POS
                 if (txtCardAmount.Text != "")
                 {
                     cashCardPayments();
-                    frmCreditCardDetailsMake frm = new frmCreditCardDetailsMake(this);
+                   // frmCreditCardDetailsMake frm = new frmCreditCardDetailsMake(this);
 
-                    frm.ShowDialog();
+                  //  frm.ShowDialog();
                     txtCardNumber.Text = this.CardNumber;
                     txtCardName.Text = this.CardName;
                     txtAmountReceive_KeyDown(sender, e);
@@ -2127,8 +2329,8 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
             {
-                txtProductCode.Select();
-                txtProductCode.Focus();
+                txtNeck.Select();
+                txtNeck.Focus();
             }
         }
 
@@ -2154,6 +2356,113 @@ namespace POS
 
         private void txtAmountReceive_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.PhoneNo = txtPhone.Text;
+            this.CustomerName = txtCustname.Text;
+            this.SaleManId = Convert.ToString(cmbSalesMan.SelectedValue);
+            AllowSave = false;
+            this.Hide();
+
+
+        }
+
+        private void BtnSaveT_Click(object sender, EventArgs e)
+        {
+            this.PhoneNo = txtPhone.Text;
+            this.CustomerName = txtCustname.Text;
+            this.SaleManId = Convert.ToString(cmbSalesMan.SelectedValue);
+            if (validateSave())
+            {
+                //this.DialogResult = DialogResult.OK;
+                AllowSave = true;
+                this.Hide();
+            }
+            else
+            {
+                return;
+            }
+           
+        }
+
+        private void btnUploadImage_Click(object sender, EventArgs e)
+        {
+            int size = -1;
+            
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Please Select Image";
+            fdlg.InitialDirectory = @"c:\";
+            //fdlg.Filter = "All files (*.*)|*.*|All files (*.*)|*.*";
+            fdlg.Filter = "Image Files(*.jpeg;*.bmp;*.png;*.jpg)|*.jpeg;*.bmp;*.png;*.jpg";
+            fdlg.FilterIndex = 2;
+            fdlg.RestoreDirectory = true;
+            if (fdlg.ShowDialog() == DialogResult.OK)
+            {
+                txtImagePath.Text = fdlg.FileName;
+                pictureBox1.Image = Image.FromFile(fdlg.FileName);
+            }
+            // Show the dialog.
+            //if (result == DialogResult.OK) // Test result.
+            //{
+            //    string file = openFileDialog1.FileName;
+            //    try
+            //    {
+            //        string text = File.ReadAllText(file);
+            //        pictureBox1.Image = Image.FromFile(file) ;
+            //        size = text.Length;
+            //        pictureBox1.Refresh();
+            //    }
+            //    catch (IOException)
+            //    {
+            //    }
+            //}
+          
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.PhoneNo = txtPhone.Text;
+            this.CustomerName = txtCustname.Text;
+            this.SaleManId = Convert.ToString(cmbSalesMan.SelectedValue);
+          
+                AllowSave = false;
+                this.Hide();
+           
+
+        }
+
+        private void BtnSaveT_Enter(object sender, EventArgs e)
+        {
+            BtnSaveT.BackColor = Color.Red;
+        }
+
+        private void BtnSaveT_Leave(object sender, EventArgs e)
+        {
+            BtnSaveT.BackColor = Color.Transparent;
+        }
+
+        private void txtNeck_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+
+                e.Handled = true;
+
+
+            }
+
+
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+
+
+                e.Handled = true;
+
+
+            }
 
         }
     }

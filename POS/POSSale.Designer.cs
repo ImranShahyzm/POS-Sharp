@@ -1094,6 +1094,7 @@
             this.makeOrderToolStripMenuItem.Name = "makeOrderToolStripMenuItem";
             this.makeOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.makeOrderToolStripMenuItem.Text = "Make Order";
+            this.makeOrderToolStripMenuItem.Visible = false;
             this.makeOrderToolStripMenuItem.Click += new System.EventHandler(this.makeOrderToolStripMenuItem_Click);
             // 
             // frmPOSSale

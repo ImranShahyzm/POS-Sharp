@@ -60,6 +60,7 @@
             this.cmbSalemenu = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnMakeOrder = new System.Windows.Forms.Button();
             this.label24 = new System.Windows.Forms.Label();
             this.txtCardAmount = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
@@ -142,6 +143,7 @@
             this.btnStock.Name = "btnStock";
             this.btnStock.Size = new System.Drawing.Size(115, 31);
             this.btnStock.TabIndex = 12;
+            this.btnStock.TabStop = false;
             this.btnStock.Text = "Stock Arrival";
             this.btnStock.UseVisualStyleBackColor = false;
             this.btnStock.Visible = false;
@@ -149,10 +151,11 @@
             // 
             // txtPrint
             // 
-            this.txtPrint.Location = new System.Drawing.Point(949, 103);
+            this.txtPrint.Location = new System.Drawing.Point(949, 63);
             this.txtPrint.Name = "txtPrint";
             this.txtPrint.Size = new System.Drawing.Size(75, 28);
             this.txtPrint.TabIndex = 11;
+            this.txtPrint.TabStop = false;
             this.txtPrint.Text = "Print";
             this.txtPrint.UseVisualStyleBackColor = true;
             this.txtPrint.Visible = false;
@@ -174,10 +177,11 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnClear.Location = new System.Drawing.Point(705, 100);
+            this.btnClear.Location = new System.Drawing.Point(883, 99);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(115, 31);
             this.btnClear.TabIndex = 1;
+            this.btnClear.TabStop = false;
             this.btnClear.Text = "New Sale (ALT+N)";
             this.btnClear.UseVisualStyleBackColor = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click_1);
@@ -188,10 +192,11 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSave.Location = new System.Drawing.Point(828, 100);
+            this.btnSave.Location = new System.Drawing.Point(762, 99);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(115, 31);
             this.btnSave.TabIndex = 15;
+            this.btnSave.TabStop = false;
             this.btnSave.Text = "Save (ALT+S)";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -418,6 +423,7 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel1.Controls.Add(this.btnMakeOrder);
             this.panel1.Controls.Add(this.label24);
             this.panel1.Controls.Add(this.txtCardAmount);
             this.panel1.Controls.Add(this.label23);
@@ -459,6 +465,22 @@
             this.panel1.TabIndex = 9;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint_1);
             // 
+            // btnMakeOrder
+            // 
+            this.btnMakeOrder.BackColor = System.Drawing.Color.Transparent;
+            this.btnMakeOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMakeOrder.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMakeOrder.ForeColor = System.Drawing.Color.Blue;
+            this.btnMakeOrder.Location = new System.Drawing.Point(657, 101);
+            this.btnMakeOrder.Name = "btnMakeOrder";
+            this.btnMakeOrder.Size = new System.Drawing.Size(99, 29);
+            this.btnMakeOrder.TabIndex = 37;
+            this.btnMakeOrder.TabStop = false;
+            this.btnMakeOrder.Text = "Make Order";
+            this.btnMakeOrder.UseVisualStyleBackColor = false;
+            this.btnMakeOrder.Click += new System.EventHandler(this.btnMakeOrder_Click);
+            this.btnMakeOrder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnMakeOrder_KeyDown);
+            // 
             // label24
             // 
             this.label24.AutoSize = true;
@@ -476,6 +498,7 @@
             this.txtCardAmount.Name = "txtCardAmount";
             this.txtCardAmount.Size = new System.Drawing.Size(149, 35);
             this.txtCardAmount.TabIndex = 28;
+            this.txtCardAmount.TabStop = false;
             this.txtCardAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCardAmount_KeyDown);
             this.txtCardAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCardAmount_KeyPress);
             this.txtCardAmount.Leave += new System.EventHandler(this.txtCardAmount_Leave);
@@ -497,6 +520,7 @@
             this.txtCashAmount.Name = "txtCashAmount";
             this.txtCashAmount.Size = new System.Drawing.Size(149, 35);
             this.txtCashAmount.TabIndex = 26;
+            this.txtCashAmount.TabStop = false;
             this.txtCashAmount.TextChanged += new System.EventHandler(this.txtCashAmount_TextChanged);
             this.txtCashAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCashAmount_KeyDown);
             this.txtCashAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCashAmount_KeyPress);
@@ -609,6 +633,7 @@
             this.txtOtherCharges.Name = "txtOtherCharges";
             this.txtOtherCharges.Size = new System.Drawing.Size(97, 20);
             this.txtOtherCharges.TabIndex = 13;
+            this.txtOtherCharges.TabStop = false;
             this.txtOtherCharges.TextChanged += new System.EventHandler(this.txtDiscountAmount_TextChanged);
             this.txtOtherCharges.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtOtherCharges_KeyDown);
             // 
@@ -631,6 +656,7 @@
             this.txtAmountReceive.Name = "txtAmountReceive";
             this.txtAmountReceive.Size = new System.Drawing.Size(100, 40);
             this.txtAmountReceive.TabIndex = 14;
+            this.txtAmountReceive.TabStop = false;
             this.txtAmountReceive.Visible = false;
             this.txtAmountReceive.TextChanged += new System.EventHandler(this.txtAmountReceive_TextChanged);
             this.txtAmountReceive.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAmountReceive_KeyDown);
@@ -737,6 +763,7 @@
             this.txtDiscountAmount.Name = "txtDiscountAmount";
             this.txtDiscountAmount.Size = new System.Drawing.Size(97, 20);
             this.txtDiscountAmount.TabIndex = 12;
+            this.txtDiscountAmount.TabStop = false;
             this.txtDiscountAmount.TextChanged += new System.EventHandler(this.txtDiscountAmount_TextChanged);
             this.txtDiscountAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDiscountAmount_KeyDown);
             this.txtDiscountAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDiscountAmount_KeyPress);
@@ -759,6 +786,7 @@
             this.txtDiscountPercentage.Name = "txtDiscountPercentage";
             this.txtDiscountPercentage.Size = new System.Drawing.Size(89, 20);
             this.txtDiscountPercentage.TabIndex = 11;
+            this.txtDiscountPercentage.TabStop = false;
             this.txtDiscountPercentage.Visible = false;
             this.txtDiscountPercentage.TextChanged += new System.EventHandler(this.txtDiscountAmount_TextChanged);
             this.txtDiscountPercentage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDiscountPercentage_KeyDown);
@@ -781,6 +809,7 @@
             this.txtGrossAmount.ReadOnly = true;
             this.txtGrossAmount.Size = new System.Drawing.Size(97, 20);
             this.txtGrossAmount.TabIndex = 0;
+            this.txtGrossAmount.TabStop = false;
             // 
             // panel5
             // 
@@ -1283,6 +1312,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Button btnCancelInvoice;
         private System.Windows.Forms.Button btnReprintPopup;
+        private System.Windows.Forms.Button btnMakeOrder;
     }
 }
 
