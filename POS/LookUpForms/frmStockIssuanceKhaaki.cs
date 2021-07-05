@@ -205,13 +205,14 @@ namespace POS.LookUpForms
 
           
             bool recordExist = false;
+
             for (int i = 0; i < dgvStockInDetail.Rows.Count; i++)
             {
                 if (id == Convert.ToInt32(dgvStockInDetail.Rows[i].Cells[0].Value.ToString()))
                 {
 
                     string value = dgvStockInDetail.Rows[i].Cells[3].Value.ToString();
-                    string rateValue = "1";
+                    string rateValue = dgvStockInDetail.Rows[i].Cells[4].Value.ToString();
                     decimal rate = Convert.ToDecimal(rateValue);
                     decimal qty = Convert.ToDecimal(value);
                     qty++;
@@ -304,6 +305,7 @@ namespace POS.LookUpForms
                         cmbProducts.SelectedValue = dt.Rows[0]["ItemId"].ToString();
                         txtItemID.Text = dt.Rows[0]["ItemId"].ToString();
                         txtQuantity.Text = "1";
+                        txtStockRate.Text= dt.Rows[0]["ItemSalesPrice"].ToString(); 
                         txtQuantity_KeyDown(sender, e);
                     }
                     string ids = cmbProducts.SelectedValue.ToString();
@@ -353,6 +355,7 @@ namespace POS.LookUpForms
                         //txtStockRate.Focus();
                     }
                 }
+                CalculateDetail();
             }
         }
 
@@ -587,6 +590,7 @@ namespace POS.LookUpForms
                     btnDelete.Visible = true;
                     btnSearch.Visible = false;
                     txtSerielNo.ReadOnly = true;
+                    CalculateDetail();
                 }
                 else
                 {
@@ -708,6 +712,26 @@ namespace POS.LookUpForms
            // CalculateDetail();
 
         }
+        private void CalculateDetail()
+        {
+            decimal NetAmount = 0;
+            decimal NetPcs = 0;
+            for (int i = 0; i < dgvStockInDetail.Rows.Count; i++)
+            {
+
+              
+                //var taxPercentage = Convert.ToDecimal(dt.Rows[0]["TotalTax"]);
+                //string rateValue = dgvStockInDetail.Rows[i].Cells[2].Value.ToString();
+                //string total = (Convert.ToDecimal(rateValue) * 1).ToString();
+                //string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rateValue)) / 100) * 1).ToString();
+                 NetAmount += Convert.ToDecimal(dgvStockInDetail.Rows[i].Cells[5].Value);
+                NetPcs += Convert.ToDecimal(dgvStockInDetail.Rows[i].Cells[3].Value);
+             
+            }
+            txtGrandAmount.Text = Convert.ToString((Int32)NetAmount);
+
+            txtTotalPCs.Text = Convert.ToString((Int32)NetPcs);
+        }
 
         private void dgvStockInDetail_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -741,6 +765,11 @@ namespace POS.LookUpForms
             {
                   dgvStockInDetail.Rows.RemoveAt(dgvStockInDetail.CurrentRow.Index);
             }
+        }
+
+        private void dgvStockInDetail_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

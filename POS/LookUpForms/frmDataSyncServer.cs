@@ -46,7 +46,7 @@ namespace POS
             SqlConnection db = new SqlConnection(STATICClass.Connection());
             SqlCommand com = new SqlCommand();
             com.Connection = db;
-
+            db.Open();
 
             com.CommandText = @"update Posdata_MaketoOrderInfo set 
                            IsOrderSynced=1 where Neck is not null and FFrontNeck is not null and FBackNeck is not null and Hip is not null and Muscle is not null and OrderId=" + OrderID+"";
@@ -207,7 +207,7 @@ namespace POS
                 }
 
             }
-            bool StartSyncingMakeOrder = false;
+            bool StartSyncingMakeOrder = true;
             if (StartSyncingMakeOrder == true)
             {
 
@@ -221,9 +221,9 @@ namespace POS
                     {
                          WhereClause = " where RegisterDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and Posdata_MaketoOrderInfo.OrderID=" + Convert.ToInt32(row["OrderID"]) + "";
                         var OrdersData = new data_StockTransferInfoModel().SelectAllMaketoOrder(WhereClause, true, true, WhereClause);
-                        var abc =(byte[])OrdersData.Tables[0].Rows[0]["ImagePath"];
-                        string base64String = Convert.ToBase64String(abc, 0, abc.Length);
-                        OrdersData.Tables[0].Rows[0]["ImageActualPath"] =base64String;
+                        //var abc =(byte[])OrdersData.Tables[0].Rows[0]["ImagePath"];
+                        //string base64String = Convert.ToBase64String(abc, 0, abc.Length);
+                        //OrdersData.Tables[0].Rows[0]["ImageActualPath"] =base64String;
                         string JsonOrdersData = JsonConvert.SerializeObject(OrdersData);
                         RInvoiceRespomnce = await STATICClass.InsertAllMakeOrderData(JsonOrdersData, Convert.ToString(row["OrderID"]));
                         if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
@@ -243,7 +243,7 @@ namespace POS
                 if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
                 {
                     btnProgressBar.Value = 80;
-                  
+                    await STATICClass.GetAllDispatchedOrdersFromServer(dtpSaleFromDate.Value.Date.ToString("dd-MMM-yyyy"),dtpSaleToDate.Value.Date.ToString("dd-MMM-yyyy"));
 
                 }
                 else

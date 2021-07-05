@@ -36,6 +36,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.dtRegisterDate = new System.Windows.Forms.DateTimePicker();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.txtProfession = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.txtCnic = new System.Windows.Forms.TextBox();
             this.txtRegisterID = new System.Windows.Forms.TextBox();
             this.txtRno = new System.Windows.Forms.TextBox();
@@ -86,8 +88,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtCustname = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.txtProfession = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.metroPanel1.SuspendLayout();
@@ -210,6 +210,24 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(668, 208);
             this.panel2.TabIndex = 34;
+            // 
+            // txtProfession
+            // 
+            this.txtProfession.Location = new System.Drawing.Point(129, 83);
+            this.txtProfession.Name = "txtProfession";
+            this.txtProfession.Size = new System.Drawing.Size(254, 25);
+            this.txtProfession.TabIndex = 50;
+            this.txtProfession.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProfession_KeyDown);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(40, 83);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(82, 17);
+            this.label11.TabIndex = 49;
+            this.label11.Text = "Profession:";
             // 
             // txtCnic
             // 
@@ -739,24 +757,6 @@
             this.label1.Size = new System.Drawing.Size(120, 17);
             this.label1.TabIndex = 34;
             this.label1.Text = "Customer Name:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(40, 83);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(82, 17);
-            this.label11.TabIndex = 49;
-            this.label11.Text = "Profession:";
-            // 
-            // txtProfession
-            // 
-            this.txtProfession.Location = new System.Drawing.Point(129, 83);
-            this.txtProfession.Name = "txtProfession";
-            this.txtProfession.Size = new System.Drawing.Size(254, 25);
-            this.txtProfession.TabIndex = 50;
-            this.txtProfession.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProfession_KeyDown);
             // 
             // frmCustomerDataKhaaki
             // 

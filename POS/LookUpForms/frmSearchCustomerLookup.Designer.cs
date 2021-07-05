@@ -44,7 +44,7 @@
             this.dgvSaleInvoices.Name = "dgvSaleInvoices";
             this.dgvSaleInvoices.ReadOnly = true;
             this.dgvSaleInvoices.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSaleInvoices.Size = new System.Drawing.Size(419, 339);
+            this.dgvSaleInvoices.Size = new System.Drawing.Size(624, 339);
             this.dgvSaleInvoices.TabIndex = 0;
             this.dgvSaleInvoices.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSaleInvoices_CellClick);
             this.dgvSaleInvoices.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSaleInvoices_KeyDown);
@@ -53,7 +53,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(335, 83);
+            this.label11.Location = new System.Drawing.Point(411, 100);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(109, 14);
             this.label11.TabIndex = 8;
@@ -61,7 +61,7 @@
             // 
             // txtPhoneSearch
             // 
-            this.txtPhoneSearch.Location = new System.Drawing.Point(321, 100);
+            this.txtPhoneSearch.Location = new System.Drawing.Point(526, 100);
             this.txtPhoneSearch.Name = "txtPhoneSearch";
             this.txtPhoneSearch.Size = new System.Drawing.Size(123, 20);
             this.txtPhoneSearch.TabIndex = 7;
@@ -74,7 +74,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnClose.Location = new System.Drawing.Point(329, 471);
+            this.btnClose.Location = new System.Drawing.Point(534, 467);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(115, 31);
             this.btnClose.TabIndex = 29;
@@ -86,7 +86,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(470, 521);
+            this.ClientSize = new System.Drawing.Size(713, 521);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.txtPhoneSearch);

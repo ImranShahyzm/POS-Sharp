@@ -388,6 +388,36 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
         }
+        public DataTable MakeOrdersList(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
+        {
+            DataTable dt;
+
+            string Sql = @"
+            Select SalePOSNo as InvoiceNo,Posdata_MaketoOrderInfo.RNo as OrderNo,Format(RegisterDate , 'dd-MMM-yyyy') as OrderDate,CustomerPhone,CustomerName, Format(DeliveryDate,'dd-MMM-yyyy') as DeliveryDateFormat,Sum(Posdata_MaketoOrderInfo.GrossAmount) as SaleInfo_NetAmount,
+            0 as SaleInfo_DPer,Sum(Posdata_MaketoOrderInfo.DiscountTotal) as SaleInfo_DAmount,
+            sum(data_SalePosDetail.Quantity) as Quantity,sum(data_SalePosDetail.DiscountAmount) as DiscountAmount,
+            Sum(data_SalePosDetail.TaxAmount) as TaxAmount
+            from Posdata_MaketoOrderInfo 
+            inner join data_SalePosDetail on Posdata_MaketoOrderInfo.SalePosID=data_SalePosDetail.SalePosID 
+			inner join data_SalePosInfo on data_SalePosInfo.SalePosID=Posdata_MaketoOrderInfo.SalePosID
+            left join InventItems on data_SalePosDetail.ItemId = InventItems.ItemId 
+            left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID
+            left join InventItemGroup on InventCategory.ItemGroupID=InventItemGroup.ItemGroupID
+            left join InventWareHouse on Posdata_MaketoOrderInfo.WHID=InventWareHouse.WHID
+            left join adgen_ColorInfo on adgen_ColorInfo.ColorID=InventItems.ColorID
+			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
+            where 0 = 0 and data_SalePosInfo.DirectReturn=0 ";
+            Sql = Sql + " and Posdata_MaketoOrderInfo.RegisterDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "'  and Posdata_MaketoOrderInfo.Companyid=" + CompanyInfo.CompanyID + " and Posdata_MaketoOrderInfo.WHID=" + CompanyInfo.WareHouseID;
+            if (CategoryID > 0)
+            {
+                Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
+            }
+            Sql = Sql + " Group by SalePOSNo,RNo,RegisterDate,DeliveryDate,CustomerPhone,CustomerName";
+            Sql = Sql + " order by Posdata_MaketoOrderInfo.RegisterDate";
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            return dt;
+        }
         public DataTable SaleActivity(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
         {
             DataTable dt;
@@ -431,9 +461,10 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
         }
         public decimal SaleMasterDiscount(DateTime DateFrom, DateTime dateTo)
         {
-            string query = "Select Sum(DiscountAmount) as MasterDiscount from data_SalePosInfo where  data_SalePosInfo.DirectReturn=0 and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + "";
+            string query = "Select ISNULL(Sum(DiscountAmount),0) as MasterDiscount from data_SalePosInfo where  data_SalePosInfo.DirectReturn=0 and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + "";
             DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
+            
             return Convert.ToDecimal(dt.Rows[0]["MasterDiscount"]);
 
         }
@@ -698,6 +729,40 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             this.ShowDialog();
             rpt.Dispose();
         }
+        public void rptMakeOrderKhaaki(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
+        {
+            ReportDocument rpt = new ReportDocument();
+            DataTable dt = MakeOrdersList(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "MakeOrdersList.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+            if (DateFrom.Date == dateTo.Date)
+            {
+
+                rpt.SummaryInfo.ReportTitle = "Making Order's List";
+            }
+            else
+            {
+                rpt.SummaryInfo.ReportTitle = "Making Order's List";
+            }
+            rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
+            rpt.SetParameterValue("UserName", CompanyInfo.username);
+
+
+            rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
+            rpt.SetParameterValue("SuppressTag", false);
+            rpt.SetParameterValue("NetSale", TillNowSaleCalculation());
+            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            //rpt.SetParameterValue("ServerName", Serverpath);
+            //rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            this.ShowDialog();
+            rpt.Dispose();
+        }
+
+  
         public void DailySaleKhaaki(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
         {
             ReportDocument rpt = new ReportDocument();

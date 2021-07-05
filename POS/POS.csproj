@@ -229,6 +229,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\Script 1.0.0.39.sql" />
     <Content Include="DbScripts\Script 1.0.0.38.sql" />
     <Content Include="DbScripts\Script 1.0.0.36.sql" />
     <Content Include="DbScripts\Script 1.0.0.37.sql" />
@@ -455,6 +456,12 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\frmMakeOrderReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmMakeOrderReport.Designer.cs">
+      <DependentUpon>frmMakeOrderReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\frmDailySaleActivity.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -550,6 +557,13 @@
     </Compile>
     <Compile Include="Report\SaleActivityKhaaki.cs">
       <DependentUpon>SaleActivityKhaaki.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\MakeOrdersList.cs">
+      <DependentUpon>MakeOrdersList.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -776,6 +790,9 @@
       <LastGenOutput>DayBook.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmMakeOrderReport.resx">
+      <DependentUpon>frmMakeOrderReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmDailySaleActivity.resx">
       <DependentUpon>frmDailySaleActivity.cs</DependentUpon>
     </EmbeddedResource>
@@ -836,6 +853,11 @@
     <EmbeddedResource Include="Report\SaleActivityKhaaki.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SaleActivityKhaaki.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\MakeOrdersList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MakeOrdersList.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleRegisterKhaaki.rpt">
@@ -1010,6 +1032,7 @@
     <Content Include="DbScripts\Script 1.0.0.29.sql" />
     <Content Include="DbScripts\Script 1.0.0.32.sql" />
     <Content Include="DbScripts\Script 1.0.0.35.sql" />
+    <Content Include="DbScripts\Script 1.0.0.40.sql" />
     <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />

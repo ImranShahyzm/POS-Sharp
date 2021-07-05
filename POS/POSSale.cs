@@ -46,6 +46,11 @@ namespace POS
 
                 billWiseRecoveryToolStripMenuItem.Visible = false;
             }
+            if(!CompanyInfo.isKhaakiSoft)
+            {
+                makeOrderReportToolStripMenuItem.Visible = false;
+                orderSectionToolStripMenuItem.Visible = false;
+            }
 
         }
         private void loadProducts()
@@ -1589,6 +1594,30 @@ namespace POS
                 {
 
                 }
+            };
+        }
+
+        private void makeOrderReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmMakeOrderReport obj = new frmMakeOrderReport())
+            {
+
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void customersListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmSearchCustomerLookup obj = new frmSearchCustomerLookup())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+                   
+                }
+               
             };
         }
     }

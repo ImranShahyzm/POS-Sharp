@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtArrivalID = new System.Windows.Forms.TextBox();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtArrivalNo = new System.Windows.Forms.TextBox();
@@ -38,8 +40,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgvDetail = new System.Windows.Forms.DataGridView();
             this.dgvMaster = new System.Windows.Forms.DataGridView();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.txtArrivalID = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).BeginInit();
@@ -63,6 +63,27 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(924, 78);
             this.panel1.TabIndex = 0;
+            // 
+            // txtArrivalID
+            // 
+            this.txtArrivalID.Location = new System.Drawing.Point(596, 10);
+            this.txtArrivalID.Name = "txtArrivalID";
+            this.txtArrivalID.Size = new System.Drawing.Size(100, 26);
+            this.txtArrivalID.TabIndex = 14;
+            this.txtArrivalID.Visible = false;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.LightCoral;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnDelete.Location = new System.Drawing.Point(795, 44);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(97, 28);
+            this.btnDelete.TabIndex = 13;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Visible = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // label4
             // 
@@ -143,7 +164,6 @@
             this.dgvDetail.Enabled = false;
             this.dgvDetail.Location = new System.Drawing.Point(513, 4);
             this.dgvDetail.Name = "dgvDetail";
-            this.dgvDetail.ReadOnly = true;
             this.dgvDetail.Size = new System.Drawing.Size(408, 366);
             this.dgvDetail.TabIndex = 1;
             // 
@@ -162,27 +182,6 @@
             this.dgvMaster.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMaster_CellClick);
             this.dgvMaster.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvMaster_KeyUp);
             // 
-            // btnDelete
-            // 
-            this.btnDelete.BackColor = System.Drawing.Color.LightCoral;
-            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDelete.Location = new System.Drawing.Point(795, 44);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(97, 28);
-            this.btnDelete.TabIndex = 13;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = false;
-            this.btnDelete.Visible = false;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // txtArrivalID
-            // 
-            this.txtArrivalID.Location = new System.Drawing.Point(596, 10);
-            this.txtArrivalID.Name = "txtArrivalID";
-            this.txtArrivalID.Size = new System.Drawing.Size(100, 26);
-            this.txtArrivalID.TabIndex = 14;
-            this.txtArrivalID.Visible = false;
-            // 
             // frmStockArrivalList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -192,7 +191,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "frmStockArrivalList";
             this.Resizable = false;
-            this.Text = "List of Saved Stock";
+            this.Text = "List of Received Stock";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

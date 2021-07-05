@@ -61,6 +61,10 @@
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtTotalPCs = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtGrandAmount = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockInDetail)).BeginInit();
@@ -280,6 +284,10 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.txtGrandAmount);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.txtTotalPCs);
+            this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.dgvStockInDetail);
             this.panel2.Location = new System.Drawing.Point(24, 194);
             this.panel2.Name = "panel2";
@@ -299,9 +307,10 @@
             this.NetAmount});
             this.dgvStockInDetail.Location = new System.Drawing.Point(89, 12);
             this.dgvStockInDetail.Name = "dgvStockInDetail";
-            this.dgvStockInDetail.Size = new System.Drawing.Size(792, 329);
+            this.dgvStockInDetail.Size = new System.Drawing.Size(792, 272);
             this.dgvStockInDetail.TabIndex = 0;
             this.dgvStockInDetail.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockInDetail_CellClick);
+            this.dgvStockInDetail.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockInDetail_CellContentClick);
             this.dgvStockInDetail.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvStockInDetail_EditingControlShowing);
             this.dgvStockInDetail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvStockInDetail_KeyDown);
             // 
@@ -381,7 +390,7 @@
             this.Itemname.HeaderText = "ProductName";
             this.Itemname.Name = "Itemname";
             this.Itemname.ReadOnly = true;
-            this.Itemname.Width = 580;
+            this.Itemname.Width = 360;
             // 
             // Quantity
             // 
@@ -392,13 +401,49 @@
             // 
             this.Rate.HeaderText = "Stock Rate";
             this.Rate.Name = "Rate";
-            this.Rate.Visible = false;
             // 
             // NetAmount
             // 
             this.NetAmount.HeaderText = "Net Amount";
             this.NetAmount.Name = "NetAmount";
-            this.NetAmount.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(481, 314);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(74, 19);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Total PCs";
+            // 
+            // txtTotalPCs
+            // 
+            this.txtTotalPCs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalPCs.Location = new System.Drawing.Point(550, 307);
+            this.txtTotalPCs.Name = "txtTotalPCs";
+            this.txtTotalPCs.ReadOnly = true;
+            this.txtTotalPCs.Size = new System.Drawing.Size(84, 26);
+            this.txtTotalPCs.TabIndex = 13;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(640, 311);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(89, 19);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Net Amount";
+            // 
+            // txtGrandAmount
+            // 
+            this.txtGrandAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGrandAmount.Location = new System.Drawing.Point(735, 304);
+            this.txtGrandAmount.Name = "txtGrandAmount";
+            this.txtGrandAmount.ReadOnly = true;
+            this.txtGrandAmount.Size = new System.Drawing.Size(128, 26);
+            this.txtGrandAmount.TabIndex = 17;
             // 
             // frmStockIssuanceKhaaki
             // 
@@ -423,6 +468,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockInDetail)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -464,5 +510,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
         private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtTotalPCs;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtGrandAmount;
     }
 }
