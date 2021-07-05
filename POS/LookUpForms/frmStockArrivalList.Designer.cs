@@ -40,6 +40,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgvDetail = new System.Windows.Forms.DataGridView();
             this.dgvMaster = new System.Windows.Forms.DataGridView();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetail)).BeginInit();
@@ -161,7 +162,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDetail.Enabled = false;
             this.dgvDetail.Location = new System.Drawing.Point(513, 4);
             this.dgvDetail.Name = "dgvDetail";
             this.dgvDetail.Size = new System.Drawing.Size(408, 366);
@@ -182,11 +182,26 @@
             this.dgvMaster.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMaster_CellClick);
             this.dgvMaster.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dgvMaster_KeyUp);
             // 
+            // btnPrint
+            // 
+            this.btnPrint.BackColor = System.Drawing.Color.YellowGreen;
+            this.btnPrint.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnPrint.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrint.Location = new System.Drawing.Point(850, 528);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(97, 28);
+            this.btnPrint.TabIndex = 15;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.UseVisualStyleBackColor = false;
+            this.btnPrint.Visible = false;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
             // frmStockArrivalList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(970, 564);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "frmStockArrivalList";
@@ -215,5 +230,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.TextBox txtArrivalID;
+        private System.Windows.Forms.Button btnPrint;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MetroFramework.Forms;
 using POS.Helper;
+using POS.Report;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,11 +31,11 @@ namespace POS.LookUpForms
             string SqlString = " ";
             if (txtArrivalNo.Text == "")
             {
-                SqlString = " SELECT        ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID+"";
+                SqlString = " SELECT        ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID,Cast((Select sum(quantity) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as Quantity,cast((Select sum(quantity*StockRate) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as TotalAmount  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID+"";
             }
             else
             {
-                SqlString = " SELECT        ArrivalID, TransferNo, format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalNo like '" + txtArrivalNo.Text + "%'";
+                SqlString = " SELECT        ArrivalID, TransferNo, format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID,cast((Select sum(quantity) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as Quantity,Cast((Select sum(quantity*StockRate) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as TotalAmount from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalNo like '" + txtArrivalNo.Text + "%'";
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
@@ -43,6 +44,8 @@ namespace POS.LookUpForms
             if (dt.Rows.Count > 0)
             {
                 dgvMaster.DataSource = dt;
+                dgvMaster.Columns[0].Visible = false;
+                dgvMaster.Columns[5].Visible = false;
             }
             else
             {
@@ -60,11 +63,11 @@ namespace POS.LookUpForms
             string SqlString = " ";
             if (txtArrivalNo.Text == "")
             {
-                SqlString = "  SELECT        ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalDate = '"+txtArrivalDate.Value+"'";
+                SqlString = "  SELECT        ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID,cast((Select sum(quantity) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as Quantity,Cast((Select sum(quantity*StockRate) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as TotalAmount  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalDate = '"+txtArrivalDate.Value+"'";
             }
             else
             {
-                SqlString = "  SELECT        ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalDate = '" + txtArrivalDate.Value + "' and ArrivalNo like '" + txtArrivalNo.Text + "%'";
+                SqlString = "  SELECT        ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID,cast((Select sum(quantity) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as Quantity,cast((Select sum(quantity*StockRate) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as TotalAmount  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and ArrivalDate = '" + txtArrivalDate.Value + "' and ArrivalNo like '" + txtArrivalNo.Text + "%'";
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
@@ -73,6 +76,10 @@ namespace POS.LookUpForms
             if (dt.Rows.Count > 0)
             {
                 dgvMaster.DataSource = dt;
+                dgvMaster.Columns[0].Visible = false;
+                dgvMaster.Columns[5].Visible = false;
+
+
             }
             else
             {
@@ -105,10 +112,12 @@ namespace POS.LookUpForms
                     dgvDetail.DataSource = dt;
                     dgvDetail.Columns[0].Width = 100;
                     dgvDetail.Columns[1].Width = 200;
+                   
                     if (!CompanyInfo.isKhaakiSoft)
                     {
                         btnDelete.Visible = true;
                     }
+                    btnPrint.Visible = true;
                 }
                 else
                 {
@@ -116,6 +125,7 @@ namespace POS.LookUpForms
                     dgvDetail.Rows.Clear();
                     dgvDetail.Refresh();
                     btnDelete.Visible = false;
+                    btnPrint.Visible = false;
                 }
             }
         }
@@ -206,6 +216,28 @@ namespace POS.LookUpForms
                 }
                    
             }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            using (frmCrystal obj = new frmCrystal())
+            {
+                string reportName = "";
+                string WhereClause = "";
+                reportName = "Sale Report";
+                //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
+                try
+                {
+                    if (Convert.ToInt32(txtArrivalID.Text) > 0)
+                    {
+                        obj.StockReceiptList(reportName, Convert.ToInt32(txtArrivalID.Text));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            };
         }
     }
 }
