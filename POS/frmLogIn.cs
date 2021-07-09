@@ -61,9 +61,7 @@ namespace POS
                 if (dt.Rows.Count > 0)
                 {
                     CompanyInfo.WareHouseName = Convert.ToString(dt.Rows[0]["WareHouseName"]);
-                    frmPOSSale objFrm = new frmPOSSale();
-                    objFrm.Show();
-                    objcom.Userid = Convert.ToInt32(dt.Rows[0]["Userid"]);
+                   
                     CommonClass.CompanyName = dt.Rows[0]["Title"].ToString();
                     CompanyInfo.CompanyID = Convert.ToInt32(dt.Rows[0]["CompanyID"]);
                     CompanyInfo.FiscalID = Convert.ToInt32(dt.Rows[0]["FiscalID"]);
@@ -72,6 +70,10 @@ namespace POS
                     CompanyInfo.username= Convert.ToString(dt.Rows[0]["UserName"]);
                     CompanyInfo.LocationID=Convert.ToString(dt.Rows[0]["LocationID"]);
                     CompanyInfo.isKhaakiSoft= Convert.ToBoolean(dt.Rows[0]["isKhaakiSoft"]);
+                    frmPOSSale objFrm = new frmPOSSale();
+
+                    objcom.Userid = Convert.ToInt32(dt.Rows[0]["Userid"]);
+                    objFrm.Show();
                     this.Hide();
                 }
                 else

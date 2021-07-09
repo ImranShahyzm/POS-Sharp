@@ -46,6 +46,10 @@ namespace POS
 
                 billWiseRecoveryToolStripMenuItem.Visible = false;
             }
+            else
+            {
+                billWiseRecoveryToolStripMenuItem.Visible = true;
+            }
             if(!CompanyInfo.isKhaakiSoft)
             {
                 makeOrderReportToolStripMenuItem.Visible = false;

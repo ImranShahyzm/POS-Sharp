@@ -132,27 +132,46 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and SalePosDate <= 
 
         private void dgvSaleInvoices_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            int index = dgvSaleInvoices.SelectedRows[0].Index;
+            ResultReturn(index);
         }
+        private void ResultReturn(int Index)
+        {
+
+            if (Index > 0)
+            {
+                DataGridViewRow dgr = dgvSaleInvoices.Rows[Index];
+                SaleInvoiceNo = dgr.Cells["SalePOSNO"].Value.ToString();
+                SaleInvoiceDate = dtpSaleFromDate.Value;
+                SalePosID = Convert.ToInt32(dgr.Cells["SalePosID"].Value);
+                BillAmount = Convert.ToDecimal(dgr.Cells["TotalBillAmount"].Value) - Convert.ToDecimal(dgr.Cells["RecoveryAmount"].Value);
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else if (Index == 0)
+            {
+                DataGridViewRow dgr = dgvSaleInvoices.Rows[0];
+                SaleInvoiceNo = dgr.Cells["SalePOSNO"].Value.ToString();
+                SaleInvoiceDate = dtpSaleFromDate.Value;
+                SalePosID = Convert.ToInt32(dgr.Cells["SalePosID"].Value);
+                BillAmount = Convert.ToDecimal(dgr.Cells["TotalBillAmount"].Value) - Convert.ToDecimal(dgr.Cells["RecoveryAmount"].Value);
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+        }
+
 
         private void dgvSaleInvoices_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)13)
             {
-                int index = 0;
-                if(dgvSaleInvoices.CurrentRow.Index>0)
-                {
-                    index = dgvSaleInvoices.CurrentRow.Index - 1;
+                
 
-                }
-                DataGridViewRow dgr = dgvSaleInvoices.Rows[index];
-                SaleInvoiceNo = dgr.Cells["SalePOSNO"].Value.ToString();
-                SaleInvoiceDate = dtpSaleFromDate.Value;
-                SalePosID= Convert.ToInt32(dgr.Cells["SalePosID"].Value);
-                BillAmount = Convert.ToDecimal(dgr.Cells["TotalBillAmount"].Value)- Convert.ToDecimal(dgr.Cells["RecoveryAmount"].Value);
-               
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                int index = dgvSaleInvoices.SelectedRows[0].Index;
+                ResultReturn(index);
+
             }
         }
 
@@ -182,6 +201,15 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and SalePosDate <= 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void dgvSaleInvoices_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                int rowIndex = dgvSaleInvoices.CurrentCell.OwningRow.Index;
+                ResultReturn(rowIndex);
+            }
         }
     }
 }

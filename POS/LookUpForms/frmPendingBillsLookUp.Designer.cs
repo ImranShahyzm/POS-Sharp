@@ -53,6 +53,7 @@
             this.dgvSaleInvoices.Size = new System.Drawing.Size(730, 339);
             this.dgvSaleInvoices.TabIndex = 0;
             this.dgvSaleInvoices.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSaleInvoices_CellContentClick);
+            this.dgvSaleInvoices.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dgvSaleInvoices_KeyDown);
             this.dgvSaleInvoices.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvSaleInvoices_KeyPress);
             // 
             // label11

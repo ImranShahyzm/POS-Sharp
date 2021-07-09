@@ -247,7 +247,7 @@ namespace POS
 
             var items = new[] {
     new { Text = "Cash Invoice", Value = "1" },
-    new { Text = "Home Delivery-Cash", Value = "2" },
+    new { Text = "Dining Sale", Value = "2" },
     new { Text = "Home Delivery-Credit", Value = "3" }
 };
 

@@ -24,7 +24,7 @@ namespace POS.Helper
         //******************************//
 
             //*********** Food Mama Api Url *************//
-       public static string BaseURL = "http://103.86.135.182:1034/";
+      public static string BaseURL = "http://103.86.135.182:1034/";
         //***************************************//
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
