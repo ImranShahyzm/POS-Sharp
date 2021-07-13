@@ -66,7 +66,8 @@ ALTER procedure [dbo].[data_SalePosInfo_Insert]
 @CardName nvarchar(1000)=NULL,
 @CashPayment numeric(18, 3)=NULL,
 @CardPayment numeric(18, 3)=NULL,
-@SaleManId int=null
+@SaleManId int=null,
+@CustomerID int=null
 
 as
 declare @returnSale bit=0
@@ -148,6 +149,11 @@ BEGIN
 		
 	)	
 	set @SalePosID = @@IDENTITY
+	if @CustomerID is not null
+	begin
+	insert into posdata_CustomerInvoiceList (SalePosId,CustomerID) values(@SalePosID,@CustomerID)
+
+	end
 	if @InvoiceType is null or @InvoiceType=1
 	begin
 	EXEC [dbo].[data_Cash_Insert]

@@ -36,7 +36,7 @@ namespace POS
             loadNewSale();
             if(true)
             {
-                tableLayoutPanel1.Hide();
+               tableLayoutPanel1.Hide();
                 
             }
             if(CompanyInfo.isKhaakiSoft)
