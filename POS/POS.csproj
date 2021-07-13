@@ -229,6 +229,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\FoodMamaChangings.sql" />
     <Content Include="DbScripts\Script 1.0.0.39.sql" />
     <Content Include="DbScripts\Script 1.0.0.38.sql" />
     <Content Include="DbScripts\Script 1.0.0.36.sql" />
@@ -456,6 +457,12 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\frmPendingBillReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmPendingBillReport.Designer.cs">
+      <DependentUpon>frmPendingBillReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\frmMakeOrderReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -554,6 +561,13 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\PendingBillsAmount.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PendingBillsAmount.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Report\StockReceiptPrint.cs">
       <DependentUpon>StockReceiptPrint.rpt</DependentUpon>
@@ -797,6 +811,9 @@
       <LastGenOutput>DayBook.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmPendingBillReport.resx">
+      <DependentUpon>frmPendingBillReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmMakeOrderReport.resx">
       <DependentUpon>frmMakeOrderReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -844,6 +861,11 @@
     <EmbeddedResource Include="Report\ItemStockReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ItemStockReport.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\PendingBillsAmount.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PendingBillsAmount.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\StockReceiptPrint.rpt">

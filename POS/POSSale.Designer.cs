@@ -116,6 +116,7 @@
             this.paymentMethodWiseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.makeOrderReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.orderSectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.makeOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1015,7 +1016,8 @@
             this.salesManWiseToolStripMenuItem,
             this.paymentMethodWiseToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.makeOrderReportToolStripMenuItem});
+            this.makeOrderReportToolStripMenuItem,
+            this.toolStripMenuItem3});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
             this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.reportsToolStripMenuItem.Text = "Reports";
@@ -1083,6 +1085,13 @@
             this.makeOrderReportToolStripMenuItem.Text = "Make Order Report";
             this.makeOrderReportToolStripMenuItem.Click += new System.EventHandler(this.makeOrderReportToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(194, 22);
+            this.toolStripMenuItem3.Text = "Pending Bills Report";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
             // orderSectionToolStripMenuItem
             // 
             this.orderSectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1111,7 +1120,7 @@
             // customersListToolStripMenuItem
             // 
             this.customersListToolStripMenuItem.Name = "customersListToolStripMenuItem";
-            this.customersListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.customersListToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.customersListToolStripMenuItem.Text = "Customers List";
             this.customersListToolStripMenuItem.Click += new System.EventHandler(this.customersListToolStripMenuItem_Click);
             // 
@@ -1245,6 +1254,7 @@
         private System.Windows.Forms.ToolStripMenuItem makeOrderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem makeOrderReportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem customersListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }
 

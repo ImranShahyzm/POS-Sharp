@@ -99,6 +99,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
+            this.txtRegisterID = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -615,6 +616,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.txtRegisterID);
             this.panel5.Controls.Add(this.cmbInvoicetype);
             this.panel5.Controls.Add(this.label13);
             this.panel5.Controls.Add(this.label11);
@@ -866,6 +868,14 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
+            // txtRegisterID
+            // 
+            this.txtRegisterID.Location = new System.Drawing.Point(337, 98);
+            this.txtRegisterID.Name = "txtRegisterID";
+            this.txtRegisterID.Size = new System.Drawing.Size(100, 20);
+            this.txtRegisterID.TabIndex = 29;
+            this.txtRegisterID.Visible = false;
+            // 
             // POSSaleNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -959,6 +969,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
         private System.Windows.Forms.ComboBox cmbInvoicetype;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtRegisterID;
     }
 }
 

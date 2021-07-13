@@ -34,6 +34,61 @@ namespace POS.Report
             da.Fill(dt);
             return dt;
         }
+        public DataTable PendingBillsReprot(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
+        {
+            DataTable dt;
+            string Sql = @"select  * from (select data_salePosInfo.SalePOSNo,Format(data_salePosInfo.SalePosDate,'dd-MMM-yyyy') as SalePosDate,data_salePosInfo.CustomerName,data_salePosInfo.CustomerPhone,  (data_salePosInfo.GrossAmount-data_salePosInfo.DiscountTotal+OtherCharges) as TotalBillAmount,
+isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.SalePosID =
+ data_salePosInfo.SalePosID
+),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID
+from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and 0=0";
+
+            Sql = Sql + " and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' ";
+            Sql = Sql + "   and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
+
+
+            Sql = Sql + " ) a ";
+            if(CategoryID==2)
+            {
+                Sql = Sql + " where TotalBillAmount - RecoveryAmount > 0";
+            }
+            
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            return dt;
+        }
+        public void PendingBillsReport(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
+        {
+            ReportDocument rpt = new ReportDocument();
+            DataTable dt = PendingBillsReprot(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "PendingBillsAmount.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+            if (DateFrom.Date == dateTo.Date)
+            {
+
+                rpt.SummaryInfo.ReportTitle = "Bills Activity Report";
+            }
+            else
+            {
+                rpt.SummaryInfo.ReportTitle = "Bills Activity Report";
+            }
+            rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
+            rpt.SetParameterValue("UserName", CompanyInfo.username);
+
+
+            rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
+            rpt.SetParameterValue("SuppressTag", false);
+            rpt.SetParameterValue("NetSale", TillNowSaleCalculation());
+            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            //rpt.SetParameterValue("ServerName", Serverpath);
+            //rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            this.ShowDialog();
+            rpt.Dispose();
+        }
         public void loadSaleReport(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -439,7 +494,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
         {
             DataTable dt;
             string Sql = @"
-            select Format(SalePosDate , 'dd-MMM-yyyy') as SalePosDateFormat,data_SalePosInfo.SalePOSNo,(data_SalePosInfo.GrossAmount-data_SalePosInfo.ExchangeAmount) as SaleInfo_NetAmount,
+            select Format(SalePosDate , 'dd-MMM-yyyy') as SalePosDateFormat,data_SalePosInfo.SalePOSNo,(data_SalePosInfo.GrossAmount-isnull(data_SalePosInfo.ExchangeAmount,0)) as SaleInfo_NetAmount,
             0 as SaleInfo_DPer,(data_SalePosInfo.DiscountAmount) as SaleInfo_DAmount,ISNULL(data_SalePosInfo.CustomerName,'Walking Customer') as Clientname,ISNULL(data_SalePosInfo.CustomerPhone,'') as ClientPhone,
             sum(data_SalePosDetail.Quantity) as Quantity,0 as DiscountPercentage,(data_SalePosInfo.DiscountTotal) as TotalDiscount,
             Sum(data_SalePosDetail.TaxAmount) as TaxAmount

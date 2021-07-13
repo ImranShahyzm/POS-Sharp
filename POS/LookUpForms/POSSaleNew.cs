@@ -794,6 +794,7 @@ namespace POS
             cmd.Parameters.AddWithValue("@AmountReceive", txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text));
             cmd.Parameters.AddWithValue("@AmountReturn", txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text));
             cmd.Parameters.AddWithValue("@AmountInAccount", txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text));
+            cmd.Parameters.AddWithValue("@CustomerID", txtRegisterID.Text == "" ? 0 : Convert.ToInt32(txtRegisterID.Text));
             if (SaleInvoiceNo > 0)
             {
                 cmd.Parameters.AddWithValue("@AmountPayable", txtPayableAmount.Text == "" ? Convert.ToDecimal(txtAccAmount.Text) : Convert.ToDecimal(txtPayableAmount.Text));
@@ -1407,12 +1408,81 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
-                txtCustName.Focus();
+                if (e.KeyCode == Keys.Enter)
+                {
+                    using (frmSearchCustomerLookup obj = new frmSearchCustomerLookup())
+                    {
+                        if (obj.ShowDialog() == DialogResult.OK)
+                        {
+                            string Rno = obj.RegisterNo;
+                            txtRegisterID.Text = obj.CustomerID;
+                            LoadCustomerData(obj.CustomerID);
+                        }
+                        
+                    };
+                }
+
+                
                 
             }
         }
+        private void LoadCustomerData(string CustomerID)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            DataTable dtdetail = new DataTable();
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            SqlCommand cmd = new SqlCommand("PosData_tblCustomerData_SelectAll", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
 
-      private void ClearFields()
+            string whereclause = " where CustomerID=" + CustomerID + " and WHID=" + CompanyInfo.WareHouseID + "";
+            cmd.Parameters.AddWithValue("@SelectMaster", 1);
+            cmd.Parameters.AddWithValue("@WhereClause", whereclause);
+
+            da.SelectCommand = cmd;
+            try
+            {
+                cmd.Transaction = tran; da.Fill(ds);
+                dt = ds.Tables[0];
+
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+
+
+               
+                txtCustName.Text = Convert.ToString(dt.Rows[0]["CName"]);
+                txtCustPhone.Text = Convert.ToString(dt.Rows[0]["CPhone"]);
+                txtCustName.Focus();
+
+
+
+
+
+            }
+            else
+            {
+                MessageBox.Show("We have no Customer  regarding this No!");
+            }
+        }
+
+        private void ClearFields()
         {
             txtProductID.Clear();
 

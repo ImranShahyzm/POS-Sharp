@@ -45,6 +45,7 @@ namespace POS
                manualStockInToolStripMenuItem.Visible = true;
 
                 billWiseRecoveryToolStripMenuItem.Visible = false;
+                toolStripMenuItem3.Visible = false;
             }
             else
             {
@@ -53,7 +54,7 @@ namespace POS
             if(!CompanyInfo.isKhaakiSoft)
             {
                 makeOrderReportToolStripMenuItem.Visible = false;
-                orderSectionToolStripMenuItem.Visible = false;
+                //orderSectionToolStripMenuItem.Visible = false;
             }
 
         }
@@ -1622,6 +1623,18 @@ namespace POS
                    
                 }
                
+            };
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            using (frmPendingBillReport obj = new frmPendingBillReport())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+
             };
         }
     }
