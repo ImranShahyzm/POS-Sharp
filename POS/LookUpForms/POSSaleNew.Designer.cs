@@ -78,6 +78,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.txtRegisterID = new System.Windows.Forms.TextBox();
             this.cmbInvoicetype = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -99,7 +100,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.txtRegisterID = new System.Windows.Forms.TextBox();
+            this.txtSalesManID = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -616,6 +617,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.txtSalesManID);
             this.panel5.Controls.Add(this.txtRegisterID);
             this.panel5.Controls.Add(this.cmbInvoicetype);
             this.panel5.Controls.Add(this.label13);
@@ -651,6 +653,14 @@
             this.panel5.Size = new System.Drawing.Size(1038, 163);
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // txtRegisterID
+            // 
+            this.txtRegisterID.Location = new System.Drawing.Point(337, 98);
+            this.txtRegisterID.Name = "txtRegisterID";
+            this.txtRegisterID.Size = new System.Drawing.Size(100, 20);
+            this.txtRegisterID.TabIndex = 29;
+            this.txtRegisterID.Visible = false;
             // 
             // cmbInvoicetype
             // 
@@ -868,13 +878,14 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // txtRegisterID
+            // txtSalesManID
             // 
-            this.txtRegisterID.Location = new System.Drawing.Point(337, 98);
-            this.txtRegisterID.Name = "txtRegisterID";
-            this.txtRegisterID.Size = new System.Drawing.Size(100, 20);
-            this.txtRegisterID.TabIndex = 29;
-            this.txtRegisterID.Visible = false;
+            this.txtSalesManID.Location = new System.Drawing.Point(452, 98);
+            this.txtSalesManID.MaxLength = 10;
+            this.txtSalesManID.Name = "txtSalesManID";
+            this.txtSalesManID.Size = new System.Drawing.Size(87, 20);
+            this.txtSalesManID.TabIndex = 37;
+            this.txtSalesManID.Visible = false;
             // 
             // POSSaleNew
             // 
@@ -970,6 +981,7 @@
         private System.Windows.Forms.ComboBox cmbInvoicetype;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtRegisterID;
+        private System.Windows.Forms.TextBox txtSalesManID;
     }
 }
 

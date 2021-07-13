@@ -25,6 +25,16 @@ namespace POS
         public int SalePosMasterID = 0;
         public decimal netAmountForReturn = 0;
 
+        public string totalBill { get; set; }
+        public string ReceivedAmount { get; set; }
+        public string ReturnAmount { get; set; }
+
+        public string CustomerName { get; set; }
+        public string CustomerPhone { get; set; }
+
+        public string SaleManId { get; set; }
+
+        public bool AllowSave {get;set;}
         public bool SaleReturn = false;
         public POSSaleNew()
         {
@@ -709,8 +719,44 @@ namespace POS
         {
             if (validateSave())
             {
-               
+                GrossAmount_Total();
+                CheckReceivedAmount();
+                this.totalBill = txtReceivableAmount.Text;
+                this.ReceivedAmount = txtAmountReceive.Text;
+                this.ReturnAmount = txtAmountReturn.Text;
+                if(!string.IsNullOrEmpty(txtCustName.Text))
+                {
+                    this.CustomerName = txtCustName.Text;
+                }
+                if (!string.IsNullOrEmpty(txtCustPhone.Text))
+                {
+                    this.CustomerPhone = txtCustPhone.Text;
+                }
+
+                frmCustomerDataFoodMama frm = new frmCustomerDataFoodMama(this);
+                frm.ShowDialog();
+                txtCustName.Text = this.CustomerName;
+                txtCustPhone.Text = this.CustomerPhone;
+                txtSalesManID.Text = this.SaleManId;
                 SaveForm();
+
+              
+            }
+
+        }
+        private void CheckReceivedAmount()
+        {
+
+            decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+            decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
+
+            decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
+            txtAmountReturn.Text = (recAmount - payableAmount).ToString();
+            //}
+            if (string.IsNullOrEmpty(txtAmountReceive.Text) || Convert.ToDecimal(txtAmountReceive.Text) < Convert.ToDecimal(txtReceivableAmount.Text))
+            {
+                MessageBox.Show("Received Amount Can't be Less then Bill Amount...");
+                return;
             }
 
         }
@@ -795,6 +841,7 @@ namespace POS
             cmd.Parameters.AddWithValue("@AmountReturn", txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text));
             cmd.Parameters.AddWithValue("@AmountInAccount", txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text));
             cmd.Parameters.AddWithValue("@CustomerID", txtRegisterID.Text == "" ? 0 : Convert.ToInt32(txtRegisterID.Text));
+            cmd.Parameters.AddWithValue("@SaleManId", txtSalesManID.Text == "" ? null : Convert.ToString(txtSalesManID.Text));
             if (SaleInvoiceNo > 0)
             {
                 cmd.Parameters.AddWithValue("@AmountPayable", txtPayableAmount.Text == "" ? Convert.ToDecimal(txtAccAmount.Text) : Convert.ToDecimal(txtPayableAmount.Text));
@@ -1406,9 +1453,9 @@ namespace POS
 
         private void txtCustPhone_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode==Keys.Enter)
+            if(e.KeyCode==Keys.Enter )
             {
-                if (e.KeyCode == Keys.Enter)
+                if (string.IsNullOrEmpty(txtCustPhone.Text))
                 {
                     using (frmSearchCustomerLookup obj = new frmSearchCustomerLookup())
                     {
@@ -1418,9 +1465,15 @@ namespace POS
                             txtRegisterID.Text = obj.CustomerID;
                             LoadCustomerData(obj.CustomerID);
                         }
-                        
+
                     };
                 }
+                else
+                {
+                    txtCustName.Select();
+                    txtCustName.Focus();
+                }
+                
 
                 
                 

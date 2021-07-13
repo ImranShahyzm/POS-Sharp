@@ -41,7 +41,7 @@ namespace POS.LookUpForms
             {
                 DataTable dt = new DataTable();
                 SqlConnection con = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("GetVoucherNoPos", con);
+                SqlCommand cmd = new SqlCommand("GetVoucherNoS", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter();
                 cmd.Parameters.Add(new SqlParameter("@Fieldname", Fieldname));
@@ -579,6 +579,15 @@ namespace POS.LookUpForms
 
                 }
 
+            }
+        }
+
+        private void txtArrivalDate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                txtManualNo.Select();
+                txtManualNo.Focus();
             }
         }
     }
