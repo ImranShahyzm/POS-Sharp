@@ -490,6 +490,23 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
         }
+        public DataTable PrintStockReturnList(int CompanyID, string ReportName, int CategoryID = 0)
+        {
+            DataTable dt;
+
+            string Sql = @" SELECT        inv.ItemNumber,Inv.ItenName,Inv.ItemSalesPrice,data_StockIssuancetoPosKitchenDetail.Quantity,data_StockIssuancetoPosKitchen.IssuanceID,TransferNo,  format(IssuanceDate,'dd-MMM-yyyy') as Issuancedate, IssuanceNo,data_StockIssuancetoPosKitchen.Remarks, RefID,cast((Select sum(quantity) from data_StockIssuancetoPosKitchenDetail where data_StockIssuancetoPosKitchenDetail.IssuanceID=data_StockIssuancetoPosKitchen.IssuanceID) as int) as TotalQuantity,Cast((Select sum(quantity*StockRate) from data_StockIssuancetoPosKitchenDetail where data_StockIssuancetoPosKitchenDetail.IssuanceID=data_StockIssuancetoPosKitchen.IssuanceID) as int) as TotalAmount  from data_StockIssuancetoPosKitchen left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID
+ left join data_StockIssuancetoPosKitchenDetail on data_StockIssuancetoPosKitchenDetail.IssuanceID=data_StockIssuancetoPosKitchen.IssuanceID
+ left join InventItems inv on inv.ItemId=data_StockIssuancetoPosKitchenDetail.ItemId where 0=0 ";
+
+            if (CategoryID > 0)
+            {
+                Sql = Sql + " and data_StockIssuancetoPosKitchen.IssuanceID=" + CategoryID;
+            }
+
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            return dt;
+        }
         public DataTable SaleActivity(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
         {
             DataTable dt;
@@ -863,6 +880,33 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             rpt.Dispose();
         }
 
+        public void StockReturnList(string reportName, int CategoryID = 0)
+        {
+            ReportDocument rpt = new ReportDocument();
+            DataTable dt = PrintStockReturnList(CompanyInfo.CompanyID, reportName, CategoryID);
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "StockReturnedPrint.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+
+
+            rpt.SummaryInfo.ReportTitle = "Stock Return List";
+
+            rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
+            rpt.SetParameterValue("UserName", CompanyInfo.username);
+
+
+            rpt.SetParameterValue("ReportFiltration", "");
+            rpt.SetParameterValue("SuppressTag", false);
+            rpt.SetParameterValue("NetSale", TillNowSaleCalculation());
+            rpt.SetParameterValue("MasterDiscount", "0");
+
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            //rpt.SetParameterValue("ServerName", Serverpath);
+            //rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            this.ShowDialog();
+            rpt.Dispose();
+        }
 
 
         public void DailySaleKhaaki(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)

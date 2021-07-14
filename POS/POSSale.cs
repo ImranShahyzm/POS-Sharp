@@ -1637,5 +1637,17 @@ namespace POS
 
             };
         }
+
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            using (FrmStockReturnList obj = new FrmStockReturnList())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+
+            };
+        }
     }
 }
