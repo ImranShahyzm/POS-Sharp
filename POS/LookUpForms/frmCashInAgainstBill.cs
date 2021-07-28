@@ -85,9 +85,14 @@ namespace POS
             {
                 DataTable ret = STATICClass.ExecuteInsert(SP.data_PosBillRecoveries_Insert.ToString()
                     , ParamList);
-                if (ret.Columns.Contains("RecoveryID"))
+                if (ret.Columns.Contains("@RecoveryID"))
                 {
-                    var RecoveryID = Convert.ToInt32(ret.Rows[0]["RecoveryID"].ToString());
+                    var RecoveryID = Convert.ToInt32(ret.Rows[0]["@RecoveryID"].ToString());
+                }
+                else
+                {
+                    MessageBox.Show(ret.Rows[0]["ErrorMsg"].ToString());
+                    return;
                 }
             }catch(Exception ex)
             {
