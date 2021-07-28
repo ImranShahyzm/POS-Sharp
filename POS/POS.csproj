@@ -1097,6 +1097,7 @@
     <Content Include="DbScripts\Script 1.0.0.32.sql" />
     <Content Include="DbScripts\Script 1.0.0.35.sql" />
     <Content Include="DbScripts\Script 1.0.0.40.sql" />
+    <Content Include="DbScripts\Script 1.0.0.42.sql" />
     <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />

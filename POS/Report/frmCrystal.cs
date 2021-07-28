@@ -41,7 +41,7 @@ namespace POS.Report
 isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
 ),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID
-from data_salePosInfo where data_SalePosInfo.InvoiceType = 3 and 0=0";
+from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
 
             Sql = Sql + " and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' ";
             Sql = Sql + "   and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
