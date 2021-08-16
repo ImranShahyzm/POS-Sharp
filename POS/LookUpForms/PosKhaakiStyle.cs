@@ -871,7 +871,16 @@ namespace POS
                 txtCustName.Text = this.CustomerName;
                 txtCustPhone.Text = this.CustomerPhone;
                 txtSalesManID.Text = this.SaleManId;
-                SaveForm();
+                if (Convert.ToInt32(txtSalesManID.Text) == 0)
+                {
+
+                    MessageBox.Show("Please Select Sales Person....!!!");
+                    return;
+                }
+                else
+                {
+                    SaveForm();
+                }
                 
             }
 

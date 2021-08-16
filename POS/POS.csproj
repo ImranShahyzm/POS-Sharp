@@ -1098,6 +1098,7 @@
     <Content Include="DbScripts\Script 1.0.0.35.sql" />
     <Content Include="DbScripts\Script 1.0.0.40.sql" />
     <Content Include="DbScripts\Script 1.0.0.42.sql" />
+    <Content Include="DbScripts\Script 1.0.0.43.sql" />
     <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />
@@ -1114,6 +1115,7 @@
     <None Include="Resources\CorbisPos.png" />
     <None Include="Resources\CorbisPos1.png" />
     <None Include="Resources\slider-01.png" />
+    <None Include="Resources\business-solution.jpg" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

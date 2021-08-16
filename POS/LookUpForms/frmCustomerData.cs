@@ -108,14 +108,10 @@ namespace POS
         {
             //decimal cashInAmount = txtCashInAmount.Text == "" ? 0 : Convert.ToDecimal(txtCashInAmount.Text);
             //bool validateReturnOK = true;
-            //if (cashInAmount == 0)
-            //{
-            //    txtCashInAmount.Focus();
-            //    MessageBox.Show("Please Enter Cash In Amount!");
-            //    validateReturnOK = false;
-            //}
-            //return validateReturnOK;
-            return true;
+           
+
+                return true;
+            
         }
 
         private void SaveForm()

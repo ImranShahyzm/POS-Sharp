@@ -60,12 +60,12 @@ namespace POS.LookUpForms
             string SqlString = " ";
             if (string.IsNullOrEmpty(txtPhoneSearch.Text))
             {
-                SqlString = " Select CustomerID,Rno as RegisterNo,CName as Name,Cphone as Phone,CityName,Address from tblPos_CustomerData where WHID=" + CompanyInfo.WareHouseID + " ";
+                SqlString = " Select * from vw_customersList where WHID=" + CompanyInfo.WareHouseID + " ";
             }
             else
             {
                
-                SqlString = " Select CustomerID,Rno as RegisterNo,CName as Name,Cphone as Phone,CityName,Address from tblPos_CustomerData where WHID=" + CompanyInfo.WareHouseID + " and Cphone like '" + txtPhoneSearch.Text + "%'";
+                SqlString = " Select * from vw_customersList   where WHID=" + CompanyInfo.WareHouseID + " and Cphone like '" + txtPhoneSearch.Text + "%'";
 
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
@@ -77,6 +77,8 @@ namespace POS.LookUpForms
                 dgvSaleInvoices.DataSource = dt;
                 dgvSaleInvoices.Columns[0].Visible = false;
                 dgvSaleInvoices.Columns[1].Visible = false;
+                dgvSaleInvoices.Columns[7].Visible = false;
+                dgvSaleInvoices.Columns[4].Visible = false;
                 dgvSaleInvoices.Columns[5].Width = 280;
 
             }

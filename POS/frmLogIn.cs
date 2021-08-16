@@ -1,5 +1,6 @@
 ﻿using BLL;
 using Common;
+using MetroFramework.Forms;
 using POS.Helper;
 using POS.Report;
 using System;
@@ -8,6 +9,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,13 +18,22 @@ using System.Windows.Forms;
 
 namespace POS
 {
-    public partial class frmLogIn : Form
+    public partial class frmLogIn : MetroForm
     {
         public frmLogIn()
         {
+
             InitializeComponent();
+            txtUserName.Select();
             txtUserName.Focus();
-            clearAll();
+     
+            
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
+            AppVersion.Text = String.Format(" Application Version {0}", fileVersion.FileVersion); 
+            //string version = System.Windows.Forms.Application.ProductVersion;
+            //this.Text = String.Format("My Application Version {0}", version)
+            //clearAll();
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -146,6 +157,14 @@ namespace POS
             if(e.KeyCode==Keys.Enter)
             {
                 btnSave.Focus();
+            }
+        }
+
+        private void txtUserName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtPassword.Focus();
             }
         }
     }

@@ -63,6 +63,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap business_solution {
+            get {
+                object obj = ResourceManager.GetObject("business-solution", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CorbisPos {
             get {
                 object obj = ResourceManager.GetObject("CorbisPos", resourceCulture);

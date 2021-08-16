@@ -42,7 +42,7 @@ namespace POS
             if(CompanyInfo.isKhaakiSoft)
             {
 
-               manualStockInToolStripMenuItem.Visible = true;
+               manualStockInToolStripMenuItem.Visible = false;
 
                 billWiseRecoveryToolStripMenuItem.Visible = false;
                 toolStripMenuItem3.Visible = false;

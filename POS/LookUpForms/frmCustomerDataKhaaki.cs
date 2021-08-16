@@ -603,7 +603,11 @@ namespace POS
                     {
                         string Rno = obj.RegisterNo;
                         txtRegisterID.Text = obj.CustomerID;
-                        LoadCustomerData(obj.CustomerID);
+                        if (!string.IsNullOrEmpty(obj.CustomerID))
+                        {
+                            LoadCustomerData(obj.CustomerID);
+                        }
+
                     }
                     else
                     {
