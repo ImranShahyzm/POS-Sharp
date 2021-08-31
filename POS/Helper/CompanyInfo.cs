@@ -22,6 +22,7 @@ namespace POS.Helper
         public static string LocationID { get; set; }
         public static bool isPrinter = true;
         public static bool isKhaakiSoft = true;
+        public static int ShopUserType { get; set; }
 
     }
 }

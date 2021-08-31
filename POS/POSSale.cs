@@ -56,6 +56,13 @@ namespace POS
                 makeOrderReportToolStripMenuItem.Visible = false;
                 //orderSectionToolStripMenuItem.Visible = false;
             }
+            if(!CompanyInfo.isKhaakiSoft)
+            {
+                if(CompanyInfo.ShopUserType==1)
+                {
+
+                }
+            }
 
         }
         private void loadProducts()

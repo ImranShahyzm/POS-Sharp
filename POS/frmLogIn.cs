@@ -81,6 +81,7 @@ namespace POS
                     CompanyInfo.username= Convert.ToString(dt.Rows[0]["UserName"]);
                     CompanyInfo.LocationID=Convert.ToString(dt.Rows[0]["LocationID"]);
                     CompanyInfo.isKhaakiSoft= Convert.ToBoolean(dt.Rows[0]["isKhaakiSoft"]);
+                    CompanyInfo.ShopUserType = Convert.ToInt32(dt.Rows[0]["ShopUserType"]);
                     frmPOSSale objFrm = new frmPOSSale();
 
                     objcom.Userid = Convert.ToInt32(dt.Rows[0]["Userid"]);

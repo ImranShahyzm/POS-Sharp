@@ -229,6 +229,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\Script 1.0.0.44.sql" />
     <Content Include="DbScripts\Script 1.0.0.41.sql" />
     <Content Include="DbScripts\Script 1.0.0.39.sql" />
     <Content Include="DbScripts\Script 1.0.0.38.sql" />
