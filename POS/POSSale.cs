@@ -61,11 +61,12 @@ namespace POS
             {
                 if(CompanyInfo.ShopUserType==1)
                 {
-                    syncToServerToolStripMenuItem.Visible = false;
+                    //syncToServerToolStripMenuItem.Visible = false;
 
-                    syncToServerToolStripMenuItem.Visible = false;
-                    cashTranscationsToolStripMenuItem.Visible = false;
-                    orderSectionToolStripMenuItem.Visible = false;
+                    //syncToServerToolStripMenuItem.Visible = false;
+                    //cashTranscationsToolStripMenuItem.Visible = true;
+                    cashOutToolStripMenuItem.Visible = false;
+                    //orderSectionToolStripMenuItem.Visible = false;
                 }
                 if (CompanyInfo.ShopUserType == 3)
                 {
@@ -79,7 +80,7 @@ namespace POS
                     syncToServerToolStripMenuItem.Visible = false;
                     cashOutToolStripMenuItem.Visible = false;
                    
-                    orderSectionToolStripMenuItem.Visible = false;
+                   
                 }
                 if(CompanyInfo.ShopUserType==2)
                 {
