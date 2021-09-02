@@ -18,6 +18,8 @@ namespace POS.LookUpForms
         public string SaleInvoiceNo { get; set; }
         public int SalePosID { get; set; }
         public decimal BillAmount { get; set; }
+        public decimal RiderAmount { get; set; }
+        public decimal ActualRiderAmt { get; set; }
 
         public DateTime SaleInvoiceDate { get; set; }
         public frmPendingBillsLookUp()
@@ -89,6 +91,7 @@ namespace POS.LookUpForms
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
+
             cnn.Open();
             string SqlString = " ";
             if (txtInvoiceSearch.Text=="")
@@ -96,7 +99,9 @@ namespace POS.LookUpForms
                 SqlString = @" select  * from (select Case when data_SalePosInfo.InvoiceType=2 then 'Dining Sale' else 'Credit Sale' end InvoiceSource,data_salePosInfo.SalePOSNo,data_salePosInfo.SalePosDate,data_salePosInfo.CustomerName,data_salePosInfo.CustomerPhone,  (data_salePosInfo.GrossAmount-data_salePosInfo.DiscountTotal+OtherCharges) as TotalBillAmount,
 isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
-),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID
+),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID,ISNULL(data_SalePosInfo.RiderAmount,0) as RiderAmount,isnull((select sum(b.RiderAmountRecovery)  from data_posBillRecoviers b where b.SalePosID =
+ data_salePosInfo.SalePosID
+),0) as RiderAmountRecovery
 from data_salePosInfo where data_SalePosInfo.InvoiceType in ( 3,2) and SalePosDate <= '" + dtpSaleFromDate.Text + "') a where TotalBillAmount - RecoveryAmount > 0 ";
             }
             else
@@ -104,7 +109,9 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType in ( 3,2) and SalePosDa
                 SqlString = @" select  * from (select Case when data_SalePosInfo.InvoiceType=2 then 'Dining Sale' else 'Credit Sale' end InvoiceSource,data_salePosInfo.SalePOSNo,data_salePosInfo.SalePosDate,data_salePosInfo.CustomerName,data_salePosInfo.CustomerPhone,  (data_salePosInfo.GrossAmount-data_salePosInfo.DiscountTotal+OtherCharges) as TotalBillAmount,
 isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
-),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID
+),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID,ISNULL(data_SalePosInfo.RiderAmount,0) as RiderAmount,isnull((select sum(b.RiderAmountRecovery)  from data_posBillRecoviers b where b.SalePosID =
+ data_salePosInfo.SalePosID
+),0) as RiderAmountRecovery
 from data_salePosInfo where data_SalePosInfo.InvoiceType in( 3,2) and SalePosDate <= '" + dtpSaleFromDate.Text + "' and SalePosNO like '" + txtInvoiceSearch.Text + "%') a where TotalBillAmount - RecoveryAmount > 0 ";
                 
             }
@@ -145,7 +152,8 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType in( 3,2) and SalePosDat
                 SaleInvoiceDate = dtpSaleFromDate.Value;
                 SalePosID = Convert.ToInt32(dgr.Cells["SalePosID"].Value);
                 BillAmount = Convert.ToDecimal(dgr.Cells["TotalBillAmount"].Value) - Convert.ToDecimal(dgr.Cells["RecoveryAmount"].Value);
-
+                RiderAmount = Convert.ToDecimal(dgr.Cells["RiderAmount"].Value) - Convert.ToDecimal(dgr.Cells["RiderAmountRecovery"].Value);
+                ActualRiderAmt = Convert.ToDecimal(dgr.Cells["RiderAmount"].Value);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -156,7 +164,9 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType in( 3,2) and SalePosDat
                 SaleInvoiceDate = dtpSaleFromDate.Value;
                 SalePosID = Convert.ToInt32(dgr.Cells["SalePosID"].Value);
                 BillAmount = Convert.ToDecimal(dgr.Cells["TotalBillAmount"].Value) - Convert.ToDecimal(dgr.Cells["RecoveryAmount"].Value);
-
+                RiderAmount = Convert.ToDecimal(dgr.Cells["RiderAmount"].Value) - Convert.ToDecimal(dgr.Cells["RiderAmountRecovery"].Value);
+                ActualRiderAmt = Convert.ToDecimal(dgr.Cells["RiderAmount"].Value);
+                
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

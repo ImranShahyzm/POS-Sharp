@@ -31,11 +31,14 @@ namespace POS
 
         public string CustomerName { get; set; }
         public string CustomerPhone { get; set; }
-
+        public string RiderAmount { get; set; }
+        
         public string SaleManId { get; set; }
 
         public bool AllowSave {get;set;}
         public bool SaleReturn = false;
+        public int LinkedBillID = 0;
+        public bool InvoiceUpdate = false;
         public POSSaleNew()
         {
             InitializeComponent();
@@ -411,6 +414,18 @@ namespace POS
                 }
                 
             }
+            else if (SaleInvoiceNo > 0 && InvoiceUpdate==true)
+            {
+                if (directReturn == true)
+                {
+                    txtPayableAmount.Text = netAmount.ToString();
+                }
+                else
+                {
+                    txtReceivableAmount.Text = Math.Round(netAmount, 2).ToString();
+                }
+
+            }
             else
             {
                 
@@ -732,12 +747,17 @@ namespace POS
                 {
                     this.CustomerPhone = txtCustPhone.Text;
                 }
+                if (!string.IsNullOrEmpty(txtRiderAmount.Text))
+                {
+                    this.RiderAmount = txtRiderAmount.Text;
+                }
 
                 frmCustomerDataFoodMama frm = new frmCustomerDataFoodMama(this);
                 frm.ShowDialog();
                 txtCustName.Text = this.CustomerName;
                 txtCustPhone.Text = this.CustomerPhone;
                 txtSalesManID.Text = this.SaleManId;
+                txtRiderAmount.Text = this.RiderAmount;
                 SaveForm();
 
               
@@ -808,9 +828,14 @@ namespace POS
             con.Open();
             tran = con.BeginTransaction();
             SqlCommand cmd;
-            if (SaleReturn==false)
+            if (SaleReturn==false && InvoiceUpdate==false)
             {
                 cmd = new SqlCommand("data_SalePosInfo_Insert", con);
+            }
+            else if (InvoiceUpdate == true)
+            {
+                cmd = new SqlCommand("data_SalePosInfo_update", con);
+                SalePosMasterID = Convert.ToInt32(SalePosID.Text);
             }
             else
             {
@@ -853,6 +878,8 @@ namespace POS
                 cmd.Parameters.AddWithValue("@AmountReceivable", txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text));
             cmd.Parameters.AddWithValue("@CustomerPhone", txtCustPhone.Text == "" ? null : Convert.ToString(txtCustPhone.Text));
             cmd.Parameters.AddWithValue("@CustomerName", txtCustName.Text == "" ? null : Convert.ToString(txtCustName.Text));
+            cmd.Parameters.AddWithValue("@RiderAmount", txtRiderAmount.Text == "" ? null : Convert.ToString(txtRiderAmount.Text));
+            cmd.Parameters.AddWithValue("@LinckedBill", txtLinkedBill.Text == "" ? null : Convert.ToString(txtLinkedBill.Text));
 
             if (directReturn==true)
             {
@@ -1042,6 +1069,12 @@ namespace POS
             cmbProducts.SelectedValue = "0";
             txtCustName.Clear();
             txtCustPhone.Clear();
+            txtRiderAmount.Clear();
+
+            txtLinkedBill.Clear();
+
+
+            txtLinkedBillNo.Clear();
             directReturn = false;
         }
 
@@ -1054,6 +1087,11 @@ namespace POS
             txtCustPhone.Select();
             txtCustPhone.Focus();
             SaleReturn = false;
+            InvoiceUpdate = false;
+
+            btnUpdate.Visible = false;
+            btnSave.Visible = true;
+            btnSave.Text = "Save";
             //txtAmountReceive.ReadOnly = false;
         }
 
@@ -1144,6 +1182,22 @@ namespace POS
                 else
                 { 
                     loadReturnView();
+
+                    return true;
+                }
+            }
+            else if (keyData == (Keys.Alt | Keys.U))
+            {
+                if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
+                {
+                    MessageBox.Show("Please Select Menu First .....");
+                    cmbSalemenu.Select();
+                    cmbSalemenu.Focus();
+                    return false;
+                }
+                else
+                {
+                    LoadUpdateView();
 
                     return true;
                 }
@@ -1322,7 +1376,20 @@ namespace POS
             txtInvoiceNo.ReadOnly = false;
             txtInvoiceNo.Text = "";
             txtInvoiceNo.Focus();
+            btnSave.Text = "Return Invoice";
+       
             SaleReturn = true;
+        }
+        private void LoadUpdateView()
+        {
+            clearAll();
+            lblSaleType.Text = "Update Sales Invoice";
+            txtInvoiceNo.ReadOnly = false;
+            txtInvoiceNo.Text = "";
+            txtInvoiceNo.Focus();
+            btnSave.Visible = false; 
+            btnUpdate.Visible = true;
+            InvoiceUpdate = true;
         }
         private void loadDirectReturn()
         {
@@ -1404,20 +1471,31 @@ namespace POS
                 txtAmountReceive.Text = dt.Rows[0]["AmountReceive"].ToString();
                 txtAccAmount.Text = dt.Rows[0]["NetAmount"].ToString();
                 //txtPayableAmount.Text = dt.Rows[0]["NetAmount"].ToString();
-                
-                txtPayableAmount.Text = dt.Rows[0]["AmountReceivable"].ToString();
-                txtAmountReturn.Text = dt.Rows[0]["AmountReturn"].ToString();
+                if (InvoiceUpdate == false)
+                {
+                    txtPayableAmount.Text = dt.Rows[0]["AmountReceivable"].ToString();
+                }
+                    txtAmountReturn.Text = dt.Rows[0]["AmountReturn"].ToString();
                 txtReceivableAmount.Text = dt.Rows[0]["AmountReceivable"].ToString();
                 txtCustName.Text= Convert.ToString(dt.Rows[0]["CustomerName"]);
                 txtCustPhone.Text = Convert.ToString(dt.Rows[0]["CustomerPhone"]);
                 SalePosID.Text= Convert.ToString(dt.Rows[0]["SalePosID"]);
+                txtLinkedBill.Text = Convert.ToString(dt.Rows[0]["LinckedBill"]);
+                txtLinkedBillNo.Text = Convert.ToString(dt.Rows[0]["LinkedBillNo"]);
+                txtRiderAmount.Text = Convert.ToString(dt.Rows[0]["RiderAmount"]);
                 cmbSalemenu.SelectedValue= Convert.ToString(dt.Rows[0]["MenuId"]);
                 var abc = dt.Rows[0]["InvoiceType"];
                 cmbInvoicetype.SelectedValue= Convert.ToString(dt.Rows[0]["InvoiceType"]);
-                txtAmountReceive.ReadOnly = true;
-                txtPrint.Visible = true;
-                SaleReturn = true;
-                for (int i = 0; i < dtdetail.Rows.Count; i++)
+                if (InvoiceUpdate == false)
+                {
+                    txtAmountReceive.ReadOnly = true;
+                }
+                    txtPrint.Visible = true;
+                if (InvoiceUpdate == false)
+                {
+                    SaleReturn = true;
+                }
+                    for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
                     string[] row = {
                             dtdetail.Rows[i]["ItemId"].ToString(),
@@ -1463,7 +1541,10 @@ namespace POS
                         {
                             string Rno = obj.RegisterNo;
                             txtRegisterID.Text = obj.CustomerID;
-                            LoadCustomerData(obj.CustomerID);
+                            if (obj.CustomerID != "")
+                            {
+                                LoadCustomerData(obj.CustomerID);
+                            }
                         }
 
                     };
@@ -1610,16 +1691,27 @@ namespace POS
         {
             string SaleInvoiceNO = SalePosID.Text.ToString();
             var value = new List<string[]>();
+            var valueforLinked = new List<string[]>();
             string[] ss = { "@SaleInvoice", SaleInvoiceNO };
             value.Add(ss);
+            valueforLinked.Add(ss);
             frmCrystal obj = new frmCrystal();
             string reportName = "";
             if (directReturn == false)
             {
                 reportName = "SaleInvoice";
                 //obj.loadReport("rpt_sale_invoice", reportName, value);
-                obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
-                obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
+                if (!string.IsNullOrEmpty(txtLinkedBill.Text))
+                {
+                    string[] PP = { "@LinckedBill", txtLinkedBill.Text.ToString() };
+                    valueforLinked.Add(PP);
+                    obj.loadSaleFoodMamaReportLinked("rpt_sale_invoice_Lincked", reportName, valueforLinked);
+                }
+                else
+                {
+                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
+                }
+                    obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
             }
            
         }
@@ -1921,7 +2013,14 @@ namespace POS
                 }
                 else
                 {
-                    btnSave.Focus();
+                    if (InvoiceUpdate == true)
+                    {
+                        btnUpdate.Focus();
+                    }
+                    else
+                    {
+                        btnSave.Focus();
+                    }
                 }
             }
         }
@@ -2024,14 +2123,176 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
             {
-                txtProductCode.Clear();
-                txtProductCode.Focus();
+                txtLinkedBillNo.Clear();
+                txtLinkedBillNo.Focus();
             }
         }
 
         private void cmbSalemenu_SelectedIndexChanged(object sender, EventArgs e)
         {
             getInvoiceNumber();
+        }
+
+        private void CheckInvoiceNoForLink(string InvoiceNo)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            DataTable dtdetail = new DataTable();
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            SqlCommand cmd = new SqlCommand("data_SalePosInfo_SelectAll", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
+
+            string whereclause = " where SaleposNo=" + InvoiceNo + " and SalePOsDate=" + txtSaleDate.Value.Date + " and MenuId=" + Convert.ToInt32(cmbSalemenu.SelectedValue) + "";
+            cmd.Parameters.AddWithValue("@SelectMaster", 1);
+            cmd.Parameters.AddWithValue("@SelectDetail", 1);
+            cmd.Parameters.AddWithValue("@InvoiceNo", InvoiceNo);
+            cmd.Parameters.AddWithValue("@MenuId", Convert.ToInt32(cmbSalemenu.SelectedValue));
+            cmd.Parameters.AddWithValue("@SaleDate", txtSaleDate.Value.Date);
+            da.SelectCommand = cmd;
+            try
+            {
+                cmd.Transaction = tran; da.Fill(ds);
+                dt = ds.Tables[0];
+                dtdetail = ds.Tables[1];
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+                if (dtdetail.Rows.Count == 0)
+                {
+                    MessageBox.Show("This Invoice is all ready return!");
+                    return;
+                }
+
+
+
+
+
+
+
+
+                txtLinkedBill.Text = Convert.ToString(dt.Rows[0]["SalePosID"]);
+                cmbSalemenu.SelectedValue = Convert.ToString(dt.Rows[0]["MenuId"]);
+                var abc = dt.Rows[0]["InvoiceType"];
+                cmbInvoicetype.SelectedValue = Convert.ToString(dt.Rows[0]["InvoiceType"]);
+               
+              
+             
+            }
+            else
+            {
+                MessageBox.Show("We have no Sale Invoice regarding this No!");
+                txtLinkedBill.Clear();
+                txtLinkedBillNo.Clear();
+            }
+        }
+        private void txtLinkedBillNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1)
+            {
+                if (txtLinkedBillNo.Text != "" || (txtLinkedBillNo.Text == "" ? 0 : Convert.ToInt64(txtLinkedBillNo.Text)) != 0)
+                {
+
+                    string InvoiceNo = txtLinkedBillNo.Text;
+                    CheckInvoiceNoForLink(InvoiceNo);
+                }
+                else
+                {
+                    using (frmSaleInvoiceLookUp obj = new frmSaleInvoiceLookUp())
+                    {
+                        if (obj.ShowDialog() == DialogResult.OK)
+                        {
+                            string id = obj.SaleInvoiceNo;
+                            if (id != "")
+                            {
+
+                                txtSaleDate.Value = obj.SaleInvoiceDate;
+                                CheckInvoiceNoForLink(id);
+                                txtLinkedBillNo.Text = id;
+
+                            }
+                        }
+                    };
+                    //MessageBox.Show("Please Enter Invoice Number!");
+                }
+            }
+            else if(e.KeyCode==Keys.Enter)
+            {
+                if (txtLinkedBillNo.Text != "" || (txtLinkedBillNo.Text == "" ? 0 : Convert.ToInt64(txtLinkedBillNo.Text)) != 0)
+                {
+
+                    string InvoiceNo = txtLinkedBillNo.Text;
+                    CheckInvoiceNoForLink(InvoiceNo);
+                    txtProductCode.Clear();
+                    txtProductCode.Focus();
+                }
+                else
+                {
+                    txtProductCode.Clear();
+                    txtProductCode.Focus();
+                }
+            }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            SaleReturn = false;
+            
+                
+            InvoiceUpdate = true;
+            CalculateNetTotal();
+            GrossAmount_Total();
+                
+
+           
+
+            if (validateSave())
+            {
+                GrossAmount_Total();
+                CheckReceivedAmount();
+                this.totalBill = txtReceivableAmount.Text;
+                this.ReceivedAmount = txtAmountReceive.Text;
+                this.ReturnAmount = txtAmountReturn.Text;
+                if (!string.IsNullOrEmpty(txtCustName.Text))
+                {
+                    this.CustomerName = txtCustName.Text;
+                }
+                if (!string.IsNullOrEmpty(txtCustPhone.Text))
+                {
+                    this.CustomerPhone = txtCustPhone.Text;
+                }
+                if (!string.IsNullOrEmpty(txtRiderAmount.Text))
+                {
+                    this.RiderAmount = txtRiderAmount.Text;
+                }
+
+                frmCustomerDataFoodMama frm = new frmCustomerDataFoodMama(this);
+                frm.ShowDialog();
+                txtCustName.Text = this.CustomerName;
+                txtCustPhone.Text = this.CustomerPhone;
+                txtSalesManID.Text = this.SaleManId;
+                txtRiderAmount.Text = this.RiderAmount;
+                SaveForm();
+
+
+            }
+
+
         }
     }
 }

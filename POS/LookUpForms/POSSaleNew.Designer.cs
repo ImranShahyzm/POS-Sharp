@@ -78,6 +78,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
+            this.txtLinkedBillNo = new System.Windows.Forms.TextBox();
+            this.txtLinkedBill = new System.Windows.Forms.TextBox();
+            this.txtRiderAmount = new System.Windows.Forms.TextBox();
+            this.txtSalesManID = new System.Windows.Forms.TextBox();
             this.txtRegisterID = new System.Windows.Forms.TextBox();
             this.cmbInvoicetype = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -100,7 +106,6 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.txtSalesManID = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -298,7 +303,7 @@
             this.lblShopName.AutoSize = true;
             this.lblShopName.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblShopName.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.lblShopName.Location = new System.Drawing.Point(827, 5);
+            this.lblShopName.Location = new System.Drawing.Point(637, 17);
             this.lblShopName.Name = "lblShopName";
             this.lblShopName.Size = new System.Drawing.Size(166, 31);
             this.lblShopName.TabIndex = 14;
@@ -333,6 +338,7 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel1.Controls.Add(this.btnUpdate);
             this.panel1.Controls.Add(this.label18);
             this.panel1.Controls.Add(this.txtPrint);
             this.panel1.Controls.Add(this.btnStock);
@@ -617,6 +623,10 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.label23);
+            this.panel5.Controls.Add(this.txtLinkedBillNo);
+            this.panel5.Controls.Add(this.txtLinkedBill);
+            this.panel5.Controls.Add(this.txtRiderAmount);
             this.panel5.Controls.Add(this.txtSalesManID);
             this.panel5.Controls.Add(this.txtRegisterID);
             this.panel5.Controls.Add(this.cmbInvoicetype);
@@ -639,7 +649,6 @@
             this.panel5.Controls.Add(this.txtCustName);
             this.panel5.Controls.Add(this.txtCustPhone);
             this.panel5.Controls.Add(this.label19);
-            this.panel5.Controls.Add(this.lblShopName);
             this.panel5.Controls.Add(this.label20);
             this.panel5.Controls.Add(this.lblDateTime);
             this.panel5.Controls.Add(this.SalePosID);
@@ -654,11 +663,73 @@
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
+            // btnUpdate
+            // 
+            this.btnUpdate.BackColor = System.Drawing.Color.Red;
+            this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdate.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdate.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnUpdate.Location = new System.Drawing.Point(828, 96);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(115, 38);
+            this.btnUpdate.TabIndex = 31;
+            this.btnUpdate.Text = "Update Invoice";
+            this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Visible = false;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(259, 102);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(75, 14);
+            this.label23.TabIndex = 41;
+            this.label23.Text = "Linked Bill No";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // txtLinkedBillNo
+            // 
+            this.txtLinkedBillNo.Location = new System.Drawing.Point(348, 98);
+            this.txtLinkedBillNo.MaxLength = 10;
+            this.txtLinkedBillNo.Name = "txtLinkedBillNo";
+            this.txtLinkedBillNo.Size = new System.Drawing.Size(127, 20);
+            this.txtLinkedBillNo.TabIndex = 40;
+            this.txtLinkedBillNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLinkedBillNo_KeyDown);
+            // 
+            // txtLinkedBill
+            // 
+            this.txtLinkedBill.Location = new System.Drawing.Point(796, 95);
+            this.txtLinkedBill.MaxLength = 10;
+            this.txtLinkedBill.Name = "txtLinkedBill";
+            this.txtLinkedBill.Size = new System.Drawing.Size(146, 20);
+            this.txtLinkedBill.TabIndex = 39;
+            this.txtLinkedBill.Visible = false;
+            // 
+            // txtRiderAmount
+            // 
+            this.txtRiderAmount.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRiderAmount.Location = new System.Drawing.Point(481, 95);
+            this.txtRiderAmount.Name = "txtRiderAmount";
+            this.txtRiderAmount.Size = new System.Drawing.Size(38, 26);
+            this.txtRiderAmount.TabIndex = 38;
+            this.txtRiderAmount.Visible = false;
+            // 
+            // txtSalesManID
+            // 
+            this.txtSalesManID.Location = new System.Drawing.Point(884, 65);
+            this.txtSalesManID.MaxLength = 10;
+            this.txtSalesManID.Name = "txtSalesManID";
+            this.txtSalesManID.Size = new System.Drawing.Size(87, 20);
+            this.txtSalesManID.TabIndex = 37;
+            this.txtSalesManID.Visible = false;
+            // 
             // txtRegisterID
             // 
-            this.txtRegisterID.Location = new System.Drawing.Point(337, 98);
+            this.txtRegisterID.Location = new System.Drawing.Point(427, 98);
             this.txtRegisterID.Name = "txtRegisterID";
-            this.txtRegisterID.Size = new System.Drawing.Size(100, 20);
+            this.txtRegisterID.Size = new System.Drawing.Size(10, 20);
             this.txtRegisterID.TabIndex = 29;
             this.txtRegisterID.Visible = false;
             // 
@@ -878,15 +949,6 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // txtSalesManID
-            // 
-            this.txtSalesManID.Location = new System.Drawing.Point(452, 98);
-            this.txtSalesManID.MaxLength = 10;
-            this.txtSalesManID.Name = "txtSalesManID";
-            this.txtSalesManID.Size = new System.Drawing.Size(87, 20);
-            this.txtSalesManID.TabIndex = 37;
-            this.txtSalesManID.Visible = false;
-            // 
             // POSSaleNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -895,6 +957,7 @@
             this.Controls.Add(this.ItemSaleGrid);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.lblShopName);
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "POSSaleNew";
@@ -906,6 +969,7 @@
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -982,6 +1046,11 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtRegisterID;
         private System.Windows.Forms.TextBox txtSalesManID;
+        private System.Windows.Forms.TextBox txtRiderAmount;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox txtLinkedBillNo;
+        private System.Windows.Forms.TextBox txtLinkedBill;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }
 

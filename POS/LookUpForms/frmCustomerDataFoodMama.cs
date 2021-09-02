@@ -18,6 +18,7 @@ namespace POS
     {
         public string CustomerName { get; set; }
         public string PhoneNumber { get; set; }
+        public string RiderAmount { get; set; }
         public POSSaleNew KhaakiObjet;
         public frmCustomerDataFoodMama(POSSaleNew obj)
         {
@@ -26,6 +27,7 @@ namespace POS
             KhaakiObjet = obj;
             txtPhoneNo.Text = obj.CustomerPhone;
             txtCustomerName.Text = obj.CustomerName;
+            txtRiderAmount.Text = obj.RiderAmount;
             lblTotalBill.Text = obj.totalBill;
             lblReturn.Text = obj.ReturnAmount;
             lblTotalReceived.Text = obj.ReceivedAmount;
@@ -96,7 +98,6 @@ namespace POS
             cnn.Close();
           
         }
-        
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (validateSave())
@@ -157,6 +158,7 @@ namespace POS
             //{
                 KhaakiObjet.CustomerName = txtCustomerName.Text;
                 KhaakiObjet.CustomerPhone = txtPhoneNo.Text;
+                KhaakiObjet.RiderAmount = txtRiderAmount.Text;
                 KhaakiObjet.SaleManId = Convert.ToString(cmbSalesMan.SelectedValue);
 
             KhaakiObjet.AllowSave = true;
@@ -216,7 +218,8 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
-                btnSave.Focus();
+                txtRiderAmount.Select();
+                txtRiderAmount.Focus();
             }
             if (e.KeyCode == Keys.Escape)
             {
@@ -261,6 +264,38 @@ namespace POS
             {
                 txtPhoneNo.Select();
                 txtPhoneNo.Focus();
+            }
+        }
+
+        private void txtRiderAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+
+                e.Handled = true;
+
+            }
+
+
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+
+
+                e.Handled = true;
+            }
+        }
+
+        private void txtRiderAmount_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                
+                btnSave.Focus();
+            }
+            if (e.KeyCode == Keys.Escape)
+            {
+                KhaakiObjet.AllowSave = false;
+                this.Close();
             }
         }
     }

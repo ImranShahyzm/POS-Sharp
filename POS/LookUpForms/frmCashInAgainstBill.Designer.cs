@@ -42,6 +42,12 @@
             this.label5 = new System.Windows.Forms.Label();
             this.dtRecoveryDate = new System.Windows.Forms.DateTimePicker();
             this.txtSaleID = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtAcRider = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtRiderRem = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtRiderRecovery = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,11 +67,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(266, 149);
+            this.label2.Location = new System.Drawing.Point(243, 149);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 18);
+            this.label2.Size = new System.Drawing.Size(85, 18);
             this.label2.TabIndex = 20;
-            this.label2.Text = "Amount:";
+            this.label2.Text = "Bill Amount:";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // btnClear
@@ -101,7 +107,7 @@
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Location = new System.Drawing.Point(22, 209);
+            this.panel1.Location = new System.Drawing.Point(22, 247);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(501, 62);
             this.panel1.TabIndex = 23;
@@ -149,19 +155,19 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(13, 181);
+            this.label3.Location = new System.Drawing.Point(44, 223);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(123, 18);
+            this.label3.Size = new System.Drawing.Size(92, 18);
             this.label3.TabIndex = 30;
-            this.label3.Text = "Recoverd Amount:";
+            this.label3.Text = "Bill Recovery:";
             // 
             // txtRecoverdAmount
             // 
             this.txtRecoverdAmount.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRecoverdAmount.Location = new System.Drawing.Point(142, 178);
+            this.txtRecoverdAmount.Location = new System.Drawing.Point(142, 216);
             this.txtRecoverdAmount.MaxLength = 10;
             this.txtRecoverdAmount.Name = "txtRecoverdAmount";
-            this.txtRecoverdAmount.Size = new System.Drawing.Size(186, 25);
+            this.txtRecoverdAmount.Size = new System.Drawing.Size(110, 25);
             this.txtRecoverdAmount.TabIndex = 31;
             this.txtRecoverdAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRecoverdAmount_KeyDown);
             // 
@@ -192,11 +198,77 @@
             this.txtSaleID.TabIndex = 34;
             this.txtSaleID.Visible = false;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(38, 187);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(98, 18);
+            this.label6.TabIndex = 35;
+            this.label6.Text = "Rider Amount:";
+            // 
+            // txtAcRider
+            // 
+            this.txtAcRider.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAcRider.Location = new System.Drawing.Point(142, 184);
+            this.txtAcRider.MaxLength = 10;
+            this.txtAcRider.Name = "txtAcRider";
+            this.txtAcRider.ReadOnly = true;
+            this.txtAcRider.Size = new System.Drawing.Size(110, 25);
+            this.txtAcRider.TabIndex = 36;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(258, 187);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(139, 18);
+            this.label7.TabIndex = 37;
+            this.label7.Text = "Rider Amount (Rem):";
+            // 
+            // txtRiderRem
+            // 
+            this.txtRiderRem.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRiderRem.Location = new System.Drawing.Point(403, 184);
+            this.txtRiderRem.MaxLength = 10;
+            this.txtRiderRem.Name = "txtRiderRem";
+            this.txtRiderRem.ReadOnly = true;
+            this.txtRiderRem.Size = new System.Drawing.Size(120, 25);
+            this.txtRiderRem.TabIndex = 38;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(258, 219);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(130, 18);
+            this.label8.TabIndex = 39;
+            this.label8.Text = "Exchange Recovery:";
+            // 
+            // txtRiderRecovery
+            // 
+            this.txtRiderRecovery.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRiderRecovery.Location = new System.Drawing.Point(403, 216);
+            this.txtRiderRecovery.MaxLength = 10;
+            this.txtRiderRecovery.Name = "txtRiderRecovery";
+            this.txtRiderRecovery.Size = new System.Drawing.Size(120, 25);
+            this.txtRiderRecovery.TabIndex = 40;
+            this.txtRiderRecovery.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRiderRecovery_KeyDown);
+            // 
             // frmCashInAgainstBill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(558, 303);
+            this.ClientSize = new System.Drawing.Size(558, 342);
+            this.Controls.Add(this.txtRiderRecovery);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.txtRiderRem);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.txtAcRider);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.txtSaleID);
             this.Controls.Add(this.dtRecoveryDate);
             this.Controls.Add(this.label5);
@@ -233,5 +305,11 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DateTimePicker dtRecoveryDate;
         private System.Windows.Forms.TextBox txtSaleID;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtAcRider;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtRiderRem;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtRiderRecovery;
     }
 }

@@ -24,16 +24,18 @@ namespace POS
         {
 
             InitializeComponent();
-            txtUserName.Select();
-            txtUserName.Focus();
+            
+          
      
             
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
-            AppVersion.Text = String.Format(" Application Version {0}", fileVersion.FileVersion); 
+            AppVersion.Text = String.Format(" Application Version {0}", fileVersion.FileVersion);
             //string version = System.Windows.Forms.Application.ProductVersion;
             //this.Text = String.Format("My Application Version {0}", version)
             //clearAll();
+            txtUserName.Focus();
+            txtUserName.Select();
         }
         private void btnSave_Click(object sender, EventArgs e)
         {

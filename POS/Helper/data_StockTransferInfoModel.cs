@@ -70,7 +70,9 @@ namespace POS.Helper
             POSdata_StockReturntoServer_SelectAll,
             POSdata_MakeOrderInfoServer_SelectAll,
             POSdata_CashInOutServer_SelectAll,
-            PosApi_AllDisaptchesAgainstMakeOrders_Insert
+            PosApi_AllDisaptchesAgainstMakeOrders_Insert,
+            POSdata_StockArrivalManualInfo_InsertContinuosSeriel,
+            PosApi_AllBillOfMaterials_Insert
 
 
         }
@@ -450,6 +452,32 @@ namespace POS.Helper
 
         }
 
+        public bool insertAllbillOfMaterials(DataSet dt, int StockTransferID)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@gen_BOMInfo", dt.Tables[0]));
+
+            DataTable MainGrpudt = dt.Tables[1];
+            ParamList.Add(new SqlParameter("@POSgen_BOMDetail", MainGrpudt));
+          
+
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllBillOfMaterials_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+
         public bool insertDetaildata(DataTable dt,data_StockTransferInfoModel model)
         {
             bool ReturnValue;
@@ -503,6 +531,41 @@ namespace POS.Helper
             ParamList.Add(new SqlParameter("@data_StockArrivalManual", dt));
 
             DataTable ret = STATICClass.ExecuteInsert(SP.POSdata_StockArrivalManualInfo_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("ArrivalID"))
+            {
+                model.ArrivalID = Convert.ToInt32(ret.Rows[0]["ArrivalID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+        public bool InsertManualDetaildataContinuosSeriel(DataTable dt, data_StockTransferInfoModel model)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.ArrivalID.ToString(), model.ArrivalID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@RefID", model.RefID));
+            ParamList.Add(new SqlParameter("@ArrivalDate", model.ArrivalDate));
+            ParamList.Add(new SqlParameter("@UserID", CompanyInfo.UserID));
+            ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
+            //ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
+            ParamList.Add(new SqlParameter("@FiscalID", CompanyInfo.FiscalID));
+            ParamList.Add(new SqlParameter("@TransferToWHID", CompanyInfo.WareHouseID));
+
+            ParamList.Add(new SqlParameter("@ManualNo", model.ManualNo));
+            ParamList.Add(new SqlParameter("@VehicleNo", model.VehicleNo));
+            ParamList.Add(new SqlParameter("@Remarks", model.Remarks));
+
+
+            ParamList.Add(new SqlParameter("@ToBranchID", CompanyInfo.BranchID));
+            ParamList.Add(new SqlParameter("@data_StockArrivalManual", dt));
+
+            DataTable ret = STATICClass.ExecuteInsert(SP.POSdata_StockArrivalManualInfo_InsertContinuosSeriel.ToString()
                 , ParamList);
             if (ret.Columns.Contains("ArrivalID"))
             {

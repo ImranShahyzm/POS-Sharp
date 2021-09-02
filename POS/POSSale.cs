@@ -34,7 +34,8 @@ namespace POS
             loadProducts();
             lblShopName.Text ="( "+ CompanyInfo.WareHouseName+" )";
             loadNewSale();
-            if(true)
+            syncRecpiesToolStripMenuItem.Visible = false;
+            if (true)
             {
                tableLayoutPanel1.Hide();
                 
@@ -60,7 +61,29 @@ namespace POS
             {
                 if(CompanyInfo.ShopUserType==1)
                 {
+                    syncToServerToolStripMenuItem.Visible = false;
 
+                    syncToServerToolStripMenuItem.Visible = false;
+                    cashTranscationsToolStripMenuItem.Visible = false;
+                    orderSectionToolStripMenuItem.Visible = false;
+                }
+                if (CompanyInfo.ShopUserType == 3)
+                {
+                    syncToServerToolStripMenuItem.Visible = false;
+                    warehouseArrivalToolStripMenuItem.Visible = false;
+
+                    stockArrivalListToolStripMenuItem.Visible = false;
+                    toolStripMenuItem4.Visible = false;
+                    manualStockInToolStripMenuItem.Visible = false;
+
+                    syncToServerToolStripMenuItem.Visible = false;
+                    cashOutToolStripMenuItem.Visible = false;
+                   
+                    orderSectionToolStripMenuItem.Visible = false;
+                }
+                if(CompanyInfo.ShopUserType==2)
+                {
+                    syncRecpiesToolStripMenuItem.Visible = true; 
                 }
             }
 
@@ -1648,6 +1671,18 @@ namespace POS
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
             using (FrmStockReturnList obj = new FrmStockReturnList())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+
+            };
+        }
+
+        private void syncRecpiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmRecipeSync obj = new frmRecipeSync())
             {
                 if (obj.ShowDialog() == DialogResult.OK)
                 {

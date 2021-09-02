@@ -81,6 +81,7 @@ namespace POS
             ParamList.Add(new SqlParameter("@BranchID", CompanyInfo.BranchID));
             ParamList.Add(new SqlParameter("@SalePosID", Convert.ToInt32(txtSaleID.Text)));
             ParamList.Add(new SqlParameter("@WHID", CompanyInfo.WareHouseID));
+            ParamList.Add(new SqlParameter("@RiderAmountRecovery", Convert.ToDecimal(txtRiderRecovery.Text)));
             try
             {
                 DataTable ret = STATICClass.ExecuteInsert(SP.data_PosBillRecoveries_Insert.ToString()
@@ -110,6 +111,9 @@ namespace POS
             txtSaleID.Clear();
             txtRecoverdAmount.Clear();
             txtCashInAmount.Clear();
+            txtAcRider.Clear();
+            txtRiderRecovery.Clear();
+            txtRiderRem.Clear();
             txtBillNo.Select();
             txtBillNo.Focus();
 
@@ -197,6 +201,8 @@ namespace POS
 
                                 txtBillNo.Text = obj.SaleInvoiceNo;
                                 txtCashInAmount.Text = Convert.ToString(obj.BillAmount);
+                                txtRiderRem.Text = Convert.ToString(obj.RiderAmount);
+                                txtAcRider.Text = Convert.ToString(obj.ActualRiderAmt);
                                 txtRecoverdAmount.Focus();
                                 
                             }
@@ -213,8 +219,20 @@ namespace POS
             {
                 if (txtRecoverdAmount.Text != "")
                 {
-                    btnSave.Focus();
+                    txtRiderRecovery.Select();
+                    txtRiderRecovery.Focus();
                 }
+            }
+        }
+
+        private void txtRiderRecovery_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+               
+                    btnSave.Select();
+                    btnSave.Focus();
+                
             }
         }
     }

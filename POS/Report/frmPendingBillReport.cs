@@ -1,5 +1,6 @@
 ﻿using MetroFramework.Forms;
 using POS.Helper;
+using POS.LookUpForms;
 using POS.Report;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace POS
         {
             InitializeComponent();
             //laodCategories();
+            LoadCustomers();
             dtpSaleFromDate.Select();
             dtpSaleFromDate.Focus();
 
@@ -54,7 +56,7 @@ namespace POS
                 //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
                 try
                 {
-                    obj.PendingBillsReport(reportName, dtpSaleFromDate.Value, dtpSaleToDate.Value, Convert.ToInt32(cmbSaleStyle.SelectedValue));
+                    obj.PendingBillsReport(reportName, dtpSaleFromDate.Value, dtpSaleToDate.Value, Convert.ToInt32(cmbSaleStyle.SelectedValue),txtCustPhone.Text);
 
                 }
                 catch (Exception ex)
@@ -105,6 +107,31 @@ namespace POS
 
         }
 
+        private void LoadCustomers()
+        {
+
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            string SqlString = " Select * from vw_customersList where WHID=" + CompanyInfo.WareHouseID + "and RegisterNo>0";
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            DataRow dr = dt.NewRow();
+            dr[0] = "0";
+            dr[2] = "--Registered Customers--";
+            dt.Rows.InsertAt(dr, 0);
+
+            //cmbCustomers.ValueMember = "CPhone";
+            //cmbCustomers.DisplayMember = "Name";
+            //cmbCustomers.DataSource = dt;
+
+
+
+        }
+
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -149,9 +176,97 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
             {
-                btnPreview.Select();
-                btnPreview.Focus();
-                btnPreview_Click(sender, e);
+                txtCustName.Select();
+                txtCustName.Focus();
+            }
+        }
+        private void LoadCustomerData(string CustomerID)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            DataTable dtdetail = new DataTable();
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            SqlCommand cmd = new SqlCommand("PosData_tblCustomerData_SelectAll", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
+
+            string whereclause = " where CustomerID=" + CustomerID + " and WHID=" + CompanyInfo.WareHouseID + "";
+            cmd.Parameters.AddWithValue("@SelectMaster", 1);
+            cmd.Parameters.AddWithValue("@WhereClause", whereclause);
+
+            da.SelectCommand = cmd;
+            try
+            {
+                cmd.Transaction = tran; da.Fill(ds);
+                dt = ds.Tables[0];
+
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+
+
+
+                txtCustName.Text = Convert.ToString(dt.Rows[0]["CName"]);
+                txtCustPhone.Text = Convert.ToString(dt.Rows[0]["CPhone"]);
+               
+
+
+
+
+
+            }
+            else
+            {
+                MessageBox.Show("We have no Customer  regarding this No!");
+            }
+        }
+
+        private void txtCustName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (string.IsNullOrEmpty(txtCustPhone.Text))
+                {
+                    using (frmSearchCustomerLookup obj = new frmSearchCustomerLookup(" and RegisterNo>0"))
+                    {
+                        if (obj.ShowDialog() == DialogResult.OK)
+                        {
+                            string Rno = obj.RegisterNo;
+
+                            if (obj.CustomerID != "")
+                            {
+                                LoadCustomerData(obj.CustomerID);
+                            }
+                        }
+
+                    };
+                }
+                else
+                {
+                    btnPreview.Select();
+                    btnPreview.Focus();
+                    btnPreview_Click(sender, e);
+                }
+
+
+
+
+
             }
         }
     }

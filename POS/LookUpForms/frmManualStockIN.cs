@@ -41,7 +41,7 @@ namespace POS.LookUpForms
             {
                 DataTable dt = new DataTable();
                 SqlConnection con = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("GetVoucherNoS", con);
+                SqlCommand cmd = new SqlCommand("POSGetVoucherNoSContinuos", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter();
                 cmd.Parameters.Add(new SqlParameter("@Fieldname", Fieldname));
@@ -421,7 +421,7 @@ namespace POS.LookUpForms
                 model.ManualNo = txtManualNo.Text;
                 model.VehicleNo = txtVehicleNo.Text;
                 model.Remarks = txtRemarks.Text;
-                var message = model.InsertManualDetaildata(dtGrid, model);
+                var message = model.InsertManualDetaildataContinuosSeriel(dtGrid, model);
                 if (message == true)
                 {
                     dgvStockInDetail.DataSource = null;

@@ -19,10 +19,11 @@ namespace POS.LookUpForms
         public string RegisterNo { get; set; }
         public string CustomerID { get; set; }
         public string PhoneNo { get; set; }
-
+        public string WhereClause = "";
         public DateTime SaleInvoiceDate { get; set; }
-        public frmSearchCustomerLookup()
+        public frmSearchCustomerLookup(string Where="")
         {
+            WhereClause = Where;
             InitializeComponent();
         }
 
@@ -60,12 +61,12 @@ namespace POS.LookUpForms
             string SqlString = " ";
             if (string.IsNullOrEmpty(txtPhoneSearch.Text))
             {
-                SqlString = " Select * from vw_customersList where WHID=" + CompanyInfo.WareHouseID + " ";
+                SqlString = " Select * from vw_customersList where WHID=" + CompanyInfo.WareHouseID + " "+ WhereClause;
             }
             else
             {
                
-                SqlString = " Select * from vw_customersList   where WHID=" + CompanyInfo.WareHouseID + " and Cphone like '" + txtPhoneSearch.Text + "%'";
+                SqlString = " Select * from vw_customersList   where WHID=" + CompanyInfo.WareHouseID + " and Cphone like '" + txtPhoneSearch.Text + "%'"  + WhereClause;
 
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);

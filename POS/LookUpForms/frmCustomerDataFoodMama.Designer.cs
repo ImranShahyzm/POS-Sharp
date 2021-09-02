@@ -45,6 +45,8 @@
             this.lblReturn = new System.Windows.Forms.Label();
             this.cmbSalesMan = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.txtRiderAmount = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,7 +84,7 @@
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Location = new System.Drawing.Point(23, 255);
+            this.panel1.Location = new System.Drawing.Point(23, 271);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(396, 70);
             this.panel1.TabIndex = 23;
@@ -123,7 +125,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(79, 178);
+            this.label1.Location = new System.Drawing.Point(84, 178);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 19);
             this.label1.TabIndex = 26;
@@ -143,7 +145,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(47, 207);
+            this.label3.Location = new System.Drawing.Point(70, 249);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(324, 19);
             this.label3.TabIndex = 28;
@@ -234,17 +236,39 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(59, 118);
+            this.label7.Location = new System.Drawing.Point(52, 118);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(81, 19);
             this.label7.TabIndex = 36;
             this.label7.Text = "Sales Man";
             // 
-            // frmCustomerData
+            // txtRiderAmount
+            // 
+            this.txtRiderAmount.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRiderAmount.Location = new System.Drawing.Point(143, 210);
+            this.txtRiderAmount.Name = "txtRiderAmount";
+            this.txtRiderAmount.Size = new System.Drawing.Size(245, 26);
+            this.txtRiderAmount.TabIndex = 37;
+            this.txtRiderAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRiderAmount_KeyDown);
+            this.txtRiderAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtRiderAmount_KeyPress);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(31, 213);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(102, 19);
+            this.label8.TabIndex = 38;
+            this.label8.Text = "Rider Amount";
+            // 
+            // frmCustomerDataFoodMama
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 361);
+            this.ClientSize = new System.Drawing.Size(442, 374);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.txtRiderAmount);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.cmbSalesMan);
             this.Controls.Add(this.lblReturn);
@@ -287,5 +311,7 @@
         private System.Windows.Forms.Label lblReturn;
         private System.Windows.Forms.ComboBox cmbSalesMan;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtRiderAmount;
+        private System.Windows.Forms.Label label8;
     }
 }

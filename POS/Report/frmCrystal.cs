@@ -34,18 +34,23 @@ namespace POS.Report
             da.Fill(dt);
             return dt;
         }
-        public DataTable PendingBillsReprot(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
+        public DataTable PendingBillsReprot(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, string CustomerPhone = "")
         {
             DataTable dt;
             string Sql = @"select  * from (select data_salePosInfo.SalePOSNo,Format(data_salePosInfo.SalePosDate,'dd-MMM-yyyy') as SalePosDate,data_salePosInfo.CustomerName,data_salePosInfo.CustomerPhone,  (data_salePosInfo.GrossAmount-data_salePosInfo.DiscountTotal+OtherCharges) as TotalBillAmount,
 isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
-),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID
+),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID,isnull((select sum(b.RiderAmountRecovery)  from data_posBillRecoviers b where b.SalePosID =
+ data_salePosInfo.SalePosID
+),0) as RiderAmountRecovery,RiderAmount
 from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
 
             Sql = Sql + " and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' ";
             Sql = Sql + "   and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
-
+            if(!string.IsNullOrEmpty(CustomerPhone))
+            {
+                Sql = Sql + "   and data_SalePosInfo.CustomerPhone='" + CustomerPhone + "'";
+            }
 
             Sql = Sql + " ) a ";
             if(CategoryID==2)
@@ -57,10 +62,10 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
         }
-        public void PendingBillsReport(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
+        public void PendingBillsReport(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, string CustomerPhone = "")
         {
             ReportDocument rpt = new ReportDocument();
-            DataTable dt = PendingBillsReprot(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
+            DataTable dt = PendingBillsReprot(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID, CustomerPhone);
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "PendingBillsAmount.rpt"));
             rpt.Database.Tables[0].SetDataSource(dt);
             if (DateFrom.Date == dateTo.Date)
@@ -162,6 +167,55 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             //string ss = obj.Title;
             //reportViewer1.ProcessingMode = ProcessingMode.Local;
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalPrintFoodMama.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+            rpt.Database.Tables[1].SetDataSource(dt2);
+            rpt.SummaryInfo.ReportTitle = "Sales Invoice";
+            rpt.SummaryInfo.ReportAuthor = "Admin";
+            int? LanguageSelection = 1;
+            rpt.SetParameterValue("LanguageSelection", Convert.ToInt32(LanguageSelection));
+            rpt.SetParameterValue("TagName", "");
+            var ImageValue = (dt2.Rows[0]["CompanyImage"]).ToString();
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            rpt.SetParameterValue("ServerName", Serverpath);
+            rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            if (CompanyInfo.isPrinter)
+            {
+                rpt.PrintToPrinter(1, false, 0, 0);
+            }
+            else
+            {
+
+                this.ShowDialog();
+                rpt.Dispose();
+            }
+
+        }
+        public void loadSaleFoodMamaReportLinked(string StoreProcedure, string ReportName, List<string[]> parameters)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            ReportDocument rpt = new ReportDocument();
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlCommand cmd = new SqlCommand(StoreProcedure, cnn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
+
+            for (int i = 0; i < parameters.Count; i++)
+            {
+                cmd.Parameters.AddWithValue(parameters[i][0], parameters[i][1]);
+            }
+            da.SelectCommand = cmd;
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            cnn.Close();
+
+            DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
+            //string ss = obj.Title;
+            //reportViewer1.ProcessingMode = ProcessingMode.Local;
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalPrintFoodMamaClub.rpt"));
             rpt.Database.Tables[0].SetDataSource(dt);
             rpt.Database.Tables[1].SetDataSource(dt2);
             rpt.SummaryInfo.ReportTitle = "Sales Invoice";
