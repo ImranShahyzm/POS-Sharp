@@ -896,13 +896,25 @@ namespace POS
                 var value = new List<string[]>();
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
                 value.Add(ss);
+                var valueforLinked = new List<string[]>();
+                valueforLinked.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
                 if (directReturn == false)
                 {
                     reportName = "SaleInvoice";
-                    //obj.loadReport("rpt_sale_invoice", reportName, value);
-                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
+                    if (!string.IsNullOrEmpty(txtLinkedBill.Text))
+                    {
+                        string[] PP = { "@LinckedBill", txtLinkedBill.Text.ToString() };
+                        valueforLinked.Add(PP);
+                        obj.loadSaleFoodMamaReportLinked("rpt_sale_invoice_Lincked", reportName, valueforLinked);
+                    }
+                    else
+                    {
+                        obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
+                    }
+                   
+                    
                     if (Convert.ToInt32(cmbSalemenu.SelectedValue) ==26)
                     {
                         obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);

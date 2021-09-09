@@ -160,7 +160,28 @@ namespace POS.LookUpForms
         {
             if (e.KeyChar == (char)13)
             {
-                DataGridViewRow dgr = dgvProducts.Rows[dgvProducts.CurrentRow.Index-1];
+                int rowIndex = dgvProducts.CurrentCell.OwningRow.Index;
+                ResultReturn(rowIndex);
+              
+             
+            }
+        }
+        private void ResultReturn(int Index)
+        {
+
+            if (Index > 0)
+            {
+                DataGridViewRow dgr = dgvProducts.Rows[Index];
+                string value = dgr.Cells["ItemId"].Value.ToString();
+                string manualNumber = dgr.Cells["ManualNumber"].Value.ToString();
+                ManualNumber = manualNumber;
+                ProductID = Convert.ToInt32(value);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else if (Index == 0)
+            {
+                DataGridViewRow dgr = dgvProducts.Rows[0];
                 string value = dgr.Cells["ItemId"].Value.ToString();
                 string manualNumber = dgr.Cells["ManualNumber"].Value.ToString();
                 ManualNumber = manualNumber;
@@ -169,6 +190,7 @@ namespace POS.LookUpForms
                 this.Close();
             }
         }
+
 
         private void txtProductSearch_KeyDown(object sender, KeyEventArgs e)
         {

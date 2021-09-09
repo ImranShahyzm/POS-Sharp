@@ -81,7 +81,7 @@ namespace POS
             ParamList.Add(new SqlParameter("@BranchID", CompanyInfo.BranchID));
             ParamList.Add(new SqlParameter("@SalePosID", Convert.ToInt32(txtSaleID.Text)));
             ParamList.Add(new SqlParameter("@WHID", CompanyInfo.WareHouseID));
-            ParamList.Add(new SqlParameter("@RiderAmountRecovery", Convert.ToDecimal(txtRiderRecovery.Text)));
+            ParamList.Add(new SqlParameter("@RiderAmountRecovery", txtRiderRecovery.Text == "" ? 0 : Convert.ToDecimal(txtRiderRecovery.Text)));
             try
             {
                 DataTable ret = STATICClass.ExecuteInsert(SP.data_PosBillRecoveries_Insert.ToString()
