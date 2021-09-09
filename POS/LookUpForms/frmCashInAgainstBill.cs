@@ -55,11 +55,19 @@ namespace POS
         private bool validateSave()
         {
             decimal cashInAmount = txtRecoverdAmount.Text == "" ? 0 : Convert.ToDecimal(txtRecoverdAmount.Text);
+            decimal BillAmount = txtCashInAmount.Text == "" ? 0 : Convert.ToDecimal(txtCashInAmount.Text);
+           
             bool validateReturnOK = true;
             if (cashInAmount == 0)
             {
                 txtRecoverdAmount.Focus();
                 MessageBox.Show("Please Enter Cash In Amount!");
+                validateReturnOK = false;
+            }
+            if (Math.Round(cashInAmount)>= Math.Round(BillAmount))
+            {
+                txtRecoverdAmount.Focus();
+                MessageBox.Show("You Can Recover More then Actual Bill...!");
                 validateReturnOK = false;
             }
             return validateReturnOK;
@@ -233,6 +241,42 @@ namespace POS
                     btnSave.Select();
                     btnSave.Focus();
                 
+            }
+        }
+
+        private void txtRecoverdAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+
+                e.Handled = true;
+
+            }
+
+
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+
+
+                e.Handled = true;
+            }
+        }
+
+        private void txtRiderRecovery_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+
+                e.Handled = true;
+
+            }
+
+
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+
+
+                e.Handled = true;
             }
         }
     }

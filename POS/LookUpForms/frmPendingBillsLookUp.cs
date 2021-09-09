@@ -102,7 +102,7 @@ isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.Sale
 ),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID,ISNULL(data_SalePosInfo.RiderAmount,0) as RiderAmount,isnull((select sum(b.RiderAmountRecovery)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
 ),0) as RiderAmountRecovery
-from data_salePosInfo where data_SalePosInfo.InvoiceType in ( 3,2) and SalePosDate <= '" + dtpSaleFromDate.Text + "') a where TotalBillAmount - RecoveryAmount > 0 ";
+from data_salePosInfo where data_SalePosInfo.InvoiceType in ( 3,2) and SalePosDate <= '" + dtpSaleFromDate.Text + "') a where (TotalBillAmount+RiderAmount) - (RecoveryAmount+RiderAmountRecovery) > 0 ";
             }
             else
             {
@@ -112,7 +112,7 @@ isnull((select sum(b.ReceoverdAmount)  from data_posBillRecoviers b where b.Sale
 ),0) as RecoveryAmount,data_salePosInfo.WHID,data_salePosInfo.SalePosID,ISNULL(data_SalePosInfo.RiderAmount,0) as RiderAmount,isnull((select sum(b.RiderAmountRecovery)  from data_posBillRecoviers b where b.SalePosID =
  data_salePosInfo.SalePosID
 ),0) as RiderAmountRecovery
-from data_salePosInfo where data_SalePosInfo.InvoiceType in( 3,2) and SalePosDate <= '" + dtpSaleFromDate.Text + "' and SalePosNO like '" + txtInvoiceSearch.Text + "%') a where TotalBillAmount - RecoveryAmount > 0 ";
+from data_salePosInfo where data_SalePosInfo.InvoiceType in( 3,2) and SalePosDate <= '" + dtpSaleFromDate.Text + "' and SalePosNO like '" + txtInvoiceSearch.Text + "%') a where (TotalBillAmount+RiderAmount) - (RecoveryAmount+RiderAmountRecovery) > 0 ";
                 
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);

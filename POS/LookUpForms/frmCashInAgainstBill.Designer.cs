@@ -170,6 +170,7 @@
             this.txtRecoverdAmount.Size = new System.Drawing.Size(110, 25);
             this.txtRecoverdAmount.TabIndex = 31;
             this.txtRecoverdAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRecoverdAmount_KeyDown);
+            this.txtRecoverdAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtRecoverdAmount_KeyPress);
             // 
             // label5
             // 
@@ -257,6 +258,7 @@
             this.txtRiderRecovery.Size = new System.Drawing.Size(120, 25);
             this.txtRiderRecovery.TabIndex = 40;
             this.txtRiderRecovery.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRiderRecovery_KeyDown);
+            this.txtRiderRecovery.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtRiderRecovery_KeyPress);
             // 
             // frmCashInAgainstBill
             // 
