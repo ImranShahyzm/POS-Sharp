@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POS.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -60,17 +61,20 @@ namespace POS.LookUpForms
         {
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow row = this.dgvSaleInvoices.Rows[e.RowIndex];
-                var value = Convert.ToInt32(row.Cells[0].Value);
-               var Responce= MessageBox.Show("Are You Sure you Want to Delete this Record...??","Confirmation",
-               MessageBoxButtons.OKCancel);
-                if(Responce==DialogResult.OK)
+                if (CompanyInfo.ShopUserType==2)
                 {
-                    DeleteRecord(value);
-                }
-                else
-                {
+                    DataGridViewRow row = this.dgvSaleInvoices.Rows[e.RowIndex];
+                    var value = Convert.ToInt32(row.Cells[0].Value);
+                    var Responce = MessageBox.Show("Are You Sure you Want to Delete this Record...??", "Confirmation",
+                    MessageBoxButtons.OKCancel);
+                    if (Responce == DialogResult.OK)
+                    {
+                        DeleteRecord(value);
+                    }
+                    else
+                    {
 
+                    }
                 }
 
             }

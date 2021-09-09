@@ -46,10 +46,18 @@ namespace POS
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn where Date='"+dtCashDate.Value+ @"')
+            string SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn where Date='" + dtCashDate.Value + @"')
                                   -
                                   (select isnull(sum(Amount),0) as Amount from data_CashOut where Date='" + dtCashDate.Value + @"') as Amount
                             ";
+            if (CompanyInfo.isKhaakiSoft)
+            {
+                SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn where Date<='" + dtCashDate.Value + @"')
+                                  -
+                                  (select isnull(sum(Amount),0) as Amount from data_CashOut where Date<='" + dtCashDate.Value + @"') as Amount
+                            ";
+            }
+             
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -172,7 +180,15 @@ namespace POS
 
         private void dtCashDate_ValueChanged(object sender, EventArgs e)
         {
-            
+            if(CompanyInfo.isKhaakiSoft)
+            {
+                if(dtCashDate.Value.Date<System.DateTime.Now.Date)
+                {
+                    dtCashDate.Value = System.DateTime.Now;
+                }
+
+            }
+
                 loadAvaliableBalance();
             
         }
