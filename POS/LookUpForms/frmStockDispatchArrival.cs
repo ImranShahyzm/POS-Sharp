@@ -44,7 +44,7 @@ namespace POS.LookUpForms
             if (CompanyInfo.isKhaakiSoft)
             {
 
-                using (StockInDetailKhaakiForm obj = new StockInDetailKhaakiForm(id,ArrivalNo))
+                using (FrmDispatchTransferDetailForm obj = new FrmDispatchTransferDetailForm(id,ArrivalNo))
                 {
 
                     obj.ShowDialog();

@@ -32,7 +32,7 @@ namespace POS.LookUpForms
 
             if (dt.Rows.Count > 0)
             {
-                txtArrivalDate.Value = Convert.ToDateTime(dt.Rows[0]["TransferDate"]);
+                txtArrivalDate.Value = Convert.ToDateTime(System.DateTime.Now.Date);
                     }
             dgvStockDetailData.DataSource = dt;
             dgvStockDetailData.Columns["DispatchDate"].Visible = false;
@@ -76,7 +76,7 @@ namespace POS.LookUpForms
                 DataTable dtGrid = new DataTable();
                 dtGrid = (DataTable)dgvStockDetailData.DataSource;
                 data_StockTransferInfoModel model = new data_StockTransferInfoModel();
-                if(String.IsNullOrEmpty(Convert.ToString(dtGrid.Rows[0]["TransferDate"])))
+                if(String.IsNullOrEmpty(Convert.ToString(dtGrid.Rows[0]["DispatchDate"])))
                 {
                     MessageBox.Show("No Rows for Saving Record...");
                     return;
