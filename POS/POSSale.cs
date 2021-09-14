@@ -35,6 +35,7 @@ namespace POS
             lblShopName.Text ="( "+ CompanyInfo.WareHouseName+" )";
             loadNewSale();
             syncRecpiesToolStripMenuItem.Visible = false;
+            dispatchDeskArrivalToolStripMenuItem.Visible = false;
             if (true)
             {
                tableLayoutPanel1.Hide();
@@ -47,6 +48,7 @@ namespace POS
 
                 billWiseRecoveryToolStripMenuItem.Visible = false;
                 toolStripMenuItem3.Visible = false;
+                dispatchDeskArrivalToolStripMenuItem.Visible = true;
             }
             else
             {
