@@ -1692,5 +1692,17 @@ namespace POS
 
             };
         }
+
+        private void dispatchDeskArrivalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmStockDispatchArrival obj = new frmStockDispatchArrival())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+
+            };
+        }
     }
 }

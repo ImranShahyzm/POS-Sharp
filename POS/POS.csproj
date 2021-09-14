@@ -229,6 +229,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\Script 1.0.0.56.sql" />
     <Content Include="DbScripts\Script 1.0.0.55.sql" />
     <Content Include="DbScripts\Script 1.0.0.54.sql" />
     <Content Include="DbScripts\Script 1.0.0.53.sql" />
@@ -362,6 +363,12 @@
     <Compile Include="LookUpForms\frmSearchCustomerLookup.Designer.cs">
       <DependentUpon>frmSearchCustomerLookup.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\frmStockDispatchArrival.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockDispatchArrival.Designer.cs">
+      <DependentUpon>frmStockDispatchArrival.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\FrmStockReturnList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -445,6 +452,12 @@
     </Compile>
     <Compile Include="LookUpForms\POSSaleNew.Designer.cs">
       <DependentUpon>POSSaleNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\FrmDispatchTransferDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\FrmDispatchTransferDetailForm.Designer.cs">
+      <DependentUpon>FrmDispatchTransferDetailForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\StockInDetailKhaakiForm.cs">
       <SubType>Form</SubType>
@@ -785,6 +798,9 @@
     <EmbeddedResource Include="LookUpForms\frmSearchCustomerLookup.resx">
       <DependentUpon>frmSearchCustomerLookup.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmStockDispatchArrival.resx">
+      <DependentUpon>frmStockDispatchArrival.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\FrmStockReturnList.resx">
       <DependentUpon>FrmStockReturnList.cs</DependentUpon>
     </EmbeddedResource>
@@ -826,6 +842,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\POSSaleNew.resx">
       <DependentUpon>POSSaleNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\FrmDispatchTransferDetailForm.resx">
+      <DependentUpon>FrmDispatchTransferDetailForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\StockInDetailKhaakiForm.resx">
       <DependentUpon>StockInDetailKhaakiForm.cs</DependentUpon>

@@ -73,7 +73,9 @@ namespace POS.Helper
             PosApi_AllDisaptchesAgainstMakeOrders_Insert,
             POSdata_StockArrivalManualInfo_InsertContinuosSeriel,
             PosApi_AllBillOfMaterials_Insert,
-            PosApi_AllStockDisaptchesTransfer_Insert
+            PosApi_AllStockDisaptchesTransfer_Insert,
+            POSData_StockDispatchTransfer_load,
+            POSData_DispatchTransferRemainig_loadKhaaki
 
 
         }
@@ -115,6 +117,14 @@ namespace POS.Helper
             ds = STATICClass.SelectAll(SP.POSData_StockRawTrasnfer_load.ToString(), ParamList);
             return ds;
         }
+        public DataSet SelectAllRemainingDispatchesTransfer(string WhereClause = "", string EditClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@EditClause", EditClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSData_StockDispatchTransfer_load.ToString(), ParamList);
+            return ds;
+        }
         public DataSet SelectAllRemaining(string WhereClause = "", string EditClauseDetail = "")
         {
             DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
@@ -129,6 +139,15 @@ namespace POS.Helper
             ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
             ParamList.Add(new SqlParameter("@EditClause", EditClauseDetail));
             ds = STATICClass.SelectAll(SP.POSData_StockInwardRem_loadKhaaki.ToString(), ParamList);
+            return ds;
+        }
+
+        public DataSet SelectAllRemainigDispatchTransferDetail(string WhereClause = "", string EditClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@EditClause", EditClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSData_DispatchTransferRemainig_loadKhaaki.ToString(), ParamList);
             return ds;
         }
 

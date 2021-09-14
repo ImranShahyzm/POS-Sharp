@@ -123,6 +123,7 @@
             this.newCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.makeOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customersListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dispatchDeskArrivalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -930,7 +931,8 @@
             this.stockReturnToolStripMenuItem,
             this.syncToServerToolStripMenuItem,
             this.pOSFormToolStripMenuItem,
-            this.syncRecpiesToolStripMenuItem});
+            this.syncRecpiesToolStripMenuItem,
+            this.dispatchDeskArrivalToolStripMenuItem});
             this.stockTranscationsToolStripMenuItem.Name = "stockTranscationsToolStripMenuItem";
             this.stockTranscationsToolStripMenuItem.Size = new System.Drawing.Size(116, 20);
             this.stockTranscationsToolStripMenuItem.Text = "Stock Transcations";
@@ -1142,6 +1144,13 @@
             this.customersListToolStripMenuItem.Text = "Customers List";
             this.customersListToolStripMenuItem.Click += new System.EventHandler(this.customersListToolStripMenuItem_Click);
             // 
+            // dispatchDeskArrivalToolStripMenuItem
+            // 
+            this.dispatchDeskArrivalToolStripMenuItem.Name = "dispatchDeskArrivalToolStripMenuItem";
+            this.dispatchDeskArrivalToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.dispatchDeskArrivalToolStripMenuItem.Text = "Dispatch Desk Arrival";
+            this.dispatchDeskArrivalToolStripMenuItem.Click += new System.EventHandler(this.dispatchDeskArrivalToolStripMenuItem_Click);
+            // 
             // frmPOSSale
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1275,6 +1284,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem syncRecpiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dispatchDeskArrivalToolStripMenuItem;
     }
 }
 
