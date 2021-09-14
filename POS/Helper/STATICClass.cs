@@ -24,11 +24,11 @@ namespace POS.Helper
         //******************************//
 
             //*********** Food Mama Api Url *************//
-      public static string BaseURL = "http://103.86.135.182:1034/";
+     // public static string BaseURL = "http://103.86.135.182:1034/";
         //***************************************//
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-      //static string BaseURL = "http://localhost:44333/";
+      static string BaseURL = "http://localhost:44333/";
         public static string Connection()
         {
             return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -963,6 +963,62 @@ namespace POS.Helper
                             }
                                 return myDataSet;
                             
+                        }
+                    }
+                    else
+                    {
+
+                        return myDataSet;
+                    }
+                }
+                catch (Exception e)
+                {
+                    var Temp = e.Message;
+                }
+                var i = 0;
+
+                return myDataSet;
+            }
+
+
+
+
+        }
+        public static async Task<DataSet> GetAllStockDispatcherFromServer(string DateFrom, string DateTo)
+        {
+
+            DataSet myDataSet = new DataSet();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response;
+                try
+                {
+                    var id = 0;
+
+                    if (id == 0)
+                    {
+                        data_StockTransferInfoModel scp = new data_StockTransferInfoModel();
+                        response = await client.GetAsync("apipos/GetAllDispatchedTransfer?CompanyID=" + CompanyInfo.CompanyID + "&BranchID=" + CompanyInfo.BranchID + "&WHID=" + CompanyInfo.WareHouseID + "&DateFrom=" + DateFrom + "&Dateto=" + DateTo + "");
+                        if (response.IsSuccessStatusCode)
+                        {
+
+
+                            var Result = await response.Content.ReadAsAsync<string>();
+
+
+
+                            myDataSet = JsonConvert.DeserializeObject<DataSet>(Result);
+                            if (myDataSet.Tables[0].Rows.Count > 0)
+                            {
+                                scp.InsertAllStockDispatchesTransfer(myDataSet, 0, Convert.ToDateTime(DateFrom), Convert.ToDateTime(DateTo));
+                            }
+                            return myDataSet;
+
                         }
                     }
                     else

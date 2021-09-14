@@ -280,7 +280,7 @@ namespace POS
 
                 if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
                 {
-                    btnProgressBar.Value = 100;
+                    btnProgressBar.Value = 90;
                     lblStatus.Text = "Data Uploaded Successfully...";
 
                 }
@@ -296,10 +296,21 @@ namespace POS
             }
 
 
+            try
+            {
 
-            string postingSaleVouchers = await STATICClass.PosAllSaleVouchers( dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());
+                string postingSaleVouchers = await STATICClass.PosAllSaleVouchers(dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());
+                btnProgressBar.Value = 95;
 
-            
+
+                await STATICClass.GetAllStockDispatcherFromServer(dtpSaleFromDate.Value.Date.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.Date.ToString("dd-MMM-yyyy"));
+                btnProgressBar.Value = 100;
+            }
+            catch(Exception ex)
+            {
+                btnProgressBar.ForeColor = Color.Red;
+                MessageBox.Show(ex.Message);
+            }
 
 
         }

@@ -72,7 +72,8 @@ namespace POS.Helper
             POSdata_CashInOutServer_SelectAll,
             PosApi_AllDisaptchesAgainstMakeOrders_Insert,
             POSdata_StockArrivalManualInfo_InsertContinuosSeriel,
-            PosApi_AllBillOfMaterials_Insert
+            PosApi_AllBillOfMaterials_Insert,
+            PosApi_AllStockDisaptchesTransfer_Insert
 
 
         }
@@ -365,6 +366,32 @@ namespace POS.Helper
         }
 
         public bool InsertAllDispatechOrdersFromHo(DataSet dt, int StockTransferID,DateTime DateFrom,DateTime Dateto)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@data_StockDispatchpos", dt.Tables[0]));
+            ParamList.Add(new SqlParameter("@data_StockDispatchDetailPos", dt.Tables[1]));
+            ParamList.Add(new SqlParameter("@WHID", CompanyInfo.WareHouseID));
+            ParamList.Add(new SqlParameter("@DateFrom", DateFrom));
+            ParamList.Add(new SqlParameter("@DateTo", Dateto));
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllDisaptchesAgainstMakeOrders_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+
+
+        public bool InsertAllStockDispatches(DataSet dt, int StockTransferID, DateTime DateFrom, DateTime Dateto)
         {
             bool ReturnValue;
             SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
@@ -750,5 +777,31 @@ namespace POS.Helper
             ds = STATICClass.SelectAll(SP.POSdata_CashInOutServer_SelectAll.ToString(), ParamList);
             return ds;
         }
+
+        public bool InsertAllStockDispatchesTransfer(DataSet dt, int StockTransferID, DateTime DateFrom, DateTime Dateto)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@data_StockDispatchAgainstTransferPOS", dt.Tables[0]));
+            ParamList.Add(new SqlParameter("@data_StockDispatchAgainstTransferDetailPOS", dt.Tables[1]));
+            ParamList.Add(new SqlParameter("@WHID", CompanyInfo.WareHouseID));
+            ParamList.Add(new SqlParameter("@DateFrom", DateFrom));
+            ParamList.Add(new SqlParameter("@DateTo", Dateto));
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllStockDisaptchesTransfer_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+
     }
 }
