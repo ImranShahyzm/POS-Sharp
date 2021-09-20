@@ -305,6 +305,8 @@ namespace POS
 
                 await STATICClass.GetAllStockDispatcherFromServer(dtpSaleFromDate.Value.Date.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.Date.ToString("dd-MMM-yyyy"));
                 btnProgressBar.Value = 100;
+
+               await SyncLiveDataAsync();
             }
             catch(Exception ex)
             {
@@ -314,7 +316,22 @@ namespace POS
 
 
         }
+        public async Task SyncLiveDataAsync()
+        {
+            var RInvoices = new data_StockTransferInfoModel().StockReturnedToServer("where IssuanceDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  FromWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", true, true, "where IssuanceDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  FromWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", "", false);
 
+            string RJsonInvoices = JsonConvert.SerializeObject(RInvoices);
+            var RInvoiceRespomnce = "";
+            if (RInvoices.Tables[0].Rows.Count > 0)
+            {
+                RInvoiceRespomnce = await STATICClass.InsertAllStockReturntoServer(RJsonInvoices, dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());
+            }
+            else
+            {
+                RInvoiceRespomnce = "Done";
+            }
+
+        }
         private void dtpSaleFromDate_ValueChanged(object sender, EventArgs e)
         {
 
