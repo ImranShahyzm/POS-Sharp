@@ -84,6 +84,11 @@ namespace POS
                     CompanyInfo.LocationID=Convert.ToString(dt.Rows[0]["LocationID"]);
                     CompanyInfo.isKhaakiSoft= Convert.ToBoolean(dt.Rows[0]["isKhaakiSoft"]);
                     CompanyInfo.ShopUserType = Convert.ToInt32(dt.Rows[0]["ShopUserType"]);
+
+                    CompanyInfo.POSStyle=dt.Rows[0]["PosStyle"] is DBNull? "Default" : Convert.ToString(dt.Rows[0]["PosStyle"]);
+
+                    CompanyInfo.CounterID = dt.Rows[0]["CounterID"] is DBNull ? 0 : Convert.ToInt32(dt.Rows[0]["CounterID"]);
+
                     frmPOSSale objFrm = new frmPOSSale();
 
                     objcom.Userid = Convert.ToInt32(dt.Rows[0]["Userid"]);

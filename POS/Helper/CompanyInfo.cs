@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace POS.Helper
 {
-   public static class CompanyInfo
+    public static class CompanyInfo
     {
         //public static int CompanyID = 1;
         //public static int WareHouseID = 1;
@@ -23,6 +23,9 @@ namespace POS.Helper
         public static bool isPrinter = true;
         public static bool isKhaakiSoft = true;
         public static int ShopUserType { get; set; }
+        public static string POSStyle { get; set; }
+        public static int CounterID { get;set;}
+        
 
     }
 }

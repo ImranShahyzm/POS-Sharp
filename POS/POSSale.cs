@@ -1456,6 +1456,11 @@ namespace POS
                 PosKhaakiStyle frm = new PosKhaakiStyle();
                 frm.Show();
             }
+            else if(CompanyInfo.POSStyle== "POSChSweets")
+            {
+                POSChSweets frm = new POSChSweets();
+                frm.Show();
+            }
             else
             {
                 POSSaleNew frm = new POSSaleNew();
