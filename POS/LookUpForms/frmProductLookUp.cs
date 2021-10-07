@@ -198,6 +198,13 @@ namespace POS.LookUpForms
             {
                 dgvProducts.Focus();
             }
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            }
         }
+
+        
     }
 }

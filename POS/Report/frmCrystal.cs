@@ -143,7 +143,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             }
 
         }
-        public void loadSaleFoodMamaReport(string StoreProcedure, string ReportName, List<string[]> parameters)
+        public void loadSaleFoodMamaReport(string StoreProcedure, string ReportName, List<string[]> parameters,bool isReturn=false)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             ReportDocument rpt = new ReportDocument();
@@ -169,8 +169,15 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalPrintFoodMama.rpt"));
             rpt.Database.Tables[0].SetDataSource(dt);
             rpt.Database.Tables[1].SetDataSource(dt2);
-            rpt.SummaryInfo.ReportTitle = "Sales Invoice";
-            rpt.SummaryInfo.ReportAuthor = "Admin";
+            if (isReturn)
+            {
+                rpt.SummaryInfo.ReportTitle = "Sales Return Invoice";
+            }
+            else
+            {
+                rpt.SummaryInfo.ReportTitle = "Bill Number";
+            }
+            rpt.SummaryInfo.ReportAuthor = CompanyInfo.username;
             int? LanguageSelection = 1;
             rpt.SetParameterValue("LanguageSelection", Convert.ToInt32(LanguageSelection));
             rpt.SetParameterValue("TagName", "");

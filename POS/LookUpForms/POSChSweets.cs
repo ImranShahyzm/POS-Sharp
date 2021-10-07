@@ -607,6 +607,8 @@ namespace POS
         }
 
 
+
+
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -755,6 +757,15 @@ namespace POS
             ClearFields();
             txtProductCode.Focus();
         }
+        private void SetQuantitesBeforAdding( DataTable dt)
+        {
+            cmbProducts.SelectedValue = dt.Rows[0]["ItemId"].ToString();
+
+            txtRate.Text = Convert.ToString(dt.Rows[0]["ItemSalesPrice"]);
+            txtTax.Text = Convert.ToString(dt.Rows[0]["TotalTax"]);
+            txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
+            setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
+        }
 
         private void txtProductCode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -767,51 +778,116 @@ namespace POS
                 //    cmbSalemenu.Focus();
                 //    return ;
                 //}
-                if (txtProductCode.Text != "")
+                try
                 {
+                    if (txtProductCode.Text != "")
+                {
+                    DataTable dt = new DataTable();
                     var ItemID = GetItemIDbyBuiltInBarcodes(txtProductCode.Text);
-
-                    DataTable dt = getProduct(0, ItemID, txtProductCode.Text);
-                    if (dt.Rows.Count == 0)
-                    {
-                        using (frmProductLookUp obj = new frmProductLookUp(Convert.ToInt32(cmbSalemenu.SelectedValue.ToString())))
+                    //******* Motext barcode ************//
+                    bool isMOtextCode = false;
+                    
+                        if (ItemID == 0)
                         {
-                            if (obj.ShowDialog() == DialogResult.OK)
+                            string BarcodeNumber = Convert.ToString(txtProductCode.Text).Trim();
+                            var Length = BarcodeNumber.Length;
+                            if (Length >= 13)
                             {
-                                int id = obj.ProductID;
-                                txtProductID.Text = id.ToString();
-                                txtProductCode.Text = obj.ManualNumber;
-                                cmbProducts.SelectedValue = id.ToString();
-                               var dtReturn= getProduct(0, Convert.ToInt32(id));
-                                setAvailableStock(id);
-                                txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
-                                txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
-                                txtQuantity.Focus();
+                                
+                                if (!string.IsNullOrEmpty(BarcodeNumber))
+                                {
+
+                                    var BarcodeStd = Convert.ToInt32(BarcodeNumber.Substring(0, 2));
+                                    var ItemCode = Convert.ToInt32(BarcodeNumber.Substring(2, 5));
+                                    var BarQuantity = Convert.ToDecimal(BarcodeNumber.Substring(6 + 1));
+                                    var test = BarcodeNumber.Substring(2, 5);
+                                    dt = getProduct(0, ItemID, Convert.ToString(ItemCode).Trim());
+                                    var text = BarcodeNumber.Substring(6 + 1);
+                                    if (dt.Rows.Count > 0)
+                                    {
+                                        txtQuantity.Text = Convert.ToString(BarQuantity);
+                                        isMOtextCode = true;
+                                        SetQuantitesBeforAdding(dt);
+                                        if (BarcodeStd == 98)
+                                        {
+                                            txtQuantity.Text = "1";
+                                        }
+                                        else
+                                        {
+                                            txtQuantity.Text = Convert.ToString(BarQuantity / 10000);
+                                        }
+
+                                        txtPromoDisc_KeyDown(sender, e);
+                                    }
+
+                                }
                             }
-                        };
-                    }
-                    else
-                    {
-                        cmbProducts.SelectedValue = dt.Rows[0]["ItemId"].ToString();
-                        
-                        txtRate.Text = Convert.ToString(dt.Rows[0]["ItemSalesPrice"]);
-                        txtTax.Text = Convert.ToString(dt.Rows[0]["TotalTax"]);
-                        txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
-                        setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
-                        txtQuantity.Focus();
-                    }
-                    string ids = cmbProducts.SelectedValue.ToString();
-                    {
-                        if (ids != "0")
+
+
+                        }
+
+                        //********************************//
+
+                        if (!isMOtextCode)
                         {
-                            //DataTable dt1 = getProduct(0, Convert.ToInt32(ids));
-                            //AddProducts(dt1.Rows[0]["itenName"].ToString(), Convert.ToInt32(ids), Convert.ToDecimal(dt1.Rows[0]["ItemSalesPrice"]), Convert.ToDecimal(dt1.Rows[0]["TotalTax"]));
+                            dt = getProduct(0, ItemID, Convert.ToString(txtProductCode.Text).Trim());
+
+                            if (dt.Rows.Count == 0)
+                            {
+                                using (frmProductLookUp obj = new frmProductLookUp(Convert.ToInt32(cmbSalemenu.SelectedValue.ToString())))
+                                {
+                                    if (obj.ShowDialog() == DialogResult.OK)
+                                    {
+                                        int id = obj.ProductID;
+                                        txtProductID.Text = id.ToString();
+                                        txtProductCode.Text = obj.ManualNumber;
+                                        cmbProducts.SelectedValue = id.ToString();
+                                        var dtReturn = getProduct(0, Convert.ToInt32(id));
+                                        setAvailableStock(id);
+                                        txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
+                                        txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
+                                        txtQuantity.Focus();
+                                    }
+                                };
+                            }
+                            else
+                            {
+                                if (ItemID > 0)
+                                {
+                                    SetQuantitesBeforAdding(dt);
+                                    txtQuantity.Text = "1";
+                                    txtPromoDisc_KeyDown(sender, e);
+                                }
+                                else
+                                {
+                                    cmbProducts.SelectedValue = dt.Rows[0]["ItemId"].ToString();
+
+                                    txtRate.Text = Convert.ToString(dt.Rows[0]["ItemSalesPrice"]);
+                                    txtTax.Text = Convert.ToString(dt.Rows[0]["TotalTax"]);
+                                    txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
+                                    setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
+                                    txtQuantity.Focus();
+                                }
+                            }
+                        }
+
+                        string ids = cmbProducts.SelectedValue.ToString();
+                        {
+                            if (ids != "0")
+                            {
+                                //DataTable dt1 = getProduct(0, Convert.ToInt32(ids));
+                                //AddProducts(dt1.Rows[0]["itenName"].ToString(), Convert.ToInt32(ids), Convert.ToDecimal(dt1.Rows[0]["ItemSalesPrice"]), Convert.ToDecimal(dt1.Rows[0]["TotalTax"]));
+                            }
                         }
                     }
-                }
                 else
                 {
-                    MessageBox.Show("Please Enter Product Code");
+                        MessageBox.Show("Please Enter Product Code");
+                    }
+
+                }catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
             if(e.KeyData==Keys.Space)
@@ -1005,7 +1081,7 @@ namespace POS
                     }
                     else
                     {
-                        obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
+                        obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value,SaleReturn);
                     }
                    
                     
@@ -1087,9 +1163,12 @@ namespace POS
                 //else
                 if (amountReceivable > 0 && amountReceived < amountReceivable)
                 {
-                    txtAmountReceive.Focus();
-                    MessageBox.Show("Amount Receive should be greater than Receivable Amount!");
-                    validateReturnOK = false;
+                    txtAmountReceive.Text = Convert.ToString(txtReceivableAmount.Text);
+                    validateReturnOK = true;
+
+                    //txtAmountReceive.Focus();
+                    //MessageBox.Show("Amount Receive should be greater than Receivable Amount!");
+                    //validateReturnOK = false;
                 }
                 else if (amountReturn < 0)
                 {

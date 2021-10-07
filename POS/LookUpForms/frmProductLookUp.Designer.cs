@@ -90,6 +90,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Product LookUp";
             this.Load += new System.EventHandler(this.frmProductLookUp_Load);
+         
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
