@@ -13,5 +13,6 @@ namespace Common
         public string Password { get; set; }
         public int CompanyID { get; set; }
         public string Title { get; set; }
+        public string NICID { get; set; }
     }
 }

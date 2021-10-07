@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -61,6 +62,23 @@ namespace POS
             }
             return validateReturnOK;
         }
+        private string GetNICID()
+        {
+       
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            String sMacAddress = string.Empty;
+            foreach (NetworkInterface adapter in nics)
+            {
+                if (sMacAddress == String.Empty)// only return MAC Address from first card  
+                {
+                    IPInterfaceProperties properties = adapter.GetIPProperties();
+                    sMacAddress = adapter.GetPhysicalAddress().ToString();
+                }
+            }
+            return sMacAddress;
+
+          
+        }
 
         private void SaveForm()
         {
@@ -70,10 +88,11 @@ namespace POS
                 LogInCommon objcom = new LogInCommon();
                 objcom.UserName = txtUserName.Text;
                 objcom.Password = txtPassword.Text;
+                objcom.NICID = GetNICID();
                 DataTable dt = objbll.checkLoginBLL(objcom);
                 if (dt.Rows.Count > 0)
                 {
-                    CompanyInfo.WareHouseName = Convert.ToString(dt.Rows[0]["WareHouseName"]);
+                    CompanyInfo.WareHouseName = dt.Rows[0]["CounterTitle"] is DBNull?Convert.ToString(dt.Rows[0]["WareHouseName"]): Convert.ToString(dt.Rows[0]["CounterTitle"]);
                    
                     CommonClass.CompanyName = dt.Rows[0]["Title"].ToString();
                     CompanyInfo.CompanyID = Convert.ToInt32(dt.Rows[0]["CompanyID"]);

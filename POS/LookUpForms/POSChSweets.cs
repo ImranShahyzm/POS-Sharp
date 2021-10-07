@@ -588,7 +588,7 @@ namespace POS
 
             if (!string.IsNullOrEmpty(BarcodeNumber))
             {
-                SqlString += "where dt.BarcodeNumber = " + BarcodeNumber;
+                SqlString += " where dt.BarcodeNumber = '" + BarcodeNumber.Trim()+"'";
             }
             try
             {
@@ -686,6 +686,9 @@ namespace POS
 
             string total = (Convert.ToDecimal(rates) * 1).ToString();
             string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rates)) / 100) * 1).ToString();
+            txtPromoDisc.Text = Convert.ToString(txtPromoDisc.Text) == "" ?"0" : Convert.ToString(txtPromoDisc.Text);
+            txtPromoDiscAmt.Text = Convert.ToString(txtPromoDiscAmt.Text) == "" ? "0" : Convert.ToString(txtPromoDiscAmt.Text);
+
 
             bool recordExist = false;
             for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
@@ -1057,9 +1060,10 @@ namespace POS
                     MessageBox.Show("You can't Save Invoice in Back date...");
                     return false;
                 }
-            
 
-            decimal amountReceived = txtAmountReceive.Text == "" ? Convert.ToDecimal(txtReceivableAmount.Text) : Convert.ToDecimal(txtAmountReceive.Text);
+
+            txtAmountReceive.Text = txtAmountReceive.Text == "" || txtAmountReceive.Text == "0" ? Convert.ToString(txtReceivableAmount.Text) : Convert.ToString(txtAmountReceive.Text);
+            decimal amountReceived = txtAmountReceive.Text == "" || txtAmountReceive.Text=="0" ? Convert.ToDecimal(txtReceivableAmount.Text) : Convert.ToDecimal(txtAmountReceive.Text);
             decimal amountReceivable = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
             decimal amountPayable = txtPayableAmount.Text == "" ? 0 : Convert.ToDecimal(txtPayableAmount.Text);
             decimal amountReturn = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
@@ -1619,7 +1623,8 @@ namespace POS
                     };
                     ItemSaleGrid.Rows.Add(row);
                     CalculateDetail();
-                    
+                    txtProductCode.Select();
+                    txtProductCode.Focus();
                 }
 
             }
@@ -1750,6 +1755,9 @@ namespace POS
                 if (MessageBox.Show("Are You Sure You Want to Delete the Selected Record...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     ItemSaleGrid.Rows.RemoveAt(ItemSaleGrid.CurrentRow.Index);
+                    txtProductCode.Select();
+                    txtProductCode.Focus();
+
                     return;
                 }
 

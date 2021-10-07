@@ -25,7 +25,13 @@ namespace POS.Helper
         public static int ShopUserType { get; set; }
         public static string POSStyle { get; set; }
         public static int CounterID { get;set;}
+
+        public static string CounterPCName { get; set; }
+        public static string CounterTitle { get; set; }
+
+
         
+
 
     }
 }

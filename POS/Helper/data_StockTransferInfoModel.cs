@@ -601,8 +601,7 @@ namespace POS.Helper
             ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
             //ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
             ParamList.Add(new SqlParameter("@FiscalID", CompanyInfo.FiscalID));
-            ParamList.Add(new SqlParameter("@TransferToWHID", CompanyInfo.WareHouseID));
-
+            ParamList.Add(new SqlParameter("@TransferToWHID", CompanyInfo.CounterID));
             ParamList.Add(new SqlParameter("@ManualNo", model.ManualNo));
             ParamList.Add(new SqlParameter("@VehicleNo", model.VehicleNo));
             ParamList.Add(new SqlParameter("@Remarks", model.Remarks));
