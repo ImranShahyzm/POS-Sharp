@@ -111,6 +111,8 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
+            this.txtQtyPrice = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -671,6 +673,8 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.label24);
+            this.panel5.Controls.Add(this.txtQtyPrice);
             this.panel5.Controls.Add(this.txtPromoDiscAmt);
             this.panel5.Controls.Add(this.txtPromoDisc);
             this.panel5.Controls.Add(this.label23);
@@ -735,7 +739,7 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(259, 102);
+            this.label23.Location = new System.Drawing.Point(259, 98);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(75, 14);
             this.label23.TabIndex = 41;
@@ -744,7 +748,7 @@
             // 
             // txtLinkedBillNo
             // 
-            this.txtLinkedBillNo.Location = new System.Drawing.Point(348, 98);
+            this.txtLinkedBillNo.Location = new System.Drawing.Point(348, 94);
             this.txtLinkedBillNo.MaxLength = 10;
             this.txtLinkedBillNo.Name = "txtLinkedBillNo";
             this.txtLinkedBillNo.Size = new System.Drawing.Size(127, 20);
@@ -763,7 +767,7 @@
             // txtRiderAmount
             // 
             this.txtRiderAmount.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRiderAmount.Location = new System.Drawing.Point(481, 95);
+            this.txtRiderAmount.Location = new System.Drawing.Point(481, 91);
             this.txtRiderAmount.Name = "txtRiderAmount";
             this.txtRiderAmount.Size = new System.Drawing.Size(38, 26);
             this.txtRiderAmount.TabIndex = 38;
@@ -791,7 +795,7 @@
             this.cmbInvoicetype.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbInvoicetype.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbInvoicetype.FormattingEnabled = true;
-            this.cmbInvoicetype.Location = new System.Drawing.Point(106, 98);
+            this.cmbInvoicetype.Location = new System.Drawing.Point(106, 94);
             this.cmbInvoicetype.Name = "cmbInvoicetype";
             this.cmbInvoicetype.Size = new System.Drawing.Size(146, 21);
             this.cmbInvoicetype.TabIndex = 27;
@@ -802,7 +806,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(24, 105);
+            this.label13.Location = new System.Drawing.Point(24, 101);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(69, 14);
             this.label13.TabIndex = 28;
@@ -1002,6 +1006,26 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
+            // txtQtyPrice
+            // 
+            this.txtQtyPrice.Location = new System.Drawing.Point(388, 116);
+            this.txtQtyPrice.MaxLength = 10;
+            this.txtQtyPrice.Name = "txtQtyPrice";
+            this.txtQtyPrice.Size = new System.Drawing.Size(87, 20);
+            this.txtQtyPrice.TabIndex = 44;
+            this.txtQtyPrice.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQtyPrice_KeyDown);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(329, 119);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(51, 14);
+            this.label24.TabIndex = 45;
+            this.label24.Text = "Net Price";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // POSChSweets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1109,6 +1133,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
         private System.Windows.Forms.TextBox txtNetDtDiscount;
+        private System.Windows.Forms.TextBox txtQtyPrice;
+        private System.Windows.Forms.Label label24;
     }
 }
 

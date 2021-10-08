@@ -846,7 +846,8 @@ namespace POS
                                         setAvailableStock(id);
                                         txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                         txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
-                                        txtQuantity.Focus();
+                                        txtQtyPrice.Focus();
+                                        txtQtyPrice.Select();
                                     }
                                 };
                             }
@@ -866,7 +867,8 @@ namespace POS
                                     txtTax.Text = Convert.ToString(dt.Rows[0]["TotalTax"]);
                                     txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
                                     setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
-                                    txtQuantity.Focus();
+                                    txtQtyPrice.Focus();
+                                    txtQtyPrice.Select();
                                 }
                             }
                         }
@@ -1010,6 +1012,7 @@ namespace POS
             else
             {
                 cmd = new SqlCommand("data_SalePosReturnInfo_Insert", con);
+                SalePosMasterID = Convert.ToInt32(SalePosID.Text);
             }
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter();
@@ -1055,13 +1058,16 @@ namespace POS
             {
                 cmd.Parameters.AddWithValue("@DirectReturn", true);
             }
+            cmd.Parameters.AddWithValue("@CounterID", CompanyInfo.CounterID);
             cmd.Parameters.AddWithValue("@data_SalePosDetail", dt1);
 
             da.SelectCommand = cmd;
             try
             {
-                cmd.Transaction = tran; da.Fill(dt1);
+                cmd.Transaction = tran;
+                da.Fill(dt1);
                 tran.Commit();
+                
                 string SaleInvoiceNO = p.Value.ToString();
                 var value = new List<string[]>();
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
@@ -1264,6 +1270,7 @@ namespace POS
             cmbProducts.SelectedValue = "0";
 
             txtLinkedBillNo.Clear();
+            txtQtyPrice.Clear();
             directReturn = false;
         }
 
@@ -1692,7 +1699,7 @@ namespace POS
                             dtdetail.Rows[i]["ItemRate"].ToString(),
                             
                             
-                            Convert.ToInt32(dtdetail.Rows[i]["TotalQuantity"]).ToString(),
+                            Convert.ToDecimal(dtdetail.Rows[i]["TotalQuantity"]).ToString(),
                              dtdetail.Rows[i]["DiscountPercentage"].ToString(),
                             dtdetail.Rows[i]["DiscountAmount"].ToString(),
                             dtdetail.Rows[i]["TaxPercentage"].ToString(),
@@ -1824,6 +1831,8 @@ namespace POS
             txtTaxAmount.ReadOnly = true;
             txtdetailAmount.ReadOnly = true;
             txtRate.ReadOnly = true;
+            txtQtyPrice.Clear();
+
         }
 
         private void ItemSaleGrid_KeyDown(object sender, KeyEventArgs e)
@@ -2519,6 +2528,20 @@ namespace POS
                     }
                 }
             
+        }
+
+        private void txtQtyPrice_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                var NetPrice = Convert.ToDecimal(txtQtyPrice.Text =="" ? "0": txtQtyPrice.Text);
+                var RetailPrice = Convert.ToDecimal(txtRate.Text == "" ? "0" : txtRate.Text);
+                var Quantity = Convert.ToDecimal(NetPrice / RetailPrice);
+                txtQuantity.Text = Quantity.ToString();
+                txtQuantity.Focus();
+                txtQuantity.Select();
+
+            }
         }
     }
 }

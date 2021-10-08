@@ -229,6 +229,12 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\Script 1.0.0.59.sql" />
+    <Content Include="DbScripts\Script 1.0.0.62.sql" />
+    <Content Include="DbScripts\Script 1.0.0.61.sql" />
+    <Content Include="DbScripts\Script 1.0.0.60.sql" />
+    <Content Include="DbScripts\SalePosDetailChanges.sql" />
+    <Content Include="DbScripts\SalePOSReturnInfo.sql" />
     <Content Include="DbScripts\Script 1.0.0.58.sql" />
     <Content Include="DbScripts\Script 1.0.0.57.sql" />
     <Content Include="DbScripts\Script 1.0.0.56.sql" />
