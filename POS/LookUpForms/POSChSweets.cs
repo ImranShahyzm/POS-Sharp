@@ -1417,6 +1417,12 @@ namespace POS
                 txtAmountReceive.Focus();
                 return true;
             }
+            else if (keyData == (Keys.Alt | Keys.Z))
+            {
+                txtProductCode.SelectAll();
+                txtProductCode.Focus();
+                return true;
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
         private void ItemSaleGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -2124,10 +2130,12 @@ namespace POS
         }
         private void CalculateNetAmountDetail()
         {
-            if (txtQuantity.Text != "" && txtRate.Text != "")
+            try
             {
-                var SchemeDiscount = txtPromoDisc.Text == "" ? 0: Convert.ToDecimal(txtPromoDisc.Text);
-               
+                if (txtQuantity.Text != "" && txtRate.Text != "")
+                {
+                    var SchemeDiscount = txtPromoDisc.Text == "" ? 0 : Convert.ToDecimal(txtPromoDisc.Text);
+
                     var DiscontAmountOnRate = (Convert.ToDecimal(txtRate.Text) / 100) * SchemeDiscount;
                     var DiscountedRate = Convert.ToDecimal(txtRate.Text) - DiscontAmountOnRate;
                     var NetAmount = Convert.ToDecimal(txtQuantity.Text) * Convert.ToDecimal(DiscountedRate);
@@ -2136,12 +2144,16 @@ namespace POS
                     txtPromoDiscAmt.Text = Convert.ToString(Convert.ToDecimal(txtQuantity.Text) * Convert.ToDecimal(DiscontAmountOnRate));
                     txtTaxAmount.Text = AmountTax.ToString();
                     txtTaxAmount.Text = AmountTax.ToString();
-                    txtdetailAmount.Text= Convert.ToString(NetAmount + AmountTax);
+                    txtdetailAmount.Text = Convert.ToString(NetAmount + AmountTax);
                     txtdetailAmount.Text = Convert.ToString(Math.Round(NetAmount + AmountTax, 2));
-            }
-            else
+                }
+                else
+                {
+                    txtNetAmount.Text = "";
+                }
+            }catch(Exception)
             {
-                txtNetAmount.Text = "";
+
             }
         }
 
@@ -2150,15 +2162,21 @@ namespace POS
 
             if (e.KeyCode == Keys.Enter)
             {
-                if (txtQuantity.Text != "")
+                try
                 {
-                    if (Convert.ToDecimal(txtQuantity.Text) > 0)
+                    if (txtQuantity.Text != "")
                     {
-                        CalculateNetAmountDetail();
-                        txtPromoDisc.Select();
-                        txtPromoDisc.Focus();
-                        
+                        if (Convert.ToDecimal(txtQuantity.Text) > 0)
+                        {
+                            CalculateNetAmountDetail();
+                            txtPromoDisc.Select();
+                            txtPromoDisc.Focus();
+
+                        }
                     }
+                }catch(Exception ex)
+                {
+                    
                 }
             }
 
@@ -2541,13 +2559,36 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
-                var NetPrice = Convert.ToDecimal(txtQtyPrice.Text =="" ? "0": txtQtyPrice.Text);
-                var RetailPrice = Convert.ToDecimal(txtRate.Text == "" ? "0" : txtRate.Text);
-                var Quantity = Convert.ToDecimal(NetPrice / RetailPrice);
-                txtQuantity.Text = Quantity.ToString();
-                txtQuantity.Focus();
-                txtQuantity.Select();
+                try
+                {
+                    var NetPrice = Convert.ToDecimal(txtQtyPrice.Text == "" ? "0" : txtQtyPrice.Text);
+                    var RetailPrice = Convert.ToDecimal(txtRate.Text == "" ? "0" : txtRate.Text);
+                    var Quantity = Convert.ToDecimal(NetPrice / RetailPrice);
+                    txtQuantity.Text = Quantity.ToString();
+                    txtQuantity.Focus();
+                    txtQuantity.Select();
+                }catch(Exception)
+                {
 
+                }
+            }
+        }
+
+        private void txtPromoDisc_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+
+                e.Handled = true;
+
+            }
+
+
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+
+
+                e.Handled = true;
             }
         }
     }

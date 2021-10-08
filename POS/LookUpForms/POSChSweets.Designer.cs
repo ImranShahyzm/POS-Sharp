@@ -734,6 +734,7 @@
             this.txtPromoDisc.Size = new System.Drawing.Size(73, 20);
             this.txtPromoDisc.TabIndex = 42;
             this.txtPromoDisc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPromoDisc_KeyDown);
+            this.txtPromoDisc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPromoDisc_KeyPress);
             // 
             // label23
             // 
