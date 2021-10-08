@@ -1087,7 +1087,14 @@ namespace POS
                     }
                     else
                     {
-                        obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value,SaleReturn);
+                        if (SaleReturn)
+                        {
+                            obj.loadSaleFoodMamaReport("rpt_saleReturn_invoice", reportName, value, SaleReturn);
+                        }
+                        else
+                        {
+                            obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value, SaleReturn);
+                        }
                     }
                    
                     
