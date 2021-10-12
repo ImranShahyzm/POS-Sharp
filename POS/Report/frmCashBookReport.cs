@@ -63,7 +63,18 @@ namespace POS
                 WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
                 if (!CompanyInfo.isKhaakiSoft)
                 {
-                    obj.CashBook("rpt_CashBookFoodMama", reportName, value);
+                    if(CompanyInfo.CounterID>0)
+                    {
+                        string[] Para3 = { "@CounterID",Convert.ToString(CompanyInfo.CounterID) };
+                        value.Add(Para3);
+                        obj.CashBook("rpt_CashBookCounterWise", reportName, value);
+                    }
+                    else
+                    {
+                        obj.CashBook("rpt_CashBookFoodMama", reportName, value);
+                        
+                    }
+                  
                 }
                 else
                 {

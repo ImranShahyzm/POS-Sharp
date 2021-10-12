@@ -42,6 +42,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.txtRemarks = new System.Windows.Forms.TextBox();
+            this.lblShift = new System.Windows.Forms.Label();
+            this.btnShiftStart = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -195,11 +197,39 @@
             this.txtRemarks.TabIndex = 31;
             this.txtRemarks.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRemarks_KeyDown);
             // 
+            // lblShift
+            // 
+            this.lblShift.AutoSize = true;
+            this.lblShift.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShift.ForeColor = System.Drawing.Color.Red;
+            this.lblShift.Location = new System.Drawing.Point(152, 72);
+            this.lblShift.Name = "lblShift";
+            this.lblShift.Size = new System.Drawing.Size(162, 17);
+            this.lblShift.TabIndex = 37;
+            this.lblShift.Text = "Default Shift is Running";
+            this.lblShift.Visible = false;
+            // 
+            // btnShiftStart
+            // 
+            this.btnShiftStart.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnShiftStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShiftStart.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnShiftStart.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnShiftStart.Location = new System.Drawing.Point(323, 69);
+            this.btnShiftStart.Name = "btnShiftStart";
+            this.btnShiftStart.Size = new System.Drawing.Size(54, 25);
+            this.btnShiftStart.TabIndex = 38;
+            this.btnShiftStart.Text = "Close";
+            this.btnShiftStart.UseVisualStyleBackColor = false;
+            this.btnShiftStart.Click += new System.EventHandler(this.btnShiftStart_Click);
+            // 
             // frmCashOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(490, 361);
+            this.Controls.Add(this.btnShiftStart);
+            this.Controls.Add(this.lblShift);
             this.Controls.Add(this.txtRemarks);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -235,5 +265,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtRemarks;
+        private System.Windows.Forms.Label lblShift;
+        private System.Windows.Forms.Button btnShiftStart;
     }
 }

@@ -1525,6 +1525,7 @@ namespace POS
         private void cashInToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+
             frmCashIn obj = new frmCashIn();
             obj.ShowDialog();
         }

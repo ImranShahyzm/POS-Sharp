@@ -28,9 +28,9 @@ namespace POS.Helper
 
         public static string CounterPCName { get; set; }
         public static string CounterTitle { get; set; }
+        public static int ShiftID { get; set; }
 
 
-        
 
 
     }

@@ -229,6 +229,10 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\Script 1.0.0.67.sql" />
+    <Content Include="DbScripts\Script 1.0.0.66.sql" />
+    <Content Include="DbScripts\Script 1.0.0.65.sql" />
+    <Content Include="DbScripts\Script 1.0.0.64.sql" />
     <Content Include="DbScripts\Script 1.0.0.59.sql" />
     <Content Include="DbScripts\Script 1.0.0.62.sql" />
     <Content Include="DbScripts\Script 1.0.0.61.sql" />
@@ -506,6 +510,13 @@
       <DependentUpon>CashSale.rpt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\CashBookThermal.cs">
+      <DependentUpon>CashBookThermal.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Report\DayBook.cs">
       <AutoGen>True</AutoGen>
@@ -893,6 +904,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\DailyCashbook.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\CashBookThermal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CashBookThermal.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\DayBook.rpt">

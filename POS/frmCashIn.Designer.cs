@@ -39,6 +39,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtRemarks = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.cmbShiftName = new System.Windows.Forms.ComboBox();
+            this.lblStartShift = new System.Windows.Forms.Label();
+            this.lblShift = new System.Windows.Forms.Label();
+            this.btnShiftStart = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -160,11 +164,62 @@
             this.label6.TabIndex = 32;
             this.label6.Text = "Remarks:";
             // 
+            // cmbShiftName
+            // 
+            this.cmbShiftName.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbShiftName.FormattingEnabled = true;
+            this.cmbShiftName.Location = new System.Drawing.Point(153, 230);
+            this.cmbShiftName.Name = "cmbShiftName";
+            this.cmbShiftName.Size = new System.Drawing.Size(95, 23);
+            this.cmbShiftName.TabIndex = 34;
+            this.cmbShiftName.Visible = false;
+            // 
+            // lblStartShift
+            // 
+            this.lblStartShift.AutoSize = true;
+            this.lblStartShift.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStartShift.Location = new System.Drawing.Point(69, 231);
+            this.lblStartShift.Name = "lblStartShift";
+            this.lblStartShift.Size = new System.Drawing.Size(77, 17);
+            this.lblStartShift.TabIndex = 35;
+            this.lblStartShift.Text = "Start Shift:";
+            this.lblStartShift.Visible = false;
+            // 
+            // lblShift
+            // 
+            this.lblShift.AutoSize = true;
+            this.lblShift.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblShift.ForeColor = System.Drawing.Color.Red;
+            this.lblShift.Location = new System.Drawing.Point(204, 31);
+            this.lblShift.Name = "lblShift";
+            this.lblShift.Size = new System.Drawing.Size(162, 17);
+            this.lblShift.TabIndex = 36;
+            this.lblShift.Text = "Default Shift is Running";
+            this.lblShift.Visible = false;
+            // 
+            // btnShiftStart
+            // 
+            this.btnShiftStart.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnShiftStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShiftStart.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnShiftStart.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnShiftStart.Location = new System.Drawing.Point(251, 230);
+            this.btnShiftStart.Name = "btnShiftStart";
+            this.btnShiftStart.Size = new System.Drawing.Size(54, 25);
+            this.btnShiftStart.TabIndex = 37;
+            this.btnShiftStart.Text = "Start";
+            this.btnShiftStart.UseVisualStyleBackColor = false;
+            this.btnShiftStart.Click += new System.EventHandler(this.btnShiftStart_Click);
+            // 
             // frmCashIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 361);
+            this.Controls.Add(this.btnShiftStart);
+            this.Controls.Add(this.lblShift);
+            this.Controls.Add(this.lblStartShift);
+            this.Controls.Add(this.cmbShiftName);
             this.Controls.Add(this.txtRemarks);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
@@ -195,5 +250,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtRemarks;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cmbShiftName;
+        private System.Windows.Forms.Label lblStartShift;
+        private System.Windows.Forms.Label lblShift;
+        private System.Windows.Forms.Button btnShiftStart;
     }
 }

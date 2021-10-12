@@ -1162,8 +1162,17 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             cnn.Close();
 
             DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
+            if (CompanyInfo.CounterID > 0)
+            {
+                
+                     rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookThermal.rpt"));
+            }
+            else
 
-            rpt.Load(Path.Combine(Application.StartupPath, "Report", "DayBook.rpt"));
+            {
+
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "DayBook.rpt"));
+            }
             rpt.Database.Tables[0].SetDataSource(dt);
 
             rpt.SetParameterValue("CompanyName", dt2.Rows[0]["Title"]);

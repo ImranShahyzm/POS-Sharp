@@ -33,6 +33,33 @@ namespace POS.Helper
         {
             return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
         }
+        public static DataTable GetActiveShift()
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            DataTable dt = new DataTable();
+            try
+            {
+                string SqlString = " Select ShiftID,ShiftName from PosData_ShiftRecords where  ISNULL(ISCuurentlyRunning,0)=1";
+                SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+              
+                sda.Fill(dt);
+            }catch(Exception e)
+            {
+              
+            }
+            finally
+            {
+
+                cnn.Close();
+
+            }
+            return dt;
+
+        }
+
         public static decimal GetStockQuantityItem(Int32 ItemID, Int32 WHID, DateTime StockDate, Int32 CompanyID, string SourceName,
           string EditWC, bool IsTaxable = false)
         {

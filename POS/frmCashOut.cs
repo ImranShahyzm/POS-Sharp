@@ -23,8 +23,38 @@ namespace POS
             loadAvaliableBalance();
             loadCashSource();
             txtCashOutAmount.Focus();
+            if(CompanyInfo.CounterID>0)
+            {
+                ChechActiveShift();
+            }
         }
+        private void ChechActiveShift()
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            string SqlString = " Select ShiftID,ShiftName from PosData_ShiftRecords where  ISNULL(ISCuurentlyRunning,0)=1";
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            if (dt.Rows.Count > 0)
+            {
+                lblShift.Text = "Shift " + dt.Rows[0]["ShiftName"].ToString() + " is Currently Running ";
+                lblShift.Visible = true;
+                CompanyInfo.ShiftID = Convert.ToInt32(dt.Rows[0]["ShiftID"].ToString());
+              
+                btnShiftStart.Visible = true;
+            }
+            else
+            {
+                btnShiftStart.Visible = false;
+               
+                lblShift.Visible = false;
+            }
 
+        }
         private void loadCashSource()
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -46,9 +76,14 @@ namespace POS
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn where Date='" + dtCashDate.Value + @"')
+            string where = "where Date='" + dtCashDate.Value + @"'";
+            if(CompanyInfo.CounterID>0)
+            {
+                where += "and CounterID=" + CompanyInfo.CounterID + @"";
+            }
+            string SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn "+ where + @")
                                   -
-                                  (select isnull(sum(Amount),0) as Amount from data_CashOut where Date='" + dtCashDate.Value + @"') as Amount
+                                  (select isnull(sum(Amount),0) as Amount from data_CashOut " + where + @") as Amount
                             ";
             if (CompanyInfo.isKhaakiSoft)
             {
@@ -109,7 +144,8 @@ namespace POS
             cmd.Parameters.AddWithValue("@FiscalID", CompanyInfo.FiscalID);
             cmd.Parameters.AddWithValue("@UserID", CompanyInfo.UserID);
             cmd.Parameters.AddWithValue("@Remarks", txtRemarks.Text);
-            
+            cmd.Parameters.AddWithValue("@CounterID", CompanyInfo.CounterID);
+            cmd.Parameters.AddWithValue("@ShiftID", CompanyInfo.ShiftID);
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt1 = new DataTable();
             da.SelectCommand = cmd;
@@ -227,6 +263,41 @@ namespace POS
                 btnSave.Select();
                 btnSave.Focus();
             }
+        }
+        private void CloseShift(int ShiftID)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            try
+            {
+                string SqlString = " Update PosData_ShiftRecords Set ISCuurentlyRunning=0,LastExecuted='"+System.DateTime.Now.Date+"'  where  ShiftID=" + ShiftID + "";
+                SqlCommand sda = new SqlCommand(SqlString, cnn);
+                sda.CommandType = CommandType.Text;
+                sda.ExecuteNonQuery();
+                ChechActiveShift();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            finally
+            {
+
+                cnn.Close();
+
+            }
+        }
+        private void btnShiftStart_Click(object sender, EventArgs e)
+        {
+            
+            DataTable dt = STATICClass.GetActiveShift();
+            if (dt.Rows.Count > 0)
+            {
+                CloseShift(Convert.ToInt32(dt.Rows[0]["ShiftID"]));
+            }
+            
         }
     }
 }
