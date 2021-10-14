@@ -229,6 +229,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\Script 1.0.0.68.sql" />
     <Content Include="DbScripts\Script 1.0.0.67.sql" />
     <Content Include="DbScripts\Script 1.0.0.66.sql" />
     <Content Include="DbScripts\Script 1.0.0.65.sql" />
@@ -362,6 +363,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmPendingBillsLookUp.Designer.cs">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\FrmSaleInvoiceLookupCounterWise.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\FrmSaleInvoiceLookupCounterWise.Designer.cs">
+      <DependentUpon>FrmSaleInvoiceLookupCounterWise.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\frmSearchMaketoOrder.cs">
       <SubType>Form</SubType>
@@ -503,6 +510,13 @@
       <DependentUpon>CardWise.rpt</DependentUpon>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\ClosingReport.cs">
+      <DependentUpon>ClosingReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Report\CashSale.cs">
       <AutoGen>True</AutoGen>
@@ -817,6 +831,9 @@
     <EmbeddedResource Include="LookUpForms\frmPendingBillsLookUp.resx">
       <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\FrmSaleInvoiceLookupCounterWise.resx">
+      <DependentUpon>FrmSaleInvoiceLookupCounterWise.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmSearchMaketoOrder.resx">
       <DependentUpon>frmSearchMaketoOrder.cs</DependentUpon>
     </EmbeddedResource>
@@ -896,6 +913,11 @@
     <EmbeddedResource Include="Report\CardWise.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CardWise.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ClosingReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ClosingReport.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\CashSale.rpt">
@@ -1197,6 +1219,7 @@
     <Content Include="DbScripts\RemoveInventitemPrimaryKey.sql" />
     <Content Include="DbScripts\Script 1.0.0.19.sql" />
     <Content Include="DbScripts\Script 1.0.0.20.sql" />
+    <Content Include="DbScripts\Script 1.0.0.69.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <None Include="Resources\CorbisPos.png" />

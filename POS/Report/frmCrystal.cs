@@ -1201,5 +1201,103 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             if (!control.Controls[0].Focused)
                 control.Controls[0].Focus();
         }
+        public DataTable GetOpeningClosingSession (DataTable RecentSession)
+        {
+            DataTable dt;
+            string Sql = @"
+Select * from(select SessionStartTime, SessionClosingTime,CounterID,SourceName,(DebitAmount+CreditAmount) as NetAmount from vw_posSessionWiseOpClosing
+where sessionID="+Convert.ToInt32(RecentSession.Rows[0]["SessionID"])+ @")t
+pivot (sum(NetAmount) for SourceName in ([Opening],[Closing],[Account Cash Out],[Manual],[Cash Difference])) as PivotResult
+";
+          
+          
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            return dt;
+        }
+        public DataTable GetSaleSessionWise(DataTable RecentSession)
+        {
+            DataTable dt;
+            string Sql = @"Select CounterID,Sum(GrossAmount) as GrossBill,sum(OtherCharges) as OtherCharges,sum(DiscountTotal) as DiscountTotal,sum(NetAmount) as NetAmount from data_SalePosInfo 
+where CounterID="+CompanyInfo.CounterID+@" and EntryUserDateTime between 
+'" + Convert.ToDateTime(RecentSession.Rows[0]["SessionStartTime"]) + @"' and  '" + Convert.ToDateTime(RecentSession.Rows[0]["SessionClosingTime"]) + @"'
+Group By CounterID
+";
+
+
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            if (dt.Rows.Count <= 0)
+            {
+                DataRow row = dt.NewRow();
+                row["CounterID"] = CompanyInfo.CounterID;
+                row["GrossBill"] = "0";
+                row["OtherCharges"] = "0";
+                row["DiscountTotal"] = "0";
+                row["NetAmount"] = "0";
+                dt.Rows.Add(row);
+
+            }
+            return dt;
+        }
+        public DataTable GetSaleReturnSessionWise(DataTable RecentSession)
+        {
+            DataTable dt;
+            string Sql = @"Select CounterID,Sum(GrossAmount) as GrossBill,sum(OtherCharges) as OtherCharges,sum(DiscountTotal) as DiscountTotal,sum(NetAmount) as NetAmount from data_SalePosReturnInfo  
+where CounterID=" + CompanyInfo.CounterID + @" and EntryUserDateTime between 
+'" + Convert.ToDateTime(RecentSession.Rows[0]["SessionStartTime"]) + @"' and  '" + Convert.ToDateTime(RecentSession.Rows[0]["SessionClosingTime"]) + @"'
+Group By CounterID
+";
+
+
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            if(dt.Rows.Count<=0)
+            {
+                DataRow row = dt.NewRow();
+                row["CounterID"] = CompanyInfo.CounterID;
+                row["GrossBill"] = "0";
+                row["OtherCharges"] = "0";
+                row["DiscountTotal"] = "0";
+                row["NetAmount"] = "0";
+                dt.Rows.Add(row);
+            }
+            return dt;
+        }
+        public void GenerateClosing(DataTable SessionDt)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            ReportDocument rpt = new ReportDocument();
+            DataTable Transcations = GetOpeningClosingSession(SessionDt);
+
+            DataTable Sales = GetSaleSessionWise(SessionDt);
+
+            DataTable SalesReturn = GetSaleReturnSessionWise(SessionDt);
+            DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
+
+
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "ClosingReport.rpt"));
+            
+            rpt.Database.Tables[0].SetDataSource(Transcations);
+            rpt.Database.Tables[1].SetDataSource(Sales);
+            rpt.Database.Tables[2].SetDataSource(SalesReturn);
+
+            rpt.SetParameterValue("CompanyName", dt2.Rows[0]["Title"]);
+            rpt.SummaryInfo.ReportTitle = "Closing Report Till # "+Convert.ToString(CompanyInfo.CounterID);
+            rpt.SummaryInfo.ReportAuthor = CompanyInfo.username;
+
+
+
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            //rpt.SetParameterValue("ServerName", Serverpath);
+            //rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            this.ShowDialog();
+            rpt.Dispose();
+
+
+        }
+
     }
 }

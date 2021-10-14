@@ -44,6 +44,7 @@
             this.txtRemarks = new System.Windows.Forms.TextBox();
             this.lblShift = new System.Windows.Forms.Label();
             this.btnShiftStart = new System.Windows.Forms.Button();
+            this.btnGenerateClosing = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,6 +110,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel1.Controls.Add(this.btnGenerateClosing);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.btnSave);
@@ -223,6 +225,21 @@
             this.btnShiftStart.UseVisualStyleBackColor = false;
             this.btnShiftStart.Click += new System.EventHandler(this.btnShiftStart_Click);
             // 
+            // btnGenerateClosing
+            // 
+            this.btnGenerateClosing.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnGenerateClosing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGenerateClosing.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateClosing.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnGenerateClosing.Location = new System.Drawing.Point(61, 9);
+            this.btnGenerateClosing.Name = "btnGenerateClosing";
+            this.btnGenerateClosing.Size = new System.Drawing.Size(69, 43);
+            this.btnGenerateClosing.TabIndex = 39;
+            this.btnGenerateClosing.Text = "Generate Closing";
+            this.btnGenerateClosing.UseVisualStyleBackColor = false;
+            this.btnGenerateClosing.Visible = false;
+            this.btnGenerateClosing.Click += new System.EventHandler(this.btnGenerateClosing_Click);
+            // 
             // frmCashOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,5 +284,6 @@
         private System.Windows.Forms.TextBox txtRemarks;
         private System.Windows.Forms.Label lblShift;
         private System.Windows.Forms.Button btnShiftStart;
+        private System.Windows.Forms.Button btnGenerateClosing;
     }
 }

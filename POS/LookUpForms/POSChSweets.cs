@@ -1111,11 +1111,11 @@ namespace POS
                 clearAll();
                 if (SaleInvoiceNo == 0)
                 {
-                    MessageBox.Show("Record has been Saved!");
+                    //MessageBox.Show("Record has been Saved!");
                 }
                 else
                 {
-                    MessageBox.Show("Record has been Updated!");
+                    //MessageBox.Show("Record has been Updated!");
                 }
                 loadNewSale();
                 //if (SaleInvoiceNo == 0)
@@ -1223,7 +1223,7 @@ namespace POS
                 }
                 else
                 {
-                    using (frmSaleInvoiceLookUp obj = new frmSaleInvoiceLookUp())
+                    using (FrmSaleInvoiceLookupCounterWise obj = new FrmSaleInvoiceLookupCounterWise())
                     {
                         if (obj.ShowDialog() == DialogResult.OK)
                         {
@@ -1279,6 +1279,8 @@ namespace POS
             txtLinkedBillNo.Clear();
             txtQtyPrice.Clear();
             directReturn = false;
+
+            txtAvailableQty.Clear();
         }
 
         private void loadNewSale()
@@ -1305,13 +1307,13 @@ namespace POS
 
             int SaleVoucherNo = GetVoucherNoI(Fieldname: "SalePOSNo", TableName: "data_SalePosInfo", CheckTaxable: false,
                     PrimaryKeyValue: 0, PrimaryKeyFieldName: "SalePosID", voucherDate: Convert.ToDateTime(txtSaleDate.Value.Date), voucherDateFieldName: "SalePosDate",
-                    companyID:CompanyInfo.CompanyID, FiscalID: CompanyInfo.FiscalID, MenuId:Convert.ToInt32(cmbSalemenu.SelectedValue),MenuFieldName:"MenuID");
+                    companyID:CompanyInfo.CompanyID, FiscalID: CompanyInfo.FiscalID, MenuId:Convert.ToInt32(cmbSalemenu.SelectedValue), CounterField: "CounterID");
             txtInvoiceNo.Text = Convert.ToString(SaleVoucherNo);
         }
         public Int32 GetVoucherNoI(string Fieldname, string TableName, bool CheckTaxable, Int32 PrimaryKeyValue,
           string PrimaryKeyFieldName, DateTime? voucherDate, string voucherDateFieldName = "",
           Int32 companyID = 0, string companyFieldName = "CompanyID", Int32 FiscalID = 0,
-          string FiscalIDFieldName = "FiscalID", bool IsTaxable = false,Int32 MenuId=0,string MenuFieldName="")
+          string FiscalIDFieldName = "FiscalID", bool IsTaxable = false,Int32 MenuId=0,string CounterField = "")
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             try
@@ -1333,8 +1335,8 @@ namespace POS
                 cmd.Parameters.Add(new SqlParameter("@FiscalID", FiscalID));
                 cmd.Parameters.Add(new SqlParameter("@FiscalIDFieldName", FiscalIDFieldName));
                 cmd.Parameters.Add(new SqlParameter("@IsTaxable", IsTaxable));
-                cmd.Parameters.Add(new SqlParameter("@MenuId", MenuId));
-                cmd.Parameters.Add(new SqlParameter("@MenuFieldName", MenuFieldName));
+                cmd.Parameters.Add(new SqlParameter("@CounterID", CompanyInfo.CounterID));
+                cmd.Parameters.Add(new SqlParameter("@CounterField", CounterField));
                 da.SelectCommand = cmd;
                 da.Fill(dt);
                 return Convert.ToInt32(dt.Rows[0][0]);
@@ -1609,7 +1611,7 @@ namespace POS
 
         private void btnNewSale_Click(object sender, EventArgs e)
         {
-            using (frmSaleInvoiceLookUp obj = new frmSaleInvoiceLookUp())
+            using (FrmSaleInvoiceLookupCounterWise obj = new FrmSaleInvoiceLookupCounterWise())
             {
                 if (obj.ShowDialog() == DialogResult.OK)
                 {
@@ -1641,7 +1643,7 @@ namespace POS
             cmd.Parameters.AddWithValue("@SelectMaster", 1);
             cmd.Parameters.AddWithValue("@SelectDetail", 1);
             cmd.Parameters.AddWithValue("@InvoiceNo", InvoiceNo);
-            cmd.Parameters.AddWithValue("@MenuId", Convert.ToInt32(cmbSalemenu.SelectedValue));
+            cmd.Parameters.AddWithValue("@CounterID", Convert.ToInt32(CompanyInfo.CounterID));
             cmd.Parameters.AddWithValue("@SaleDate", txtSaleDate.Value.Date);
             da.SelectCommand = cmd;
             try
@@ -1845,6 +1847,7 @@ namespace POS
             txtdetailAmount.ReadOnly = true;
             txtRate.ReadOnly = true;
             txtQtyPrice.Clear();
+            txtAvailableQty.Clear();
 
         }
 

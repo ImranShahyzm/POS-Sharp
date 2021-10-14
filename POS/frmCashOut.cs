@@ -1,6 +1,7 @@
 ﻿using MetroFramework.Forms;
 using POS.Helper;
 using POS.LookUpForms;
+using POS.Report;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,14 @@ namespace POS
             if(CompanyInfo.CounterID>0)
             {
                 ChechActiveShift();
+                btnGenerateClosing.Visible = true;
             }
+            if (CompanyInfo.CounterID > 0)
+            {
+                lblAvaliableBalance.Visible = false;
+                label1.Visible = false;
+            }
+
         }
         private void ChechActiveShift()
         {
@@ -77,26 +85,39 @@ namespace POS
             cnn = new SqlConnection(connectionString);
             cnn.Open();
             string where = "where Date='" + dtCashDate.Value + @"'";
-            if(CompanyInfo.CounterID>0)
+            try
             {
-                where += "and CounterID=" + CompanyInfo.CounterID + @"";
-            }
-            string SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn "+ where + @")
+                if (CompanyInfo.CounterID > 0)
+                {
+                    where += "and CounterID=" + CompanyInfo.CounterID + @"";
+                }
+                string SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn " + where + @")
                                   -
                                   (select isnull(sum(Amount),0) as Amount from data_CashOut " + where + @") as Amount
                             ";
-            if (CompanyInfo.isKhaakiSoft)
-            {
-                SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn where Date<='" + dtCashDate.Value + @"')
+                if (CompanyInfo.isKhaakiSoft)
+                {
+                    SqlString = @" select (select isnull(sum(Amount),0) as Amount from data_CashIn where Date<='" + dtCashDate.Value + @"')
                                   -
                                   (select isnull(sum(Amount),0) as Amount from data_CashOut where Date<='" + dtCashDate.Value + @"') as Amount
                             ";
+                }
+
+                SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                lblAvaliableBalance.Text = dt.Rows[0]["Amount"].ToString();
             }
-             
-            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
-            lblAvaliableBalance.Text = dt.Rows[0]["Amount"].ToString();
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+
+            }
+            cnn.Close();
+           
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -116,11 +137,14 @@ namespace POS
                 MessageBox.Show("Please Enter Cash Out Amount!");
                 validateReturnOK = false;
             }
-            else if (availableBalance < CashOutAmount)
-            {
-                txtCashOutAmount.Focus();
-                MessageBox.Show("Not have enough cash!");
-                validateReturnOK = false;
+            if (CompanyInfo.CounterID <= 0)
+            { 
+             if (availableBalance < CashOutAmount)
+                {
+                    txtCashOutAmount.Focus();
+                    MessageBox.Show("Not have enough cash!");
+                    validateReturnOK = false;
+                }
             }
             return validateReturnOK;
         }
@@ -298,6 +322,21 @@ namespace POS
                 CloseShift(Convert.ToInt32(dt.Rows[0]["ShiftID"]));
             }
             
+        }
+
+        private void btnGenerateClosing_Click(object sender, EventArgs e)
+        {
+            if (CompanyInfo.CounterID > 0)
+            {
+                var DataTb = STATICClass.GetActiveSessionID();
+                if (DataTb.Rows.Count >= 1)
+                {
+                    using (frmCrystal obj = new frmCrystal())
+                    {
+                        obj.GenerateClosing(DataTb);
+                    }
+                }
+            }
         }
     }
 }

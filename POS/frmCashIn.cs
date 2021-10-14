@@ -163,7 +163,7 @@ namespace POS
             catch (Exception ex)
             {
                 tran.Rollback();
-                MessageBox.Show("Error is" + ex.Message);
+                MessageBox.Show(ex.Message);
             }
             finally
             {

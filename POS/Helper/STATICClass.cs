@@ -59,6 +59,34 @@ namespace POS.Helper
             return dt;
 
         }
+        public static DataTable GetActiveSessionID()
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            DataTable dt = new DataTable();
+            try
+            {
+                string SqlString = " Select Top 1* from posData_Sessionhandling  where counterID="+CompanyInfo.CounterID+" and SessionClosingTime is not null order by SessionClosingTime desc";
+                SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+
+                sda.Fill(dt);
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+
+                cnn.Close();
+
+            }
+            return dt;
+
+        }
+
 
         public static decimal GetStockQuantityItem(Int32 ItemID, Int32 WHID, DateTime StockDate, Int32 CompanyID, string SourceName,
           string EditWC, bool IsTaxable = false)
