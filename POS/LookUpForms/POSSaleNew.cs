@@ -1085,7 +1085,8 @@ namespace POS
 
             txtLinkedBill.Clear();
 
-
+            SalePosID.Clear();
+            SalePosMasterID = 0;
             txtLinkedBillNo.Clear();
             directReturn = false;
         }

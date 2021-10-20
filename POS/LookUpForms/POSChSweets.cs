@@ -1003,6 +1003,7 @@ namespace POS
             if (SaleReturn==false && InvoiceUpdate==false)
             {
                 cmd = new SqlCommand("data_SalePosInfo_Insert", con);
+                
             }
             else if (InvoiceUpdate == true)
             {
@@ -1281,6 +1282,8 @@ namespace POS
             directReturn = false;
 
             txtAvailableQty.Clear();
+            SalePosID.Clear();
+            SalePosMasterID = 0;
         }
 
         private void loadNewSale()
@@ -1515,6 +1518,23 @@ namespace POS
                 else
                 {
                     tb.Text= (1).ToString();
+                }
+                if (tb.Text == "")
+                {
+                    tb.Text = (1).ToString();
+                }
+
+            }
+            if (ItemSaleGrid.CurrentCell.ColumnIndex == ItemSaleGrid.Columns["dtDiscpercentage"].Index) //Desired Column
+            {
+                TextBox tb = e.Control as TextBox;
+                if (tb != null)
+                {
+                    tb.KeyPress += new KeyPressEventHandler(Column1_KeyPress);
+                }
+                else
+                {
+                    tb.Text = (1).ToString();
                 }
                 if (tb.Text == "")
                 {
@@ -1931,7 +1951,7 @@ namespace POS
                 }
                 else
                 {
-                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
+                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value,false,true);
                 }
                    // obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
             }

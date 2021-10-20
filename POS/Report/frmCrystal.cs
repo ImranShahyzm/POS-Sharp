@@ -143,7 +143,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             }
 
         }
-        public void loadSaleFoodMamaReport(string StoreProcedure, string ReportName, List<string[]> parameters,bool isReturn=false)
+        public void loadSaleFoodMamaReport(string StoreProcedure, string ReportName, List<string[]> parameters, bool isReturn = false, bool isReprint = false)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             ReportDocument rpt = new ReportDocument();
@@ -173,9 +173,13 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             {
                 rpt.SummaryInfo.ReportTitle = "Sales Return Invoice";
             }
+            else if(isReprint)
+            {
+                rpt.SummaryInfo.ReportTitle = "Reprinted Bill Number";
+            }
             else
             {
-                rpt.SummaryInfo.ReportTitle = "Bill Number";
+                rpt.SummaryInfo.ReportTitle = " Bill Number";
             }
             rpt.SummaryInfo.ReportAuthor = CompanyInfo.username;
             int? LanguageSelection = 1;
@@ -190,6 +194,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             if (CompanyInfo.isPrinter)
             {
                 rpt.PrintToPrinter(1, false, 0, 0);
+                rpt.Dispose();
             }
             else
             {

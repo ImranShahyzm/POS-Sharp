@@ -160,7 +160,8 @@ namespace POS.LookUpForms
         {
             if (e.KeyChar == (char)13)
             {
-                int rowIndex = dgvProducts.CurrentCell.OwningRow.Index;
+                //int rowIndex = dgvProducts.CurrentCell.OwningRow.Index;
+                int rowIndex = dgvProducts.SelectedRows[0].Index-1;
                 ResultReturn(rowIndex);
               
              
