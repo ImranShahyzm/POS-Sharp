@@ -15,6 +15,8 @@ using POS.Report;
 using POS.Helper;
 using System.Net.Http;
 using MetroFramework.Forms;
+using System.Globalization;
+using System.Threading;
 
 namespace POS
 {
@@ -491,41 +493,50 @@ namespace POS
         }
         private void CalculateDetail()
         {
-            for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
+            try
             {
-
-                int id = Convert.ToInt32( ItemSaleGrid.Rows[i].Cells[0].Value.ToString());
-                DataTable dt = getProduct(0, Convert.ToInt32(id));
-                var taxPercentage = Convert.ToDecimal(dt.Rows[0]["TotalTax"]);
-                var dtDiscpercentage =Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value)==""?0: Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value) ;
-                string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
-
-                string total = (Convert.ToDecimal(rateValue) * 1).ToString();
-
-                var DiscontAmountOnRate = (Convert.ToDecimal(rateValue) / 100) * dtDiscpercentage;
-                var DiscountedRate = Convert.ToDecimal(rateValue) - DiscontAmountOnRate;
+                for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
+                {
 
 
 
-                string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rateValue)) / 100) * 1).ToString();
+                    int id = Convert.ToInt32(ItemSaleGrid.Rows[i].Cells[0].Value.ToString());
+                    DataTable dt = getProduct(0, Convert.ToInt32(id));
+                    var taxPercentage = Convert.ToDecimal(dt.Rows[0]["TotalTax"]);
+                    var dtDiscpercentage = Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
+                    string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
+
+                    string total = (Convert.ToDecimal(rateValue) * 1).ToString();
+
+                    var DiscontAmountOnRate = (Convert.ToDecimal(rateValue) / 100) * dtDiscpercentage;
+                    var DiscountedRate = Convert.ToDecimal(rateValue) - DiscontAmountOnRate;
+
+
+
+                    string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rateValue)) / 100) * 1).ToString();
                     string value = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
                     decimal rate = Convert.ToDecimal(rateValue);
 
                     decimal qty = Convert.ToDecimal(value);
 
-                ItemSaleGrid.Rows[i].Cells[3].Value = qty;
-                var discountAmt = ((qty) * rate)- ((Convert.ToDecimal(DiscountedRate)) * qty);
-                ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
+                    ItemSaleGrid.Rows[i].Cells[3].Value = qty;
+                    var discountAmt = ((qty) * rate) - ((Convert.ToDecimal(DiscountedRate)) * qty);
+                    ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
 
-                ItemSaleGrid.Rows[i].Cells[8].Value = ((qty) * rate) - discountAmt;
-                ItemSaleGrid.Rows[i].Cells[7].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * (qty);
-
-
+                    ItemSaleGrid.Rows[i].Cells[8].Value = ((qty) * rate) - discountAmt;
+                    ItemSaleGrid.Rows[i].Cells[7].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * (qty);
 
 
 
-                GrossAmount_Total();
-                   
+
+
+                    GrossAmount_Total();
+
+
+
+                }
+            }catch(Exception e)
+            {
                 
             }
         }
@@ -984,7 +995,7 @@ namespace POS
                 dRow[3] = row.Cells[2].Value.ToString();
                 dRow[4] = row.Cells[6].Value.ToString();
                 dRow[5] = row.Cells[7].Value.ToString();
-                dRow[6] = row.Cells[4].Value.ToString();
+                dRow[6] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[4].Value)) || Convert.ToString(row.Cells[4].Value) ==".")? "0":Convert.ToString(row.Cells[4].Value);
                 dRow[7] = row.Cells[5].Value.ToString();
                 dRow[8] = row.Cells[8].Value.ToString();
                 dRow[9] = 0;//row.Cells[13].Value.ToString();
@@ -1545,23 +1556,30 @@ namespace POS
         }
         private void Column1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // allowed only numeric value  ex.10
-            //if (!char.IsControl(e.KeyChar)
-            //    && !char.IsDigit(e.KeyChar))
+            NumberFormatInfo nfi = Thread.CurrentThread.CurrentCulture.NumberFormat;
+            char decSeperator;
+
+            decSeperator = nfi.CurrencyDecimalSeparator[0];
+            //if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)
+            //     && e.KeyChar != '.')
             //{
             //    e.Handled = true;
             //}
 
-            // allowed numeric and one dot  ex. 10.23
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)
-                 && e.KeyChar != '.')
+
+            //if (e.KeyChar == '.'
+            //    && (sender as TextBox).Text.IndexOf('.') > 0)
+            //{
+            //    e.Handled = true;
+            //}
+            if (!char.IsControl(e.KeyChar) && !(char.IsDigit(e.KeyChar)
+| e.KeyChar == decSeperator))
             {
                 e.Handled = true;
             }
-
             // only allow one decimal point
-            if (e.KeyChar == '.'
-                && (sender as TextBox).Text.IndexOf('.') > -1)
+            if (e.KeyChar == decSeperator
+                && (sender as TextBox).Text.IndexOf(decSeperator) > -1)
             {
                 e.Handled = true;
             }
