@@ -37,6 +37,9 @@
             this.dptSaleToDate = new System.Windows.Forms.DateTimePicker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
+            this.txtProductCode = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtItemID = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSaleInvoices)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -140,11 +143,40 @@
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.button1_Click);
             // 
-            // frmSaleInvoiceLookUp
+            // txtProductCode
+            // 
+            this.txtProductCode.Location = new System.Drawing.Point(159, 63);
+            this.txtProductCode.Name = "txtProductCode";
+            this.txtProductCode.Size = new System.Drawing.Size(123, 20);
+            this.txtProductCode.TabIndex = 27;
+            this.txtProductCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductCode_KeyDown);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(43, 66);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(112, 14);
+            this.label3.TabIndex = 28;
+            this.label3.Text = "Search By Item Code:";
+            // 
+            // txtItemID
+            // 
+            this.txtItemID.Location = new System.Drawing.Point(363, 63);
+            this.txtItemID.Name = "txtItemID";
+            this.txtItemID.Size = new System.Drawing.Size(123, 20);
+            this.txtItemID.TabIndex = 29;
+            this.txtItemID.Visible = false;
+            // 
+            // FrmSaleInvoiceLookupCounterWise
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.txtItemID);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtProductCode);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dptSaleToDate);
@@ -153,7 +185,7 @@
             this.Controls.Add(this.label11);
             this.Controls.Add(this.txtInvoiceSearch);
             this.Controls.Add(this.dgvSaleInvoices);
-            this.Name = "frmSaleInvoiceLookUp";
+            this.Name = "FrmSaleInvoiceLookupCounterWise";
             this.Text = "  Sale Invoices";
             this.Load += new System.EventHandler(this.FrmSaleInvoiceLookupCounterWise_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSaleInvoices)).EndInit();
@@ -174,5 +206,8 @@
         private System.Windows.Forms.DateTimePicker dptSaleToDate;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.TextBox txtProductCode;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtItemID;
     }
 }
