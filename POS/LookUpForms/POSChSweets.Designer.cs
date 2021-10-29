@@ -82,6 +82,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label24 = new System.Windows.Forms.Label();
+            this.txtQtyPrice = new System.Windows.Forms.TextBox();
             this.txtPromoDiscAmt = new System.Windows.Forms.TextBox();
             this.txtPromoDisc = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
@@ -111,8 +113,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.txtQtyPrice = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
+            this.StockRunningOut = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -673,6 +674,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.StockRunningOut);
             this.panel5.Controls.Add(this.label24);
             this.panel5.Controls.Add(this.txtQtyPrice);
             this.panel5.Controls.Add(this.txtPromoDiscAmt);
@@ -716,6 +718,26 @@
             this.panel5.Size = new System.Drawing.Size(1038, 163);
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(329, 119);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(51, 14);
+            this.label24.TabIndex = 45;
+            this.label24.Text = "Net Price";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // txtQtyPrice
+            // 
+            this.txtQtyPrice.Location = new System.Drawing.Point(388, 116);
+            this.txtQtyPrice.MaxLength = 10;
+            this.txtQtyPrice.Name = "txtQtyPrice";
+            this.txtQtyPrice.Size = new System.Drawing.Size(87, 20);
+            this.txtQtyPrice.TabIndex = 44;
+            this.txtQtyPrice.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQtyPrice_KeyDown);
             // 
             // txtPromoDiscAmt
             // 
@@ -1007,25 +1029,16 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // txtQtyPrice
+            // StockRunningOut
             // 
-            this.txtQtyPrice.Location = new System.Drawing.Point(388, 116);
-            this.txtQtyPrice.MaxLength = 10;
-            this.txtQtyPrice.Name = "txtQtyPrice";
-            this.txtQtyPrice.Size = new System.Drawing.Size(87, 20);
-            this.txtQtyPrice.TabIndex = 44;
-            this.txtQtyPrice.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQtyPrice_KeyDown);
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(329, 119);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(51, 14);
-            this.label24.TabIndex = 45;
-            this.label24.Text = "Net Price";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.StockRunningOut.AutoSize = true;
+            this.StockRunningOut.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StockRunningOut.ForeColor = System.Drawing.Color.Red;
+            this.StockRunningOut.Location = new System.Drawing.Point(481, 101);
+            this.StockRunningOut.Name = "StockRunningOut";
+            this.StockRunningOut.Size = new System.Drawing.Size(166, 31);
+            this.StockRunningOut.TabIndex = 46;
+            this.StockRunningOut.Text = "CORBIS POS";
             // 
             // POSChSweets
             // 
@@ -1136,6 +1149,7 @@
         private System.Windows.Forms.TextBox txtNetDtDiscount;
         private System.Windows.Forms.TextBox txtQtyPrice;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label StockRunningOut;
     }
 }
 

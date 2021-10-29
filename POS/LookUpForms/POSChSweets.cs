@@ -76,6 +76,15 @@ namespace POS
         private void setAvailableStock(int ItemId)
         {
             var Stock = STATICClass.GetStockQuantityItem(ItemId, CompanyInfo.WareHouseID,txtSaleDate.Value, CompanyInfo.CompanyID, "", "", false);
+            if(Stock<=50)
+            {
+                StockRunningOut.Text = "Stock Running Out For Item " + cmbProducts.Text;
+                StockRunningOut.Visible = true;
+            }
+            else
+            {
+                StockRunningOut.Visible = false;
+            }
             txtAvailableQty.Text = Convert.ToString(Stock);
         }
         private void laodCategories()
@@ -1886,6 +1895,7 @@ namespace POS
             txtRate.ReadOnly = true;
             txtQtyPrice.Clear();
             txtAvailableQty.Clear();
+            StockRunningOut.Visible = false;
 
         }
 
