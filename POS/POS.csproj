@@ -305,6 +305,12 @@
     <Compile Include="LookUpForms\frmCustomerDataFoodMama.Designer.cs">
       <DependentUpon>frmCustomerDataFoodMama.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\frmPOSTabControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSTabControl.Designer.cs">
+      <DependentUpon>frmPOSTabControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmRecipeSync.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -801,6 +807,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmCustomerDataFoodMama.resx">
       <DependentUpon>frmCustomerDataFoodMama.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmPOSTabControl.resx">
+      <DependentUpon>frmPOSTabControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmRecipeSync.resx">
       <DependentUpon>frmRecipeSync.cs</DependentUpon>

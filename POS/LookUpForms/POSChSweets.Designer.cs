@@ -82,6 +82,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.lblFindPendingBill = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.StockRunningOut = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.txtQtyPrice = new System.Windows.Forms.TextBox();
             this.txtPromoDiscAmt = new System.Windows.Forms.TextBox();
@@ -113,7 +117,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.StockRunningOut = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -201,9 +205,9 @@
             this.TaxAmount,
             this.NetAmount,
             this.Qty});
-            this.ItemSaleGrid.Location = new System.Drawing.Point(60, 243);
+            this.ItemSaleGrid.Location = new System.Drawing.Point(94, 243);
             this.ItemSaleGrid.Name = "ItemSaleGrid";
-            this.ItemSaleGrid.Size = new System.Drawing.Size(992, 281);
+            this.ItemSaleGrid.Size = new System.Drawing.Size(820, 281);
             this.ItemSaleGrid.TabIndex = 10;
             this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
             this.ItemSaleGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellValueChanged);
@@ -253,6 +257,7 @@
             this.Tax.HeaderText = "Tax";
             this.Tax.Name = "Tax";
             this.Tax.ReadOnly = true;
+            this.Tax.Visible = false;
             this.Tax.Width = 70;
             // 
             // TaxAmount
@@ -260,6 +265,7 @@
             this.TaxAmount.HeaderText = "Tax Amount";
             this.TaxAmount.Name = "TaxAmount";
             this.TaxAmount.ReadOnly = true;
+            this.TaxAmount.Visible = false;
             // 
             // NetAmount
             // 
@@ -674,6 +680,10 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.label27);
+            this.panel5.Controls.Add(this.lblFindPendingBill);
+            this.panel5.Controls.Add(this.label26);
+            this.panel5.Controls.Add(this.label25);
             this.panel5.Controls.Add(this.StockRunningOut);
             this.panel5.Controls.Add(this.label24);
             this.panel5.Controls.Add(this.txtQtyPrice);
@@ -719,11 +729,55 @@
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
+            // lblFindPendingBill
+            // 
+            this.lblFindPendingBill.AutoSize = true;
+            this.lblFindPendingBill.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFindPendingBill.ForeColor = System.Drawing.Color.Red;
+            this.lblFindPendingBill.Location = new System.Drawing.Point(556, 5);
+            this.lblFindPendingBill.Name = "lblFindPendingBill";
+            this.lblFindPendingBill.Size = new System.Drawing.Size(104, 19);
+            this.lblFindPendingBill.TabIndex = 49;
+            this.lblFindPendingBill.Text = "CORBIS POS";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(638, 119);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(67, 14);
+            this.label26.TabIndex = 48;
+            this.label26.Text = "Disc Amount";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(559, 119);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(39, 14);
+            this.label25.TabIndex = 47;
+            this.label25.Text = "Disc %";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // StockRunningOut
+            // 
+            this.StockRunningOut.AutoSize = true;
+            this.StockRunningOut.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StockRunningOut.ForeColor = System.Drawing.Color.Red;
+            this.StockRunningOut.Location = new System.Drawing.Point(482, 91);
+            this.StockRunningOut.Name = "StockRunningOut";
+            this.StockRunningOut.Size = new System.Drawing.Size(166, 31);
+            this.StockRunningOut.TabIndex = 46;
+            this.StockRunningOut.Text = "CORBIS POS";
+            // 
             // label24
             // 
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(329, 119);
+            this.label24.Location = new System.Drawing.Point(470, 119);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(51, 14);
             this.label24.TabIndex = 45;
@@ -732,16 +786,16 @@
             // 
             // txtQtyPrice
             // 
-            this.txtQtyPrice.Location = new System.Drawing.Point(388, 116);
+            this.txtQtyPrice.Location = new System.Drawing.Point(473, 138);
             this.txtQtyPrice.MaxLength = 10;
             this.txtQtyPrice.Name = "txtQtyPrice";
-            this.txtQtyPrice.Size = new System.Drawing.Size(87, 20);
+            this.txtQtyPrice.Size = new System.Drawing.Size(79, 20);
             this.txtQtyPrice.TabIndex = 44;
             this.txtQtyPrice.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQtyPrice_KeyDown);
             // 
             // txtPromoDiscAmt
             // 
-            this.txtPromoDiscAmt.Location = new System.Drawing.Point(557, 138);
+            this.txtPromoDiscAmt.Location = new System.Drawing.Point(641, 138);
             this.txtPromoDiscAmt.MaxLength = 10;
             this.txtPromoDiscAmt.Name = "txtPromoDiscAmt";
             this.txtPromoDiscAmt.ReadOnly = true;
@@ -750,7 +804,7 @@
             // 
             // txtPromoDisc
             // 
-            this.txtPromoDisc.Location = new System.Drawing.Point(481, 138);
+            this.txtPromoDisc.Location = new System.Drawing.Point(562, 138);
             this.txtPromoDisc.MaxLength = 10;
             this.txtPromoDisc.Name = "txtPromoDisc";
             this.txtPromoDisc.Size = new System.Drawing.Size(73, 20);
@@ -840,7 +894,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(927, 122);
+            this.label11.Location = new System.Drawing.Point(839, 121);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(93, 14);
             this.label11.TabIndex = 26;
@@ -849,7 +903,7 @@
             // 
             // txtAvailableQty
             // 
-            this.txtAvailableQty.Location = new System.Drawing.Point(930, 139);
+            this.txtAvailableQty.Location = new System.Drawing.Point(833, 138);
             this.txtAvailableQty.MaxLength = 10;
             this.txtAvailableQty.Name = "txtAvailableQty";
             this.txtAvailableQty.ReadOnly = true;
@@ -882,7 +936,7 @@
             // 
             // txtdetailAmount
             // 
-            this.txtdetailAmount.Location = new System.Drawing.Point(831, 138);
+            this.txtdetailAmount.Location = new System.Drawing.Point(732, 138);
             this.txtdetailAmount.MaxLength = 10;
             this.txtdetailAmount.Name = "txtdetailAmount";
             this.txtdetailAmount.Size = new System.Drawing.Size(93, 20);
@@ -897,14 +951,16 @@
             this.txtTaxAmount.Name = "txtTaxAmount";
             this.txtTaxAmount.Size = new System.Drawing.Size(93, 20);
             this.txtTaxAmount.TabIndex = 9;
+            this.txtTaxAmount.Visible = false;
             // 
             // txtTax
             // 
-            this.txtTax.Location = new System.Drawing.Point(653, 139);
+            this.txtTax.Location = new System.Drawing.Point(653, 138);
             this.txtTax.MaxLength = 10;
             this.txtTax.Name = "txtTax";
             this.txtTax.Size = new System.Drawing.Size(75, 20);
             this.txtTax.TabIndex = 8;
+            this.txtTax.Visible = false;
             // 
             // txtRate
             // 
@@ -916,10 +972,10 @@
             // 
             // txtQuantity
             // 
-            this.txtQuantity.Location = new System.Drawing.Point(388, 138);
+            this.txtQuantity.Location = new System.Drawing.Point(392, 138);
             this.txtQuantity.MaxLength = 10;
             this.txtQuantity.Name = "txtQuantity";
-            this.txtQuantity.Size = new System.Drawing.Size(87, 20);
+            this.txtQuantity.Size = new System.Drawing.Size(75, 20);
             this.txtQuantity.TabIndex = 7;
             this.txtQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQuantity_KeyDown);
             this.txtQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtQuantity_KeyPress);
@@ -1029,29 +1085,33 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // StockRunningOut
+            // label27
             // 
-            this.StockRunningOut.AutoSize = true;
-            this.StockRunningOut.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StockRunningOut.ForeColor = System.Drawing.Color.Red;
-            this.StockRunningOut.Location = new System.Drawing.Point(481, 101);
-            this.StockRunningOut.Name = "StockRunningOut";
-            this.StockRunningOut.Size = new System.Drawing.Size(166, 31);
-            this.StockRunningOut.TabIndex = 46;
-            this.StockRunningOut.Text = "CORBIS POS";
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(390, 119);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(48, 14);
+            this.label27.TabIndex = 50;
+            this.label27.Text = "Quantity";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // POSChSweets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 693);
+            this.ControlBox = false;
             this.Controls.Add(this.ItemSaleGrid);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblShopName);
             this.KeyPreview = true;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Movable = false;
             this.Name = "POSChSweets";
+            this.ShadowType = MetroFramework.Forms.MetroForm.MetroFormShadowType.None;
             this.Text = "Corbis Solution";
             this.Load += new System.EventHandler(this.POSChSweets_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).EndInit();
@@ -1136,6 +1196,10 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.TextBox txtPromoDisc;
         private System.Windows.Forms.TextBox txtPromoDiscAmt;
+        private System.Windows.Forms.TextBox txtNetDtDiscount;
+        private System.Windows.Forms.TextBox txtQtyPrice;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label StockRunningOut;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
@@ -1146,10 +1210,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TaxAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
-        private System.Windows.Forms.TextBox txtNetDtDiscount;
-        private System.Windows.Forms.TextBox txtQtyPrice;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label StockRunningOut;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label lblFindPendingBill;
+        private System.Windows.Forms.Label label27;
     }
 }
 

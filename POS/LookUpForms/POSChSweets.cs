@@ -41,6 +41,11 @@ namespace POS
         public bool SaleReturn = false;
         public int LinkedBillID = 0;
         public bool InvoiceUpdate = false;
+
+        public POSChSweets NextObj;
+        public POSChSweets PreviousObj;
+        public int BillNoCount = 0;
+        public bool isBillSaved = false;
         public POSChSweets()
         {
             InitializeComponent();
@@ -51,6 +56,7 @@ namespace POS
             loadSaleMenuGroup();
             lblShopName.Text ="( "+ CompanyInfo.WareHouseName+" )";
             loadNewSale();
+
 
         }
         private void loadProducts()
@@ -866,8 +872,11 @@ namespace POS
                                         setAvailableStock(id);
                                         txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                         txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
-                                        txtQtyPrice.Focus();
-                                        txtQtyPrice.Select();
+                                        txtQuantity.Focus();
+                                        txtQuantity.Select();
+
+                                        //txtQtyPrice.Focus();
+                                        //txtQtyPrice.Select();
                                     }
                                 };
                             }
@@ -887,8 +896,11 @@ namespace POS
                                     txtTax.Text = Convert.ToString(dt.Rows[0]["TotalTax"]);
                                     txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
                                     setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
-                                    txtQtyPrice.Focus();
-                                    txtQtyPrice.Select();
+                                    txtQuantity.Focus();
+                                    txtQuantity.Select();
+
+                                    //txtQtyPrice.Focus();
+                                    //txtQtyPrice.Select();
                                 }
                             }
                         }
@@ -1088,7 +1100,7 @@ namespace POS
                 cmd.Transaction = tran;
                 da.Fill(dt1);
                 tran.Commit();
-                
+                isBillSaved = true;
                 string SaleInvoiceNO = p.Value.ToString();
                 var value = new List<string[]>();
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
@@ -1398,6 +1410,13 @@ namespace POS
                 }
                 return true;
             }
+
+            else if (keyData == (Keys.F5))
+            {
+                txtProductCode.Select();
+                txtProductCode.Focus();
+            }
+           
             else if (keyData == (Keys.Alt | Keys.R))
             {
                 //if (Convert.ToInt32(cmbSalemenu.SelectedValue)<=0)
@@ -1409,9 +1428,9 @@ namespace POS
                 //}
                 //else
                 //{ 
-                    loadReturnView();
+                loadReturnView();
 
-                    return true;
+                return true;
                 //}
             }
             else if (keyData == (Keys.Alt | Keys.U))
@@ -1425,9 +1444,9 @@ namespace POS
                 //}
                 //else
                 //{
-                    LoadUpdateView();
+                LoadUpdateView();
 
-                    return true;
+                return true;
                 //}
             }
             else if (keyData == (Keys.Alt | Keys.N))
@@ -1626,6 +1645,43 @@ namespace POS
         private void btnUnCompleteSale_Click(object sender, EventArgs e)
         {
             loadDirectReturn();
+        }
+        private void LoadNewInstance()
+        {
+            if (NextObj!=null)
+            {
+                NextObj.Show();
+               
+               
+            }
+            else
+            {
+                NextObj = new POSChSweets();
+                BillNoCount++;
+                NextObj.lblFindPendingBill.Text = "Pending Bill No " + Convert.ToInt32(BillNoCount);
+                NextObj.BillNoCount = BillNoCount;
+                NextObj.PreviousObj = this;
+                NextObj.PreviousObj.WindowState=FormWindowState.Minimized;
+                NextObj.Focus();
+                NextObj.ShowDialog();
+                
+              
+            }
+        }
+        private void LoadPreviousInstance()
+        {
+
+            
+            if (PreviousObj != null)
+            {
+                PreviousObj.Focus();
+                PreviousObj.Show();
+                this.WindowState=FormWindowState.Minimized;
+            }
+            else
+            {
+                lblFindPendingBill.Text = "No Pending Bill Found Press F6 to Open New";
+            }
         }
         private void loadReturnView()
         {
@@ -2220,8 +2276,10 @@ namespace POS
                         if (Convert.ToDecimal(txtQuantity.Text) > 0)
                         {
                             CalculateNetAmountDetail();
-                            txtPromoDisc.Select();
-                            txtPromoDisc.Focus();
+                            //txtPromoDisc.Select();
+                            //txtPromoDisc.Focus();
+                            txtQtyPrice.Select();
+                            txtQtyPrice.Focus();
 
                         }
                     }
@@ -2614,11 +2672,19 @@ namespace POS
                 {
                     var NetPrice = Convert.ToDecimal(txtQtyPrice.Text == "" ? "0" : txtQtyPrice.Text);
                     var RetailPrice = Convert.ToDecimal(txtRate.Text == "" ? "0" : txtRate.Text);
-                    var Quantity = Convert.ToDecimal(NetPrice / RetailPrice);
-                    txtQuantity.Text = Quantity.ToString();
-                    txtQuantity.Focus();
-                    txtQuantity.Select();
-                }catch(Exception)
+
+                    if (NetPrice > 0)
+                    {
+                        var Quantity = Convert.ToDecimal(NetPrice / RetailPrice);
+                        txtQuantity.Text = Quantity.ToString();
+                    }
+                        txtPromoDisc.Select();
+                    txtPromoDisc.Focus();
+
+                    //txtQuantity.Focus();
+                    //txtQuantity.Select();
+                }
+                catch (Exception)
                 {
 
                 }
@@ -2642,5 +2708,7 @@ namespace POS
                 e.Handled = true;
             }
         }
+
+        
     }
 }

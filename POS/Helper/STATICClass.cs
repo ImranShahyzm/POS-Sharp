@@ -20,7 +20,7 @@ namespace POS.Helper
     public static class STATICClass
     {
         //*****Khaki Api URL **********//
-         //public static string BaseURL = "http://103.86.135.182:1038/";
+         //public static string BaseURL = "http://72.255.39.154:1011/";
         //******************************//
 
             //*********** Food Mama Api Url *************//
