@@ -873,7 +873,7 @@ namespace POS
                                         txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                         txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                         txtQuantity.Focus();
-                                        txtQuantity.Select();
+                                        txtQuantity.SelectAll();
 
                                         //txtQtyPrice.Focus();
                                         //txtQtyPrice.Select();
@@ -897,7 +897,7 @@ namespace POS
                                     txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
                                     setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
                                     txtQuantity.Focus();
-                                    txtQuantity.Select();
+                                    txtQuantity.SelectAll();
 
                                     //txtQtyPrice.Focus();
                                     //txtQtyPrice.Select();
@@ -1007,24 +1007,29 @@ namespace POS
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
-                DataRow dRow = dt1.NewRow();
-                i = i + 1;
-                var TQty = Convert.ToDecimal(row.Cells[3].Value.ToString());//+(Convert.ToDecimal(row.Cells[4].Value.ToString()) * Convert.ToDecimal(row.Cells[13].Value.ToString()));
-                dRow[0] = i;
-                dRow[1] = row.Cells[0].Value.ToString();
-                dRow[2] = TQty.ToString();
-                dRow[3] = row.Cells[2].Value.ToString();
-                dRow[4] = row.Cells[6].Value.ToString();
-                dRow[5] = row.Cells[7].Value.ToString();
-                dRow[6] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[4].Value)) || Convert.ToString(row.Cells[4].Value) ==".")? "0":Convert.ToString(row.Cells[4].Value);
-                dRow[7] = row.Cells[5].Value.ToString();
-                dRow[8] = row.Cells[8].Value.ToString();
-                dRow[9] = 0;//row.Cells[13].Value.ToString();
-                dRow[10] =0;// row.Cells[4].Value.ToString();
-                dRow[11] = TQty;// row.Cells[7].Value.ToString();
-                dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
+                var TQty = Convert.ToDecimal(row.Cells[3].Value.ToString());
+                if (TQty > 0)
+                {
 
-                dt1.Rows.Add(dRow);
+                    DataRow dRow = dt1.NewRow();
+                    i = i + 1;
+
+                    dRow[0] = i;
+                    dRow[1] = row.Cells[0].Value.ToString();
+                    dRow[2] = TQty.ToString();
+                    dRow[3] = row.Cells[2].Value.ToString();
+                    dRow[4] = row.Cells[6].Value.ToString();
+                    dRow[5] = row.Cells[7].Value.ToString();
+                    dRow[6] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[4].Value)) || Convert.ToString(row.Cells[4].Value) == ".") ? "0" : Convert.ToString(row.Cells[4].Value);
+                    dRow[7] = row.Cells[5].Value.ToString();
+                    dRow[8] = row.Cells[8].Value.ToString();
+                    dRow[9] = 0;//row.Cells[13].Value.ToString();
+                    dRow[10] = 0;// row.Cells[4].Value.ToString();
+                    dRow[11] = TQty;// row.Cells[7].Value.ToString();
+                    dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
+
+                    dt1.Rows.Add(dRow);
+                }
             }
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
@@ -2271,18 +2276,11 @@ namespace POS
             {
                 try
                 {
-                    if (txtQuantity.Text != "")
-                    {
-                        if (Convert.ToDecimal(txtQuantity.Text) > 0)
-                        {
-                            CalculateNetAmountDetail();
-                            //txtPromoDisc.Select();
-                            //txtPromoDisc.Focus();
-                            txtQtyPrice.Select();
-                            txtQtyPrice.Focus();
+                    txtQtyPrice.Focus();
+                    txtQtyPrice.SelectAll();
+                           
 
-                        }
-                    }
+                  
                 }catch(Exception ex)
                 {
                     
@@ -2670,16 +2668,36 @@ namespace POS
             {
                 try
                 {
+
+
                     var NetPrice = Convert.ToDecimal(txtQtyPrice.Text == "" ? "0" : txtQtyPrice.Text);
                     var RetailPrice = Convert.ToDecimal(txtRate.Text == "" ? "0" : txtRate.Text);
-
+                    
                     if (NetPrice > 0)
                     {
                         var Quantity = Convert.ToDecimal(NetPrice / RetailPrice);
                         txtQuantity.Text = Quantity.ToString();
                     }
-                        txtPromoDisc.Select();
-                    txtPromoDisc.Focus();
+                    if (txtQuantity.Text != "")
+                    {
+                        if (Convert.ToDecimal(txtQuantity.Text) > 0)
+                        {
+                            CalculateNetAmountDetail();
+                            txtPromoDisc_KeyDown(sender, e);
+                            //txtPromoDisc.Focus();
+                            //txtPromoDisc.Select();
+                        }
+                    }
+                    else
+                    {
+                       
+                        txtQuantity.Focus();
+                        txtQuantity.SelectAll();
+
+                    }
+
+                    //txtPromoDisc.Select();
+                    //txtPromoDisc.Focus();
 
                     //txtQuantity.Focus();
                     //txtQuantity.Select();

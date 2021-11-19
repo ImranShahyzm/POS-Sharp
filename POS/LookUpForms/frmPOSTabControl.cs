@@ -61,7 +61,7 @@ namespace POS.LookUpForms
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-         if (keyData == (Keys.Up))
+         if (keyData == (Keys.Control | Keys.Up))
             {
 
                 LoadNewInstance();
@@ -77,7 +77,7 @@ namespace POS.LookUpForms
                 }
                 return true;
             }
-            else if (keyData == (Keys.Right))
+            else if (keyData == (Keys.Control | Keys.Right))
             {
 
                 
@@ -93,7 +93,7 @@ namespace POS.LookUpForms
                 
                 return true;
             }
-            else if (keyData == (Keys.Left))
+            else if (keyData == (Keys.Control | Keys.Left))
             {
 
                 

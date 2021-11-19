@@ -82,6 +82,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label27 = new System.Windows.Forms.Label();
             this.lblFindPendingBill = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -117,7 +118,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -680,6 +681,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.label28);
             this.panel5.Controls.Add(this.label27);
             this.panel5.Controls.Add(this.lblFindPendingBill);
             this.panel5.Controls.Add(this.label26);
@@ -728,6 +730,17 @@
             this.panel5.Size = new System.Drawing.Size(1038, 163);
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(390, 119);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(48, 14);
+            this.label27.TabIndex = 50;
+            this.label27.Text = "Quantity";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblFindPendingBill
             // 
@@ -807,6 +820,7 @@
             this.txtPromoDisc.Location = new System.Drawing.Point(562, 138);
             this.txtPromoDisc.MaxLength = 10;
             this.txtPromoDisc.Name = "txtPromoDisc";
+            this.txtPromoDisc.ReadOnly = true;
             this.txtPromoDisc.Size = new System.Drawing.Size(73, 20);
             this.txtPromoDisc.TabIndex = 42;
             this.txtPromoDisc.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPromoDisc_KeyDown);
@@ -1085,16 +1099,16 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // label27
+            // label28
             // 
-            this.label27.AutoSize = true;
-            this.label27.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(390, 119);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(48, 14);
-            this.label27.TabIndex = 50;
-            this.label27.Text = "Quantity";
-            this.label27.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(729, 119);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(64, 14);
+            this.label28.TabIndex = 51;
+            this.label28.Text = "Net Amount";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // POSChSweets
             // 
@@ -1214,6 +1228,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label lblFindPendingBill;
         private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
     }
 }
 
