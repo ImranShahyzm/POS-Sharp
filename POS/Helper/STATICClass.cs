@@ -19,16 +19,19 @@ namespace POS.Helper
 {
     public static class STATICClass
     {
+        public static bool IsDemo = true;
+
+        public static DateTime DemoEndDate =Convert.ToDateTime("2021-12-20");
         //*****Khaki Api URL **********//
-         //public static string BaseURL = "http://72.255.39.154:1011/";
+        public static string BaseURL = "http://72.255.39.154:1011/";
         //******************************//
 
-            //*********** Food Mama Api Url *************//
-     // public static string BaseURL = "http://103.86.135.182:1034/";
+        //*********** Food Mama Api Url *************//
+        // public static string BaseURL = "http://103.86.135.182:1034/";
         //***************************************//
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-      static string BaseURL = "http://localhost:44333/";
+        //static string BaseURL = "http://localhost:44333/";
         public static string Connection()
         {
             return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;

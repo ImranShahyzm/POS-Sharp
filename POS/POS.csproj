@@ -150,6 +150,9 @@
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <HintPath>..\packages\CrystalReports.Windows.Forms.13.0.4000\lib\net40\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304">
       <HintPath>..\packages\CrystalReports.13.0.5.891\lib\net40\FlashControlV71.dll</HintPath>
     </Reference>
@@ -205,12 +208,16 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -503,6 +510,8 @@
     <Compile Include="LookUpForms\StockInForm.Designer.cs">
       <DependentUpon>StockInForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Fbr_InvoiceDetail.cs" />
+    <Compile Include="Model\Fbr_InvoiceMaster.cs" />
     <Compile Include="POSSale.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1219,6 +1228,7 @@
     <Content Include="DbScripts\Script 1.0.0.52.sql" />
     <Content Include="DbScripts\Script 1.0.0.63.sql" />
     <Content Include="DbScripts\Script 1.0.0.71.sql" />
+    <Content Include="DbScripts\Script 1.0.0.72.sql" />
     <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />
@@ -1252,6 +1262,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>

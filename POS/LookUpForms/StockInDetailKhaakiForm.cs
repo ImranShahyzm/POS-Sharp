@@ -146,7 +146,7 @@ namespace POS.LookUpForms
 
         private void dgvStockDetailData_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.ColumnIndex==10)
+            if(e.ColumnIndex==11)
             {
                 var Received = dgvStockDetailData.CurrentRow.Cells[11].Value;
                 var Remaining = dgvStockDetailData.CurrentRow.Cells[10].Value;
@@ -175,10 +175,10 @@ namespace POS.LookUpForms
                 return;
 
             //Check if click is on specific column 
-            if (e.ColumnIndex == dgvStockDetailData.Columns["dataGridViewDeleteButton"].Index)
+            if (e.ColumnIndex == 11)
             {
                 
-                dgvStockDetailData.Rows.RemoveAt(e.RowIndex);
+                //dgvStockDetailData.Rows[e.RowIndex].Cells[e.ColumnIndex].All;
 
                 
             }
@@ -433,6 +433,33 @@ namespace POS.LookUpForms
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnSelectALL_Click(object sender, EventArgs e)
+        {
+            if (btnSelectALL.Text == "Select All")
+            {
+                foreach (DataGridViewRow row in dgvStockDetailData.Rows)
+                {
+                    row.Cells[11].Value = row.Cells[10].Value;
+
+
+                }
+                btnSelectALL.Text = "Unselect All";
+            }
+            else
+            {
+                foreach (DataGridViewRow row in dgvStockDetailData.Rows)
+                {
+                    row.Cells[11].Value = "0";
+
+
+                }
+                btnSelectALL.Text = "Select All";
+            }
+            CalculateDetail();
+
 
         }
     }

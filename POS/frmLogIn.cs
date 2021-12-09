@@ -40,6 +40,16 @@ namespace POS
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
+            if(STATICClass.IsDemo)
+            {
+                var CurrentDate = System.DateTime.Now.Date;
+
+                if (CurrentDate >= STATICClass.DemoEndDate)
+                {
+                    MessageBox.Show("Your Demo Version has Been Expired Please Contact with Corbissoft Multan...0612080200");
+                    return;
+                }
+            }
             if (validateSave())
             {
                 SaveForm();

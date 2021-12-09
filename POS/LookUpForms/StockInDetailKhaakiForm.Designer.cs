@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.panelMain = new MetroFramework.Controls.MetroPanel();
+            this.btnSelectALL = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtReceived = new System.Windows.Forms.TextBox();
+            this.txtTotal = new System.Windows.Forms.TextBox();
             this.txtQuantity = new System.Windows.Forms.TextBox();
             this.txtProductID = new System.Windows.Forms.TextBox();
             this.cmbProducts = new System.Windows.Forms.ComboBox();
@@ -42,16 +47,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtArrivalDate = new System.Windows.Forms.DateTimePicker();
-            this.txtReceived = new System.Windows.Forms.TextBox();
-            this.txtTotal = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockDetailData)).BeginInit();
             this.SuspendLayout();
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.btnSelectALL);
             this.panelMain.Controls.Add(this.label5);
             this.panelMain.Controls.Add(this.label4);
             this.panelMain.Controls.Add(this.txtReceived);
@@ -80,6 +82,54 @@
             this.panelMain.VerticalScrollbarBarColor = true;
             this.panelMain.VerticalScrollbarHighlightOnWheel = false;
             this.panelMain.VerticalScrollbarSize = 10;
+            // 
+            // btnSelectALL
+            // 
+            this.btnSelectALL.Location = new System.Drawing.Point(657, 77);
+            this.btnSelectALL.Name = "btnSelectALL";
+            this.btnSelectALL.Size = new System.Drawing.Size(93, 27);
+            this.btnSelectALL.TabIndex = 32;
+            this.btnSelectALL.Text = "Select All";
+            this.btnSelectALL.UseVisualStyleBackColor = true;
+            this.btnSelectALL.Click += new System.EventHandler(this.btnSelectALL_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(560, 56);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(85, 19);
+            this.label5.TabIndex = 31;
+            this.label5.Text = "T.Received";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.DarkRed;
+            this.label4.Location = new System.Drawing.Point(478, 56);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(47, 19);
+            this.label4.TabIndex = 30;
+            this.label4.Text = "T.Qty";
+            // 
+            // txtReceived
+            // 
+            this.txtReceived.Location = new System.Drawing.Point(564, 78);
+            this.txtReceived.MaxLength = 10;
+            this.txtReceived.Name = "txtReceived";
+            this.txtReceived.ReadOnly = true;
+            this.txtReceived.Size = new System.Drawing.Size(87, 26);
+            this.txtReceived.TabIndex = 29;
+            // 
+            // txtTotal
+            // 
+            this.txtTotal.Location = new System.Drawing.Point(467, 78);
+            this.txtTotal.MaxLength = 10;
+            this.txtTotal.Name = "txtTotal";
+            this.txtTotal.ReadOnly = true;
+            this.txtTotal.Size = new System.Drawing.Size(91, 26);
+            this.txtTotal.TabIndex = 28;
+            this.txtTotal.TabStop = false;
             // 
             // txtQuantity
             // 
@@ -213,44 +263,6 @@
             this.txtArrivalDate.Size = new System.Drawing.Size(116, 22);
             this.txtArrivalDate.TabIndex = 3;
             // 
-            // txtReceived
-            // 
-            this.txtReceived.Location = new System.Drawing.Point(564, 78);
-            this.txtReceived.MaxLength = 10;
-            this.txtReceived.Name = "txtReceived";
-            this.txtReceived.ReadOnly = true;
-            this.txtReceived.Size = new System.Drawing.Size(87, 26);
-            this.txtReceived.TabIndex = 29;
-            // 
-            // txtTotal
-            // 
-            this.txtTotal.Location = new System.Drawing.Point(467, 78);
-            this.txtTotal.MaxLength = 10;
-            this.txtTotal.Name = "txtTotal";
-            this.txtTotal.ReadOnly = true;
-            this.txtTotal.Size = new System.Drawing.Size(91, 26);
-            this.txtTotal.TabIndex = 28;
-            this.txtTotal.TabStop = false;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.Color.DarkRed;
-            this.label4.Location = new System.Drawing.Point(478, 56);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 19);
-            this.label4.TabIndex = 30;
-            this.label4.Text = "T.Qty";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(560, 56);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(85, 19);
-            this.label5.TabIndex = 31;
-            this.label5.Text = "T.Received";
-            // 
             // StockInDetailKhaakiForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -286,5 +298,6 @@
         private System.Windows.Forms.TextBox txtTotal;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnSelectALL;
     }
 }
