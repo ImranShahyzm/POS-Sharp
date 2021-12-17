@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace POS
 {
-    public partial class POSChSweets : MetroForm
+    public partial class POSChSweetsFbr : MetroForm
     {
         public bool directReturn = false;
         public int SaleInvoiceNo = 0;
@@ -44,11 +44,11 @@ namespace POS
         public int LinkedBillID = 0;
         public bool InvoiceUpdate = false;
 
-        public POSChSweets NextObj;
-        public POSChSweets PreviousObj;
+        public POSChSweetsFbr NextObj;
+        public POSChSweetsFbr PreviousObj;
         public int BillNoCount = 0;
         public bool isBillSaved = false;
-        public POSChSweets()
+        public POSChSweetsFbr()
         {
             InitializeComponent();
             //SetupDataGridView();
@@ -270,7 +270,7 @@ namespace POS
                 con.Close();
             }
         }
-        private void POSChSweets_Load(object sender, EventArgs e)
+        private void POSChSweetsFbr_Load(object sender, EventArgs e)
         {
 
 
@@ -1116,9 +1116,32 @@ namespace POS
                 valueforLinked.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
+                bool isGeneralInvoice = true;
                 if (directReturn == false)
                 {
-                   
+                    if (CompanyInfo.ISFbrConnectivity == 1)
+                    {
+                        if (MessageBox.Show("Do You Want to Print the Invoice...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            if (!SaleReturn)
+                            {
+
+                                FbrInvoiceObject(Convert.ToInt32(SaleInvoiceNO));
+                                obj.PrintFbrInvoice("rpt_Fbr_sale_invoice", reportName, value, SaleReturn);
+                                isGeneralInvoice = false;
+                            }
+                          
+
+                        }
+                        else
+                        {
+                            isGeneralInvoice = true;
+
+
+                        }
+                    }
+                    if(isGeneralInvoice)
+                    {
                         reportName = "SaleInvoice";
                         if (!string.IsNullOrEmpty(txtLinkedBill.Text))
                         {
@@ -1143,7 +1166,7 @@ namespace POS
                         {
                             obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
                         }
-                    
+                    }
                 }
                 //else
                 //{
@@ -1183,48 +1206,68 @@ namespace POS
             }
         }
 
-        public void FbrInvoiceObject()
+        public void FbrInvoiceObject(int SalePOSID)
         {
             Fbr_InvoiceMaster FbrObj = new Fbr_InvoiceMaster();
             FbrObj.InvoiceNumber = string.Empty;
-            FbrObj.POSID = 955354;
-            FbrObj.USIN = "123457";
+            FbrObj.POSID = CompanyInfo.POSID;
+            FbrObj.USIN = CompanyInfo.USIN;
             FbrObj.DateTime = txtSaleDate.Value.Date;
-            FbrObj.BuyerNTN = "1234567-9";
-            FbrObj.BuyerCNIC = "12345-1234567-8";
-            FbrObj.BuyerName = "Buyer Name";
-            FbrObj.BuyerPhoneNumber = "0345-1234567";
+            FbrObj.BuyerNTN = "";
+            FbrObj.BuyerCNIC = "";
+            FbrObj.BuyerName = txtCustName.Text;
+            FbrObj.BuyerPhoneNumber = txtCustPhone.Text;
             FbrObj.PaymentMode = 1;
-            FbrObj.TotalSaleValue = 0;
-            FbrObj.TotalQuantity = 0;
-            FbrObj.TotalBillAmount = 0;
-            FbrObj.TotalTaxCharged = 0;
-            FbrObj.Discount = 1000;
-            FbrObj.FurtherTax = 100;
-            FbrObj.InvoiceType = 1;
-            FbrObj.Items = Items();
-            var Responce= JsonConvert.DeserializeObject<Fbr_ResponceObj>(STATICClass.SyncFbrInvoice(FbrObj));
+            FbrObj.TotalSaleValue = txtNetAmount.Text == "" ? 0 : Convert.ToDecimal(txtNetAmount.Text);
           
-
-
+            FbrObj.TotalBillAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+            FbrObj.TotalTaxCharged = txtTotalTax.Text == "" ? 0 : Convert.ToDecimal(txtTotalTax.Text);
+            FbrObj.Discount = txtTotalDiscount.Text == "" ? 0 : Convert.ToDecimal(txtTotalDiscount.Text);
+            FbrObj.FurtherTax = 0;
+            FbrObj.InvoiceType = Convert.ToInt32(cmbInvoicetype.SelectedValue);
+            FbrObj.Items = Items();
+            FbrObj.TotalQuantity = Convert.ToDecimal(txtNoItems.Text);
+            FbrObj.SalePOSID = SalePOSID;
+            var Responce= JsonConvert.DeserializeObject<Fbr_ResponceObj>(STATICClass.SyncFbrInvoice(FbrObj));
+            FbrObj.InvoiceNumber = Responce.InvoiceNumber;
+            FbrObj.RefUSIN = Responce.Code;
+            FbrObj.imagePath = FbrObj.GenerateQRCode(Responce.InvoiceNumber, FbrObj);
+            FbrObj.Insert(FbrObj);
+           
         }
         private List<Fbr_InvoiceDetail> Items()
         {
             List<Fbr_InvoiceDetail> lst = new List<Fbr_InvoiceDetail>();
 
-            Fbr_InvoiceDetail objItem = new Fbr_InvoiceDetail();
-            objItem.ItemCode = "0000";
-            objItem.ItemName = "Item Name";
-            objItem.Quantity = 3;
-            objItem.TotalAmount = Convert.ToDecimal(3000.00);
-            objItem.SaleValue = Convert.ToDecimal(3180);
-            objItem.TaxCharged = Convert.ToDecimal(180);
-            objItem.TaxRate = 6;
-            objItem.PCTCode = "11001010";
-            objItem.FurtherTax = 20;
-            objItem.InvoiceType = 1;
-            objItem.Discount = 500;
-            lst.Add(objItem);
+            int i = 0;
+            decimal QtyTotal = 0;
+            foreach (DataGridViewRow row in ItemSaleGrid.Rows)
+            {
+
+               
+
+                var TQty = Convert.ToDecimal(row.Cells[3].Value.ToString());
+                QtyTotal = QtyTotal + TQty;
+                
+                if (TQty > 0)
+                {
+                    Fbr_InvoiceDetail objItem = new Fbr_InvoiceDetail();
+                    objItem.ItemCode = row.Cells[0].Value.ToString();
+                    objItem.ItemName = row.Cells[1].Value.ToString();
+                    objItem.Quantity = Convert.ToDecimal(TQty);
+                    objItem.TotalAmount = Convert.ToDecimal(row.Cells[8].Value.ToString());
+                    objItem.SaleValue = Convert.ToDecimal(row.Cells[2].Value.ToString());
+                    objItem.TaxCharged = Convert.ToDecimal(row.Cells[7].Value.ToString());
+                    objItem.TaxRate = Convert.ToDecimal(row.Cells[6].Value.ToString());
+                    objItem.PCTCode = "11001010";
+                    objItem.FurtherTax = 0;
+                    objItem.InvoiceType = 1;
+                    objItem.Discount = Convert.ToDecimal(row.Cells[5].Value.ToString());
+                    lst.Add(objItem);
+                }
+            }
+            txtNoItems.Text = Convert.ToString(QtyTotal);
+            
             return lst;
 
         }
@@ -1388,6 +1431,8 @@ namespace POS
             btnUpdate.Visible = false;
             btnSave.Visible = true;
             btnSave.Text = "Save";
+            btnSave.Enabled = true;
+            btnFbr.Text = "";
             //txtAmountReceive.ReadOnly = false;
         }
 
@@ -1712,7 +1757,7 @@ namespace POS
             }
             else
             {
-                NextObj = new POSChSweets();
+                NextObj = new POSChSweetsFbr();
                 BillNoCount++;
                 NextObj.lblFindPendingBill.Text = "Pending Bill No " + Convert.ToInt32(BillNoCount);
                 NextObj.BillNoCount = BillNoCount;
@@ -1885,6 +1930,7 @@ namespace POS
                     CalculateDetail();
                     txtProductCode.Select();
                     txtProductCode.Focus();
+                    load_Fbr_Invoice(InvoiceNo);
                 }
 
             }
@@ -1892,6 +1938,55 @@ namespace POS
             {
                 MessageBox.Show("We have no Sale Invoice regarding this No!");
             }
+        }
+
+
+        private void load_Fbr_Invoice(string InvoiceNo)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            DataTable dtdetail = new DataTable();
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+          
+            con.Open();
+           
+            SqlCommand cmd = new SqlCommand("Select InvoiceNumber from FBR_InvoiceMaster where SalePoSID="+ Convert.ToInt32(SalePosID.Text) + "", con);
+            cmd.CommandType = CommandType.Text;
+           
+
+          
+           
+            try
+            {
+             
+                var Result = cmd.ExecuteScalar();
+             
+                if(Result is  DBNull)
+                {
+                    btnFbr.Text="";
+                    btnSave.Enabled = true;
+                }
+                else
+                {
+                    btnSave.Enabled = false;
+
+                    btnFbr.Text = (Convert.ToString(Result));
+                   
+                }
+            }
+            catch (Exception ex)
+            {
+              
+                
+            }
+            finally
+            {
+                con.Close();
+            }
+
+          
+           
         }
 
         private void btnDashboard_Click(object sender, EventArgs e)
@@ -2008,7 +2103,7 @@ namespace POS
             txtQtyPrice.Clear();
             txtAvailableQty.Clear();
             StockRunningOut.Visible = false;
-
+            btnFbr.Text = "";
         }
 
         private void ItemSaleGrid_KeyDown(object sender, KeyEventArgs e)
@@ -2081,17 +2176,47 @@ namespace POS
             string reportName = "";
             if (directReturn == false)
             {
-                reportName = "SaleInvoice";
-                //obj.loadReport("rpt_sale_invoice", reportName, value);
-                if (!string.IsNullOrEmpty(txtLinkedBill.Text))
+                bool isGeneralInvoice = false;
+                if(!string.IsNullOrEmpty(Convert.ToString(btnFbr.Text)))
                 {
-                    string[] PP = { "@LinckedBill", txtLinkedBill.Text.ToString() };
-                    valueforLinked.Add(PP);
-                    obj.loadSaleFoodMamaReportLinked("rpt_sale_invoice_Lincked", reportName, valueforLinked);
+                    obj.PrintFbrInvoice("rpt_Fbr_sale_invoice", reportName, value, SaleReturn,true);
                 }
-                else
+                else if (CompanyInfo.ISFbrConnectivity == 1)
                 {
-                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value,false,true);
+                    if (MessageBox.Show("Do You Want to Print the Invoice...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        if (!SaleReturn)
+                        {
+
+                            FbrInvoiceObject(Convert.ToInt32(SaleInvoiceNO));
+                            obj.PrintFbrInvoice("rpt_Fbr_sale_invoice", reportName, value, SaleReturn);
+                            isGeneralInvoice = false;
+                        }
+                        
+
+                    }
+                    else
+                    {
+
+                        isGeneralInvoice = true;
+                    }
+
+                }
+                if(isGeneralInvoice)
+                {
+
+                    reportName = "SaleInvoice";
+                    //obj.loadReport("rpt_sale_invoice", reportName, value);
+                    if (!string.IsNullOrEmpty(txtLinkedBill.Text))
+                    {
+                        string[] PP = { "@LinckedBill", txtLinkedBill.Text.ToString() };
+                        valueforLinked.Add(PP);
+                        obj.loadSaleFoodMamaReportLinked("rpt_sale_invoice_Lincked", reportName, valueforLinked);
+                    }
+                    else
+                    {
+                        obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value, false, true);
+                    }
                 }
                    // obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
             }

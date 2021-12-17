@@ -1458,9 +1458,18 @@ namespace POS
             }
             else if(CompanyInfo.POSStyle== "POSChSweets")
             {
-                frmPOSTabControl frm = new frmPOSTabControl();
-                
-                frm.Show();
+                if (CompanyInfo.ISFbrConnectivity==1)
+                {
+                    frmPOSFbrTabControl frm = new frmPOSFbrTabControl();
+                    frm.Show();
+                }
+                else
+                {
+
+                    frmPOSTabControl frm = new frmPOSTabControl();
+                    frm.Show();
+
+                }
             }
             else
             {

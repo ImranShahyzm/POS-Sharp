@@ -118,6 +118,9 @@ namespace POS
 
                     CompanyInfo.CounterID = dt.Rows[0]["CounterID"] is DBNull ? 0 : Convert.ToInt32(dt.Rows[0]["CounterID"]);
 
+                    CompanyInfo.ISFbrConnectivity = dt.Rows[0]["ISFbrConnectivity"] is DBNull ? 0 : Convert.ToInt32(dt.Rows[0]["ISFbrConnectivity"]);
+                    CompanyInfo.POSID = dt.Rows[0]["POSID"] is DBNull ? 0 : Convert.ToInt32(dt.Rows[0]["POSID"]);
+                    CompanyInfo.USIN = dt.Rows[0]["USIN"] is DBNull ? "0" : Convert.ToString(dt.Rows[0]["USIN"]);
                     frmPOSSale objFrm = new frmPOSSale();
 
                     objcom.Userid = Convert.ToInt32(dt.Rows[0]["Userid"]);

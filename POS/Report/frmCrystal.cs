@@ -254,6 +254,69 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
 
         }
 
+        public void PrintFbrInvoice(string StoreProcedure, string ReportName, List<string[]> parameters, bool isReturn = false, bool isReprint = false)
+        {
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            ReportDocument rpt = new ReportDocument();
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlCommand cmd = new SqlCommand(StoreProcedure, cnn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
+
+            for (int i = 0; i < parameters.Count; i++)
+            {
+                cmd.Parameters.AddWithValue(parameters[i][0], parameters[i][1]);
+            }
+            da.SelectCommand = cmd;
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            cnn.Close();
+
+            DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
+            //string ss = obj.Title;
+            //reportViewer1.ProcessingMode = ProcessingMode.Local;
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalFbrPrint.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+            rpt.Database.Tables[1].SetDataSource(dt2);
+            if (isReturn)
+            {
+                rpt.SummaryInfo.ReportTitle = "Sales Return Invoice";
+            }
+            else if (isReprint)
+            {
+                rpt.SummaryInfo.ReportTitle = "Reprinted Bill Number";
+            }
+            else
+            {
+                rpt.SummaryInfo.ReportTitle = " Bill Number";
+            }
+            rpt.SummaryInfo.ReportAuthor = CompanyInfo.username;
+            int? LanguageSelection = 1;
+            rpt.SetParameterValue("LanguageSelection", Convert.ToInt32(LanguageSelection));
+            rpt.SetParameterValue("TagName", "");
+            var ImageValue = (dt2.Rows[0]["CompanyImage"]).ToString();
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            rpt.SetParameterValue("ServerName", Serverpath);
+            rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            if (CompanyInfo.isPrinter)
+            {
+                rpt.PrintToPrinter(1, false, 0, 0);
+                rpt.Dispose();
+            }
+            else
+            {
+
+                this.ShowDialog();
+                rpt.Dispose();
+            }
+
+        }
+
+
         public void loadKhaakiInvoice(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;

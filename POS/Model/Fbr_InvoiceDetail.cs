@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace POS.Model
 {
-    class Fbr_InvoiceDetail
+    public class Fbr_InvoiceDetail
     {
             public int SIDDetailID { get; set; }
             public Nullable<int> SID { get; set; }

@@ -228,6 +228,12 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="zxing, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net461\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net461\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dashboard.cs">
@@ -236,6 +242,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\PosConfigutio.sql" />
     <Content Include="DbScripts\Script 1.0.0.70.sql" />
     <Content Include="DbScripts\Script 1.0.0.68.sql" />
     <Content Include="DbScripts\Script 1.0.0.67.sql" />
@@ -311,6 +318,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmCustomerDataFoodMama.Designer.cs">
       <DependentUpon>frmCustomerDataFoodMama.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSFbrTabControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSFbrTabControl.Designer.cs">
+      <DependentUpon>frmPOSFbrTabControl.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\frmPOSTabControl.cs">
       <SubType>Form</SubType>
@@ -474,6 +487,12 @@
     <Compile Include="LookUpForms\frmStockArrivalList.Designer.cs">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\POSChSweetsFbr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\POSChSweetsFbr.Designer.cs">
+      <DependentUpon>POSChSweetsFbr.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\PosKhaakiStyle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -512,6 +531,7 @@
     </Compile>
     <Compile Include="Model\Fbr_InvoiceDetail.cs" />
     <Compile Include="Model\Fbr_InvoiceMaster.cs" />
+    <Compile Include="Model\Fbr_ResponceObj.cs" />
     <Compile Include="POSSale.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -667,6 +687,13 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\SaleThermalFbrPrint.cs">
+      <DependentUpon>SaleThermalFbrPrint.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Report\SaleThermalPrintFoodMamaClub.cs">
       <DependentUpon>SaleThermalPrintFoodMamaClub.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -817,6 +844,9 @@
     <EmbeddedResource Include="LookUpForms\frmCustomerDataFoodMama.resx">
       <DependentUpon>frmCustomerDataFoodMama.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmPOSFbrTabControl.resx">
+      <DependentUpon>frmPOSFbrTabControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmPOSTabControl.resx">
       <DependentUpon>frmPOSTabControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -897,6 +927,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmStockArrivalList.resx">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\POSChSweetsFbr.resx">
+      <DependentUpon>POSChSweetsFbr.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\PosKhaakiStyle.resx">
       <DependentUpon>PosKhaakiStyle.cs</DependentUpon>
@@ -1012,6 +1045,11 @@
     <EmbeddedResource Include="Report\PendingBillsAmount.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>PendingBillsAmount.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleThermalFbrPrint.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleThermalFbrPrint.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleThermalPrintFoodMamaClub.rpt">
@@ -1247,6 +1285,7 @@
     <None Include="Resources\CorbisPos1.png" />
     <None Include="Resources\slider-01.png" />
     <None Include="Resources\business-solution.jpg" />
+    <None Include="Resources\pos.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

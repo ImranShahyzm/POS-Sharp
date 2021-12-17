@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using POS.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -23,7 +24,7 @@ namespace POS.Helper
 
         public static DateTime DemoEndDate =Convert.ToDateTime("2021-12-20");
         //*****Khaki Api URL **********//
-        public static string BaseURL = "http://72.255.39.154:1011/";
+        //public static string BaseURL = "http://72.255.39.154:1011/";
         //******************************//
 
         //*********** Food Mama Api Url *************//
@@ -31,7 +32,7 @@ namespace POS.Helper
         //***************************************//
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-        //static string BaseURL = "http://localhost:44333/";
+        static string BaseURL = "http://localhost:44333/";
         public static string Connection()
         {
             return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -1099,7 +1100,30 @@ namespace POS.Helper
 
         }
 
+        public static string SyncFbrInvoice(Fbr_InvoiceMaster objinvoice)
+        {
+            var content = new StringContent(JsonConvert.SerializeObject(objinvoice), Encoding.UTF8, "application/json");
+            using (var client = new HttpClient())
+            {
+                HttpResponseMessage response = client.PostAsync("http://localhost:8524/api/IMSFiscal/GetInvoiceNumberByModel", content).Result;
 
+                if (response.IsSuccessStatusCode)
+
+                {
+
+
+
+
+                    
+                    return response.Content.ReadAsStringAsync().Result;
+
+                }
+                else
+                {
+                    return response.RequestMessage.ToString();
+                }
+            }
+        }
 
     }
 }
