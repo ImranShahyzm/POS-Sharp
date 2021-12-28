@@ -204,6 +204,9 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             }
 
         }
+
+
+
         public void loadSaleFoodMamaReportLinked(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;

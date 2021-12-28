@@ -1121,8 +1121,8 @@ namespace POS
                 {
                     if (CompanyInfo.ISFbrConnectivity == 1)
                     {
-                        if (MessageBox.Show("Do You Want to Print the Invoice...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
+                        //if (MessageBox.Show("Do You Want to Print the Invoice...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        //{
                             if (!SaleReturn)
                             {
 
@@ -1130,15 +1130,20 @@ namespace POS
                                 obj.PrintFbrInvoice("rpt_Fbr_sale_invoice", reportName, value, SaleReturn);
                                 isGeneralInvoice = false;
                             }
+                            else if(SaleReturn)
+                            {
+                                obj.PrintFbrInvoice("rpt_SaleFbr_Return_invoice", reportName, value, SaleReturn);
+                                isGeneralInvoice = false;
+                            }
                           
 
-                        }
-                        else
-                        {
-                            isGeneralInvoice = true;
+                        //}
+                        //else
+                        //{
+                        //    isGeneralInvoice = false;
 
 
-                        }
+                        //}
                     }
                     if(isGeneralInvoice)
                     {
@@ -1259,7 +1264,7 @@ namespace POS
                     objItem.SaleValue = Convert.ToDecimal(row.Cells[2].Value.ToString());
                     objItem.TaxCharged = Convert.ToDecimal(row.Cells[7].Value.ToString());
                     objItem.TaxRate = Convert.ToDecimal(row.Cells[6].Value.ToString());
-                    objItem.PCTCode = "11001010";
+                    objItem.PCTCode = "19050000";
                     objItem.FurtherTax = 0;
                     objItem.InvoiceType = 1;
                     objItem.Discount = Convert.ToDecimal(row.Cells[5].Value.ToString());
@@ -1969,7 +1974,7 @@ namespace POS
                 }
                 else
                 {
-                    btnSave.Enabled = false;
+                    //btnSave.Enabled = false;
 
                     btnFbr.Text = (Convert.ToString(Result));
                    
@@ -2183,23 +2188,28 @@ namespace POS
                 }
                 else if (CompanyInfo.ISFbrConnectivity == 1)
                 {
-                    if (MessageBox.Show("Do You Want to Print the Invoice...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        if (!SaleReturn)
-                        {
+                    //if (MessageBox.Show("Do You Want to Print the Invoice...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    //{
+                    //    if (!SaleReturn)
+                    //    {
 
-                            FbrInvoiceObject(Convert.ToInt32(SaleInvoiceNO));
+                    //        FbrInvoiceObject(Convert.ToInt32(SaleInvoiceNO));
+                    //        obj.PrintFbrInvoice("rpt_Fbr_sale_invoice", reportName, value, SaleReturn);
+                    //        isGeneralInvoice = false;
+                    //    }
+                    //    else
+                    //    {
                             obj.PrintFbrInvoice("rpt_Fbr_sale_invoice", reportName, value, SaleReturn);
                             isGeneralInvoice = false;
-                        }
+                    //    }
                         
 
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
 
-                        isGeneralInvoice = true;
-                    }
+                    //    isGeneralInvoice = false;
+                    //}
 
                 }
                 if(isGeneralInvoice)

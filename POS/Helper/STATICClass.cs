@@ -20,9 +20,9 @@ namespace POS.Helper
 {
     public static class STATICClass
     {
-        public static bool IsDemo = true;
+        public static bool IsDemo = false;
 
-        public static DateTime DemoEndDate =Convert.ToDateTime("2021-12-20");
+        public static DateTime DemoEndDate =Convert.ToDateTime("2022-02-01");
         //*****Khaki Api URL **********//
         //public static string BaseURL = "http://72.255.39.154:1011/";
         //******************************//
