@@ -335,8 +335,13 @@ namespace POS
         private void dtpSaleFromDate_ValueChanged(object sender, EventArgs e)
         {
 
-            dtpSaleToDate.Value = dtpSaleFromDate.Value;
+           // dtpSaleToDate.Value = dtpSaleFromDate.Value;
 
+        }
+
+        private void frmDataSyncServer_Load(object sender, EventArgs e)
+        {
+            dtpSaleFromDate.Value = System.DateTime.Now.AddDays(-15);
         }
     }
 }

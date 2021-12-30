@@ -24,7 +24,7 @@ namespace POS.Helper
 
         public static DateTime DemoEndDate =Convert.ToDateTime("2022-02-01");
         //*****Khaki Api URL **********//
-        //public static string BaseURL = "http://72.255.39.154:1011/";
+       // public static string BaseURL = "http://72.255.39.154:1011/";
         //******************************//
 
         //*********** Food Mama Api Url *************//

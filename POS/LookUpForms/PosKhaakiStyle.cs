@@ -2201,7 +2201,7 @@ namespace POS
             decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
             txtAmountReturn.Text = (recAmount - payableAmount).ToString();
             //}
-            if (string.IsNullOrEmpty(txtAmountReceive.Text) || Convert.ToDecimal(txtAmountReceive.Text) < Convert.ToDecimal(txtReceivableAmount.Text))
+            if (string.IsNullOrEmpty(txtAmountReceive.Text) || Math.Round(Convert.ToDecimal(txtAmountReceive.Text)) < Convert.ToDecimal(txtReceivableAmount.Text))
             {
                 MessageBox.Show("Received Amount Can't be Less then Bill Amount...");
                 return;
