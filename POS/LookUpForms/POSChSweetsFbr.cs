@@ -1394,7 +1394,7 @@ namespace POS
             txtDiscountPercentage.Text = "0";
             txtDiscountAmount.Text = "0";
             txtTotalDiscount.Text = "0";
-            txtOtherCharges.Text = "0";
+            txtOtherCharges.Text = "1";
             txtNetAmount.Text = "0";
             txtAmountReceive.Text = "0";
             txtAmountReturn.Text = "0";

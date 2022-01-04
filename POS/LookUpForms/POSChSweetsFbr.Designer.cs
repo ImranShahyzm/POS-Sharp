@@ -83,6 +83,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnFbr = new System.Windows.Forms.Button();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.lblFindPendingBill = new System.Windows.Forms.Label();
@@ -121,7 +122,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnFbr = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -527,6 +527,7 @@
             this.txtOtherCharges.Name = "txtOtherCharges";
             this.txtOtherCharges.Size = new System.Drawing.Size(89, 20);
             this.txtOtherCharges.TabIndex = 13;
+            this.txtOtherCharges.Text = "1";
             this.txtOtherCharges.TextChanged += new System.EventHandler(this.txtDiscountAmount_TextChanged);
             this.txtOtherCharges.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtOtherCharges_KeyDown);
             // 
@@ -744,6 +745,15 @@
             this.panel5.Size = new System.Drawing.Size(1038, 163);
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // btnFbr
+            // 
+            this.btnFbr.Enabled = false;
+            this.btnFbr.Location = new System.Drawing.Point(556, 44);
+            this.btnFbr.Name = "btnFbr";
+            this.btnFbr.Size = new System.Drawing.Size(268, 23);
+            this.btnFbr.TabIndex = 52;
+            this.btnFbr.UseVisualStyleBackColor = true;
             // 
             // label28
             // 
@@ -1133,15 +1143,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 52;
             this.pictureBox1.TabStop = false;
-            // 
-            // btnFbr
-            // 
-            this.btnFbr.Enabled = false;
-            this.btnFbr.Location = new System.Drawing.Point(556, 44);
-            this.btnFbr.Name = "btnFbr";
-            this.btnFbr.Size = new System.Drawing.Size(268, 23);
-            this.btnFbr.TabIndex = 52;
-            this.btnFbr.UseVisualStyleBackColor = true;
             // 
             // POSChSweetsFbr
             // 
