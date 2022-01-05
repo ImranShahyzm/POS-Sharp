@@ -377,6 +377,7 @@
             // 
             this.txtCustPhone.Location = new System.Drawing.Point(106, 72);
             this.txtCustPhone.Name = "txtCustPhone";
+            this.txtCustPhone.ReadOnly = true;
             this.txtCustPhone.Size = new System.Drawing.Size(146, 20);
             this.txtCustPhone.TabIndex = 1;
             this.txtCustPhone.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustPhone_KeyDown);
