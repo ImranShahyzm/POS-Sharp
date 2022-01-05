@@ -25,7 +25,20 @@ namespace POS
         public int SalePosMasterID = 0;
         public decimal netAmountForReturn = 0;
 
+        public string totalBill { get; set; }
+        public string ReceivedAmount { get; set; }
+        public string ReturnAmount { get; set; }
+
+        public string CustomerName { get; set; }
+        public string CustomerPhone { get; set; }
+        public string RiderAmount { get; set; }
+        
+        public string SaleManId { get; set; }
+
+        public bool AllowSave {get;set;}
         public bool SaleReturn = false;
+        public int LinkedBillID = 0;
+        public bool InvoiceUpdate = false;
         public POSSaleNew()
         {
             InitializeComponent();
@@ -240,7 +253,20 @@ namespace POS
         }
         private void POSSaleNew_Load(object sender, EventArgs e)
         {
-            //SetupDataGridView();
+            
+
+            cmbInvoicetype.DisplayMember = "Text";
+            cmbInvoicetype.ValueMember = "Value";
+
+            var items = new[] {
+    new { Text = "Cash Invoice", Value = "1" },
+    new { Text = "Dining Sale", Value = "2" },
+    new { Text = "Home Delivery-Credit", Value = "3" }
+};
+
+            cmbInvoicetype.DataSource = items;
+
+
         }
 
         private void SetupDataGridView()
@@ -388,8 +414,21 @@ namespace POS
                 }
                 
             }
+            else if (SaleInvoiceNo > 0 && InvoiceUpdate==true)
+            {
+                if (directReturn == true)
+                {
+                    txtPayableAmount.Text = netAmount.ToString();
+                }
+                else
+                {
+                    txtReceivableAmount.Text = Math.Round(netAmount, 2).ToString();
+                }
+
+            }
             else
             {
+                
                 decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
                 decimal accAmount = txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text);
                 //txtAmountReturn.Text = (recAmount - netAmount).ToString();
@@ -401,9 +440,9 @@ namespace POS
                 }
                 else
                 {
-                    txtAmountReturn.Text = "0.00";
-                    txtAmountReceive.Text = "0.00";
-                    txtPayableAmount.Text = "0.00";
+                    //txtAmountReturn.Text = "0.00";
+                    //txtAmountReceive.Text = "0.00";
+                    //txtPayableAmount.Text = "0.00";
                     txtReceivableAmount.Text = Math.Round((netAmount - accAmount),2).ToString();
                 }
             }
@@ -515,12 +554,10 @@ namespace POS
                                 join gen_TaxDetailInfo on gen_TaxInfo.TaxID = gen_TaxDetailInfo.TaxID
                                 where GETDATE() between FromDate and ToDate
                                 group by InventItems.ItemId)t on InventItems.ItemId = t.ItemId
+                                inner join InventCategory on InventItems.CategoryID=InventCategory.CategoryID 
                                 ";
-            if (categoryID != 0)
-            {
-                SqlString += "where InventItems.MainItem = 1 and InventItems.CategoryID = " + categoryID;
-            }
-            else if (productID != 0)
+            
+             if (productID != 0)
             {
                 SqlString += "where InventItems.ItemId = " + productID;
             }
@@ -528,6 +565,11 @@ namespace POS
             {
                 SqlString += "where InventItems.ManualNumber= '" + ManualNumber + "'";
             }
+            if (Convert.ToInt32(cmbSalemenu.SelectedValue) != 0)
+            {
+                SqlString += "and InventCategory.ItemGroupID  = " + Convert.ToInt32(cmbSalemenu.SelectedValue);
+            }
+
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -626,6 +668,13 @@ namespace POS
         {
             if (e.KeyData == Keys.Enter)
             {
+                if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
+                {
+                    MessageBox.Show("Please Select Menu First .....");
+                    cmbSalemenu.Select();
+                    cmbSalemenu.Focus();
+                    return ;
+                }
                 if (txtProductCode.Text != "")
                 {
                     DataTable dt = getProduct(0, 0, txtProductCode.Text);
@@ -685,8 +734,49 @@ namespace POS
         {
             if (validateSave())
             {
-               
+                GrossAmount_Total();
+                CheckReceivedAmount();
+                this.totalBill = txtReceivableAmount.Text;
+                this.ReceivedAmount = txtAmountReceive.Text;
+                this.ReturnAmount = txtAmountReturn.Text;
+                if(!string.IsNullOrEmpty(txtCustName.Text))
+                {
+                    this.CustomerName = txtCustName.Text;
+                }
+                if (!string.IsNullOrEmpty(txtCustPhone.Text))
+                {
+                    this.CustomerPhone = txtCustPhone.Text;
+                }
+                if (!string.IsNullOrEmpty(txtRiderAmount.Text))
+                {
+                    this.RiderAmount = txtRiderAmount.Text;
+                }
+
+                frmCustomerDataFoodMama frm = new frmCustomerDataFoodMama(this);
+                frm.ShowDialog();
+                txtCustName.Text = this.CustomerName;
+                txtCustPhone.Text = this.CustomerPhone;
+                txtSalesManID.Text = this.SaleManId;
+                txtRiderAmount.Text = this.RiderAmount;
                 SaveForm();
+
+              
+            }
+
+        }
+        private void CheckReceivedAmount()
+        {
+
+            decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+            decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
+
+            decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
+            txtAmountReturn.Text = (recAmount - payableAmount).ToString();
+            //}
+            if (string.IsNullOrEmpty(txtAmountReceive.Text) || Convert.ToDecimal(txtAmountReceive.Text) < Convert.ToDecimal(txtReceivableAmount.Text))
+            {
+                MessageBox.Show("Received Amount Can't be Less then Bill Amount...");
+                return;
             }
 
         }
@@ -707,7 +797,9 @@ namespace POS
             dt1.Columns.Add("Carton");
             dt1.Columns.Add("TotalQuantity");
             dt1.Columns.Add("SalePosDetailID");
-
+            dt1.Columns.Add("SchemeID");
+            dt1.Columns.Add("MinQuantity");
+            dt1.Columns.Add("isExchange");
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
@@ -736,9 +828,14 @@ namespace POS
             con.Open();
             tran = con.BeginTransaction();
             SqlCommand cmd;
-            if (SaleReturn==false)
+            if (SaleReturn==false && InvoiceUpdate==false)
             {
                 cmd = new SqlCommand("data_SalePosInfo_Insert", con);
+            }
+            else if (InvoiceUpdate == true)
+            {
+                cmd = new SqlCommand("data_SalePosInfo_update", con);
+                SalePosMasterID = Convert.ToInt32(SalePosID.Text);
             }
             else
             {
@@ -761,12 +858,15 @@ namespace POS
             cmd.Parameters.AddWithValue("@DiscountAmount", txtDiscountAmount.Text == "" ? 0 : Convert.ToDecimal(txtDiscountAmount.Text));
             cmd.Parameters.AddWithValue("@DiscountTotal", Convert.ToDecimal(txtTotalDiscount.Text));
             cmd.Parameters.AddWithValue("@OtherCharges", txtOtherCharges.Text == "" ? 0 : Convert.ToDecimal(txtOtherCharges.Text));
-            cmd.Parameters.AddWithValue("@NetAmount", Convert.ToDecimal(txtNetAmount.Text));
+            cmd.Parameters.AddWithValue("@NetAmount", txtNetAmount.Text == "" ? 0 : Convert.ToDecimal(txtNetAmount.Text));
             cmd.Parameters.AddWithValue("@SalePosDate", Convert.ToDateTime(txtSaleDate.Value.Date));
-            
+            cmd.Parameters.AddWithValue("@MenuId", Convert.ToInt32(cmbSalemenu.SelectedValue));
+            cmd.Parameters.AddWithValue("@InvoiceType", Convert.ToInt32(cmbInvoicetype.SelectedValue));
             cmd.Parameters.AddWithValue("@AmountReceive", txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text));
             cmd.Parameters.AddWithValue("@AmountReturn", txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text));
             cmd.Parameters.AddWithValue("@AmountInAccount", txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text));
+            cmd.Parameters.AddWithValue("@CustomerID", txtRegisterID.Text == "" ? 0 : Convert.ToInt32(txtRegisterID.Text));
+            cmd.Parameters.AddWithValue("@SaleManId", txtSalesManID.Text == "" ? null : Convert.ToString(txtSalesManID.Text));
             if (SaleInvoiceNo > 0)
             {
                 cmd.Parameters.AddWithValue("@AmountPayable", txtPayableAmount.Text == "" ? Convert.ToDecimal(txtAccAmount.Text) : Convert.ToDecimal(txtPayableAmount.Text));
@@ -778,6 +878,8 @@ namespace POS
                 cmd.Parameters.AddWithValue("@AmountReceivable", txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text));
             cmd.Parameters.AddWithValue("@CustomerPhone", txtCustPhone.Text == "" ? null : Convert.ToString(txtCustPhone.Text));
             cmd.Parameters.AddWithValue("@CustomerName", txtCustName.Text == "" ? null : Convert.ToString(txtCustName.Text));
+            cmd.Parameters.AddWithValue("@RiderAmount", txtRiderAmount.Text == "" ? null : Convert.ToString(txtRiderAmount.Text));
+            cmd.Parameters.AddWithValue("@LinckedBill", txtLinkedBill.Text == "" ? null : Convert.ToString(txtLinkedBill.Text));
 
             if (directReturn==true)
             {
@@ -794,14 +896,29 @@ namespace POS
                 var value = new List<string[]>();
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
                 value.Add(ss);
+                var valueforLinked = new List<string[]>();
+                valueforLinked.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
                 if (directReturn == false)
                 {
                     reportName = "SaleInvoice";
-                    //obj.loadReport("rpt_sale_invoice", reportName, value);
-                    obj.loadSaleReport("rpt_sale_invoice", reportName, value);
-                    obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
+                    if (!string.IsNullOrEmpty(txtLinkedBill.Text))
+                    {
+                        string[] PP = { "@LinckedBill", txtLinkedBill.Text.ToString() };
+                        valueforLinked.Add(PP);
+                        obj.loadSaleFoodMamaReportLinked("rpt_sale_invoice_Lincked", reportName, valueforLinked);
+                    }
+                    else
+                    {
+                        obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
+                    }
+                   
+                    
+                    if (Convert.ToInt32(cmbSalemenu.SelectedValue) ==26)
+                    {
+                        obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
+                    }
                 }
                 //else
                 //{
@@ -843,6 +960,14 @@ namespace POS
 
         private bool validateSave()
         {
+            
+                if(System.DateTime.Now.Date>txtSaleDate.Value.Date)
+                {
+                    MessageBox.Show("You can't Save Invoice in Back date...");
+                    return false;
+                }
+            
+
             decimal amountReceived = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
             decimal amountReceivable = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
             decimal amountPayable = txtPayableAmount.Text == "" ? 0 : Convert.ToDecimal(txtPayableAmount.Text);
@@ -956,6 +1081,13 @@ namespace POS
             cmbProducts.SelectedValue = "0";
             txtCustName.Clear();
             txtCustPhone.Clear();
+            txtRiderAmount.Clear();
+
+            txtLinkedBill.Clear();
+
+            SalePosID.Clear();
+            SalePosMasterID = 0;
+            txtLinkedBillNo.Clear();
             directReturn = false;
         }
 
@@ -968,6 +1100,11 @@ namespace POS
             txtCustPhone.Select();
             txtCustPhone.Focus();
             SaleReturn = false;
+            InvoiceUpdate = false;
+
+            btnUpdate.Visible = false;
+            btnSave.Visible = true;
+            btnSave.Text = "Save";
             //txtAmountReceive.ReadOnly = false;
         }
 
@@ -978,20 +1115,20 @@ namespace POS
 
             int SaleVoucherNo = GetVoucherNoI(Fieldname: "SalePOSNo", TableName: "data_SalePosInfo", CheckTaxable: false,
                     PrimaryKeyValue: 0, PrimaryKeyFieldName: "SalePosID", voucherDate: Convert.ToDateTime(txtSaleDate.Value.Date), voucherDateFieldName: "SalePosDate",
-                    companyID:CompanyInfo.CompanyID, FiscalID: CompanyInfo.FiscalID);
+                    companyID:CompanyInfo.CompanyID, FiscalID: CompanyInfo.FiscalID, MenuId:Convert.ToInt32(cmbSalemenu.SelectedValue),MenuFieldName:"MenuID");
             txtInvoiceNo.Text = Convert.ToString(SaleVoucherNo);
         }
         public Int32 GetVoucherNoI(string Fieldname, string TableName, bool CheckTaxable, Int32 PrimaryKeyValue,
           string PrimaryKeyFieldName, DateTime? voucherDate, string voucherDateFieldName = "",
           Int32 companyID = 0, string companyFieldName = "CompanyID", Int32 FiscalID = 0,
-          string FiscalIDFieldName = "FiscalID", bool IsTaxable = false)
+          string FiscalIDFieldName = "FiscalID", bool IsTaxable = false,Int32 MenuId=0,string MenuFieldName="")
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             try
             {
                 DataTable dt = new DataTable();
                 SqlConnection con = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("GetVoucherNoPos", con);
+                SqlCommand cmd = new SqlCommand("GetVoucherNoPosFoodMama", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter();
                 cmd.Parameters.Add(new SqlParameter("@Fieldname", Fieldname));
@@ -1006,6 +1143,8 @@ namespace POS
                 cmd.Parameters.Add(new SqlParameter("@FiscalID", FiscalID));
                 cmd.Parameters.Add(new SqlParameter("@FiscalIDFieldName", FiscalIDFieldName));
                 cmd.Parameters.Add(new SqlParameter("@IsTaxable", IsTaxable));
+                cmd.Parameters.Add(new SqlParameter("@MenuId", MenuId));
+                cmd.Parameters.Add(new SqlParameter("@MenuFieldName", MenuFieldName));
                 da.SelectCommand = cmd;
                 da.Fill(dt);
                 return Convert.ToInt32(dt.Rows[0][0]);
@@ -1046,8 +1185,35 @@ namespace POS
             }
             else if (keyData == (Keys.Alt | Keys.R))
             {
-                loadReturnView();
-                return true;
+                if (Convert.ToInt32(cmbSalemenu.SelectedValue)<=0)
+                {
+                    MessageBox.Show("Please Select Menu First .....");
+                    cmbSalemenu.Select();
+                    cmbSalemenu.Focus();
+                    return false;
+                }
+                else
+                { 
+                    loadReturnView();
+
+                    return true;
+                }
+            }
+            else if (keyData == (Keys.Alt | Keys.U))
+            {
+                if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
+                {
+                    MessageBox.Show("Please Select Menu First .....");
+                    cmbSalemenu.Select();
+                    cmbSalemenu.Focus();
+                    return false;
+                }
+                else
+                {
+                    LoadUpdateView();
+
+                    return true;
+                }
             }
             else if (keyData == (Keys.Alt | Keys.N))
             {
@@ -1067,66 +1233,66 @@ namespace POS
         {
             if (e.ColumnIndex == 6)
             {
-                string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString();
-                string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
-                string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
-                decimal Bundle = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString());
-                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
-                decimal rate = Convert.ToDecimal(rateValue);
-                decimal qty = Convert.ToDecimal(value);
-                qty++;
-                ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value = qty;
-                ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
-                ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
+//                string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString();
+//                string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
+//                string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
+//                decimal Bundle = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString());
+//                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
+//                decimal rate = Convert.ToDecimal(rateValue);
+//                decimal qty = Convert.ToDecimal(value);
+//                qty++;
+//                ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value = qty;
+//                ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
+//                ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
             }
 
             if (e.ColumnIndex == 3)
             {
-                string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString();
-                string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
-                string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
-                decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString());
-                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
-                decimal rate = Convert.ToDecimal(rateValue);
-                decimal Bundle = Convert.ToDecimal(value);
-                Bundle++;
-                ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value = Bundle;
-                ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
-                ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
+//                string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString();
+//                string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
+//                string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
+//                decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString());
+//                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
+//                decimal rate = Convert.ToDecimal(rateValue);
+//                decimal Bundle = Convert.ToDecimal(value);
+//                Bundle++;
+//                ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value = Bundle;
+//                ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
+//                ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
             }
             else if (e.ColumnIndex == 5)
             {
-                string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString();
-                string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
-                string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
-                decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString());
-                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
-                decimal rate = Convert.ToDecimal(rateValue);
-                decimal Bundle = Convert.ToDecimal(value);
-                if (Bundle > 1)
-                {
-                    Bundle--;
-                    ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value = Bundle;
-                    ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
-                    ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
-                }
+                //string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString();
+                //string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
+                //string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
+                //decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString());
+                //decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
+                //decimal rate = Convert.ToDecimal(rateValue);
+                //decimal Bundle = Convert.ToDecimal(value);
+                //if (Bundle > 1)
+                //{
+                //    Bundle--;
+                //    ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value = Bundle;
+                //    ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
+                //    ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
+                //}
             }
             else if (e.ColumnIndex == 8)
             {
-                string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString();
-                string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
-                string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
-                decimal Bundle = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString());
-                decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
-                decimal rate = Convert.ToDecimal(rateValue);
-                decimal qty = Convert.ToDecimal(value);
-                if (qty > 1)
-                {
-                    qty--;
-                    ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value = qty;
-                    ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
-                    ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
-                }
+                //string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString();
+                //string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
+                //string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
+                //decimal Bundle = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString());
+                //decimal BundleSize = Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["cartonSize"].Value.ToString());
+                //decimal rate = Convert.ToDecimal(rateValue);
+                //decimal qty = Convert.ToDecimal(value);
+                //if (qty > 1)
+                //{
+                //    qty--;
+                //    ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value = qty;
+                //    ItemSaleGrid.Rows[e.RowIndex].Cells["Total"].Value = Math.Round(((Bundle * BundleSize) + qty) * rate, 2);
+                //    ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
+                //}
             }
             else if (e.ColumnIndex == 10)
             {
@@ -1223,7 +1389,20 @@ namespace POS
             txtInvoiceNo.ReadOnly = false;
             txtInvoiceNo.Text = "";
             txtInvoiceNo.Focus();
+            btnSave.Text = "Return Invoice";
+       
             SaleReturn = true;
+        }
+        private void LoadUpdateView()
+        {
+            clearAll();
+            lblSaleType.Text = "Update Sales Invoice";
+            txtInvoiceNo.ReadOnly = false;
+            txtInvoiceNo.Text = "";
+            txtInvoiceNo.Focus();
+            btnSave.Visible = false; 
+            btnUpdate.Visible = true;
+            InvoiceUpdate = true;
         }
         private void loadDirectReturn()
         {
@@ -1262,11 +1441,11 @@ namespace POS
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter();
 
-            string whereclause = " where SaleposNo=" + InvoiceNo+" and SalePOsDate="+txtSaleDate.Value.Date+"";
+            string whereclause = " where SaleposNo=" + InvoiceNo+" and SalePOsDate="+txtSaleDate.Value.Date+" and MenuId="+Convert.ToInt32(cmbSalemenu.SelectedValue)+"";
             cmd.Parameters.AddWithValue("@SelectMaster", 1);
             cmd.Parameters.AddWithValue("@SelectDetail", 1);
             cmd.Parameters.AddWithValue("@InvoiceNo", InvoiceNo);
-            
+            cmd.Parameters.AddWithValue("@MenuId", Convert.ToInt32(cmbSalemenu.SelectedValue));
             cmd.Parameters.AddWithValue("@SaleDate", txtSaleDate.Value.Date);
             da.SelectCommand = cmd;
             try
@@ -1302,19 +1481,34 @@ namespace POS
                 txtTotalDiscount.Text = dt.Rows[0]["DiscountTotal"].ToString();
                 txtOtherCharges.Text = dt.Rows[0]["OtherCharges"].ToString();
                 txtNetAmount.Text = dt.Rows[0]["NetAmount"].ToString();
-                txtAmountReceive.Text = "0.00";
+                txtAmountReceive.Text = dt.Rows[0]["AmountReceive"].ToString();
                 txtAccAmount.Text = dt.Rows[0]["NetAmount"].ToString();
                 //txtPayableAmount.Text = dt.Rows[0]["NetAmount"].ToString();
-                txtPayableAmount.Text = "0.00";
-                txtAmountReturn.Text = "0.00";
-                txtReceivableAmount.Text = "0.00";
+                if (InvoiceUpdate == false)
+                {
+                    txtPayableAmount.Text = dt.Rows[0]["AmountReceivable"].ToString();
+                }
+                    txtAmountReturn.Text = dt.Rows[0]["AmountReturn"].ToString();
+                txtReceivableAmount.Text = dt.Rows[0]["AmountReceivable"].ToString();
                 txtCustName.Text= Convert.ToString(dt.Rows[0]["CustomerName"]);
                 txtCustPhone.Text = Convert.ToString(dt.Rows[0]["CustomerPhone"]);
                 SalePosID.Text= Convert.ToString(dt.Rows[0]["SalePosID"]);
-                txtAmountReceive.ReadOnly = true;
-                txtPrint.Visible = true;
-                SaleReturn = true;
-                for (int i = 0; i < dtdetail.Rows.Count; i++)
+                txtLinkedBill.Text = Convert.ToString(dt.Rows[0]["LinckedBill"]);
+                txtLinkedBillNo.Text = Convert.ToString(dt.Rows[0]["LinkedBillNo"]);
+                txtRiderAmount.Text = Convert.ToString(dt.Rows[0]["RiderAmount"]);
+                cmbSalemenu.SelectedValue= Convert.ToString(dt.Rows[0]["MenuId"]);
+                var abc = dt.Rows[0]["InvoiceType"];
+                cmbInvoicetype.SelectedValue= Convert.ToString(dt.Rows[0]["InvoiceType"]);
+                if (InvoiceUpdate == false)
+                {
+                    txtAmountReceive.ReadOnly = true;
+                }
+                    txtPrint.Visible = true;
+                if (InvoiceUpdate == false)
+                {
+                    SaleReturn = true;
+                }
+                    for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
                     string[] row = {
                             dtdetail.Rows[i]["ItemId"].ToString(),
@@ -1350,14 +1544,92 @@ namespace POS
 
         private void txtCustPhone_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode==Keys.Enter)
+            if(e.KeyCode==Keys.Enter )
             {
-                txtCustName.Focus();
+                if (string.IsNullOrEmpty(txtCustPhone.Text))
+                {
+                    using (frmSearchCustomerLookup obj = new frmSearchCustomerLookup())
+                    {
+                        if (obj.ShowDialog() == DialogResult.OK)
+                        {
+                            string Rno = obj.RegisterNo;
+                            txtRegisterID.Text = obj.CustomerID;
+                            if (obj.CustomerID != "")
+                            {
+                                LoadCustomerData(obj.CustomerID);
+                            }
+                        }
+
+                    };
+                }
+                else
+                {
+                    txtCustName.Select();
+                    txtCustName.Focus();
+                }
+                
+
+                
                 
             }
         }
+        private void LoadCustomerData(string CustomerID)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            DataTable dtdetail = new DataTable();
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            SqlCommand cmd = new SqlCommand("PosData_tblCustomerData_SelectAll", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
 
-      private void ClearFields()
+            string whereclause = " where CustomerID=" + CustomerID + " and WHID=" + CompanyInfo.WareHouseID + "";
+            cmd.Parameters.AddWithValue("@SelectMaster", 1);
+            cmd.Parameters.AddWithValue("@WhereClause", whereclause);
+
+            da.SelectCommand = cmd;
+            try
+            {
+                cmd.Transaction = tran; da.Fill(ds);
+                dt = ds.Tables[0];
+
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+
+
+               
+                txtCustName.Text = Convert.ToString(dt.Rows[0]["CName"]);
+                txtCustPhone.Text = Convert.ToString(dt.Rows[0]["CPhone"]);
+                txtCustName.Focus();
+
+
+
+
+
+            }
+            else
+            {
+                MessageBox.Show("We have no Customer  regarding this No!");
+            }
+        }
+
+        private void ClearFields()
         {
             txtProductID.Clear();
 
@@ -1432,16 +1704,27 @@ namespace POS
         {
             string SaleInvoiceNO = SalePosID.Text.ToString();
             var value = new List<string[]>();
+            var valueforLinked = new List<string[]>();
             string[] ss = { "@SaleInvoice", SaleInvoiceNO };
             value.Add(ss);
+            valueforLinked.Add(ss);
             frmCrystal obj = new frmCrystal();
             string reportName = "";
             if (directReturn == false)
             {
                 reportName = "SaleInvoice";
                 //obj.loadReport("rpt_sale_invoice", reportName, value);
-                obj.loadSaleReport("rpt_sale_invoice", reportName, value);
-                obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
+                if (!string.IsNullOrEmpty(txtLinkedBill.Text))
+                {
+                    string[] PP = { "@LinckedBill", txtLinkedBill.Text.ToString() };
+                    valueforLinked.Add(PP);
+                    obj.loadSaleFoodMamaReportLinked("rpt_sale_invoice_Lincked", reportName, valueforLinked);
+                }
+                else
+                {
+                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value);
+                }
+                    obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
             }
            
         }
@@ -1743,7 +2026,14 @@ namespace POS
                 }
                 else
                 {
-                    btnSave.Focus();
+                    if (InvoiceUpdate == true)
+                    {
+                        btnUpdate.Focus();
+                    }
+                    else
+                    {
+                        btnSave.Focus();
+                    }
                 }
             }
         }
@@ -1822,8 +2112,9 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
+                cmbInvoicetype.Select();
                 txtProductCode.Select();
-                txtProductCode.Focus();
+                cmbInvoicetype.Focus();
             }
         }
 
@@ -1834,6 +2125,186 @@ namespace POS
 
         private void txtAccAmount_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void cmbInvoicetype_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtLinkedBillNo.Clear();
+                txtLinkedBillNo.Focus();
+            }
+        }
+
+        private void cmbSalemenu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            getInvoiceNumber();
+        }
+
+        private void CheckInvoiceNoForLink(string InvoiceNo)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            DataTable dtdetail = new DataTable();
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            SqlCommand cmd = new SqlCommand("data_SalePosInfo_SelectAll", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
+
+            string whereclause = " where SaleposNo=" + InvoiceNo + " and SalePOsDate=" + txtSaleDate.Value.Date + " and MenuId=" + Convert.ToInt32(cmbSalemenu.SelectedValue) + "";
+            cmd.Parameters.AddWithValue("@SelectMaster", 1);
+            cmd.Parameters.AddWithValue("@SelectDetail", 1);
+            cmd.Parameters.AddWithValue("@InvoiceNo", InvoiceNo);
+            cmd.Parameters.AddWithValue("@MenuId", Convert.ToInt32(cmbSalemenu.SelectedValue));
+            cmd.Parameters.AddWithValue("@SaleDate", txtSaleDate.Value.Date);
+            da.SelectCommand = cmd;
+            try
+            {
+                cmd.Transaction = tran; da.Fill(ds);
+                dt = ds.Tables[0];
+                dtdetail = ds.Tables[1];
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+                if (dtdetail.Rows.Count == 0)
+                {
+                    MessageBox.Show("This Invoice is all ready return!");
+                    return;
+                }
+
+
+
+
+
+
+
+
+                txtLinkedBill.Text = Convert.ToString(dt.Rows[0]["SalePosID"]);
+                cmbSalemenu.SelectedValue = Convert.ToString(dt.Rows[0]["MenuId"]);
+                var abc = dt.Rows[0]["InvoiceType"];
+                cmbInvoicetype.SelectedValue = Convert.ToString(dt.Rows[0]["InvoiceType"]);
+               
+              
+             
+            }
+            else
+            {
+                MessageBox.Show("We have no Sale Invoice regarding this No!");
+                txtLinkedBill.Clear();
+                txtLinkedBillNo.Clear();
+            }
+        }
+        private void txtLinkedBillNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1)
+            {
+                if (txtLinkedBillNo.Text != "" || (txtLinkedBillNo.Text == "" ? 0 : Convert.ToInt64(txtLinkedBillNo.Text)) != 0)
+                {
+
+                    string InvoiceNo = txtLinkedBillNo.Text;
+                    CheckInvoiceNoForLink(InvoiceNo);
+                }
+                else
+                {
+                    using (frmSaleInvoiceLookUp obj = new frmSaleInvoiceLookUp())
+                    {
+                        if (obj.ShowDialog() == DialogResult.OK)
+                        {
+                            string id = obj.SaleInvoiceNo;
+                            if (id != "")
+                            {
+
+                                txtSaleDate.Value = obj.SaleInvoiceDate;
+                                CheckInvoiceNoForLink(id);
+                                txtLinkedBillNo.Text = id;
+
+                            }
+                        }
+                    };
+                    //MessageBox.Show("Please Enter Invoice Number!");
+                }
+            }
+            else if(e.KeyCode==Keys.Enter)
+            {
+                if (txtLinkedBillNo.Text != "" || (txtLinkedBillNo.Text == "" ? 0 : Convert.ToInt64(txtLinkedBillNo.Text)) != 0)
+                {
+
+                    string InvoiceNo = txtLinkedBillNo.Text;
+                    CheckInvoiceNoForLink(InvoiceNo);
+                    txtProductCode.Clear();
+                    txtProductCode.Focus();
+                }
+                else
+                {
+                    txtProductCode.Clear();
+                    txtProductCode.Focus();
+                }
+            }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            SaleReturn = false;
+            
+                
+            InvoiceUpdate = true;
+            CalculateNetTotal();
+            GrossAmount_Total();
+                
+
+           
+
+            if (validateSave())
+            {
+                GrossAmount_Total();
+                CheckReceivedAmount();
+                this.totalBill = txtReceivableAmount.Text;
+                this.ReceivedAmount = txtAmountReceive.Text;
+                this.ReturnAmount = txtAmountReturn.Text;
+                if (!string.IsNullOrEmpty(txtCustName.Text))
+                {
+                    this.CustomerName = txtCustName.Text;
+                }
+                if (!string.IsNullOrEmpty(txtCustPhone.Text))
+                {
+                    this.CustomerPhone = txtCustPhone.Text;
+                }
+                if (!string.IsNullOrEmpty(txtRiderAmount.Text))
+                {
+                    this.RiderAmount = txtRiderAmount.Text;
+                }
+
+                frmCustomerDataFoodMama frm = new frmCustomerDataFoodMama(this);
+                frm.ShowDialog();
+                txtCustName.Text = this.CustomerName;
+                txtCustPhone.Text = this.CustomerPhone;
+                txtSalesManID.Text = this.SaleManId;
+                txtRiderAmount.Text = this.RiderAmount;
+                SaveForm();
+
+
+            }
+
 
         }
     }

@@ -1,0 +1,74 @@
+﻿/* To prevent any potential data loss issues, you should review this script in detail before running it outside the context of the database designer.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.data_pes_TargetAssigningDetail
+	DROP CONSTRAINT FK_data_pes_TargetAssigningDetail_gen_SaleManInfo
+GO
+ALTER TABLE dbo.gen_SectorInfo
+	DROP CONSTRAINT FK_gen_SectorInfo_gen_SaleManInfo
+GO
+ALTER TABLE dbo.data_SODeductionInfo
+	DROP CONSTRAINT FK_data_SODeductionInfo_gen_SaleManInfo
+GO
+ALTER TABLE dbo.data_SaleInfo
+	DROP CONSTRAINT FK_data_SaleInfo_gen_SaleManInfo
+GO
+ALTER TABLE dbo.data_OutwardGatePassInfo
+	DROP CONSTRAINT FK_data_OutwardGatePassInfo_gen_SaleManInfo
+GO
+ALTER TABLE dbo.data_SaleOrderInfo
+	DROP CONSTRAINT FK_data_SaleOrderInfo_gen_SaleManInfo
+GO
+ALTER TABLE dbo.gen_PartiesInfo
+	DROP CONSTRAINT FK_gen_PartiesInfo_gen_SaleManInfo
+GO
+ALTER TABLE dbo.gen_SaleManInfo
+	DROP CONSTRAINT PK_gen_SaleManInfo
+GO
+ALTER TABLE dbo.gen_SaleManInfo SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.gen_PartiesInfo SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.data_SaleOrderInfo SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.data_OutwardGatePassInfo SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.data_SaleInfo SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.data_SODeductionInfo SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.gen_SectorInfo SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.data_pes_TargetAssigningDetail SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT

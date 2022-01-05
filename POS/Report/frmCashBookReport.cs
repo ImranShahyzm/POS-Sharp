@@ -1,4 +1,5 @@
-﻿using POS.Report;
+﻿using POS.Helper;
+using POS.Report;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,8 +61,26 @@ namespace POS
                 string WhereClause = "";
                 reportName = "DailyCashBook";
                 WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
-                obj.CashBook("rpt_CashBook", reportName, value);
-                //obj.ShowDialog();
+                if (!CompanyInfo.isKhaakiSoft)
+                {
+                    if(CompanyInfo.CounterID>0)
+                    {
+                        string[] Para3 = { "@CounterID",Convert.ToString(CompanyInfo.CounterID) };
+                        value.Add(Para3);
+                        obj.CashBook("rpt_CashBookCounterWise", reportName, value);
+                    }
+                    else
+                    {
+                        obj.CashBook("rpt_CashBookFoodMama", reportName, value);
+                        
+                    }
+                  
+                }
+                else
+                {
+                    obj.CashBook("rpt_CashBook", reportName, value);
+                }
+                    //obj.ShowDialog();
             };        }
 
        

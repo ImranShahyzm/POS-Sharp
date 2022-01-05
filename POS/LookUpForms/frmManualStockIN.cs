@@ -41,7 +41,7 @@ namespace POS.LookUpForms
             {
                 DataTable dt = new DataTable();
                 SqlConnection con = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("GetVoucherNoPos", con);
+                SqlCommand cmd = new SqlCommand("POSGetVoucherNoSContinuos", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter();
                 cmd.Parameters.Add(new SqlParameter("@Fieldname", Fieldname));
@@ -215,6 +215,34 @@ namespace POS.LookUpForms
             txtVehicleNo.ReadOnly = true;
 
         }
+        private int GetItemIDbyBuiltInBarcodes(string BarcodeNumber = "")
+        {
+            string SqlString = "Select Top 1 inv.ItemId,inv.ManualNumber,inv.ItemSalesPrice from data_InventItemsBarcodeDetail dt inner join InventItems inv on inv.ItemId=dt.ItemID";
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+
+            if (!string.IsNullOrEmpty(BarcodeNumber))
+            {
+                SqlString += "where dt.BarcodeNumber = " + BarcodeNumber;
+            }
+            try
+            {
+                SqlCommand cmd = new SqlCommand(SqlString, cnn);
+                cmd.CommandType = CommandType.Text;
+                var ItemID = cmd.ExecuteScalar();
+                int ItemIDReturn = ItemID is DBNull ? 0 : Convert.ToInt32(ItemID);
+                return ItemIDReturn;
+            }
+            catch (Exception e)
+            {
+                cnn.Close();
+                return 0;
+            }
+
+
+        }
 
         private void txtProductID_KeyDown(object sender, KeyEventArgs e)
         {
@@ -222,7 +250,8 @@ namespace POS.LookUpForms
             {
                 if (txtProductID.Text != "")
                 {
-                    DataTable dt = getProduct(0, 0, txtProductID.Text);
+                    var ItemID = GetItemIDbyBuiltInBarcodes(txtProductID.Text);
+                    DataTable dt = getProduct(0, ItemID, txtProductID.Text);
                     if (dt.Rows.Count == 0)
                     {
                         using (frmProductLookUp obj = new frmProductLookUp())
@@ -421,7 +450,7 @@ namespace POS.LookUpForms
                 model.ManualNo = txtManualNo.Text;
                 model.VehicleNo = txtVehicleNo.Text;
                 model.Remarks = txtRemarks.Text;
-                var message = model.InsertManualDetaildata(dtGrid, model);
+                var message = model.InsertManualDetaildataContinuosSeriel(dtGrid, model);
                 if (message == true)
                 {
                     dgvStockInDetail.DataSource = null;
@@ -579,6 +608,15 @@ namespace POS.LookUpForms
 
                 }
 
+            }
+        }
+
+        private void txtArrivalDate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                txtManualNo.Select();
+                txtManualNo.Focus();
             }
         }
     }

@@ -136,14 +136,31 @@ namespace POS.LookUpForms
 
         private void dgvSaleInvoices_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+          
         }
 
         private void dgvSaleInvoices_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)13)
             {
-                DataGridViewRow dgr = dgvSaleInvoices.CurrentRow;
+                
+              
+            }
+        }
+        private void ResultReturn(int Index)
+        {
+          
+            if (Index > 0)
+            {
+                DataGridViewRow dgr = dgvSaleInvoices.Rows[Index];
+                SaleInvoiceNo = dgr.Cells["SalePOSNO"].Value.ToString();
+                SaleInvoiceDate = dtpSaleFromDate.Value;
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else if (Index == 0)
+            {
+                DataGridViewRow dgr = dgvSaleInvoices.Rows[0];
                 SaleInvoiceNo = dgr.Cells["SalePOSNO"].Value.ToString();
                 SaleInvoiceDate = dtpSaleFromDate.Value;
                 this.DialogResult = DialogResult.OK;
@@ -172,6 +189,22 @@ namespace POS.LookUpForms
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void dgvSaleInvoices_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = dgvSaleInvoices.SelectedRows[0].Index;
+            ResultReturn(index);
+        }
+
+        private void dgvSaleInvoices_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                int rowIndex = dgvSaleInvoices.CurrentCell.OwningRow.Index;
+                ResultReturn(rowIndex);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MetroFramework.Forms;
+using POS.Helper;
 using POS.Report;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,9 @@ namespace POS
         public frmStockReport()
         {
             InitializeComponent();
-            
-          
+            laodCategories();
+
+
         }
 
         
@@ -38,7 +40,31 @@ namespace POS
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        
+        private void laodCategories()
+        {
+
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            string SqlString = " Select CategoryID,CategoryName from inventCategory where CompanyID=" + CompanyInfo.CompanyID + "";
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            DataRow dr = dt.NewRow();
+            dr[0] = "0";
+            dr[1] = "--Categories--";
+            dt.Rows.InsertAt(dr, 0);
+
+            cmbCategory.ValueMember = "CategoryID";
+            cmbCategory.DisplayMember = "CategoryName";
+            cmbCategory.DataSource = dt;
+
+
+
+        }
+
         private void btnPreview_Click(object sender, EventArgs e)
         {
             var value = new List<string[]>();
@@ -60,13 +86,42 @@ namespace POS
                 string reportName = "";
                 string WhereClause = "";
                 reportName = "STOCKREPORT";
-              //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
-                obj.StockReport(reportName, dtpSaleToDate.Value);
-              
+                //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
+                if (!chkArticlesFilter.Checked)
+                {
+                    obj.StockReport(reportName, dtpSaleToDate.Value, Convert.ToInt32(cmbCategory.SelectedValue),null, null);
+                }
+                else
+                {
+
+
+                    obj.StockReport(reportName, dtpSaleToDate.Value, Convert.ToInt32(cmbCategory.SelectedValue), dtRegisterDate.Value, dtRegisterTo.Value);
+                }
             };        }
 
-       
+        private void label5_Click(object sender, EventArgs e)
+        {
 
+        }
 
+        private void dtpSaleToDate_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void frmStockReport_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkArticlesFilter_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

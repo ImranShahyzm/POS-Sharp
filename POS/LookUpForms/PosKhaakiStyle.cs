@@ -21,11 +21,25 @@ namespace POS
     public partial class PosKhaakiStyle : MetroForm
     {
         public bool directReturn = false;
+
+        public bool InvoiceCancel = false;
         public int SaleInvoiceNo = 0;
         public int SalePosMasterID = 0;
         public decimal netAmountForReturn = 0;
+        public string CustomerName { get; set; }
+        public string CustomerPhone { get; set; }
 
-        public bool SaleReturn = false;
+        public string totalBill { get; set; }
+        public string ReceivedAmount { get; set; }
+        public string ReturnAmount { get; set; }
+            public bool SaleReturn = false;
+        public bool UpdateInvoice = false;
+        public string CardNumber { get; set; }
+        public string CardName { get; set; }
+        public bool AllowSave { get; set; }
+      
+        public string SaleManId { get; set; }
+        frmmakeOrderNewKhaaki frmMakeOrder =new frmmakeOrderNewKhaaki();
         public PosKhaakiStyle()
         {
             InitializeComponent();
@@ -36,6 +50,9 @@ namespace POS
             loadSaleMenuGroup();
             lblShopName.Text ="( "+ CompanyInfo.WareHouseName+" )";
             loadNewSale();
+            txtProductCode.Select();
+
+            txtProductCode.Focus();
 
         }
         private void loadProducts()
@@ -70,8 +87,11 @@ namespace POS
             cnn = new SqlConnection(connectionString);
             cnn.Open();
             string SqlString = " Select * from vw_khaakiPromo";
-            string whereClause = " where BookingStartDate<='"+txtSaleDate.Value+ "' and BookingEndDate>='"+txtSaleDate.Value+"' and WHID="+CompanyInfo.WareHouseID+" and ItemId="+ItemId+"" ;
-
+            //string whereClause = " where BookingStartDate<='"+txtSaleDate.Value+ "' and BookingEndDate>='"+txtSaleDate.Value+"' and WHID="+CompanyInfo.WareHouseID+" and ItemId="+ItemId+"" ;
+            DateTime StartDate = Convert.ToDateTime(txtSaleDate.Value);
+            DateTime EndDate = StartDate;
+            string whereClause = " where ((vw_khaakiPromo.BookingStartDate between '" + Convert.ToDateTime(StartDate) + "' and '" + Convert.ToDateTime(EndDate) + "') OR " +
+                " (vw_khaakiPromo.BookingEndDate between '" + Convert.ToDateTime(StartDate) + "' and '" + Convert.ToDateTime(EndDate) + "') OR (BookingStartDate<='" + Convert.ToDateTime(StartDate) + "' and BookingEndDate >='" + Convert.ToDateTime(EndDate) + "')) and vw_khaakiPromo.WHID=" + Convert.ToInt32(CompanyInfo.WareHouseID) + " and ItemId=" + ItemId + "";
             SqlDataAdapter sda = new SqlDataAdapter(SqlString+whereClause, cnn);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -83,7 +103,7 @@ namespace POS
                     int SchemeID = Convert.ToInt32(dt.Rows[i]["SchemeID"]);
                     string SchemeTitle = Convert.ToString(dt.Rows[i]["PromoName"]);
                     lblRunningPromo.Text = SchemeTitle + "at min "+ Convert.ToString(Convert.ToInt32(dt.Rows[i]["Qauntity"]))+ " Quantity" ;
-                    txtPromoDisc.Text = Convert.ToString(dt.Rows[i]["PromoPercentage"]);
+                    txtPromoDisc.Text = Convert.ToString(dt.Rows[i]["AdditionPercentage"]);
                     txtMinQty.Text = Convert.ToString(dt.Rows[i]["Qauntity"]);
                     txtSchemeID.Text = SchemeID.ToString();
 
@@ -91,12 +111,38 @@ namespace POS
             }
             else
             {
-                txtPromoDisc.Text = "0";
-                txtMinQty.Text = "0";
-                txtSchemeID.Text = "";
-                txtPromoDiscAmt.Text = "0";
+                whereClause = " where ((vw_khaakiPromoonAll.BookingStartDate between '" + Convert.ToDateTime(StartDate) + "' and '" + Convert.ToDateTime(EndDate) + "') OR " +
+                " (vw_khaakiPromoonAll.BookingEndDate between '" + Convert.ToDateTime(StartDate) + "' and '" + Convert.ToDateTime(EndDate) + "') OR (BookingStartDate<='" + Convert.ToDateTime(StartDate) + "' and BookingEndDate >='" + Convert.ToDateTime(EndDate) + "')) and vw_khaakiPromoonAll.WHID=" + Convert.ToInt32(CompanyInfo.WareHouseID) + "";
+                cnn.Open();
+                 sda = new SqlDataAdapter("Select * from  vw_khaakiPromoonAll " + whereClause, cnn);
+                dt = new DataTable();
+                sda.Fill(dt);
+                cnn.Close();
+                
+                if (dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        int SchemeID = Convert.ToInt32(dt.Rows[i]["SchemeID"]);
+                        string SchemeTitle = Convert.ToString(dt.Rows[i]["PromoName"]);
+                        lblRunningPromo.Text = SchemeTitle + "at min " + Convert.ToString(Convert.ToInt32(dt.Rows[i]["Qauntity"])) + " Quantity";
+                        txtPromoDisc.Text = Convert.ToString(dt.Rows[i]["AdditionPercentage"]);
+                        txtMinQty.Text = Convert.ToString(dt.Rows[i]["Qauntity"]);
+                        txtSchemeID.Text = SchemeID.ToString();
 
+                    }
+                }
+                else
+                {
+                    txtPromoDisc.Text = "0";
+                    txtMinQty.Text = "0";
+                    txtSchemeID.Text = "";
+                    txtPromoDiscAmt.Text = "0";
+                }
             }
+             
+
+            
         }
         private void laodCategories()
         {
@@ -275,6 +321,7 @@ namespace POS
         }
         private void PosKhaakiStyle_Load(object sender, EventArgs e)
         {
+          
             //SetupDataGridView();
         }
 
@@ -390,72 +437,96 @@ namespace POS
             decimal sum = 0;
             decimal taxAmountTotal = 0;
             decimal TotalDiscount = 0;
+            decimal TotalExchanged = 0;
             for (int i = 0; i < ItemSaleGrid.Rows.Count; ++i)
             {
-                sum += Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value));
-                taxAmountTotal += Convert.ToString(ItemSaleGrid.Rows[i].Cells[6].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[6].Value); 
-                TotalDiscount += Convert.ToString(ItemSaleGrid.Rows[i].Cells[8].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[8].Value);
+                var isCheck = Convert.ToString(ItemSaleGrid.Rows[i].Cells[14].Value);
+                if (isCheck == "True")
+                {
+                    TotalExchanged += Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[10].Value));
+                }
+                    sum += Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[5].Value));
+                taxAmountTotal += Convert.ToString(ItemSaleGrid.Rows[i].Cells[7].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[7].Value); 
+                TotalDiscount += Convert.ToString(ItemSaleGrid.Rows[i].Cells[9].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[9].Value);
             }
-            txtGrossAmount.Text = Convert.ToString(Math.Round(sum, 2));
-            txtTotalTax.Text = Convert.ToString(Math.Round(taxAmountTotal, 2));
-            txtTotalDiscount.Text = Convert.ToString(Math.Round(TotalDiscount, 2));
+            txtGrossAmount.Text = Convert.ToString(Math.Ceiling(sum+(-1 * TotalExchanged)));
+            txtTotalTax.Text = Convert.ToString(Math.Ceiling(taxAmountTotal));
+            decimal discAmount = txtDiscountAmount.Text == "" ? 0 : Convert.ToDecimal(txtDiscountAmount.Text);
+            txtTotalDiscount.Text = Convert.ToString(Math.Ceiling(TotalDiscount+discAmount));
+            txtExchangeAmt.Text = Convert.ToString(Math.Ceiling((-1)*TotalExchanged));
             CalculateNetTotal();
+            cashCardPayments();
 
         }
 
         private void CalculateNetTotal()
         {
-            decimal grossAmount = Convert.ToDecimal(txtGrossAmount.Text);
-            decimal totalTaxAmount = Convert.ToDecimal(txtTotalTax.Text);
-            //decimal discAmount = txtDiscountAmount.Text == "" ? 0 : Convert.ToDecimal(txtDiscountAmount.Text);
-          //  decimal discPercentage = txtDiscountPercentage.Text == "" ? 0 : Convert.ToDecimal(txtDiscountPercentage.Text);
-            decimal otherCharges = txtOtherCharges.Text == "" ? 0 : Convert.ToDecimal(txtOtherCharges.Text);
-            // decimal totalDiscount = ((discPercentage * grossAmount) / 100) + discAmount;
-            decimal totalDiscount = txtTotalDiscount.Text == "" ? 0 : Convert.ToDecimal(txtTotalDiscount.Text);
-            decimal netAmount = grossAmount - totalDiscount + totalTaxAmount + otherCharges;
-            
-            txtNetAmount.Text = Math.Round(netAmount,2).ToString();
-            if (SaleInvoiceNo == 0)
+            try
             {
-                if (directReturn==true)
+                decimal grossAmount = txtGrossAmount.Text == "" ? 0 : Convert.ToDecimal(txtGrossAmount.Text);
+                decimal totalTaxAmount = txtTotalTax.Text == "" ? 0 : Convert.ToDecimal(txtTotalTax.Text);
+                decimal ExchangeAmount = txtExchangeAmt.Text == "" ? 0 : Convert.ToDecimal(txtExchangeAmt.Text);
+                decimal discAmount = txtDiscountAmount.Text == "" ? 0 : Convert.ToDecimal(txtDiscountAmount.Text);
+                //  decimal discPercentage = txtDiscountPercentage.Text == "" ? 0 : Convert.ToDecimal(txtDiscountPercentage.Text);
+                decimal otherCharges = txtOtherCharges.Text == "" ? 0 : Convert.ToDecimal(txtOtherCharges.Text);
+                // decimal totalDiscount = ((discPercentage * grossAmount) / 100) + discAmount;
+                decimal totalDiscount = txtTotalDiscount.Text == "" ? 0 : Convert.ToDecimal(txtTotalDiscount.Text);
+                decimal netAmount = grossAmount - totalDiscount + totalTaxAmount + otherCharges - (ExchangeAmount);
+
+                txtNetAmount.Text = Math.Ceiling(netAmount).ToString();
+                if (SaleInvoiceNo == 0)
                 {
-                    txtPayableAmount.Text = netAmount.ToString();
+                    if (directReturn == true)
+                    {
+                        txtPayableAmount.Text = netAmount.ToString();
+                    }
+                    else
+                    {
+                        txtReceivableAmount.Text = Math.Ceiling(netAmount).ToString();
+                    }
+
                 }
                 else
                 {
-                    txtReceivableAmount.Text = Math.Round(netAmount,2).ToString();
+                    decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
+                    decimal accAmount = txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text);
+                    if (UpdateInvoice == false)
+                    {
+                        //txtAmountReturn.Text = (recAmount - netAmount).ToString();
+                        if (accAmount >= netAmount)
+                        {
+                            //txtAmountReturn.Text = (accAmount - netAmount).ToString();
+                            txtPayableAmount.Text = (netAmount).ToString();
+                            txtReceivableAmount.Text = "0.00";
+                        }
+                        else
+                        {
+                            txtAmountReturn.Text = "0.00";
+                            txtAmountReceive.Text = "0.00";
+                            txtPayableAmount.Text = "0.00";
+                            txtReceivableAmount.Text = Math.Ceiling((netAmount - accAmount)).ToString();
+                        }
+                    }
+                    else
+
+                    {
+                        txtReceivableAmount.Text = Math.Ceiling(netAmount).ToString();
+                    }
                 }
-                
-            }
-            else
-            {
-                decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
-                decimal accAmount = txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text);
-                //txtAmountReturn.Text = (recAmount - netAmount).ToString();
-                if (accAmount >= netAmount)
+                decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+                decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
+                if (payableAmount == 0 && returnAmount > 0)
                 {
-                    //txtAmountReturn.Text = (accAmount - netAmount).ToString();
-                    txtPayableAmount.Text = (netAmount).ToString();
-                    txtReceivableAmount.Text = "0.00";
-                }
-                else
-                {
-                    txtAmountReturn.Text = "0.00";
                     txtAmountReceive.Text = "0.00";
-                    txtPayableAmount.Text = "0.00";
-                    txtReceivableAmount.Text = Math.Round((netAmount - accAmount),2).ToString();
+                    txtAmountReceive.ReadOnly = true;
                 }
-            }
-            decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
-            decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
-            if (payableAmount == 0 && returnAmount > 0)
+                else if (payableAmount > 0)
+                {
+                    txtAmountReceive.ReadOnly = false;
+                }
+            } catch(Exception e)
             {
-                txtAmountReceive.Text = "0.00";
-                txtAmountReceive.ReadOnly = true;
-            }
-            else if (payableAmount > 0)
-            {
-                txtAmountReceive.ReadOnly = false;
+                MessageBox.Show(e.Message);
             }
         }
 
@@ -468,43 +539,50 @@ namespace POS
         {
             for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
             {
-                var strQuantity =Convert.ToString(ItemSaleGrid.Rows[i].Cells[3].Value);
+                var isCheck = Convert.ToString(ItemSaleGrid.Rows[i].Cells[14].Value);
+
+                var strQuantity =Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value);
                 if (string.IsNullOrEmpty(strQuantity) || strQuantity=="0")
                 {
-                    ItemSaleGrid.Rows[i].Cells[3].Value="1";
+                    ItemSaleGrid.Rows[i].Cells[4].Value="1";
                 }
 
                 int id = Convert.ToInt32( ItemSaleGrid.Rows[i].Cells[0].Value.ToString());
                 DataTable dt = getProduct(0, Convert.ToInt32(id));
                 var taxPercentage = Convert.ToDecimal(dt.Rows[0]["TotalTax"]);
-                string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
+                string rateValue = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
                 string total = (Convert.ToDecimal(rateValue) * 1).ToString();
                 //********** Promo Working Starts From here ***********//
 
-                var SchemeDiscount = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[7].Value.ToString());
-                var MinSchemQuantity = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[11].Value.ToString());
-                var OrderQuantity= Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[3].Value.ToString());
+                var SchemeDiscount = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[8].Value.ToString());
+                var MinSchemQuantity = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[12].Value.ToString());
+                var OrderQuantity= Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value.ToString());
+                var defualtQty = 1;
+                if (Convert.ToBoolean(isCheck))
+                {
+                    defualtQty = defualtQty * -1;
+                }
                 var GrossAmount = OrderQuantity * Convert.ToDecimal(rateValue);
-                if (OrderQuantity >= MinSchemQuantity)
+                if (OrderQuantity* defualtQty >= MinSchemQuantity)
                 {
                     var DiscontAmountOnRate = (Convert.ToDecimal(rateValue) / 100) * SchemeDiscount;
                     var DiscountedRate = Convert.ToDecimal(rateValue) - DiscontAmountOnRate;
                     var NetAmount = Convert.ToDecimal(OrderQuantity) * Convert.ToDecimal(DiscountedRate);
                     var txtPromoDiscAmt = Convert.ToDecimal(Convert.ToDecimal(OrderQuantity) * Convert.ToDecimal(DiscontAmountOnRate));
-                    ItemSaleGrid.Rows[i].Cells[8].Value = Math.Round(txtPromoDiscAmt, 2);
-                    ItemSaleGrid.Rows[i].Cells[9].Value = Math.Round(NetAmount, 2);
+                    ItemSaleGrid.Rows[i].Cells[9].Value = Math.Round(txtPromoDiscAmt, 2);
+                    ItemSaleGrid.Rows[i].Cells[10].Value = Math.Round(NetAmount, 2);
                 }
                 else
                 {
                     string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rateValue)) / 100) * 1).ToString();
-                    string value = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
+                    string value = ItemSaleGrid.Rows[i].Cells[4].Value.ToString();
                     decimal rate = Convert.ToDecimal(rateValue);
                     decimal qty = Convert.ToDecimal(value);
-                    ItemSaleGrid.Rows[i].Cells[8].Value = 0;
-                    ItemSaleGrid.Rows[i].Cells[9].Value = Math.Round((qty) * rate, 2);
-                    ItemSaleGrid.Rows[i].Cells[6].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * (qty);
+                    ItemSaleGrid.Rows[i].Cells[9].Value = 0;
+                    ItemSaleGrid.Rows[i].Cells[10].Value = Math.Round((qty) * rate, 2);
+                    ItemSaleGrid.Rows[i].Cells[7].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * (qty);
                 }
-                ItemSaleGrid.Rows[i].Cells[4].Value = Math.Round((GrossAmount), 2);
+                ItemSaleGrid.Rows[i].Cells[5].Value = Math.Round((GrossAmount), 2);
                 //************ Promo Working Ends Here ************//
 
                 GrossAmount_Total();
@@ -526,6 +604,20 @@ namespace POS
 
 
         private void txtDiscountPercentage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+            (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+        private void txtDiscountAmount_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
             (e.KeyChar != '.'))
@@ -639,28 +731,31 @@ namespace POS
             string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rates)) / 100) * 1).ToString();
 
             bool recordExist = false;
-            for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
+            if (!chkExchange.Checked)
             {
-                if (id == Convert.ToInt32(ItemSaleGrid.Rows[i].Cells[0].Value.ToString()))
+                for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
                 {
+                    if (id == Convert.ToInt32(ItemSaleGrid.Rows[i].Cells[0].Value.ToString()) && Convert.ToBoolean(ItemSaleGrid.Rows[i].Cells[14].Value.ToString())==false)
+                    {
 
-                    string value = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
-                    
-                    string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
-                    decimal rate = Convert.ToDecimal(rateValue);
-                    decimal qty = Convert.ToDecimal(value);
-                    decimal taxPerctge= Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
-                    qty = qty + Convert.ToDecimal(txtQuantity.Text);
-                    
-                    ItemSaleGrid.Rows[i].Cells[3].Value = qty;
-                    ItemSaleGrid.Rows[i].Cells[4].Value = (qty) * rate;
-                    ItemSaleGrid.Rows[i].Cells[6].Value = ((Convert.ToDecimal(taxPerctge) * rate) / 100) * qty;
+                        string value = ItemSaleGrid.Rows[i].Cells[4].Value.ToString();
 
-                    recordExist = true;
-                    GrossAmount_Total();
-                    ClearFields();
-                    txtProductCode.Focus();
-                    return;
+                        string rateValue = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
+                        decimal rate = Convert.ToDecimal(rateValue);
+                        decimal qty = Convert.ToDecimal(value);
+                        decimal taxPerctge = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[6].Value);
+                        qty = qty + Convert.ToDecimal(txtQuantity.Text);
+
+                        ItemSaleGrid.Rows[i].Cells[4].Value = qty;
+                        ItemSaleGrid.Rows[i].Cells[5].Value = (qty) * rate;
+                        ItemSaleGrid.Rows[i].Cells[7].Value = ((Convert.ToDecimal(taxPerctge) * rate) / 100) * qty;
+
+                        recordExist = true;
+                        GrossAmount_Total();
+                        ClearFields();
+                        txtProductCode.Focus();
+                        return;
+                    }
                 }
             }
             if (!recordExist)
@@ -671,7 +766,13 @@ namespace POS
                     MessageBox.Show("Please Fill All the Fields...");
                     return;
                 }
-                var Value = txtQuantity.Text;
+                
+                decimal Value = Convert.ToDecimal(txtQuantity.Text);
+                if (chkExchange.Checked)
+                {
+                    Value = Value* -1;
+                    txtQuantity.Text = Convert.ToString(Value);
+                }
                 var Rate = txtRate.Text;
                 var NetAmount = Convert.ToDecimal(Value) * Convert.ToDecimal(Rate);
 
@@ -680,9 +781,10 @@ namespace POS
                 //ClearFields();
                 txtProductID.Focus();
 
-                string[] row = { id.ToString(), cmbProducts.Text, txtRate.Text.ToString(), txtQuantity.Text.ToString(),  txtDtGross.Text.ToString(),  txtTax.Text.ToString(),txtTaxAmount.Text.ToString(), txtPromoDisc.Text.ToString(),txtPromoDiscAmt.Text.ToString(),txtdetailAmount.Text.ToString(), txtAvailableQty.Text.ToString(),txtMinQty.Text.ToString(),Convert.ToString(txtSchemeID.Text) };
+                string[] row = { id.ToString(),Convert.ToString(txtProductCode.Text), cmbProducts.Text, txtRate.Text.ToString(), txtQuantity.Text.ToString(),  txtDtGross.Text.ToString(),  txtTax.Text.ToString(),txtTaxAmount.Text.ToString(), txtPromoDisc.Text.ToString(),txtPromoDiscAmt.Text.ToString(),txtdetailAmount.Text.ToString(), txtAvailableQty.Text.ToString(),txtMinQty.Text.ToString(),Convert.ToString(txtSchemeID.Text), Convert.ToString(chkExchange.Checked) };
                 ItemSaleGrid.Rows.Insert(0,row);
             }
+            CalculateDetail();
             GrossAmount_Total();
             ClearFields();
             txtProductCode.Focus();
@@ -710,7 +812,9 @@ namespace POS
                                 GetRunningPromo(id);
                                 txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                 txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
-                                txtQuantity.Focus();
+                                //txtQuantity.
+                                txtQuantity.Text = "1";
+                                txtQuantity_KeyDown(sender, e);
                             }
                         };
                     }
@@ -723,7 +827,8 @@ namespace POS
                         txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
                         setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
                         GetRunningPromo(Convert.ToInt32(dt.Rows[0]["ItemId"]));
-                        txtQuantity.Focus();
+                        txtQuantity.Text="1";
+                        txtQuantity_KeyDown(sender, e);
                     }
                     string ids = cmbProducts.SelectedValue.ToString();
                     {
@@ -745,17 +850,38 @@ namespace POS
             }
             if(e.KeyCode==Keys.Escape)
             {
-                txtOtherCharges.Focus();
+                txtDiscountAmount.Focus();
                 //txtDiscountPercentage.Focus();
             }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            btnSave.Enabled = false;
             if (validateSave())
             {
-               
-                SaveForm();
+                GrossAmount_Total();
+                CheckReceivedAmount();
+                this.totalBill = txtReceivableAmount.Text;
+                this.ReceivedAmount = txtAmountReceive.Text;
+                this.ReturnAmount = txtAmountReturn.Text;
+
+                frmCustomerData frm = new frmCustomerData(this);
+                frm.ShowDialog();
+                txtCustName.Text = this.CustomerName;
+                txtCustPhone.Text = this.CustomerPhone;
+                txtSalesManID.Text = this.SaleManId;
+                if (Convert.ToInt32(txtSalesManID.Text) == 0)
+                {
+
+                    MessageBox.Show("Please Select Sales Person....!!!");
+                    return;
+                }
+                else
+                {
+                    SaveForm();
+                }
+                
             }
 
         }
@@ -778,29 +904,33 @@ namespace POS
             dt1.Columns.Add("SalePosDetailID");
             dt1.Columns.Add("SchemeID");
             dt1.Columns.Add("MinQuantity");
-            
+            dt1.Columns.Add("isExchange");
+
 
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
                 DataRow dRow = dt1.NewRow();
                 i = i + 1;
-                var TQty = Convert.ToDecimal(row.Cells[3].Value.ToString());//+(Convert.ToDecimal(row.Cells[4].Value.ToString()) * Convert.ToDecimal(row.Cells[13].Value.ToString()));
+                var TQty = Convert.ToDecimal(row.Cells[4].Value.ToString());//+(Convert.ToDecimal(row.Cells[4].Value.ToString()) * Convert.ToDecimal(row.Cells[13].Value.ToString()));
+                
                 dRow[0] = i;
                 dRow[1] = row.Cells[0].Value.ToString();
                 dRow[2] = TQty.ToString();
-                dRow[3] = row.Cells[2].Value.ToString();
-                dRow[4] = row.Cells[5].Value.ToString();
-                dRow[5] = row.Cells[6].Value.ToString();
-                dRow[6] = row.Cells[7].Value.ToString(); 
-                dRow[7] = row.Cells[8].Value.ToString();
-                dRow[8] = row.Cells[9].Value.ToString();
+                dRow[3] = row.Cells[3].Value.ToString();
+                dRow[4] = row.Cells[6].Value.ToString();
+                dRow[5] = row.Cells[7].Value.ToString();
+                dRow[6] = row.Cells[8].Value.ToString(); 
+                dRow[7] = row.Cells[9].Value.ToString();
+                dRow[8] = row.Cells[10].Value.ToString();
                 dRow[9] = 0;//row.Cells[13].Value.ToString();
                 dRow[10] =0;// row.Cells[4].Value.ToString();
                 dRow[11] = TQty;// row.Cells[7].Value.ToString();
                 dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
-                dRow[13] = Convert.ToString(row.Cells[12].Value);
-                dRow[14] = Convert.ToString(row.Cells[11].Value);
+                
+                dRow[13] = Convert.ToString(row.Cells[13].Value);
+                dRow[14] = Convert.ToString(row.Cells[12].Value);
+                dRow[15] = Convert.ToBoolean(row.Cells[14].Value);
                 dt1.Rows.Add(dRow);
             }
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -809,13 +939,19 @@ namespace POS
             con.Open();
             tran = con.BeginTransaction();
             SqlCommand cmd;
-            if (SaleReturn==false)
+            if (UpdateInvoice == false)
             {
                 cmd = new SqlCommand("data_SalePosInfo_Insert", con);
             }
+            else if(InvoiceCancel == false)
+            {
+                cmd = new SqlCommand("data_SalePosInfo_update", con);
+                SalePosMasterID = Convert.ToInt32(SalePosID.Text);
+            }
             else
             {
-                cmd = new SqlCommand("data_SalePosReturnInfo_Insert", con);
+                cmd = new SqlCommand("data_SalePosInfo_Cancel", con);
+                SalePosMasterID = Convert.ToInt32(SalePosID.Text);
             }
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter();
@@ -840,6 +976,7 @@ namespace POS
             cmd.Parameters.AddWithValue("@AmountReceive", txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text));
             cmd.Parameters.AddWithValue("@AmountReturn", txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text));
             cmd.Parameters.AddWithValue("@AmountInAccount", txtAccAmount.Text == "" ? 0 : Convert.ToDecimal(txtAccAmount.Text));
+            cmd.Parameters.AddWithValue("@ExchangeAmount", txtExchangeAmt.Text == "" ? 0 : Convert.ToDecimal(txtExchangeAmt.Text));
             if (SaleInvoiceNo > 0)
             {
                 cmd.Parameters.AddWithValue("@AmountPayable", txtPayableAmount.Text == "" ? Convert.ToDecimal(txtAccAmount.Text) : Convert.ToDecimal(txtPayableAmount.Text));
@@ -851,7 +988,11 @@ namespace POS
                 cmd.Parameters.AddWithValue("@AmountReceivable", txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text));
             cmd.Parameters.AddWithValue("@CustomerPhone", txtCustPhone.Text == "" ? null : Convert.ToString(txtCustPhone.Text));
             cmd.Parameters.AddWithValue("@CustomerName", txtCustName.Text == "" ? null : Convert.ToString(txtCustName.Text));
-
+            cmd.Parameters.AddWithValue("@CardNumber", txtCardNumber.Text == "" ? null : Convert.ToString(txtCardNumber.Text));
+            cmd.Parameters.AddWithValue("@CardName", txtCardName.Text == "" ? null : Convert.ToString(txtCardName.Text));
+            cmd.Parameters.AddWithValue("@CashPayment", txtCashAmount.Text == "" ? null : Convert.ToString(txtCashAmount.Text));
+            cmd.Parameters.AddWithValue("@CardPayment", txtCardAmount.Text == "" ? null : Convert.ToString(txtCardAmount.Text));
+            cmd.Parameters.AddWithValue("@SaleManId", txtSalesManID.Text == "" ? null : Convert.ToString(txtSalesManID.Text));
             if (directReturn==true)
             {
                 cmd.Parameters.AddWithValue("@DirectReturn", true);
@@ -864,23 +1005,26 @@ namespace POS
                 cmd.Transaction = tran; da.Fill(dt1);
                 tran.Commit();
                 string SaleInvoiceNO = p.Value.ToString();
+                frmMakeOrder.SalePosID = Convert.ToInt32(p.Value);
+               
                 var value = new List<string[]>();
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
                 value.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
-                if (directReturn == false)
+                if (directReturn == false && InvoiceCancel==false)
                 {
                     reportName = "SaleInvoice";
-                    //obj.loadReport("rpt_sale_invoice", reportName, value);
-                    obj.loadSaleReport("rpt_sale_invoice", reportName, value);
-                    obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
+
+                    obj.loadKhaakiInvoice("rpt_sale_invoice", reportName, value);
                 }
-                //else
-                //{
-                //    reportName = "SaleInvoiceReturn";
-                //    obj.loadReport("rpt_sale_invoice", reportName, value);
-                //}
+                InvoiceCancel = false;
+                btnCancelInvoice.Visible = false;
+                if (frmMakeOrder.AllowSave == true && InvoiceCancel == false)
+                {
+                    frmMakeOrder.Saleview = MakeOrderDetailDataTable();
+                    frmMakeOrder.SaveForm();
+                }
                 clearAll();
                 if (SaleInvoiceNo == 0)
                 {
@@ -906,7 +1050,9 @@ namespace POS
                 //{
                 //    tran.Rollback();
                 //}
-                    MessageBox.Show(ex.Message, "Important Message", MessageBoxButtons.OK,MessageBoxIcon.Error);
+
+                btnSave.Enabled = true;
+                MessageBox.Show(ex.Message, "Important Message", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             finally
             {
@@ -942,23 +1088,31 @@ namespace POS
                 {
                     txtAmountReceive.Focus();
                     MessageBox.Show("Amount Receive should be greater than Receivable Amount!");
+
+                    btnSave.Enabled = true;
                     validateReturnOK = false;
                 }
                 else if (amountReturn < 0)
                 {
                     txtAmountReceive.Focus();
                     MessageBox.Show("Receiable Amount is not fully paid!");
+
+                    btnSave.Enabled = true;
                     validateReturnOK = false;
                 }
                 else if (lblSaleType.Text == "Sale Return" && SaleInvoiceNo == 0)
                 {
                     MessageBox.Show("There is no Invoice No."+ Environment.NewLine +" For New Sale Please Click New Sale button OR Press ( ALT+N ) !");
+
+                    btnSave.Enabled = true;
                     validateReturnOK = false;
                 }
             }
             else
             {
                 validateReturnOK = false;
+
+                btnSave.Enabled = true;
                 MessageBox.Show("There is no item in cart!");
             }
             return validateReturnOK;
@@ -1015,6 +1169,8 @@ namespace POS
             ItemSaleGrid.Rows.Clear();
             ItemSaleGrid.Refresh();
             txtTotalTax.Text = "0";
+            SalePosID.Clear();
+            SalePosID.Text="";
             txtGrossAmount.Text = "0";
             txtDiscountPercentage.Text = "0";
             txtDiscountAmount.Text = "0";
@@ -1031,6 +1187,23 @@ namespace POS
             txtCustName.Clear();
             txtCustPhone.Clear();
             directReturn = false;
+            txtCardAmount.Clear();
+            txtCardNumber.Clear();
+            this.CardName = "";
+            this.CardNumber = "";
+            txtCashAmount.Clear();
+            txtCardAmount.Clear();
+            this.AllowSave = false;
+            this.CustomerName = "";
+            this.CustomerPhone = "";
+            this.totalBill = "0";
+            this.ReceivedAmount = "0";
+            this.ReturnAmount = "0";
+            btnCancelInvoice.Visible = false;
+            btnCancelInvoice.Text = "Cancel Invoice";
+            InvoiceCancel = false;
+            SalePosMasterID = 0;
+
         }
 
         private void loadNewSale()
@@ -1040,9 +1213,15 @@ namespace POS
             SaleInvoiceNo = 0;
             getInvoiceNumber();
             txtCustPhone.Select();
-            txtCustPhone.Focus();
+            txtProductCode.Focus();
             SaleReturn = false;
+            UpdateInvoice = false;
+            InvoiceCancel = false;
+            btnSave.Visible = true;
+
+            btnSave.Enabled = true;
             //txtAmountReceive.ReadOnly = false;
+            frmMakeOrder.clearAll();
         }
 
         private void getInvoiceNumber()
@@ -1110,6 +1289,7 @@ namespace POS
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+           
             if (keyData == (Keys.Alt | Keys.S))
             {
                 if (validateSave())
@@ -1134,6 +1314,12 @@ namespace POS
                 txtAmountReceive.SelectAll();
                 txtAmountReceive.Focus();
                 return true;
+            }
+
+            if(btnMakeOrder.Focused && keyData ==Keys.Tab)
+            {
+                btnSave.Select();
+                btnSave.Focus();
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -1212,11 +1398,122 @@ namespace POS
             GrossAmount_Total();
         }
 
+        private bool IsOKForDecimalTextBox(char theCharacter, TextBox theTextBox)
+        {
+            // Only allow control characters, digits, plus and minus signs.
+            // Only allow ONE plus sign.
+            // Only allow ONE minus sign.
+            // Only allow the plus or minus sign as the FIRST character.
+            // Only allow ONE decimal point.
+            // Do NOT allow decimal point or digits BEFORE any plus or minus sign.
+
+            if (
+                !char.IsControl(theCharacter)
+                && !char.IsDigit(theCharacter)
+                && (theCharacter != '.')
+                && (theCharacter != '-')
+                && (theCharacter != '+')
+            )
+            {
+                // Then it is NOT a character we want allowed in the text box.
+                return false;
+            }
+
+
+
+            // Only allow one decimal point.
+            if (theCharacter == '.'
+                && theTextBox.Text.IndexOf('.') > -1)
+            {
+                // Then there is already a decimal point in the text box.
+                return false;
+            }
+
+            // Only allow one minus sign.
+            if (theCharacter == '-'
+                && theTextBox.Text.IndexOf('-') > -1)
+            {
+                // Then there is already a minus sign in the text box.
+                return false;
+            }
+
+            // Only allow one plus sign.
+            if (theCharacter == '+'
+                && theTextBox.Text.IndexOf('+') > -1)
+            {
+                // Then there is already a plus sign in the text box.
+                return false;
+            }
+
+            // Only allow one plus sign OR minus sign, but not both.
+            if (
+                (
+                    (theCharacter == '-')
+                    || (theCharacter == '+')
+                )
+                &&
+                (
+                    (theTextBox.Text.IndexOf('-') > -1)
+                    ||
+                    (theTextBox.Text.IndexOf('+') > -1)
+                )
+                )
+            {
+                // Then the user is trying to enter a plus or minus sign and
+                // there is ALREADY a plus or minus sign in the text box.
+                return false;
+            }
+
+            // Only allow a minus or plus sign at the first character position.
+            if (
+                (
+                    (theCharacter == '-')
+                    || (theCharacter == '+')
+                )
+                && theTextBox.SelectionStart != 0
+                )
+            {
+                // Then the user is trying to enter a minus or plus sign at some position 
+                // OTHER than the first character position in the text box.
+                return false;
+            }
+
+            // Only allow digits and decimal point AFTER any existing plus or minus sign
+            if (
+                    (
+                        // Is digit or decimal point
+                        char.IsDigit(theCharacter)
+                        ||
+                        (theCharacter == '.')
+                    )
+                    &&
+                    (
+                        // A plus or minus sign EXISTS
+                        (theTextBox.Text.IndexOf('-') > -1)
+                        ||
+                        (theTextBox.Text.IndexOf('+') > -1)
+                    )
+                    &&
+                        // Attempting to put the character at the beginning of the field.
+                        theTextBox.SelectionStart == 0
+                )
+            {
+                // Then the user is trying to enter a digit or decimal point in front of a minus or plus sign.
+                return false;
+            }
+
+            // Otherwise the character is perfectly fine for a decimal value and the character
+            // may indeed be placed at the current insertion position.
+            return true;
+        }
         private void ItemSaleGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             e.Control.KeyPress -= new KeyPressEventHandler(Column1_KeyPress);
+            TextBox ttxb = e.Control as TextBox;
+           
             if (ItemSaleGrid.CurrentCell.ColumnIndex == ItemSaleGrid.Columns["Quantity"].Index) //Desired Column
             {
+                
                 TextBox tb = e.Control as TextBox;
                 if (tb != null)
                 {
@@ -1257,7 +1554,7 @@ namespace POS
             CalculateDetail();
 
         }
-
+        
         private void cmbProducts_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
@@ -1292,11 +1589,12 @@ namespace POS
         private void loadReturnView()
         {
             clearAll();
-            lblSaleType.Text = "Sale Return";
+            lblSaleType.Text = "Sale Reprint";
             txtInvoiceNo.ReadOnly = false;
             txtInvoiceNo.Text = "";
             txtInvoiceNo.Focus();
-            SaleReturn = true;
+            UpdateInvoice = true;
+
         }
         private void loadDirectReturn()
         {
@@ -1307,19 +1605,22 @@ namespace POS
 
         private void btnNewSale_Click(object sender, EventArgs e)
         {
-            using (frmSaleInvoiceLookUp obj = new frmSaleInvoiceLookUp())
-            {
-                if (obj.ShowDialog() == DialogResult.OK)
-                {
-                    string id = obj.SaleInvoiceNo;
-                    if (id!="")
-                    {
-                        clearAll();
-                        loadWholeInvoice(id);
-                        txtInvoiceNo.Text = id;
-                    }
-                }
-            };
+            clearAll();
+            loadNewSale();
+            //return true;
+            //using (frmSaleInvoiceLookUp obj = new frmSaleInvoiceLookUp())
+            //{
+            //    if (obj.ShowDialog() == DialogResult.OK)
+            //    {
+            //        string id = obj.SaleInvoiceNo;
+            //        if (id!="")
+            //        {
+            //            clearAll();
+            //            loadWholeInvoice(id);
+            //            txtInvoiceNo.Text = id;
+            //        }
+            //    }
+            //};
         }
         private void loadWholeInvoice(string InvoiceNo)
         {
@@ -1386,12 +1687,32 @@ namespace POS
                 SalePosID.Text= Convert.ToString(dt.Rows[0]["SalePosID"]);
                 txtAmountReceive.ReadOnly = true;
                 txtPrint.Visible = true;
-                SaleReturn = true;
+                SaleReturn = false;
+                var isCancelled=Convert.ToBoolean(dt.Rows[0]["DirectReturn"]);
+                if(isCancelled==true)
+                {
+                    btnCancelInvoice.Text = "Cancelled";
+                    btnCancelInvoice.Enabled = false;
+                }
+                else
+                {
+                    btnCancelInvoice.Enabled = true;
+                }
+                btnCancelInvoice.Visible = true;
+                txtSalesManID.Text= Convert.ToString(dt.Rows[0]["SaleManID"]);
+
+                txtCashAmount.Text = Convert.ToString(dt.Rows[0]["CashPayment"]);
+
+                txtCardAmount.Text = Convert.ToString(dt.Rows[0]["CardPayment"]);
+
+                txtExchangeAmt.Text = Convert.ToString(dt.Rows[0]["ExchangeAmount"]);
+                this.SaleManId=Convert.ToString(dt.Rows[0]["SaleManID"]);
                 for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
                     string[] row = {
                             Convert.ToString(dtdetail.Rows[i]["ItemId"]),
-                            Convert.ToString(dtdetail.Rows[i]["ItenName"]),
+                         Convert.ToString(dtdetail.Rows[i]["ItemNumber"]),
+                        Convert.ToString(dtdetail.Rows[i]["ItenName"]),
                             Convert.ToString(dtdetail.Rows[i]["ItemRate"]),
                             Convert.ToString(dtdetail.Rows[i]["TotalQuantity"]),
                             Convert.ToString(Convert.ToDecimal(dtdetail.Rows[i]["ItemRate"])*Convert.ToDecimal(dtdetail.Rows[i]["TotalQuantity"])),
@@ -1403,6 +1724,7 @@ namespace POS
                             "0",
                             Convert.ToString(Convert.ToInt32(dtdetail.Rows[i]["MinQuantity"])),
                             Convert.ToString(dtdetail.Rows[i]["SchemeID"]),
+                            Convert.ToString(dtdetail.Rows[i]["isExchange"]),
                     };
                     ItemSaleGrid.Rows.Add(row);
                     CalculateDetail();
@@ -1411,6 +1733,8 @@ namespace POS
                 txtProductCode.Select();
                 txtProductCode.Focus();
                 txtInvoiceNo.ReadOnly = true;
+                frmMakeOrder.LoadSavedOrderFromInvoice(SalePosID.Text);
+                btnSave.Visible = true;
 
             }
             else
@@ -1474,16 +1798,22 @@ namespace POS
             txtTaxAmount.ReadOnly = true;
             txtdetailAmount.ReadOnly = true;
             txtRate.ReadOnly = true;
+            cmbProducts.SelectedIndex = 0;
+            txtDtGross.Clear();
+            txtAvailableQty.Clear();
         }
 
         private void ItemSaleGrid_KeyDown(object sender, KeyEventArgs e)
         {
             
-            if(e.KeyCode==Keys.Enter)
+            if(e.KeyCode==Keys.Delete)
             {
                 if (MessageBox.Show("Are You Sure You Want to Delete the Selected Record...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     ItemSaleGrid.Rows.RemoveAt(ItemSaleGrid.CurrentRow.Index);
+                    txtProductCode.Select();
+                    txtProductCode.Focus();
+                    CalculateDetail();
                     return;
                 }
 
@@ -1492,7 +1822,7 @@ namespace POS
             if(e.KeyCode==Keys.Space)
             {
                 //txtDiscountPercentage.Focus();
-                txtOtherCharges.Focus();
+                txtDiscountAmount.Focus();
             }
         }
 
@@ -1543,9 +1873,10 @@ namespace POS
             {
                 reportName = "SaleInvoice";
                 //obj.loadReport("rpt_sale_invoice", reportName, value);
-                obj.loadSaleReport("rpt_sale_invoice", reportName, value);
-                obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
+                obj.loadKhaakiInvoice("rpt_sale_invoice", reportName, value);
+                //obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
             }
+            btnNewSale_Click(sender,e);
            
         }
 
@@ -1563,7 +1894,7 @@ namespace POS
         private async void btnStock_Click(object sender, EventArgs e)
         {
 
-            await STATICClass.GetAllInventory();
+          
             await STATICClass.GetStokcIssue();
             using (frmStockArrival obj = new frmStockArrival())
             {
@@ -1799,9 +2130,18 @@ namespace POS
                     if (Convert.ToDecimal(txtQuantity.Text) > 0)
                     {
                         txtdetailAmount.Focus();
-                        CalculateNetAmountDetail();
-                        AddProducts(cmbProducts.SelectedText, Convert.ToInt32(txtProductID.Text),Convert.ToDecimal(txtRate.Text),Convert.ToDecimal(txtTax.Text));
-                       
+                        if (string.IsNullOrEmpty(txtRate.Text) || txtRate.Text == "")
+                        {
+                            MessageBox.Show("Sale Rate of this Item Is Not Defined By Admin... So You can't Sale this Article..");
+                            return;
+
+                        }
+                        else
+
+                        {
+                            CalculateNetAmountDetail();
+                            AddProducts(cmbProducts.SelectedText, Convert.ToInt32(txtProductID.Text), Convert.ToDecimal(txtRate.Text), Convert.ToDecimal(txtTax.Text));
+                        }
                     }
                 }
             }
@@ -1852,6 +2192,22 @@ namespace POS
         {
 
         }
+        private void CheckReceivedAmount()
+        {
+
+            decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+            decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
+           
+            decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
+            txtAmountReturn.Text = (recAmount - payableAmount).ToString();
+            //}
+            if (string.IsNullOrEmpty(txtAmountReceive.Text) || Math.Round(Convert.ToDecimal(txtAmountReceive.Text)) < Convert.ToDecimal(txtReceivableAmount.Text))
+            {
+                MessageBox.Show("Received Amount Can't be Less then Bill Amount...");
+                return;
+            }
+
+        }
 
         private void txtAmountReceive_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1869,14 +2225,21 @@ namespace POS
                 decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
                 txtAmountReturn.Text = (recAmount - payableAmount).ToString();
                 //}
-                if (string.IsNullOrEmpty(txtAmountReceive.Text) || Convert.ToDecimal(txtAmountReceive.Text) < Convert.ToDecimal(txtReceivableAmount.Text))
+                try
                 {
-                    MessageBox.Show("Received Amount Can't be Less then Bill Amount...");
+                    if (string.IsNullOrEmpty(txtAmountReceive.Text) || Convert.ToDecimal(txtAmountReceive.Text) < Convert.ToDecimal(txtReceivableAmount.Text))
+                    {
+                        MessageBox.Show("Received Amount Can't be Less then Bill Amount...");
+                        return;
+                    }
+                    else
+                    {
+                        btnMakeOrder.Focus();
+                    }
+                }catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                     return;
-                }
-                else
-                {
-                    btnSave.Focus();
                 }
             }
         }
@@ -1911,6 +2274,7 @@ namespace POS
         {
             if (e.KeyCode == Keys.Enter)
             {
+                GrossAmount_Total();
                 txtOtherCharges.Focus();
             }
 
@@ -1920,7 +2284,12 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
-                txtAmountReceive.Focus();
+
+                GrossAmount_Total();
+                
+                 txtCashAmount.Focus();
+                
+                
             }
         }
 
@@ -1975,6 +2344,299 @@ namespace POS
 
         private void txtProductBarCode_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void panel1_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label5_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtReceivableAmount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtAmountReceive_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPayableAmount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCardAmount_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+                if (e.KeyCode == Keys.Enter)
+                {
+
+                    if (txtCardAmount.Text != "")
+                    {
+                        cashCardPayments();
+                        frmCreditCardDetails frm = new frmCreditCardDetails(this);
+            
+                        frm.ShowDialog();
+                        txtCardNumber.Text = this.CardNumber;
+                        txtCardName.Text = this.CardName;
+                        txtAmountReceive_KeyDown(sender, e);
+
+
+                }
+                    else
+                    {
+
+                    txtAmountReceive_KeyDown(sender, e);
+                    }
+
+                }
+            
+        }
+
+        private void txtCashAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+
+                e.Handled = true;
+            
+
+            }
+
+
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+
+
+                e.Handled = true;
+              
+
+            }
+         
+
+        }
+        private void cashCardPayments()
+        {
+            decimal CashAmount = txtCashAmount.Text == "" ? 0 : Convert.ToDecimal(txtCashAmount.Text);
+            decimal CardAmount = txtCardAmount.Text == "" ? 0 : Convert.ToDecimal(txtCardAmount.Text);
+            decimal ReceivedAmount = CashAmount + CardAmount;
+            txtAmountReceive.Text = Convert.ToString(Math.Round(ReceivedAmount, 2));
+        }
+        private void txtCashAmount_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+
+                cashCardPayments();
+
+                txtCardAmount.Focus();
+            }
+        }
+
+        private void txtCashAmount_TextChanged(object sender, EventArgs e)
+        {
+            GrossAmount_Total();
+            cashCardPayments();
+        }
+
+        private void btnSave_Enter(object sender, EventArgs e)
+        {
+            btnSave.BackColor = Color.Red;
+        }
+
+        private void btnSave_Leave(object sender, EventArgs e)
+        {
+            btnSave.BackColor = Color.RoyalBlue;
+        }
+
+        private void txtCardAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+
+                e.Handled = true;
+
+            }
+
+
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+
+
+                e.Handled = true;
+            }
+
+        }
+
+        private void btnClear_Click_1(object sender, EventArgs e)
+        {
+            clearAll();
+            loadNewSale();
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnReprintPopup_Click(object sender, EventArgs e)
+        {
+            loadReturnView();
+            
+        }
+
+        private void buttonCancelInvoice_Click(object sender, EventArgs e)
+        {
+            if (validateSave())
+            {
+                InvoiceCancel = true;
+                GrossAmount_Total();
+                CheckReceivedAmount();
+                this.totalBill = txtReceivableAmount.Text;
+                this.ReceivedAmount = txtAmountReceive.Text;
+                this.ReturnAmount = txtAmountReturn.Text;
+
+                
+                SaveForm();
+
+            }
+        }
+
+        private void txtCashAmount_Leave(object sender, EventArgs e)
+        {
+            decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+            decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
+            decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
+            txtAmountReturn.Text = (recAmount - payableAmount).ToString();
+        }
+
+        private void txtCardAmount_Leave(object sender, EventArgs e)
+        {
+            decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
+            decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
+            decimal recAmount = txtAmountReceive.Text == "" ? 0 : Convert.ToDecimal(txtAmountReceive.Text);
+            txtAmountReturn.Text = (recAmount - payableAmount).ToString();
+        }
+        private DataTable MakeOrderDetailDataTable()
+        {
+            DataTable dt1 = new DataTable();
+            dt1.Columns.Add("RowID");
+            dt1.Columns.Add("ItemId");
+            dt1.Columns.Add("Quantity");
+            dt1.Columns.Add("ItemRate");
+            dt1.Columns.Add("TaxPercentage");
+            dt1.Columns.Add("TaxAmount");
+            dt1.Columns.Add("DiscountPercentage");
+            dt1.Columns.Add("DiscountAmount");
+            dt1.Columns.Add("TotalAmount");
+            dt1.Columns.Add("CartonSize");
+            dt1.Columns.Add("Carton");
+            dt1.Columns.Add("TotalQuantity");
+            dt1.Columns.Add("SalePosDetailID");
+            dt1.Columns.Add("SchemeID");
+            dt1.Columns.Add("MinQuantity");
+            dt1.Columns.Add("isExchange");
+            dt1.Columns.Add("ItemNumber");
+            dt1.Columns.Add("ItenName");
+            
+
+            int i = 0;
+            foreach (DataGridViewRow row in ItemSaleGrid.Rows)
+            {
+                DataRow dRow = dt1.NewRow();
+                i = i + 1;
+                var TQty = Convert.ToDecimal(row.Cells[4].Value.ToString());//+(Convert.ToDecimal(row.Cells[4].Value.ToString()) * Convert.ToDecimal(row.Cells[13].Value.ToString()));
+
+                dRow[0] = i;
+                dRow[1] = row.Cells[0].Value.ToString();
+                dRow[2] = TQty.ToString();
+                dRow[3] = row.Cells[3].Value.ToString();
+                dRow[4] = row.Cells[6].Value.ToString();
+                dRow[5] = row.Cells[7].Value.ToString();
+                dRow[6] = row.Cells[8].Value.ToString();
+                dRow[7] = row.Cells[9].Value.ToString();
+                dRow[8] = row.Cells[10].Value.ToString();
+                dRow[9] = 0;
+                dRow[10] = 0;
+                dRow[11] = TQty;
+                dRow[12] = 0;
+                dRow[13] = Convert.ToString(row.Cells[13].Value);
+                dRow[14] = Convert.ToString(row.Cells[12].Value);
+                dRow[15] = Convert.ToBoolean(row.Cells[14].Value);
+                dRow[16] = Convert.ToString(row.Cells[1].Value);
+                dRow[17] = Convert.ToString(row.Cells[2].Value);
+                dt1.Rows.Add(dRow);
+            }
+
+            return dt1;
+
+        }
+
+        private void btnMakeOrder_Click(object sender, EventArgs e)
+        {
+            if (ItemSaleGrid.Rows.Count <= 0)
+            {
+                MessageBox.Show("You Must have Data to Generate Make Order....");
+                return;
+            }
+            else
+            {
+                
+                
+                  
+                    if (frmMakeOrder.ShowDialog() == DialogResult.OK)
+                    {
+                    
+                    }
+                    if(frmMakeOrder.AllowSave)
+                    {
+                        this.CustomerPhone = frmMakeOrder.PhoneNo;
+                        this.CustomerName = frmMakeOrder.CustomerName;
+                        this.SaleManId = frmMakeOrder.SaleManId;
+                        txtCustName.Text = this.CustomerName;
+                        txtCustPhone.Text = this.CustomerPhone;
+                        txtSalesManID.Text = this.SaleManId;
+
+                    btnSave.Enabled = false;
+                    if (validateSave())
+                    {
+                        GrossAmount_Total();
+                        CheckReceivedAmount();
+                        this.totalBill = txtReceivableAmount.Text;
+                        this.ReceivedAmount = txtAmountReceive.Text;
+                        this.ReturnAmount = txtAmountReturn.Text;
+                        SaveForm();
+
+                    }
+                }
+                    else
+                {
+                    btnSave.Select();
+                    btnSave.Focus();
+                }
+                
+            }
+        }
+
+       
+        
+
+        private void btnMakeOrder_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+              
+                btnSave.Select();
+                btnSave.Focus();
+            }
 
         }
     }

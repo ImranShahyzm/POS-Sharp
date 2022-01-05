@@ -171,5 +171,10 @@ namespace POS.LookUpForms
                 
             }
         }
+
+        private void dgvStockDetailData_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

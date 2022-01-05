@@ -48,17 +48,17 @@
             this.txtNetAmount = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgvStockInDetail = new System.Windows.Forms.DataGridView();
-            this.cmbProducts = new System.Windows.Forms.ComboBox();
-            this.txtItemID = new System.Windows.Forms.TextBox();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
             this.ItemID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Itemname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ManualNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmbProducts = new System.Windows.Forms.ComboBox();
+            this.txtItemID = new System.Windows.Forms.TextBox();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockInDetail)).BeginInit();
@@ -143,6 +143,7 @@
             this.txtArrivalDate.Size = new System.Drawing.Size(116, 22);
             this.txtArrivalDate.TabIndex = 2;
             this.txtArrivalDate.ValueChanged += new System.EventHandler(this.txtArrivalDate_ValueChanged);
+            this.txtArrivalDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtArrivalDate_KeyDown);
             // 
             // txtRemarks
             // 
@@ -276,6 +277,47 @@
             this.dgvStockInDetail.TabIndex = 0;
             this.dgvStockInDetail.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockInDetail_CellClick);
             // 
+            // ItemID
+            // 
+            this.ItemID.HeaderText = "Product ID";
+            this.ItemID.Name = "ItemID";
+            this.ItemID.ReadOnly = true;
+            this.ItemID.Width = 50;
+            // 
+            // Itemname
+            // 
+            this.Itemname.HeaderText = "ProductName";
+            this.Itemname.Name = "Itemname";
+            this.Itemname.ReadOnly = true;
+            this.Itemname.Width = 600;
+            // 
+            // Quantity
+            // 
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            this.Quantity.ReadOnly = true;
+            // 
+            // Rate
+            // 
+            this.Rate.HeaderText = "Stock Rate";
+            this.Rate.Name = "Rate";
+            this.Rate.ReadOnly = true;
+            this.Rate.Visible = false;
+            // 
+            // NetAmount
+            // 
+            this.NetAmount.HeaderText = "Net Amount";
+            this.NetAmount.Name = "NetAmount";
+            this.NetAmount.ReadOnly = true;
+            this.NetAmount.Visible = false;
+            // 
+            // ManualNo
+            // 
+            this.ManualNo.HeaderText = "Manual No";
+            this.ManualNo.Name = "ManualNo";
+            this.ManualNo.ReadOnly = true;
+            this.ManualNo.Visible = false;
+            // 
             // cmbProducts
             // 
             this.cmbProducts.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -332,47 +374,6 @@
             this.btnClear.Text = "X";
             this.btnClear.UseVisualStyleBackColor = false;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // ItemID
-            // 
-            this.ItemID.HeaderText = "Product ID";
-            this.ItemID.Name = "ItemID";
-            this.ItemID.ReadOnly = true;
-            this.ItemID.Width = 50;
-            // 
-            // Itemname
-            // 
-            this.Itemname.HeaderText = "ProductName";
-            this.Itemname.Name = "Itemname";
-            this.Itemname.ReadOnly = true;
-            this.Itemname.Width = 600;
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            this.Quantity.ReadOnly = true;
-            // 
-            // Rate
-            // 
-            this.Rate.HeaderText = "Stock Rate";
-            this.Rate.Name = "Rate";
-            this.Rate.ReadOnly = true;
-            this.Rate.Visible = false;
-            // 
-            // NetAmount
-            // 
-            this.NetAmount.HeaderText = "Net Amount";
-            this.NetAmount.Name = "NetAmount";
-            this.NetAmount.ReadOnly = true;
-            this.NetAmount.Visible = false;
-            // 
-            // ManualNo
-            // 
-            this.ManualNo.HeaderText = "Manual No";
-            this.ManualNo.Name = "ManualNo";
-            this.ManualNo.ReadOnly = true;
-            this.ManualNo.Visible = false;
             // 
             // frmManualStockIN
             // 

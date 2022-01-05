@@ -64,7 +64,7 @@ namespace POS.LookUpForms
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID ";
+            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID ";
             if(MainGroupId>0)
             {
                 SqlString=SqlString+ " where InventCategory.ItemGroupID=" + MainGroupId+"";
@@ -81,15 +81,15 @@ namespace POS.LookUpForms
         private void txtProductSearch_TextChanged(object sender, EventArgs e)
         {
             string searchValue = txtProductSearch.Text;
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
+            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
             if (searchValue=="")
             {
                 
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where 0=0";
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where 0=0";
             }
             else
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID  where ManualNumber= '" + searchValue + "'";
             }
             if (Convert.ToDecimal(txtMainGroupID.Text)>0)
             {
@@ -115,14 +115,14 @@ namespace POS.LookUpForms
         private void SearchByName()
         {
             string searchValue = txtProductSearch.Text;
-            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
+            string SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
             if (searchValue == "")
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where 0=0";
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where 0=0";
             }
             else
             {
-                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems inner join InventCategory on InventCategory.CategoryID=InventItems.CategoryID inner join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
+                SqlString = " select ItemId,ItenName as Product,ManualNumber from InventItems left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.ItemGroupID where ItenName like '%" + searchValue + "%'";
             }
             if (Convert.ToDecimal(txtMainGroupID.Text) > 0)
             {
@@ -160,7 +160,29 @@ namespace POS.LookUpForms
         {
             if (e.KeyChar == (char)13)
             {
-                DataGridViewRow dgr = dgvProducts.Rows[dgvProducts.CurrentRow.Index-1];
+                //int rowIndex = dgvProducts.CurrentCell.OwningRow.Index;
+                int rowIndex = dgvProducts.SelectedRows[0].Index-1;
+                ResultReturn(rowIndex);
+              
+             
+            }
+        }
+        private void ResultReturn(int Index)
+        {
+
+            if (Index > 0)
+            {
+                DataGridViewRow dgr = dgvProducts.Rows[Index];
+                string value = dgr.Cells["ItemId"].Value.ToString();
+                string manualNumber = dgr.Cells["ManualNumber"].Value.ToString();
+                ManualNumber = manualNumber;
+                ProductID = Convert.ToInt32(value);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else if (Index == 0)
+            {
+                DataGridViewRow dgr = dgvProducts.Rows[0];
                 string value = dgr.Cells["ItemId"].Value.ToString();
                 string manualNumber = dgr.Cells["ManualNumber"].Value.ToString();
                 ManualNumber = manualNumber;
@@ -170,12 +192,20 @@ namespace POS.LookUpForms
             }
         }
 
+
         private void txtProductSearch_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode==Keys.Enter)
             {
                 dgvProducts.Focus();
             }
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            }
         }
+
+        
     }
 }

@@ -12,6 +12,22 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\Corbis Soft\Desktop\DesktopPublish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +50,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>0CA39CED8B92A4F14C4CE10C9142FDCB8E1D81DA</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>POS_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AxShockwaveFlashObjects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
@@ -122,6 +150,9 @@
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <HintPath>..\packages\CrystalReports.Windows.Forms.13.0.4000\lib\net40\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304">
       <HintPath>..\packages\CrystalReports.13.0.5.891\lib\net40\FlashControlV71.dll</HintPath>
     </Reference>
@@ -177,12 +208,16 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -193,6 +228,12 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="zxing, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net461\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net461\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dashboard.cs">
@@ -200,6 +241,46 @@
     </Compile>
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
+    </Compile>
+    <Content Include="DbScripts\Script 1.0.0.73.sql" />
+    <Content Include="DbScripts\Script 1.0.0.70.sql" />
+    <Content Include="DbScripts\Script 1.0.0.68.sql" />
+    <Content Include="DbScripts\Script 1.0.0.67.sql" />
+    <Content Include="DbScripts\Script 1.0.0.66.sql" />
+    <Content Include="DbScripts\Script 1.0.0.65.sql" />
+    <Content Include="DbScripts\Script 1.0.0.64.sql" />
+    <Content Include="DbScripts\Script 1.0.0.59.sql" />
+    <Content Include="DbScripts\Script 1.0.0.62.sql" />
+    <Content Include="DbScripts\Script 1.0.0.61.sql" />
+    <Content Include="DbScripts\Script 1.0.0.60.sql" />
+    <Content Include="DbScripts\SalePosDetailChanges.sql" />
+    <Content Include="DbScripts\SalePOSReturnInfo.sql" />
+    <Content Include="DbScripts\Script 1.0.0.58.sql" />
+    <Content Include="DbScripts\Script 1.0.0.57.sql" />
+    <Content Include="DbScripts\Script 1.0.0.56.sql" />
+    <Content Include="DbScripts\Script 1.0.0.55.sql" />
+    <Content Include="DbScripts\Script 1.0.0.54.sql" />
+    <Content Include="DbScripts\Script 1.0.0.53.sql" />
+    <Content Include="DbScripts\Script 1.0.0.51.sql" />
+    <Content Include="DbScripts\BomConstraints.sql" />
+    <Content Include="DbScripts\Script 1.0.0.50.sql" />
+    <Content Include="DbScripts\Script 1.0.0.49.sql" />
+    <Content Include="DbScripts\Script 1.0.0.48.sql" />
+    <Content Include="DbScripts\Script 1.0.0.47.sql" />
+    <Content Include="DbScripts\Script 1.0.0.46.sql" />
+    <Content Include="DbScripts\Script 1.0.0.45.sql" />
+    <Content Include="DbScripts\Script 1.0.0.44.sql" />
+    <Content Include="DbScripts\Script 1.0.0.41.sql" />
+    <Content Include="DbScripts\Script 1.0.0.39.sql" />
+    <Content Include="DbScripts\Script 1.0.0.38.sql" />
+    <Content Include="DbScripts\Script 1.0.0.36.sql" />
+    <Content Include="DbScripts\Script 1.0.0.37.sql" />
+    <Content Include="DbScripts\Script 1.0.0.30.sql" />
+    <Compile Include="frmCreditCardDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreditCardDetails.Designer.cs">
+      <DependentUpon>frmCreditCardDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="frmLogIn.cs">
       <SubType>Form</SubType>
@@ -219,11 +300,73 @@
     <Compile Include="frmCashIn.Designer.cs">
       <DependentUpon>frmCashIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\StringCipher.cs" />
+    <Compile Include="Helper\ComoboClass.cs" />
     <Compile Include="Helper\STATICClass.cs" />
     <Compile Include="Helper\CompanyInfo.cs" />
     <Compile Include="Helper\data_StockTransferInfoModel.cs" />
     <Compile Include="Helper\RightsClass.cs" />
     <Compile Include="LocalReportExtention.cs" />
+    <Compile Include="LookUpForms\frmCreditCardDetailsMake.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmCreditCardDetailsMake.Designer.cs">
+      <DependentUpon>frmCreditCardDetailsMake.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmCustomerDataFoodMama.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmCustomerDataFoodMama.Designer.cs">
+      <DependentUpon>frmCustomerDataFoodMama.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSFbrTabControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSFbrTabControl.Designer.cs">
+      <DependentUpon>frmPOSFbrTabControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSTabControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSTabControl.Designer.cs">
+      <DependentUpon>frmPOSTabControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmRecipeSync.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmRecipeSync.Designer.cs">
+      <DependentUpon>frmRecipeSync.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmmakeOrderNewKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmmakeOrderNewKhaaki.Designer.cs">
+      <DependentUpon>frmmakeOrderNewKhaaki.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmMakeToOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmMakeToOrder.Designer.cs">
+      <DependentUpon>frmMakeToOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmCustomerDataKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmCustomerDataKhaaki.Designer.cs">
+      <DependentUpon>frmCustomerDataKhaaki.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmCashInAgainstBill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmCashInAgainstBill.Designer.cs">
+      <DependentUpon>frmCashInAgainstBill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmCustomerData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmCustomerData.Designer.cs">
+      <DependentUpon>frmCustomerData.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmDataSyncServer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -235,6 +378,60 @@
     </Compile>
     <Compile Include="LookUpForms\frmClosingLookUp.Designer.cs">
       <DependentUpon>frmClosingLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmManualStockINKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmManualStockINKhaaki.Designer.cs">
+      <DependentUpon>frmManualStockINKhaaki.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmPendingBillsLookUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmPendingBillsLookUp.Designer.cs">
+      <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\FrmSaleInvoiceLookupCounterWise.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\FrmSaleInvoiceLookupCounterWise.Designer.cs">
+      <DependentUpon>FrmSaleInvoiceLookupCounterWise.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmSearchMaketoOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmSearchMaketoOrder.Designer.cs">
+      <DependentUpon>frmSearchMaketoOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmSearchCustomerLookup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmSearchCustomerLookup.Designer.cs">
+      <DependentUpon>frmSearchCustomerLookup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockDispatchArrival.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockDispatchArrival.Designer.cs">
+      <DependentUpon>frmStockDispatchArrival.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\FrmStockReturnList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\FrmStockReturnList.Designer.cs">
+      <DependentUpon>FrmStockReturnList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockListOnScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockListOnScreen.Designer.cs">
+      <DependentUpon>frmStockListOnScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockIssuanceKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmStockIssuanceKhaaki.Designer.cs">
+      <DependentUpon>frmStockIssuanceKhaaki.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\fromStockIssuanceLookUp.cs">
       <SubType>Form</SubType>
@@ -290,11 +487,23 @@
     <Compile Include="LookUpForms\frmStockArrivalList.Designer.cs">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\POSChSweetsFbr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\POSChSweetsFbr.Designer.cs">
+      <DependentUpon>POSChSweetsFbr.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\PosKhaakiStyle.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LookUpForms\PosKhaakiStyle.Designer.cs">
       <DependentUpon>PosKhaakiStyle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\POSChSweets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\POSChSweets.Designer.cs">
+      <DependentUpon>POSChSweets.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\POSSaleNew.cs">
       <SubType>Form</SubType>
@@ -302,12 +511,27 @@
     <Compile Include="LookUpForms\POSSaleNew.Designer.cs">
       <DependentUpon>POSSaleNew.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\FrmDispatchTransferDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\FrmDispatchTransferDetailForm.Designer.cs">
+      <DependentUpon>FrmDispatchTransferDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\StockInDetailKhaakiForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\StockInDetailKhaakiForm.Designer.cs">
+      <DependentUpon>StockInDetailKhaakiForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\StockInForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LookUpForms\StockInForm.Designer.cs">
       <DependentUpon>StockInForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Fbr_InvoiceDetail.cs" />
+    <Compile Include="Model\Fbr_InvoiceMaster.cs" />
+    <Compile Include="Model\Fbr_ResponceObj.cs" />
     <Compile Include="POSSale.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -316,12 +540,100 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\CardWise.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CardWise.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\ClosingReport.cs">
+      <DependentUpon>ClosingReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\CashSale.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CashSale.rpt</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\CashBookThermal.cs">
+      <DependentUpon>CashBookThermal.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Report\DayBook.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DayBook.rpt</DependentUpon>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\frmPendingBillReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmPendingBillReport.Designer.cs">
+      <DependentUpon>frmPendingBillReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmMakeOrderReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmMakeOrderReport.Designer.cs">
+      <DependentUpon>frmMakeOrderReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDailySaleActivity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailySaleActivity.Designer.cs">
+      <DependentUpon>frmDailySaleActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDailySaleKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailySaleKhaaki.Designer.cs">
+      <DependentUpon>frmDailySaleKhaaki.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmCashCardWise.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmCashCardWise.Designer.cs">
+      <DependentUpon>frmCashCardWise.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmStockMovementKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmStockMovementKhaaki.Designer.cs">
+      <DependentUpon>frmStockMovementKhaaki.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmStockMovement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmStockMovement.Designer.cs">
+      <DependentUpon>frmStockMovement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDailySaleManWise.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailySaleManWise.Designer.cs">
+      <DependentUpon>frmDailySaleManWise.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmDailySale.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailySale.Designer.cs">
+      <DependentUpon>frmDailySale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmStockKhaaki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmStockKhaaki.Designer.cs">
+      <DependentUpon>frmStockKhaaki.cs</DependentUpon>
     </Compile>
     <Compile Include="Report\frmStockReport.cs">
       <SubType>Form</SubType>
@@ -347,12 +659,110 @@
     <Compile Include="Report\frmReport.Designer.cs">
       <DependentUpon>frmReport.cs</DependentUpon>
     </Compile>
+    <Compile Include="Report\ItemStockKhaakiStyle.cs">
+      <DependentUpon>ItemStockKhaakiStyle.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Report\ItemStockReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ItemStockReport.rpt</DependentUpon>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\CreditCardWise.cs">
+      <DependentUpon>CreditCardWise.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\PendingBillsAmount.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PendingBillsAmount.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\SaleThermalFbrPrint.cs">
+      <DependentUpon>SaleThermalFbrPrint.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleThermalPrintFoodMamaClub.cs">
+      <DependentUpon>SaleThermalPrintFoodMamaClub.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\StockReturnedPrint.cs">
+      <DependentUpon>StockReturnedPrint.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\StockReceiptPrint.cs">
+      <DependentUpon>StockReceiptPrint.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleActivityKhaaki.cs">
+      <DependentUpon>SaleActivityKhaaki.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\MakeOrdersList.cs">
+      <DependentUpon>MakeOrdersList.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleRegisterKhaaki.cs">
+      <DependentUpon>SaleRegisterKhaaki.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleRegisterWise.cs">
+      <DependentUpon>SaleRegisterWise.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleRegister.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleRegister.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\SaleThermalKhaakiPos.cs">
+      <DependentUpon>SaleThermalKhaakiPos.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SaleThermalPrintFoodMama.cs">
+      <DependentUpon>SaleThermalPrintFoodMama.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Report\SaleThermalPrintKitchen.cs">
       <DependentUpon>SaleThermalPrintKitchen.rpt</DependentUpon>
@@ -365,6 +775,20 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SaleThermalPrint.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\StockMovementReportFoodMama.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockMovementReportFoodMama.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Report\StockMovementReportWithouValue.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockMovementReportWithouValue.rpt</DependentUpon>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -402,6 +826,9 @@
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmCreditCardDetails.resx">
+      <DependentUpon>frmCreditCardDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogIn.resx">
       <DependentUpon>frmLogIn.cs</DependentUpon>
     </EmbeddedResource>
@@ -411,11 +838,68 @@
     <EmbeddedResource Include="frmCashIn.resx">
       <DependentUpon>frmCashIn.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmCreditCardDetailsMake.resx">
+      <DependentUpon>frmCreditCardDetailsMake.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmCustomerDataFoodMama.resx">
+      <DependentUpon>frmCustomerDataFoodMama.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmPOSFbrTabControl.resx">
+      <DependentUpon>frmPOSFbrTabControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmPOSTabControl.resx">
+      <DependentUpon>frmPOSTabControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmRecipeSync.resx">
+      <DependentUpon>frmRecipeSync.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmmakeOrderNewKhaaki.resx">
+      <DependentUpon>frmmakeOrderNewKhaaki.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmMakeToOrder.resx">
+      <DependentUpon>frmMakeToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmCustomerDataKhaaki.resx">
+      <DependentUpon>frmCustomerDataKhaaki.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmCashInAgainstBill.resx">
+      <DependentUpon>frmCashInAgainstBill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmCustomerData.resx">
+      <DependentUpon>frmCustomerData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmDataSyncServer.resx">
       <DependentUpon>frmDataSyncServer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmClosingLookUp.resx">
       <DependentUpon>frmClosingLookUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmManualStockINKhaaki.resx">
+      <DependentUpon>frmManualStockINKhaaki.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmPendingBillsLookUp.resx">
+      <DependentUpon>frmPendingBillsLookUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\FrmSaleInvoiceLookupCounterWise.resx">
+      <DependentUpon>FrmSaleInvoiceLookupCounterWise.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmSearchMaketoOrder.resx">
+      <DependentUpon>frmSearchMaketoOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmSearchCustomerLookup.resx">
+      <DependentUpon>frmSearchCustomerLookup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmStockDispatchArrival.resx">
+      <DependentUpon>frmStockDispatchArrival.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\FrmStockReturnList.resx">
+      <DependentUpon>FrmStockReturnList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmStockListOnScreen.resx">
+      <DependentUpon>frmStockListOnScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmStockIssuanceKhaaki.resx">
+      <DependentUpon>frmStockIssuanceKhaaki.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\fromStockIssuanceLookUp.resx">
       <DependentUpon>fromStockIssuanceLookUp.cs</DependentUpon>
@@ -444,11 +928,23 @@
     <EmbeddedResource Include="LookUpForms\frmStockArrivalList.resx">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\POSChSweetsFbr.resx">
+      <DependentUpon>POSChSweetsFbr.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\PosKhaakiStyle.resx">
       <DependentUpon>PosKhaakiStyle.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\POSChSweets.resx">
+      <DependentUpon>POSChSweets.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\POSSaleNew.resx">
       <DependentUpon>POSSaleNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\FrmDispatchTransferDetailForm.resx">
+      <DependentUpon>FrmDispatchTransferDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\StockInDetailKhaakiForm.resx">
+      <DependentUpon>StockInDetailKhaakiForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\StockInForm.resx">
       <DependentUpon>StockInForm.cs</DependentUpon>
@@ -466,13 +962,63 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Report\CardWise.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CardWise.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ClosingReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ClosingReport.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\CashSale.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CashSale.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\DailyCashbook.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\CashBookThermal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CashBookThermal.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\DayBook.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>DayBook.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmPendingBillReport.resx">
+      <DependentUpon>frmPendingBillReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmMakeOrderReport.resx">
+      <DependentUpon>frmMakeOrderReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailySaleActivity.resx">
+      <DependentUpon>frmDailySaleActivity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailySaleKhaaki.resx">
+      <DependentUpon>frmDailySaleKhaaki.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmCashCardWise.resx">
+      <DependentUpon>frmCashCardWise.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmStockMovementKhaaki.resx">
+      <DependentUpon>frmStockMovementKhaaki.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmStockMovement.resx">
+      <DependentUpon>frmStockMovement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailySaleManWise.resx">
+      <DependentUpon>frmDailySaleManWise.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailySale.resx">
+      <DependentUpon>frmDailySale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmStockKhaaki.resx">
+      <DependentUpon>frmStockKhaaki.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmStockReport.resx">
       <DependentUpon>frmStockReport.cs</DependentUpon>
@@ -486,15 +1032,85 @@
     <EmbeddedResource Include="Report\frmReport.resx">
       <DependentUpon>frmReport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\ItemStockKhaakiStyle.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ItemStockKhaakiStyle.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\ItemStockReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ItemStockReport.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\PendingBillsAmount.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PendingBillsAmount.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleThermalFbrPrint.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleThermalFbrPrint.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleThermalPrintFoodMamaClub.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleThermalPrintFoodMamaClub.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\StockReturnedPrint.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>StockReturnedPrint.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\StockReceiptPrint.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>StockReceiptPrint.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleInvoiceReturn.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleInvoice.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\CreditCardWise.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CreditCardWise.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleActivityKhaaki.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleActivityKhaaki.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\MakeOrdersList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MakeOrdersList.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleRegisterKhaaki.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleRegisterKhaaki.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleRegisterWise.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleRegisterWise.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleRegister.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleRegister.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleThermalKhaakiPos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleThermalKhaakiPos.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleThermalPrintFoodMama.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleThermalPrintFoodMama.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleThermalPrintKitchen.rpt">
@@ -507,7 +1123,18 @@
       <LastGenOutput>SaleThermalPrint.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\StockMovementReportFoodMama.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>StockMovementReportFoodMama.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\StockMovementReportWithouValue.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>StockMovementReportWithouValue.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="POS_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -607,16 +1234,58 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DbScripts\KhaakiChanges.sql" />
+    <Content Include="DbScripts\Script 1.0.0.23.sql" />
+    <Content Include="DbScripts\Script 1.0.0.21.sql" />
+    <Content Include="DbScripts\Script 1.0.0.22.sql" />
+    <Content Include="DbScripts\SalesMAnRemovePrimaryKey.sql" />
+    <Content Include="DbScripts\Script 1.0.0.16.sql" />
+    <Content Include="DbScripts\Script 1.0.0.13.sql" />
+    <Content Include="DbScripts\Script 1.0.0.14.sql" />
+    <Content Include="DbScripts\Script 1.0.0.15.sql" />
+    <Content Include="DbScripts\Script 1.0.0.18.sql" />
+    <Content Include="DbScripts\Script 1.0.0.17.sql" />
+    <Content Include="DbScripts\RemoveGluseKey.sql" />
+    <Content Include="DbScripts\RemoveInevntUomKey.sql" />
+    <Content Include="DbScripts\RemoveItemGroupKey.sql" />
+    <Content Include="DbScripts\RemoveWareHouseKey.sql" />
+    <Content Include="DbScripts\SchemeDetailKey.sql" />
+    <Content Include="DbScripts\schemeinfoKeyRemove.sql" />
+    <Content Include="DbScripts\Script 1.0.0.11.sql" />
+    <Content Include="DbScripts\Script 1.0.0.10.sql" />
+    <Content Include="DbScripts\Script 1.0.0.12.sql" />
+    <Content Include="DbScripts\Script 1.0.0.25.sql" />
+    <Content Include="DbScripts\Script 1.0.0.26.sql" />
+    <Content Include="DbScripts\Script 1.0.0.27.sql" />
+    <Content Include="DbScripts\Script 1.0.0.28.sql" />
+    <Content Include="DbScripts\Script 1.0.0.29.sql" />
+    <Content Include="DbScripts\Script 1.0.0.32.sql" />
+    <Content Include="DbScripts\Script 1.0.0.35.sql" />
+    <Content Include="DbScripts\Script 1.0.0.40.sql" />
+    <Content Include="DbScripts\Script 1.0.0.42.sql" />
+    <Content Include="DbScripts\Script 1.0.0.43.sql" />
+    <Content Include="DbScripts\Script 1.0.0.52.sql" />
+    <Content Include="DbScripts\Script 1.0.0.63.sql" />
+    <Content Include="DbScripts\Script 1.0.0.71.sql" />
+    <Content Include="DbScripts\Script 1.0.0.72.sql" />
+    <Content Include="DbScripts\Script 1.0.0.9.sql" />
+    <Content Include="DbScripts\Script 1.0.0.6.sql" />
+    <Content Include="DbScripts\Script 1.0.0.8.sql" />
+    <Content Include="DbScripts\Script 1.0.0.7.sql" />
     <Content Include="DbScripts\Script 1.0.0.5.sql" />
     <Content Include="DbScripts\Script 1.0.0.2.sql" />
     <Content Include="DbScripts\Script 1.0.0.3.sql" />
     <Content Include="DbScripts\Script 1.0.0.4.sql" />
+    <Content Include="DbScripts\RemoveInventitemPrimaryKey.sql" />
+    <Content Include="DbScripts\Script 1.0.0.19.sql" />
+    <Content Include="DbScripts\Script 1.0.0.20.sql" />
+    <Content Include="DbScripts\Script 1.0.0.69.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <None Include="Resources\CorbisPos.png" />
     <None Include="Resources\CorbisPos1.png" />
     <None Include="Resources\slider-01.png" />
+    <None Include="Resources\business-solution.jpg" />
+    <None Include="Resources\pos.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -632,8 +1301,40 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.24.sql">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.31.sql">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.33.sql">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbScripts\Script 1.0.0.34.sql">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

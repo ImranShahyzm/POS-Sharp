@@ -124,7 +124,6 @@
             this.dtpSaleToDate.Name = "dtpSaleToDate";
             this.dtpSaleToDate.Size = new System.Drawing.Size(153, 25);
             this.dtpSaleToDate.TabIndex = 27;
-            this.dtpSaleToDate.Visible = false;
             // 
             // btnProgressBar
             // 
@@ -160,6 +159,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "frmDataSyncServer";
             this.Text = "Corbis Solution";
+            this.Load += new System.EventHandler(this.frmDataSyncServer_Load);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

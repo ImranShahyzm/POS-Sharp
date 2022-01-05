@@ -101,6 +101,7 @@
             this.dgvStockDetailData.Size = new System.Drawing.Size(732, 354);
             this.dgvStockDetailData.TabIndex = 7;
             this.dgvStockDetailData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockDetailData_CellClick);
+            this.dgvStockDetailData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockDetailData_CellContentClick);
             this.dgvStockDetailData.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockDetailData_CellValidated);
             this.dgvStockDetailData.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvStockDetailData_CellValidating);
             this.dgvStockDetailData.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvStockDetailData_KeyPress);
@@ -149,7 +150,7 @@
             this.ClientSize = new System.Drawing.Size(827, 555);
             this.Controls.Add(this.panelMain);
             this.Name = "StockInForm";
-            this.Text = "StockInForm";
+            this.Text = "Stock Arrival Detail";
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockDetailData)).EndInit();

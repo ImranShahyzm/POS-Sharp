@@ -63,7 +63,19 @@ namespace POS.Helper
             POSdata_SaleandReturnInfoServer_SelectAll,
             PosApi_AllInevntory_Insert,
             POSdata_StockIssuancetoPosKitchenDetailInfo_Insert,
-            POSdata_StockIssuance_delete
+            POSdata_StockIssuance_delete,
+            PosApi_AllGlUserPromoLocations_Insert,
+            PosApi_AllSalesMan_Insert,
+            POSData_StockInwardRem_loadKhaaki,
+            POSdata_StockReturntoServer_SelectAll,
+            POSdata_MakeOrderInfoServer_SelectAll,
+            POSdata_CashInOutServer_SelectAll,
+            PosApi_AllDisaptchesAgainstMakeOrders_Insert,
+            POSdata_StockArrivalManualInfo_InsertContinuosSeriel,
+            PosApi_AllBillOfMaterials_Insert,
+            PosApi_AllStockDisaptchesTransfer_Insert,
+            POSData_StockDispatchTransfer_load,
+            POSData_DispatchTransferRemainig_loadKhaaki
 
 
         }
@@ -105,12 +117,37 @@ namespace POS.Helper
             ds = STATICClass.SelectAll(SP.POSData_StockRawTrasnfer_load.ToString(), ParamList);
             return ds;
         }
+        public DataSet SelectAllRemainingDispatchesTransfer(string WhereClause = "", string EditClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@EditClause", EditClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSData_StockDispatchTransfer_load.ToString(), ParamList);
+            return ds;
+        }
         public DataSet SelectAllRemaining(string WhereClause = "", string EditClauseDetail = "")
         {
             DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
             ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
             ParamList.Add(new SqlParameter("@EditClause", EditClauseDetail));
             ds = STATICClass.SelectAll(SP.POSData_StockInwardRem_load.ToString(), ParamList);
+            return ds;
+        }
+        public DataSet SelectAllRemainingKhaki(string WhereClause = "", string EditClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@EditClause", EditClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSData_StockInwardRem_loadKhaaki.ToString(), ParamList);
+            return ds;
+        }
+
+        public DataSet SelectAllRemainigDispatchTransferDetail(string WhereClause = "", string EditClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@EditClause", EditClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSData_DispatchTransferRemainig_loadKhaaki.ToString(), ParamList);
             return ds;
         }
 
@@ -203,6 +240,115 @@ namespace POS.Helper
             dt.Columns.Add("ItemMainGroupID");
             return dt;
         }
+
+        public DataTable AddVariantTableColumns(DataTable dt)
+        {
+            dt.Columns.Add("ItemVariantInfoId");
+            dt.Columns.Add("EntryUserID"); 
+            dt.Columns.Add("EntryUserDateTime");
+            dt.Columns.Add("ModifyUserID"); 
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID"); 
+            dt.Columns.Add("VariantDescription");
+            dt.Columns.Add("SalePrice"); 
+            dt.Columns.Add("PurchasePrice"); 
+            dt.Columns.Add("avc");
+            return dt;
+        }
+
+        public DataTable AddColorTable(DataTable dt)
+        {
+          
+            dt.Columns.Add("ColorID");
+            dt.Columns.Add("EntryUserID");
+            dt.Columns.Add("EntryUserDateTime");
+            dt.Columns.Add("ModifyUserID");
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID");
+            dt.Columns.Add("ColorTitle");
+            return dt;
+        }
+        public DataTable AddAttributeTableColumns(DataTable dt)
+        {
+
+            dt.Columns.Add("AttributeId"); 
+            dt.Columns.Add("EntryUserID"); 
+            dt.Columns.Add("EntryUserDateTime"); 
+            dt.Columns.Add("ModifyUserID");
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID"); 
+            dt.Columns.Add("AttribDescription");
+            return dt;
+        }
+        public DataTable AddSchemeColumns(DataTable dt)
+        {
+
+            
+            dt.Columns.Add("SchemeID"); 
+            dt.Columns.Add("EntryUserID");
+            dt.Columns.Add("EntryUserDateTime");
+            dt.Columns.Add("ModifyUserID");
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID");
+            dt.Columns.Add("Title"); 
+            dt.Columns.Add("ShortCode");
+            dt.Columns.Add("SchemeTypeID");
+            dt.Columns.Add("BookingStartDate");
+            dt.Columns.Add("BookingEndDate");
+            dt.Columns.Add("DeliveryStartDate");
+            dt.Columns.Add("DeliveryEndDate");
+            dt.Columns.Add("RecoveryStartDate"); 
+            dt.Columns.Add("RecoveryEndDate");
+            dt.Columns.Add("NetAmount");
+            dt.Columns.Add("Remarks");
+            dt.Columns.Add("BranchID");
+            dt.Columns.Add("WithoutRate");
+            dt.Columns.Add("StartTime");
+            dt.Columns.Add("WHID");
+            dt.Columns.Add("PromoPercentage");
+            dt.Columns.Add("EndTime");
+            dt.Columns.Add("BaseQuantity");
+            dt.Columns.Add("PGID");
+            dt.Columns.Add("Sno");
+            dt.Columns.Add("IsExpire");
+            dt.Columns.Add("ApplicableOnAll");
+
+
+
+            return dt;
+        }
+        public DataTable AddSchemeDetailColumns(DataTable dt)
+        {
+
+                dt.Columns.Add("SchemeDetailID"); 
+                dt.Columns.Add("SchemeID");
+                dt.Columns.Add("ItemId");
+                dt.Columns.Add("Qauntity");
+                dt.Columns.Add("Rate");
+                dt.Columns.Add("Discount");
+                dt.Columns.Add("NetAmount");
+                dt.Columns.Add("Remarks");
+                dt.Columns.Add("DiscountPercentage");
+                dt.Columns.Add("CartonForward");
+                dt.Columns.Add("CartonRate");
+            return dt;
+        }
+
+        public DataTable AddSubCategoryTableColumns(DataTable dt)
+        {
+
+            dt.Columns.Add("SubCategoryId"); 
+            dt.Columns.Add("EntryUserID"); 
+            dt.Columns.Add("EntryUserDateTime"); 
+            dt.Columns.Add("ModifyUserID"); 
+            dt.Columns.Add("ModifyUserDateTime");
+            dt.Columns.Add("CompanyID"); 
+            dt.Columns.Add("SubCatDescription");
+
+
+
+            return dt;
+        }
         public DataTable AddMainGroupsTableColumns(DataTable dt)
         {
 
@@ -216,6 +362,77 @@ namespace POS.Helper
             dt.Columns.Add("ItemMainGroupName");
 
             return dt;
+        }
+        public bool insertAllSalesMan(DataSet dt, int StockTransferID)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@POS_gen_SaleManInfo", dt.Tables[0]));
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllSalesMan_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+
+        public bool InsertAllDispatechOrdersFromHo(DataSet dt, int StockTransferID,DateTime DateFrom,DateTime Dateto)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@data_StockDispatchpos", dt.Tables[0]));
+            ParamList.Add(new SqlParameter("@data_StockDispatchDetailPos", dt.Tables[1]));
+            ParamList.Add(new SqlParameter("@WHID", CompanyInfo.WareHouseID));
+            ParamList.Add(new SqlParameter("@DateFrom", DateFrom));
+            ParamList.Add(new SqlParameter("@DateTo", Dateto));
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllDisaptchesAgainstMakeOrders_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+
+
+        public bool InsertAllStockDispatches(DataSet dt, int StockTransferID, DateTime DateFrom, DateTime Dateto)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@data_StockDispatchpos", dt.Tables[0]));
+            ParamList.Add(new SqlParameter("@data_StockDispatchDetailPos", dt.Tables[1]));
+            ParamList.Add(new SqlParameter("@WHID", CompanyInfo.WareHouseID));
+            ParamList.Add(new SqlParameter("@DateFrom", DateFrom));
+            ParamList.Add(new SqlParameter("@DateTo", Dateto));
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllDisaptchesAgainstMakeOrders_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
         }
         public bool insertAllInventory(DataSet dt, int StockTransferID)
         {
@@ -231,23 +448,71 @@ namespace POS.Helper
             if (dt.Tables[3].Rows.Count<=0)
             {
                  MainGrpudt = AddMainGroupsTableColumns(dt.Tables[2]);
-
-                
             }
             ParamList.Add(new SqlParameter("@gen_ItemMainGroupInfo", MainGrpudt));
             DataTable GroupDt= dt.Tables[3];
             if (dt.Tables[3].Rows.Count<=0)
             {
                 GroupDt = AddGroupsTableColumns(dt.Tables[3]);
-
-                
             }
             ParamList.Add(new SqlParameter("@InventItemGroup", GroupDt));
             ParamList.Add(new SqlParameter("@inventCategory", dt.Tables[1]));
             
             ParamList.Add(new SqlParameter("@inventUOM", dt.Tables[4]));
 
+            DataTable AttributeDt = dt.Tables[5];
+            if(dt.Tables[5].Rows.Count<=0)
+            {
+                AttributeDt = AddAttributeTableColumns(dt.Tables[5]);
+            }
+            DataTable SubCategoryDt = dt.Tables[6];
+            if (dt.Tables[6].Rows.Count <= 0)
+            {
+                SubCategoryDt = AddSubCategoryTableColumns(dt.Tables[6]);
+            }
+            DataTable variantDt = dt.Tables[7];
+            if (dt.Tables[7].Rows.Count <= 0)
+            {
+                variantDt = AddVariantTableColumns(dt.Tables[7]);
+            }
+            DataTable ColorsDt = dt.Tables[8];
+            if (dt.Tables[8].Rows.Count <= 0)
+            {
+                ColorsDt = AddColorTable(dt.Tables[8]);
+            }
+
+            ParamList.Add(new SqlParameter("@gen_ItemAttributeInfo", AttributeDt));
+            ParamList.Add(new SqlParameter("@gen_ItemSubCategoryInfo", SubCategoryDt));
+            ParamList.Add(new SqlParameter("@gen_ItemVariantInfo", variantDt));
+            ParamList.Add(new SqlParameter("@adgen_ColorInfo", ColorsDt));
+
             DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllInevntory_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+
+        public bool insertAllbillOfMaterials(DataSet dt, int StockTransferID)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@gen_BOMInfo", dt.Tables[0]));
+
+            DataTable MainGrpudt = dt.Tables[1];
+            ParamList.Add(new SqlParameter("@POSgen_BOMDetail", MainGrpudt));
+          
+
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllBillOfMaterials_Insert.ToString()
                 , ParamList);
             if (ret.Columns.Contains("StockTransferID"))
             {
@@ -322,6 +587,40 @@ namespace POS.Helper
             return ReturnValue;
 
         }
+        public bool InsertManualDetaildataContinuosSeriel(DataTable dt, data_StockTransferInfoModel model)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.ArrivalID.ToString(), model.ArrivalID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@RefID", model.RefID));
+            ParamList.Add(new SqlParameter("@ArrivalDate", model.ArrivalDate));
+            ParamList.Add(new SqlParameter("@UserID", CompanyInfo.UserID));
+            ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
+            //ParamList.Add(new SqlParameter("@CompanyID", CompanyInfo.CompanyID));
+            ParamList.Add(new SqlParameter("@FiscalID", CompanyInfo.FiscalID));
+            ParamList.Add(new SqlParameter("@TransferToWHID", CompanyInfo.WareHouseID));
+            ParamList.Add(new SqlParameter("@ManualNo", model.ManualNo));
+            ParamList.Add(new SqlParameter("@VehicleNo", model.VehicleNo));
+            ParamList.Add(new SqlParameter("@Remarks", model.Remarks));
+
+
+            ParamList.Add(new SqlParameter("@ToBranchID", CompanyInfo.BranchID));
+            ParamList.Add(new SqlParameter("@data_StockArrivalManual", dt));
+
+            DataTable ret = STATICClass.ExecuteInsert(SP.POSdata_StockArrivalManualInfo_InsertContinuosSeriel.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("ArrivalID"))
+            {
+                model.ArrivalID = Convert.ToInt32(ret.Rows[0]["ArrivalID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
 
 
         public bool InsertStockIssuanceDetaildata(DataTable dt, data_StockTransferInfoModel model)
@@ -353,6 +652,46 @@ namespace POS.Helper
             if (ret.Columns.Contains("IssuanceID"))
             {
                 model.IssuanceID = Convert.ToInt32(ret.Rows[0]["IssuanceID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
+        }
+
+
+        public bool InsertAllGlUserPromoLocations(DataSet dt, int StockTransferID)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@Pos_InventWareHouse", dt.Tables[0]));
+
+
+            ParamList.Add(new SqlParameter("@Pos_Gluser", dt.Tables[1]));
+            
+                DataTable SchemeDat = dt.Tables[2];
+                 if (dt.Tables[2].Rows.Count <= 0)
+                {
+                    SchemeDat = AddSchemeColumns(dt.Tables[2]);
+                }
+            ParamList.Add(new SqlParameter("@Pos_Pes_SchemeInfo", SchemeDat));
+            
+            DataTable SchemeDetail = dt.Tables[3];
+            if (dt.Tables[3].Rows.Count <= 0)
+            {
+                SchemeDetail = AddSchemeDetailColumns(dt.Tables[3]);
+            }
+            ParamList.Add(new SqlParameter("@Pos_Pes_SchemeDetail", SchemeDetail));
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllGlUserPromoLocations_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
             }
             this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
             ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
@@ -419,6 +758,67 @@ namespace POS.Helper
             
             ds = STATICClass.SelectAll(SP.POSdata_SaleandReturnInfoServer_SelectAll.ToString(), ParamList);
             return ds;
+        }
+        public DataSet StockReturnedToServer(string WhereClause = "", bool BoolMaster = true,
+            bool DetailMaster = false, string WhereClauseDetail = "", string WhereClauseReturn = "", bool isSales = true)
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@BoolMaster", BoolMaster));
+            ParamList.Add(new SqlParameter("@DetailMaster", DetailMaster));
+            ParamList.Add(new SqlParameter("@WhereClauseDetail", WhereClauseDetail));
+            ParamList.Add(new SqlParameter("@isSales", isSales));
+            ParamList.Add(new SqlParameter("@WhereClauseReturn", WhereClauseReturn));
+
+            ds = STATICClass.SelectAll(SP.POSdata_StockReturntoServer_SelectAll.ToString(), ParamList);
+            return ds;
+        }
+        public DataSet SelectAllMaketoOrder(string WhereClause = "", bool BoolMaster = true,
+            bool DetailMaster = false, string WhereClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@BoolMaster", BoolMaster));
+            ParamList.Add(new SqlParameter("@DetailMaster", DetailMaster));
+            ParamList.Add(new SqlParameter("@WhereClauseDetail", WhereClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSdata_MakeOrderInfoServer_SelectAll.ToString(), ParamList);
+            return ds;
+        }
+        public DataSet SelectAllCashInOut(string WhereClause = "", bool BoolMaster = true,
+            bool DetailMaster = false, string WhereClauseDetail = "")
+        {
+            DataSet ds = new DataSet(); List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(new SqlParameter("@WhereClause", WhereClause));
+            ParamList.Add(new SqlParameter("@BoolMaster", BoolMaster));
+            ParamList.Add(new SqlParameter("@DetailMaster", DetailMaster));
+            ParamList.Add(new SqlParameter("@WhereClauseDetail", WhereClauseDetail));
+            ds = STATICClass.SelectAll(SP.POSdata_CashInOutServer_SelectAll.ToString(), ParamList);
+            return ds;
+        }
+
+        public bool InsertAllStockDispatchesTransfer(DataSet dt, int StockTransferID, DateTime DateFrom, DateTime Dateto)
+        {
+            bool ReturnValue;
+            SqlParameter p = new SqlParameter(Fields.StockTransferID.ToString(), StockTransferID);
+            p.Direction = ParameterDirection.InputOutput;
+            List<SqlParameter> ParamList = new List<SqlParameter>();
+            ParamList.Add(p);
+
+            ParamList.Add(new SqlParameter("@data_StockDispatchAgainstTransferPOS", dt.Tables[0]));
+            ParamList.Add(new SqlParameter("@data_StockDispatchAgainstTransferDetailPOS", dt.Tables[1]));
+            ParamList.Add(new SqlParameter("@WHID", CompanyInfo.WareHouseID));
+            ParamList.Add(new SqlParameter("@DateFrom", DateFrom));
+            ParamList.Add(new SqlParameter("@DateTo", Dateto));
+            DataTable ret = STATICClass.ExecuteInsert(SP.PosApi_AllStockDisaptchesTransfer_Insert.ToString()
+                , ParamList);
+            if (ret.Columns.Contains("StockTransferID"))
+            {
+                this.StockTransferID = Convert.ToInt32(ret.Rows[0]["StockTransferID"].ToString());
+            }
+            this.ErrorMsg = ret.Rows[0]["ErrorMsg"].ToString();
+            ReturnValue = Convert.ToBoolean(ret.Rows[0]["NoError"].ToString());
+            return ReturnValue;
+
         }
 
     }

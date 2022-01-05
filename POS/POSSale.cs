@@ -34,10 +34,60 @@ namespace POS
             loadProducts();
             lblShopName.Text ="( "+ CompanyInfo.WareHouseName+" )";
             loadNewSale();
-            if(true)
+            syncRecpiesToolStripMenuItem.Visible = false;
+            dispatchDeskArrivalToolStripMenuItem.Visible = false;
+            if (true)
             {
-                tableLayoutPanel1.Hide();
+               tableLayoutPanel1.Hide();
                 
+            }
+            if(CompanyInfo.isKhaakiSoft)
+            {
+
+               manualStockInToolStripMenuItem.Visible = false;
+
+                billWiseRecoveryToolStripMenuItem.Visible = false;
+                toolStripMenuItem3.Visible = false;
+                dispatchDeskArrivalToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                billWiseRecoveryToolStripMenuItem.Visible = true;
+            }
+            if(!CompanyInfo.isKhaakiSoft)
+            {
+                makeOrderReportToolStripMenuItem.Visible = false;
+                //orderSectionToolStripMenuItem.Visible = false;
+            }
+            if(!CompanyInfo.isKhaakiSoft)
+            {
+                if(CompanyInfo.ShopUserType==1)
+                {
+                    //syncToServerToolStripMenuItem.Visible = false;
+
+                    //syncToServerToolStripMenuItem.Visible = false;
+                    //cashTranscationsToolStripMenuItem.Visible = true;
+                    cashOutToolStripMenuItem.Visible = false;
+                    //orderSectionToolStripMenuItem.Visible = false;
+                }
+                if (CompanyInfo.ShopUserType == 3)
+                {
+                    syncToServerToolStripMenuItem.Visible = false;
+                    warehouseArrivalToolStripMenuItem.Visible = false;
+
+                    stockArrivalListToolStripMenuItem.Visible = false;
+                    toolStripMenuItem4.Visible = false;
+                    manualStockInToolStripMenuItem.Visible = false;
+
+                    syncToServerToolStripMenuItem.Visible = false;
+                    cashOutToolStripMenuItem.Visible = false;
+                   
+                   
+                }
+                if(CompanyInfo.ShopUserType==2)
+                {
+                    syncRecpiesToolStripMenuItem.Visible = true; 
+                }
             }
 
         }
@@ -1380,8 +1430,16 @@ namespace POS
 
         private void manualStockInToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmManualStockIN obj = new frmManualStockIN();
-            obj.ShowDialog();
+            if (CompanyInfo.isKhaakiSoft)
+            {
+                frmManualStockINKhaaki obj = new frmManualStockINKhaaki();
+                obj.ShowDialog();
+            }
+            else
+            {
+                frmManualStockIN obj = new frmManualStockIN();
+                obj.ShowDialog();
+            }
         }
 
         private void syncToServerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1397,6 +1455,21 @@ namespace POS
             {
                 PosKhaakiStyle frm = new PosKhaakiStyle();
                 frm.Show();
+            }
+            else if(CompanyInfo.POSStyle== "POSChSweets")
+            {
+                if (CompanyInfo.ISFbrConnectivity==1)
+                {
+                    frmPOSFbrTabControl frm = new frmPOSFbrTabControl();
+                    frm.Show();
+                }
+                else
+                {
+
+                    frmPOSTabControl frm = new frmPOSTabControl();
+                    frm.Show();
+
+                }
             }
             else
             {
@@ -1422,14 +1495,31 @@ namespace POS
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmStockReport obj = new frmStockReport();
-            obj.ShowDialog();
+            if (!CompanyInfo.isKhaakiSoft)
+            {
+                //Mistakenly This was food mama style But Wrong Name is given...
+                frmStockKhaaki obj = new frmStockKhaaki();
+                obj.ShowDialog();
+            }
+            else
+            {
+                frmStockReport obj = new frmStockReport();
+                obj.ShowDialog();
+            }
         }
 
         private void stockReturnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmStockIssuance frm = new frmStockIssuance();
-            frm.ShowDialog();
+            if (CompanyInfo.isKhaakiSoft)
+            {
+                frmStockIssuanceKhaaki frm = new frmStockIssuanceKhaaki();
+                frm.ShowDialog();
+            }
+            else
+            {
+                frmStockIssuance frm = new frmStockIssuance();
+                frm.ShowDialog();
+            }
         }
 
         private void frmPOSSale_FormClosing(object sender, FormClosingEventArgs e)
@@ -1445,6 +1535,7 @@ namespace POS
         private void cashInToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+
             frmCashIn obj = new frmCashIn();
             obj.ShowDialog();
         }
@@ -1453,6 +1544,183 @@ namespace POS
         {
             frmCashOut obj = new frmCashOut();
             obj.ShowDialog();
+        }
+
+        private void billWiseRecoveryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCashInAgainstBill frm = new frmCashInAgainstBill();
+            frm.ShowDialog();
+        }
+
+        private void dailySaleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CompanyInfo.isKhaakiSoft)
+            {
+
+                frmDailySaleKhaaki frm = new frmDailySaleKhaaki();
+                frm.ShowDialog();
+            }
+            else
+            {
+                frmDailySale frm = new frmDailySale();
+                frm.ShowDialog();
+            }
+        }
+
+        private void salesManWiseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmDailySaleManWise frm = new frmDailySaleManWise();
+            frm.ShowDialog();
+        }
+
+        private void stockMovementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CompanyInfo.isKhaakiSoft)
+            {
+                frmStockMovementKhaaki frm = new frmStockMovementKhaaki();
+                frm.ShowDialog();
+            }
+            else
+            {
+                frmStockMovement frm = new frmStockMovement();
+                frm.ShowDialog();
+            }
+        }
+
+        private void paymentMethodWiseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCashCardWise frm = new frmCashCardWise();
+            frm.ShowDialog();
+        }
+
+        private async void  warehouseArrivalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            await STATICClass.GetStokcIssue();
+            using (frmStockArrival obj = new frmStockArrival())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void inventoryListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmStockListOnScreen obj = new frmStockListOnScreen())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            using (frmDailySaleActivity obj = new frmDailySaleActivity())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void newCustomerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmCustomerDataKhaaki obj = new frmCustomerDataKhaaki())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void makeOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmMakeToOrder obj = new frmMakeToOrder())
+            {
+                
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void makeOrderReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmMakeOrderReport obj = new frmMakeOrderReport())
+            {
+
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            };
+        }
+
+        private void customersListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmSearchCustomerLookup obj = new frmSearchCustomerLookup())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+                   
+                }
+               
+            };
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            using (frmPendingBillReport obj = new frmPendingBillReport())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+
+            };
+        }
+
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            using (FrmStockReturnList obj = new FrmStockReturnList())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+
+            };
+        }
+
+        private void syncRecpiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmRecipeSync obj = new frmRecipeSync())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+
+            };
+        }
+
+        private void dispatchDeskArrivalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (frmStockDispatchArrival obj = new frmStockDispatchArrival())
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+
+            };
         }
     }
 }
