@@ -359,7 +359,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             crystalReportViewer1.Refresh();
             if (CompanyInfo.isPrinter)
             {
-                rpt.PrintToPrinter(1, false, 0, 0);
+                rpt.PrintToPrinter(CompanyInfo.NoOfInvoicePrint, false, 0, 0);
             }
             else
             {
@@ -1139,7 +1139,7 @@ WHERE
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleActivityKhaaki.rpt"));
             rpt.Database.Tables[0].SetDataSource(dt);
             //rpt.Subreports[""].SetDataSource;
-            rpt.Subreports["PromoDiscount.rpt"].SetDataSource(dtPromo);
+            rpt.Subreports["PromoDiscount.rpt"].Database.Tables[0].SetDataSource(dtPromo);
             if (DateFrom.Date == dateTo.Date)
             {
 

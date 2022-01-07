@@ -30,6 +30,7 @@ namespace POS.Helper
         public static string CounterTitle { get; set; }
         public static int ShiftID { get; set; }
         public static int ISFbrConnectivity { get; set; }
+        public static byte NoOfInvoicePrint { get; set; }
 
 
         public static long POSID { get; set; }
