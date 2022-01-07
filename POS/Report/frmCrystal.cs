@@ -646,7 +646,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             select Format(SalePosDate , 'dd-MMM-yyyy') as SalePosDateFormat,data_SalePosInfo.SalePOSNo,(data_SalePosInfo.GrossAmount-isnull(data_SalePosInfo.ExchangeAmount,0)) as SaleInfo_NetAmount,
             0 as SaleInfo_DPer,(data_SalePosInfo.DiscountAmount) as SaleInfo_DAmount,ISNULL(data_SalePosInfo.CustomerName,'Walking Customer') as Clientname,ISNULL(data_SalePosInfo.CustomerPhone,'') as ClientPhone,
             sum(data_SalePosDetail.Quantity) as Quantity,0 as DiscountPercentage,(data_SalePosInfo.DiscountTotal) as TotalDiscount,
-            Sum(data_SalePosDetail.TaxAmount) as TaxAmount
+            Sum(data_SalePosDetail.TaxAmount) as TaxAmount , 0 as GrossAmount, 0 as DiscountAmount, 0 as TotalAmount
             from data_SalePosInfo 
             inner join data_SalePosDetail on data_SalePosInfo.SalePosID=data_SalePosDetail.SalePosID 
             left join InventItems on data_SalePosDetail.ItemId = InventItems.ItemId 
