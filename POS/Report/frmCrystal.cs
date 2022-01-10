@@ -550,7 +550,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             DataTable dt;
 
             string Sql = @"
-            select Format(SalePosDate , 'dd-MMM-yyyy') as SalePosDateFormat,VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ItemNumber,adgen_ColorInfo.ColorTitle,Sum(data_SalePosInfo.NetAmount) as SaleInfo_NetAmount,
+            select  data_SalePosInfo.CompanyID , Format(SalePosDate , 'dd-MMM-yyyy') as SalePosDateFormat,VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ItemNumber,adgen_ColorInfo.ColorTitle,Sum(data_SalePosInfo.NetAmount) as SaleInfo_NetAmount,
             0 as SaleInfo_DPer,Sum(data_SalePosInfo.DiscountAmount) as SaleInfo_DAmount,data_SalePosDetail.ItemId,
             sum(data_SalePosDetail.Quantity) as Quantity,sum(Quantity*data_SalePosDetail.ItemRate) as DetailNet,0 as DiscountPercentage,sum(data_SalePosDetail.DiscountAmount) as DiscountAmount,
             Sum(data_SalePosDetail.TaxAmount) as TaxAmount,
@@ -569,8 +569,60 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             {
                 Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
             }
-            Sql = Sql + " Group by VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ItemNumber,adgen_ColorInfo.ColorTitle,data_SalePosDetail.ItemId,  InventItems.ItenName,salePosdate";
+            Sql = Sql + " Group by data_SalePosInfo.CompanyID ,  VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ItemNumber,adgen_ColorInfo.ColorTitle,data_SalePosDetail.ItemId,  InventItems.ItenName,salePosdate";
             Sql = Sql + " order by data_SalePosInfo.SalePosDate";
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            return dt;
+        }
+        public DataTable DailySaleKhaakiPromo(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
+        {
+            DataTable dt;
+
+            string Sql = @"
+SELECT
+   data_SalePosInfo.CompanyID,
+   data_SalePosDetail.DiscountPercentage,
+   SUM(data_SalePosDetail.Quantity * data_SalePosDetail.ItemRate) AS GrossAmount,
+   SUM(ISNULL(data_SalePosDetail.DiscountAmount, 0)) AS DiscountAmount,
+   SUM(ISNULL(data_SalePosDetail.TotalAmount, 0)) AS TotalAmount
+    
+FROM
+   data_SalePosInfo 
+   INNER JOIN
+      data_SalePosDetail 
+      ON data_SalePosInfo.SalePosID = data_SalePosDetail.SalePosID 
+   LEFT JOIN
+      InventItems 
+      ON data_SalePosDetail.ItemId = InventItems.ItemId 
+   LEFT JOIN
+      InventCategory 
+      ON InventCategory.CategoryID = InventItems.CategoryID 
+   LEFT JOIN
+      InventItemGroup 
+      ON InventCategory.ItemGroupID = InventItemGroup.ItemGroupID 
+   LEFT JOIN
+      InventWareHouse 
+      ON data_SalePosInfo.WHID = InventWareHouse.WHID 
+   LEFT JOIN
+      adgen_ColorInfo 
+      ON adgen_ColorInfo.ColorID = InventItems.ColorID 
+   LEFT JOIN
+      gen_ItemVariantInfo 
+      ON InventItems.ItemVarientId = gen_ItemVariantInfo.ItemVariantInfoId 
+WHERE
+   0 = 0 
+   AND data_SalePosInfo.DirectReturn = 0 
+   AND data_SalePosDetail.DiscountPercentage > 0 ";
+            Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
+            if (CategoryID > 0)
+            {
+                Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
+            }
+            Sql = Sql + @" GROUP BY
+   data_SalePosInfo.CompanyID,
+   data_SalePosDetail.DiscountPercentage ";
+            
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
@@ -646,7 +698,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             select Format(SalePosDate , 'dd-MMM-yyyy') as SalePosDateFormat,data_SalePosInfo.SalePOSNo,(data_SalePosInfo.GrossAmount-isnull(data_SalePosInfo.ExchangeAmount,0)) as SaleInfo_NetAmount,
             0 as SaleInfo_DPer,(data_SalePosInfo.DiscountAmount) as SaleInfo_DAmount,ISNULL(data_SalePosInfo.CustomerName,'Walking Customer') as Clientname,ISNULL(data_SalePosInfo.CustomerPhone,'') as ClientPhone,
             sum(data_SalePosDetail.Quantity) as Quantity,0 as DiscountPercentage,(data_SalePosInfo.DiscountTotal) as TotalDiscount,
-            Sum(data_SalePosDetail.TaxAmount) as TaxAmount , 0 as GrossAmount, 0 as DiscountAmount, 0 as TotalAmount
+            Sum(data_SalePosDetail.TaxAmount) as TaxAmount 
             from data_SalePosInfo 
             inner join data_SalePosDetail on data_SalePosInfo.SalePosID=data_SalePosDetail.SalePosID 
             left join InventItems on data_SalePosDetail.ItemId = InventItems.ItemId 
@@ -1100,11 +1152,12 @@ WHERE
         {
             ReportDocument rpt = new ReportDocument();
             DataTable dt = DailySaleKhaaki(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
+            DataTable dtPromo = DailySaleKhaakiPromo(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleRegisterKhaaki.rpt"));
+            rpt.Subreports["PromoDiscount.rpt"].SetDataSource(dtPromo);
             rpt.Database.Tables[0].SetDataSource(dt);
             if (DateFrom.Date == dateTo.Date)
             {
-
                 rpt.SummaryInfo.ReportTitle = "Daily Sale Report";
             }
             else
@@ -1137,9 +1190,8 @@ WHERE
             DataTable dt = SaleActivity(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
             DataTable dtPromo = SaleActivityPromo(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleActivityKhaaki.rpt"));
+            rpt.Subreports["PromoDiscount.rpt"].SetDataSource(dtPromo);
             rpt.Database.Tables[0].SetDataSource(dt);
-            //rpt.Subreports[""].SetDataSource;
-            rpt.Subreports["PromoDiscount.rpt"].Database.Tables[0].SetDataSource(dtPromo);
             if (DateFrom.Date == dateTo.Date)
             {
 
