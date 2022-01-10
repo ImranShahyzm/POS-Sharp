@@ -113,6 +113,7 @@ namespace POS
                     CompanyInfo.LocationID=Convert.ToString(dt.Rows[0]["LocationID"]);
                     CompanyInfo.isKhaakiSoft= Convert.ToBoolean(dt.Rows[0]["isKhaakiSoft"]);
                     CompanyInfo.ShopUserType = Convert.ToInt32(dt.Rows[0]["ShopUserType"]);
+                    CompanyInfo.NoOfInvoicePrint = Convert.ToByte(dt.Rows[0]["NoOfInvoicePrint"]);
 
                     CompanyInfo.POSStyle=dt.Rows[0]["PosStyle"] is DBNull? "Default" : Convert.ToString(dt.Rows[0]["PosStyle"]);
 

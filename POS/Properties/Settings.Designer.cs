@@ -26,7 +26,8 @@ namespace POS.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=103.86.135.168;Initial Catalog=SAGERP;User ID=sa;Password=deskpro")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=KHAAKI-PC;\n           Initial Catalog=kHAAKIdb;\n           User ID=sa" +
+            ";\n           Password=@Mispldesk")]
         public string SAGERPConnectionString {
             get {
                 return ((string)(this["SAGERPConnectionString"]));
