@@ -1132,8 +1132,8 @@ namespace POS
                             }
                             else if(SaleReturn)
                             {
-                                obj.PrintFbrInvoice("rpt_SaleFbr_Return_invoice", reportName, value, SaleReturn);
-                                isGeneralInvoice = false;
+                             FbrInvoiceObject(Convert.ToInt32(SaleInvoiceNO));                                    obj.PrintFbrInvoice("rpt_SaleFbr_Return_invoice", reportName, value, SaleReturn);
+                             isGeneralInvoice = false;
                             }
                           
 
@@ -1229,7 +1229,12 @@ namespace POS
             FbrObj.TotalTaxCharged = txtTotalTax.Text == "" ? 0 : Convert.ToDecimal(txtTotalTax.Text);
             FbrObj.Discount = txtTotalDiscount.Text == "" ? 0 : Convert.ToDecimal(txtTotalDiscount.Text);
             FbrObj.FurtherTax = 0;
-            FbrObj.InvoiceType = Convert.ToInt32(cmbInvoicetype.SelectedValue);
+            
+            FbrObj.InvoiceType =1;
+            if(SaleReturn==true)
+            {
+                FbrObj.InvoiceType = 3;
+            }
             FbrObj.Items = Items();
             FbrObj.TotalQuantity = Convert.ToDecimal(txtNoItems.Text);
             FbrObj.SalePOSID = SalePOSID;
@@ -1266,7 +1271,14 @@ namespace POS
                     objItem.TaxRate = Convert.ToDecimal(row.Cells[6].Value.ToString());
                     objItem.PCTCode = "19050000";
                     objItem.FurtherTax = 0;
-                    objItem.InvoiceType = 1;
+                    if (SaleReturn)
+                    {
+                        objItem.InvoiceType = 3;
+                    }
+                    else
+                    {
+                        objItem.InvoiceType = 1;
+                    }
                     objItem.Discount = Convert.ToDecimal(row.Cells[5].Value.ToString());
                     lst.Add(objItem);
                 }
