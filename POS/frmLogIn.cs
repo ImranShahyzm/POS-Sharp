@@ -150,7 +150,8 @@ namespace POS
 
         private void frmLogIn_Load(object sender, EventArgs e)
         {
-         
+
+            this.Activate();
 
         }
 

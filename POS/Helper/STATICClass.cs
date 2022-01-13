@@ -22,7 +22,7 @@ namespace POS.Helper
     {
         public static bool IsDemo = false;
 
-        public static DateTime DemoEndDate =Convert.ToDateTime("2022-03-01");
+        public static DateTime DemoEndDate = Convert.ToDateTime("2022-03-01");
 
         //*****Khaki Api URL **********//
         //public static string BaseURL = "http://72.255.39.154:1011/";
@@ -51,17 +51,15 @@ namespace POS.Helper
             {
                 string SqlString = " Select ShiftID,ShiftName from PosData_ShiftRecords where  ISNULL(ISCuurentlyRunning,0)=1";
                 SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
-              
                 sda.Fill(dt);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
-              
+
             }
             finally
             {
-
                 cnn.Close();
-
             }
             return dt;
 
@@ -414,10 +412,10 @@ namespace POS.Helper
                 }
                 catch (Exception e)
                 {
-                    var Temp = e.Message;
+                    throw;
+                    
                 }
-                var i = 0;
-
+                
                 return myDataSet;
             }
 
@@ -576,16 +574,14 @@ namespace POS.Helper
                     }
                     else
                     {
-
                         return myDataSet;
                     }
                 }
                 catch (Exception e)
                 {
-                    var Temp = e.Message;
+                    throw;
                 }
-                var i = 0;
-
+                
                 return myDataSet;
             }
 
@@ -643,10 +639,9 @@ namespace POS.Helper
                 }
                 catch (Exception e)
                 {
-                    var Temp = e.Message;
+                    throw;
                 }
-                var i = 0;
-
+                
                 return myDataSet;
             }
 
@@ -812,10 +807,9 @@ namespace POS.Helper
                 }
                 catch (Exception e)
                 {
-                    var Temp = e.Message;
-                    return Temp;
+                    throw;
                 }
-                var i = 0;
+                
             }
             return "NoRecordsTransferrred";
 
@@ -863,10 +857,9 @@ namespace POS.Helper
                 }
                 catch (Exception e)
                 {
-                    var Temp = e.Message;
-                    return Temp;
+                    throw;
                 }
-                var i = 0;
+                
             }
             return "NoRecordsTransferrred";
 
@@ -915,10 +908,9 @@ namespace POS.Helper
                 }
                 catch (Exception e)
                 {
-                    var Temp = e.Message;
-                    return Temp;
+                    throw;
                 }
-                var i = 0;
+                
             }
             return "NoRecordsTransferrred";
 
@@ -1035,10 +1027,9 @@ namespace POS.Helper
                 }
                 catch (Exception e)
                 {
-                    var Temp = e.Message;
+                    throw;
                 }
-                var i = 0;
-
+                
                 return myDataSet;
             }
 
@@ -1091,10 +1082,9 @@ namespace POS.Helper
                 }
                 catch (Exception e)
                 {
-                    var Temp = e.Message;
+                    throw;
                 }
-                var i = 0;
-
+                
                 return myDataSet;
             }
 
@@ -1127,6 +1117,16 @@ namespace POS.Helper
                 }
             }
         }
-
+        public static string ExceptionMessage(this Exception ex)
+        {
+            if (ex == null)
+                return string.Empty;
+            string ExMsg = "";
+            if (ExMsg == "")
+                ExMsg = ex.Message;
+            if (ex.InnerException != null)
+                ExMsg += "\r\nInnerException: " + ExceptionMessage(ex.InnerException);
+            return ExMsg;
+        }
     }
 }
