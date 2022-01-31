@@ -61,7 +61,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AxShockwaveFlashObjects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
@@ -735,6 +735,13 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\PromoDiscount.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PromoDiscount.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Report\SaleThermalFbrPrint.cs">
       <DependentUpon>SaleThermalFbrPrint.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -1103,6 +1110,11 @@
       <LastGenOutput>PendingBillsAmount.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\PromoDiscount.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PromoDiscount.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleThermalFbrPrint.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SaleThermalFbrPrint.cs</LastGenOutput>
@@ -1335,6 +1347,7 @@
     <Content Include="DbScripts\Script 1.0.0.19.sql" />
     <Content Include="DbScripts\Script 1.0.0.20.sql" />
     <Content Include="DbScripts\Script 1.0.0.69.sql" />
+    <Content Include="DbScripts\Script 1.0.0.74.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <None Include="Resources\CorbisPos.png" />

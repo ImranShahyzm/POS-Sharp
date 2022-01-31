@@ -70,7 +70,7 @@ namespace POS
                 SqlConnection cnn;
                 cnn = new SqlConnection(connectionString);
                 cnn.Open();
-                string SqlString = " Select Top 1 CustomerName from data_SalePosInfo Where WHID=" + CompanyInfo.WareHouseID + " and CustomerPhone like '%" + PhoneNo + "%'";
+                string SqlString = " Select Top 1 CustomerName , CustomerPhone from data_SalePosInfo Where WHID=" + CompanyInfo.WareHouseID + " and CustomerPhone like '%" + PhoneNo + "%'";
 
                 SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
                 DataTable dt = new DataTable();
@@ -78,7 +78,8 @@ namespace POS
                 cnn.Close();
                 if (dt.Rows.Count > 0)
                 {
-                    txtCustomerName.Text = Convert.ToString(dt.Rows[0][0]);
+                    txtCustomerName.Text = Convert.ToString(dt.Rows[0]["CustomerName"].ToString());
+                    txtPhoneNo.Text = Convert.ToString(dt.Rows[0]["CustomerPhone"].ToString());
                 }
             }
         }

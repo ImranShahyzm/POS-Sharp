@@ -873,8 +873,8 @@ namespace POS
                 txtSalesManID.Text = this.SaleManId;
                 if (Convert.ToInt32(txtSalesManID.Text) == 0)
                 {
-
                     MessageBox.Show("Please Select Sales Person....!!!");
+                    btnSave.Enabled = true;
                     return;
                 }
                 else
@@ -2204,6 +2204,7 @@ namespace POS
             if (string.IsNullOrEmpty(txtAmountReceive.Text) || Math.Round(Convert.ToDecimal(txtAmountReceive.Text)) < Convert.ToDecimal(txtReceivableAmount.Text))
             {
                 MessageBox.Show("Received Amount Can't be Less then Bill Amount...");
+                btnSave.Enabled = true;
                 return;
             }
 

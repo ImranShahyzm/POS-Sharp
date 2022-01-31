@@ -30,7 +30,7 @@ namespace DAL
                 tran = con.BeginTransaction();
                 SqlCommand cmd;
                 cmd = new SqlCommand(@"select CounterPCName,CounterTitle, ISNULL(ShopUserType,0) as ShopUserType,InventWareHouse.BranchID,GLUser.Userid,GLUser.UserPassword,GLUser.UserName,GLCompany.*,gen_PosConfiguration.WHID,FiscalID,InventWareHouse.WHDesc as WareHouseName,gen_PosConfiguration.LocationID,gen_PosConfiguration.IsKhaakiSoft,gen_PosConfiguration.PosStyle,CounterID,
-gen_PosConfiguration.ISFbrConnectivity,gen_PosConfiguration.POSID,gen_PosConfiguration.USIN
+gen_PosConfiguration.ISFbrConnectivity , gen_PosConfiguration.POSID,gen_PosConfiguration.USIN , gen_PosConfiguration.NoOfInvoicePrint
 from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner join gen_PosConfiguration on gen_PosConfiguration.CompanyID=GLCompany.Companyid
            inner join InventWareHouse on InventWareHouse.WHID=gen_PosConfiguration.WHID
             where UserPassword = '" + obj.Password + "' and UserName = '" + obj.UserName + "' "+where+" ", con);
