@@ -111,5 +111,36 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
 
             return isStoreWiseRights;
         }
+
+
+        public int CheckIfBarcodePrinterExe()
+        {
+            int IsBarcodePrinter = 0;
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            con.Open();
+
+
+
+            tran = con.BeginTransaction();
+            SqlCommand cmd;
+            cmd = new SqlCommand(@"Select top 1 IsBarcodePrinter from gen_PosConfiguration", con);
+            cmd.CommandType = CommandType.Text;
+
+            try
+            {
+                cmd.Transaction = tran;
+                IsBarcodePrinter = cmd.ExecuteScalar() is DBNull ? 0 : Convert.ToInt32(cmd.ExecuteScalar());
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                throw ex;
+            }
+
+            return IsBarcodePrinter;
+        }
     }
 }
