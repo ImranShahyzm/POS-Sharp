@@ -1369,6 +1369,49 @@ Group By CounterID
 
 
         }
+        public DataTable KhaakiBarcodeSelectAll(string where = "", string id = "")
+
+        {
+            SqlConnection con = new SqlConnection(STATICClass.Connection());
+            DataTable dt = new DataTable();
+
+            SqlDataAdapter da = new SqlDataAdapter(@"
+Select data_barcodePrintDetail.*,br.BrandName,data_barcodePrintMaster.CompanyID,gen_ItemMainGroupInfo.ItemMainGroupName,adgen_ColorInfo.ColorTitle,InventItems.ItemSalesPrice,catg.CategoryName from data_barcodePrintDetail inner join data_barcodePrintMaster on data_barcodePrintMaster.PrintID=data_barcodePrintDetail.PrintId
+inner join InventItems on InventItems.ItemId=data_barcodePrintDetail.ItemID
+left join gen_ItemMainGroupInfo on gen_ItemMainGroupInfo.ItemMainGroupID=InventItems.ItemMainGroupID
+left join adgen_ColorInfo on adgen_ColorInfo.ColorID=InventItems.ColorID
+left join InventItemBrands br on br.ItemBrandId=InventItems.ItemBrandId
+left join InventCategory catg on catg.CategoryID=InventItems.CategoryID
+JOIN generator_256 i 
+ON i.n BETWEEN 1 AND data_barcodePrintDetail.PrintQty/2
+                          " + where + " ORDER BY data_barcodePrintDetail.ItemID, i.n", con);
+
+            da.Fill(dt);
+            return dt;
+        }
+
+        public void KhaakiBarcodePrints(Int32 MasterID)
+        {
+            ReportDocument rpt = new ReportDocument();
+            if (CompanyInfo.isKhaakiSoft)
+            {
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "ItemBarcodeKhaaki.rpt"));
+            }
+
+            DataTable dt =KhaakiBarcodeSelectAll(" where data_barcodePrintMaster.PrintId=" + MasterID + "");
+            DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
+           
+            rpt.Database.Tables[0].SetDataSource(dt);
+            rpt.Database.Tables[1].SetDataSource(dt2);
+
+            rpt.SummaryInfo.ReportTitle = "Barcode";
+            rpt.SummaryInfo.ReportAuthor = CompanyInfo.username;
+            rpt.PrintToPrinter(1, false, 0, 0);
+            //crystalReportViewer1.ReportSource = rpt;
+            //crystalReportViewer1.Refresh();
+            //this.ShowDialog();
+            rpt.Dispose();
+        }
 
     }
 }
