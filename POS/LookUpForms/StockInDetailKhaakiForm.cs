@@ -245,6 +245,11 @@ namespace POS.LookUpForms
         }
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
+            var BarcodeString = ManualNumber;
+            if (BarcodeString.Length == 12)
+            {
+                BarcodeString = BarcodeString.Substring(3, BarcodeString.Length - 4);
+            }
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -274,7 +279,7 @@ namespace POS.LookUpForms
             }
             else if (ManualNumber != "")
             {
-                SqlString += "where InventItems.ManualNumber= '" + ManualNumber + "'";
+                SqlString += "where InventItems.ManualNumber= '" + BarcodeString + "'";
             }
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();

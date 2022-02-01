@@ -143,6 +143,8 @@ namespace POS.LookUpForms
         }
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
+
+          
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -284,7 +286,15 @@ namespace POS.LookUpForms
             {
                 if (txtProductID.Text != "")
                 {
-                    DataTable dt = getProduct(0, 0, txtProductID.Text);
+                    var BarcodeString = txtProductID.Text.Trim() ;
+                    if (BarcodeString.Length == 12)
+                    {
+                        BarcodeString = BarcodeString.Substring(3, BarcodeString.Length - 4);
+                        txtProductID.Text = BarcodeString;
+                    }
+                    DataTable dt = getProduct(0, 0, BarcodeString);
+
+
                     if (dt.Rows.Count == 0)
                     {
                         using (frmProductLookUp obj = new frmProductLookUp())
