@@ -1336,6 +1336,7 @@
     <Content Include="DbScripts\Script 1.0.0.63.sql" />
     <Content Include="DbScripts\Script 1.0.0.71.sql" />
     <Content Include="DbScripts\Script 1.0.0.72.sql" />
+    <Content Include="DbScripts\Script 1.0.0.77.sql" />
     <Content Include="DbScripts\Script 1.0.0.9.sql" />
     <Content Include="DbScripts\Script 1.0.0.6.sql" />
     <Content Include="DbScripts\Script 1.0.0.8.sql" />
