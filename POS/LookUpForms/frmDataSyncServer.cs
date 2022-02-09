@@ -56,6 +56,23 @@ namespace POS
 
         }
 
+        private void UpdateTranscationStatus(string MasterID,string TableName,string ColumnName ,string MasterColumnName)
+        {
+
+
+            SqlConnection db = new SqlConnection(STATICClass.Connection());
+            SqlCommand com = new SqlCommand();
+            com.Connection = db;
+            db.Open();
+
+            com.CommandText = @"update "+ TableName + @" set 
+                           "+ColumnName+" = 1 where "+ MasterColumnName + "=" + MasterID + "";
+            com.ExecuteNonQuery();
+
+            db.Close();
+
+        }
+
 
         private async void  btnPreview_Click(object sender, EventArgs e)
         {
@@ -68,7 +85,15 @@ namespace POS
                 await STATICClass.GetAllWareHouseGluserPromo();
                 await STATICClass.GetAllSalesMan();
 
-                var obj = new data_StockTransferInfoModel().SelectAllArrivalStock("where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", true, true, "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
+                //************* Old Technique ***********************//
+                //var obj = new data_StockTransferInfoModel().SelectAllArrivalStock("where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", true, true, "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and  ArrivalToWHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
+                //*************************************************//
+
+                string ArrivalStockClause= "where ISNULL(data_StockArrivalInfo.IsSynced,0)=0 and ArrivalToWHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + "";
+
+                var obj = new data_StockTransferInfoModel().SelectAllArrivalStock(ArrivalStockClause, true, true, ArrivalStockClause);
+
+
 
                 bool StartInvoices = false;
                 bool StartReturnInvoices = false;
@@ -80,7 +105,12 @@ namespace POS
                     foreach (DataRow row in obj.Tables[0].Rows)
                     {
                         string ArrivalID = row["ArrivalID"].ToString();
-                        string WhereArrivalClause = "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and ArrivalToWHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_StockArrivalInfo.ArrivalID=" + ArrivalID + "";
+                        //************ Old Technique *******************//
+                        //string WhereArrivalClause = "where ArrivalDate between '" + dtpSaleFromDate.Value + "' and '" + dtpSaleToDate.Value + "' and ArrivalToWHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_StockArrivalInfo.ArrivalID=" + ArrivalID + "";
+                        //**************************************************//
+
+                        string WhereArrivalClause = "where ISNULL(data_StockArrivalInfo.IsSynced,0)=0 and ArrivalToWHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_StockArrivalInfo.ArrivalID=" + ArrivalID + "";
+
                         var ArrivalObj = new data_StockTransferInfoModel().SelectAllArrivalStock(WhereArrivalClause, true, true, WhereArrivalClause);
 
                         string result = JsonConvert.SerializeObject(ArrivalObj);
@@ -89,7 +119,7 @@ namespace POS
                         Responce = await STATICClass.CheckNewWayofStockArrivalInsert(result, ArrivalID);
                         if (Convert.ToString(Responce).Contains("Done"))
                         {
-
+                            UpdateTranscationStatus(ArrivalID, "data_StockArrivalInfo", "IsSynced", "ArrivalID");
                             if (btnProgressBar.Value <= 35)
                             {
                                 btnProgressBar.Value = btnProgressBar.Value + 1;
@@ -113,14 +143,32 @@ namespace POS
                 }
                 if (StartInvoices == true)
                 {
-                    var Invoices = new data_StockTransferInfoModel().SelectAllInvoicesForUploading("where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", true, true, "where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
+
+
+                    //************ Old Technique *************//
+
+
+                    //var Invoices = new data_StockTransferInfoModel().SelectAllInvoicesForUploading("where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", true, true, "where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
+
+                    //**************Ending Here Old Way *****************//
+
+                    string InvoiceWhereClause = "where ISNULL(data_SalePosInfo.IsSynced,0)=0 and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "";
+
+                    var Invoices = new data_StockTransferInfoModel().SelectAllInvoicesForUploading(InvoiceWhereClause, true, true, InvoiceWhereClause, "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "");
 
 
                     if (Invoices.Tables[0].Rows.Count > 0)
                     {
                         foreach (DataRow row in Invoices.Tables[0].Rows)
                         {
-                            string WhereSaleCluse = "where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_salePosInfo.SalePosID=" + Convert.ToInt32(row["SalePosID"]) + "";
+
+                            //*************** Old Technique ******************//
+                            //string WhereSaleCluse = "where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_salePosInfo.SalePosID=" + Convert.ToInt32(row["SalePosID"]) + "";
+                            //******************************//
+
+                            string WhereSaleCluse = "where ISNULL(data_SalePosInfo.IsSynced, 0)=0 and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_salePosInfo.SalePosID=" + Convert.ToInt32(row["SalePosID"]) + "";
+
+
                             string whereReturnClause = "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + "";
                             var InvoiceWiseRecords = new data_StockTransferInfoModel().SelectAllInvoicesForUploading(WhereSaleCluse, true, true, WhereSaleCluse, "");
 
@@ -132,6 +180,8 @@ namespace POS
                                 Responce = InvoiceRespomnce;
                                 if (Convert.ToString(Responce).Contains("Done"))
                                 {
+                                    UpdateTranscationStatus(row["SalePosID"].ToString(), "data_SalePosInfo", "IsSynced", "SalePosID");
+
                                     if (btnProgressBar.Value <= 75)
                                     {
                                         btnProgressBar.Value = btnProgressBar.Value + 1;
@@ -168,19 +218,45 @@ namespace POS
                 if (StartReturnInvoices == true)
                 {
 
-                    var RInvoices = new data_StockTransferInfoModel().SelectAllInvoicesForUploading("where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", true, true, "where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", false);
+                    //*************Old Technique for Syncing Data ****************//
+                    //var RInvoices = new data_StockTransferInfoModel().SelectAllInvoicesForUploading("where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", true, true, "where SalePosDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "", false);
+                    //**************************************************************//
+                    string InvoiceWhereClause = "where ISNULL(data_SalePosInfo.IsSynced,0)=0 and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "";
+
+                    string InvoiceReturnWhereClause = "where ISNULL(data_SalePosReturnInfo.IsSynced,0)=0 and  WHID=" + CompanyInfo.WareHouseID + " and CompanyID=" + CompanyInfo.CompanyID + "";
+
+
+                    var RInvoices = new data_StockTransferInfoModel().SelectAllInvoicesForUploading(InvoiceWhereClause, true, true, InvoiceWhereClause, InvoiceReturnWhereClause, false);
+
+
+
+
 
                     var RInvoiceRespomnce = "";
                     if (RInvoices.Tables[0].Rows.Count > 0)
                     {
                         foreach (DataRow row in RInvoices.Tables[0].Rows)
                         {
-                            string SaleReturnClause = "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_SalePosReturnInfo.SalePOSReturnID=" + Convert.ToInt32(row["SalePOSReturnID"]) + "";
+                            //*************** OlD Technique *******************//
+                            //string SaleReturnClause = "where SalePosReturnDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_SalePosReturnInfo.SalePOSReturnID=" + Convert.ToInt32(row["SalePOSReturnID"]) + "";
+                            //***************************************************//
+
+
+                            string SaleReturnClause = "where ISNULL(data_SalePosReturnInfo.IsSynced,0)=0    and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and data_SalePosReturnInfo.SalePOSReturnID=" + Convert.ToInt32(row["SalePOSReturnID"]) + "";
+
+
+
+
+                           
                             var ReturnInvoice = new data_StockTransferInfoModel().SelectAllInvoicesForUploading("", true, true, "", SaleReturnClause, false);
 
                             string RJsonInvoices = JsonConvert.SerializeObject(ReturnInvoice);
                             RInvoiceRespomnce = await STATICClass.InsertAllSalesReturntoServer(RJsonInvoices, dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString(), Convert.ToString(row["SalePOSReturnID"]));
+                            if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
+                            {
+                                UpdateTranscationStatus(Convert.ToString(row["SalePOSReturnID"]), "data_SalePosReturnInfo", "IsSynced", "SalePOSReturnID");
 
+                            }
                         }
                     }
                     else
@@ -217,7 +293,12 @@ namespace POS
                     {
                         foreach (DataRow row in MakeOrders.Tables[0].Rows)
                         {
-                            WhereClause = " where RegisterDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and Posdata_MaketoOrderInfo.OrderID=" + Convert.ToInt32(row["OrderID"]) + "";
+                            //WhereClause = " where RegisterDate between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "' and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and Posdata_MaketoOrderInfo.OrderID=" + Convert.ToInt32(row["OrderID"]) + "";
+
+                            WhereClause = " where isnull(IsOrderSynced,0)=0 and WHID = " + CompanyInfo.WareHouseID + " and CompanyID = " + CompanyInfo.CompanyID + " and Posdata_MaketoOrderInfo.OrderID=" + Convert.ToInt32(row["OrderID"]) + "";
+
+
+
                             var OrdersData = new data_StockTransferInfoModel().SelectAllMaketoOrder(WhereClause, true, true, WhereClause);
                             //var abc =(byte[])OrdersData.Tables[0].Rows[0]["ImagePath"];
                             //string base64String = Convert.ToBase64String(abc, 0, abc.Length);
@@ -260,7 +341,15 @@ namespace POS
                 if (StartSyncingCashInOut == true)
                 {
 
-                    string WhereClause = " where [Date] between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "'";
+                    //*********Old Technique ******************//
+                    //string WhereClause = " where [Date] between '" + dtpSaleFromDate.Value.ToString("dd-MMM-yyyy") + "' and '" + dtpSaleToDate.Value.ToString("dd-MMM-yyyy") + "'";
+                    //*****************************************
+
+
+                    string WhereClause = " where isnull(IsSynced,0)=0";
+
+
+
                     var CashInOutTrans = new data_StockTransferInfoModel().SelectAllCashInOut(WhereClause, true, true, WhereClause);
 
                     var RInvoiceRespomnce = "";
@@ -268,6 +357,20 @@ namespace POS
                     {
                         string CashInOutTransDate = JsonConvert.SerializeObject(CashInOutTrans);
                         RInvoiceRespomnce = await STATICClass.InsertAllCashInOut(CashInOutTransDate, dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"));
+                        if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
+                        {
+                            foreach(DataRow Row in CashInOutTrans.Tables[0].Rows)
+                            {
+                                UpdateTranscationStatus(Convert.ToString(Row[0]), "data_CashIn", "IsSynced", "CashIn");
+                            }
+                            if (CashInOutTrans.Tables[1].Rows.Count > 0)
+                            {
+                                foreach (DataRow Row in CashInOutTrans.Tables[1].Rows)
+                                {
+                                    UpdateTranscationStatus(Convert.ToString(Row[0]), "data_CashOut", "IsSynced", "CashOut");
+                                }
+                            }
+                        }
 
                     }
                     else

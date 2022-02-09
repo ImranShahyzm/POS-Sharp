@@ -1,4 +1,5 @@
-﻿using POS.LookUpForms;
+﻿using DAL;
+using POS.LookUpForms;
 using POS.Report;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,14 @@ namespace POS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmLogIn());
+            if (new LoginDAL().CheckIfBarcodePrinterExe() == 1)
+            {
+                Application.Run(new frmOnScreenBarcodePrint());
+            }
+            else
+            {
+                Application.Run(new frmLogIn());
+            }
         }
     }
 }
