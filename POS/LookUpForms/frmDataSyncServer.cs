@@ -310,7 +310,7 @@ namespace POS
                 lblStatus.Text = "Error Occurred During Uploading...";
                 btnProgressBar.Value = 0;
                 btnSync.Enabled = true;
-                if (ex.HResult == -2146233088)
+                if (ex.Message.Contains("An error occurred while sending the request"))
                 {
                     MessageBox.Show("Oops! Looks like your server is down. Please check server availability to proceed further", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
