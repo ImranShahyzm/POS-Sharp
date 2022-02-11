@@ -22,10 +22,10 @@ namespace POS.Helper
     {
         public static bool IsDemo = false;
 
-        public static DateTime DemoEndDate = Convert.ToDateTime("2022-04-01");
+        public static DateTime DemoEndDate = Convert.ToDateTime("2022-03-01");
 
         //*****Khaki Api URL **********//
-       // public static string BaseURL = "http://72.255.39.154:1011/";
+        public static string BaseURL = "http://72.255.39.154:1011/";
         //******************************//
 
         //*********** Food Mama Api Url *************//
@@ -34,7 +34,7 @@ namespace POS.Helper
 
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-       static string BaseURL = "http://localhost:44333/";
+        //static string BaseURL = "http://localhost:44333/";
 
         public static string Connection()
         {
