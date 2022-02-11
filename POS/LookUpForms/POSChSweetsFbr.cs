@@ -540,7 +540,7 @@ namespace POS
                     var discountAmt = ((qty) * rate) - ((Convert.ToDecimal(DiscountedRate)) * qty);
                     ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
 
-                    ItemSaleGrid.Rows[i].Cells[8].Value = ((qty) * rate) - discountAmt;
+                    ItemSaleGrid.Rows[i].Cells[8].Value = ((qty) * rate) - discountAmt+(Convert.ToDecimal(taxAmount)*qty);
                     ItemSaleGrid.Rows[i].Cells[7].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * (qty);
 
 
