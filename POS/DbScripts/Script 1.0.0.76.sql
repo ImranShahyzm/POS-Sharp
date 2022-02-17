@@ -1,5 +1,16 @@
 ﻿IF NOT EXISTS (SELECT 1 FROM sys.columns 
 				WHERE name = N'IsSynced' 
+				and object_id = object_id(N'dbo.data_StockArrivalInfo'))
+BEGIN
+BEGIN TRANSACTION
+	ALTER TABLE dbo.data_StockArrivalInfo ADD
+	IsSynced tinyint NULL
+COMMIT
+END
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns 
+				WHERE name = N'IsSynced' 
 				and object_id = object_id(N'dbo.data_SalePosInfo'))
 BEGIN
 BEGIN TRANSACTION
