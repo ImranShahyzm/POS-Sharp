@@ -1230,7 +1230,6 @@ namespace POS
 
         public void FbrInvoiceObject(int SalePOSID)
         {
-            return;
             Fbr_InvoiceMaster FbrObj = new Fbr_InvoiceMaster();
             FbrObj.InvoiceNumber = string.Empty;
             FbrObj.POSID = CompanyInfo.POSID;
@@ -1257,9 +1256,15 @@ namespace POS
             FbrObj.TotalQuantity = Convert.ToDecimal(txtNoItems.Text);
             FbrObj.SalePOSID = SalePOSID;
             var Responce= JsonConvert.DeserializeObject<Fbr_ResponceObj>(STATICClass.SyncFbrInvoice(FbrObj));
+
             FbrObj.InvoiceNumber = Responce.InvoiceNumber;
             FbrObj.RefUSIN = Responce.Code;
             FbrObj.imagePath = FbrObj.GenerateQRCode(Responce.InvoiceNumber, FbrObj);
+            //if(Responce.InvoiceNumber!="" || Responce.InvoiceNumber!=null)
+            //{
+            //    var ResultFinal= STATICClass.PosdataToFbr(FbrObj);
+            //    MessageBox.Show(ResultFinal);
+            //}
             FbrObj.Insert(FbrObj);
            
         }
