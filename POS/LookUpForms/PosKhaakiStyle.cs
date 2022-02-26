@@ -806,8 +806,6 @@ namespace POS
                     }
                     DataTable dt = getProduct(0, 0, BarcodeString);
 
-
-
                     if (dt.Rows.Count == 0)
                     {
                         using (frmProductLookUp obj = new frmProductLookUp(Convert.ToInt32(cmbSalemenu.SelectedValue.ToString())))
