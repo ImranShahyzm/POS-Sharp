@@ -797,10 +797,11 @@ namespace POS
             {
                 if (txtProductCode.Text != "")
                 {
-                    var BarcodeString = txtProductCode.Text.Trim();
-                    if (BarcodeString.Length == 12)
+                    string BarcodeString = txtProductCode.Text.Trim();
+                    BarcodeString = BarcodeString.TrimStart('0');
+                    if (BarcodeString.Length == 9)
                     {
-                        BarcodeString = BarcodeString.Substring(3, BarcodeString.Length - 4);
+                        BarcodeString = BarcodeString.Substring(0, BarcodeString.Length - 1);
                         txtProductCode.Text = BarcodeString;
                     }
                     DataTable dt = getProduct(0, 0, BarcodeString);
