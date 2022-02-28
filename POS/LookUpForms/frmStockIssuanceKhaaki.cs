@@ -287,9 +287,10 @@ namespace POS.LookUpForms
                 if (txtProductID.Text != "")
                 {
                     var BarcodeString = txtProductID.Text.Trim() ;
-                    if (BarcodeString.Length == 12)
+                    BarcodeString = BarcodeString.TrimStart('0');
+                    if (BarcodeString.Length == 9)
                     {
-                        BarcodeString = BarcodeString.Substring(3, BarcodeString.Length - 4);
+                        BarcodeString = BarcodeString.Substring(0, BarcodeString.Length - 1);
                         txtProductID.Text = BarcodeString;
                     }
                     DataTable dt = getProduct(0, 0, BarcodeString);
