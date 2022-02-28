@@ -246,9 +246,10 @@ namespace POS.LookUpForms
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
             var BarcodeString = ManualNumber;
-            if (BarcodeString.Length == 12)
+            BarcodeString = BarcodeString.TrimStart('0');
+            if (BarcodeString.Length == 9)
             {
-                BarcodeString = BarcodeString.Substring(3, BarcodeString.Length - 4);
+                BarcodeString = BarcodeString.Substring(0, BarcodeString.Length - 1);
             }
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection cnn;
