@@ -1092,6 +1092,32 @@ namespace POS.Helper
 
 
         }
+        public static string PosdataToFbr(Fbr_InvoiceMaster objinvoice)
+        {
+           
+            HttpClient client = new HttpClient();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "1298b5eb-b252-3d97-8622-a4a69d5bf818");
+
+            StringContent content = new StringContent(JsonConvert.SerializeObject(objinvoice), Encoding.UTF8, "application/json");
+
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+            HttpResponseMessage response = client.PostAsync("https://esp.fbr.gov.pk:8244/FBR/v1/api/Live/PostData", content).Result;
+
+if (response.IsSuccessStatusCode)
+
+            {
+                
+                return response.Content.ReadAsStringAsync().Result;
+
+            }
+else
+            {
+                return response.RequestMessage.ToString();
+            }
+
+        }
 
         public static string SyncFbrInvoice(Fbr_InvoiceMaster objinvoice)
         {
