@@ -361,6 +361,12 @@
     <Compile Include="LookUpForms\frmPOSFbrTabControl.Designer.cs">
       <DependentUpon>frmPOSFbrTabControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\frmPOSPctabControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSPctabControl.Designer.cs">
+      <DependentUpon>frmPOSPctabControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmPOSTabControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -528,6 +534,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmStockArrivalList.Designer.cs">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\POSPcWorldStyle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\POSPcWorldStyle.Designer.cs">
+      <DependentUpon>POSPcWorldStyle.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\POSChSweetsFbr.cs">
       <SubType>Form</SubType>
@@ -903,6 +915,9 @@
     <EmbeddedResource Include="LookUpForms\frmPOSFbrTabControl.resx">
       <DependentUpon>frmPOSFbrTabControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmPOSPctabControl.resx">
+      <DependentUpon>frmPOSPctabControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmPOSTabControl.resx">
       <DependentUpon>frmPOSTabControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -986,6 +1001,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmStockArrivalList.resx">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\POSPcWorldStyle.resx">
+      <DependentUpon>POSPcWorldStyle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\POSChSweetsFbr.resx">
       <DependentUpon>POSChSweetsFbr.cs</DependentUpon>
