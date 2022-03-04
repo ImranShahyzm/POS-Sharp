@@ -1471,6 +1471,21 @@ namespace POS
 
                 }
             }
+            else if (CompanyInfo.POSStyle == "POSPcWorldStyle")
+            {
+                frmPOSPctabControl frm = new frmPOSPctabControl();
+                frm.Show();
+            }
+            else if (CompanyInfo.POSStyle == "CrescentStyle")
+            {
+                frmPOSPctabControl frm = new frmPOSPctabControl();
+                frm.Show();
+            }
+            else if (CompanyInfo.POSStyle == "OmanMobileStyle")
+            {
+                frmPOSPctabControl frm = new frmPOSPctabControl();
+                frm.Show();
+            }
             else
             {
                 POSSaleNew frm = new POSSaleNew();
