@@ -874,14 +874,14 @@ namespace POS
                 {
                     if (txtProductCode.Text != "")
                     {
-                        //int ItemID = 0;
+                        int ItemID = 0;
                         DataTable dt = new DataTable();
-                        //dt = GetItemByCode(txtProductCode.Text);
+                        dt = GetItemByCode(txtProductCode.Text);
                         //if (dt.Rows.Count > 0)
                         //{
                         //    ItemID = Convert.ToInt32("0" + dt.Rows[0]["ItemId"].ToString());
                         //}
-                        var ItemID = GetItemIDbyBuiltInBarcodes(txtProductCode.Text);
+                        //var ItemID = GetItemIDbyBuiltInBarcodes(txtProductCode.Text);
                         //******* Motext barcode ************//
                         bool isMOtextCode = false;
 
