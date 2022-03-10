@@ -25,7 +25,7 @@ namespace POS.Helper
         public static DateTime DemoEndDate = Convert.ToDateTime("2022-03-01");
 
         //*****Khaaki Api URL **********//
-        //public static string BaseURL = "http://72.255.39.154:1011/";
+        public static string BaseURL = "http://72.255.39.154:1011/";
         //******************************//
 
         //*********** Food Mama Api Url *************//
@@ -34,7 +34,7 @@ namespace POS.Helper
 
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-        static string BaseURL = "http://localhost:44333/";
+        //static string BaseURL = "http://localhost:44333/";
 
         public static string Connection()
         {
@@ -768,8 +768,9 @@ namespace POS.Helper
         public static async Task<string> InsertAllSalesAndReturntoServer(string JsonInvoiceStr,string DateFrom,string DateTo,string WHID,string CompanyID,string SalePosID="0")
         {
 
-            var Base64String = Base64Encode(JsonInvoiceStr);
+            //var Base64String = Base64Encode(JsonInvoiceStr);
 
+            MyModel.Key = "'" + JsonInvoiceStr + "'";
 
             using (var client = new HttpClient())
             {
@@ -777,7 +778,7 @@ namespace POS.Helper
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 
-                HttpResponseMessage response;
+                //HttpResponseMessage response;
                 try
                 {
                     var id = 0;
@@ -785,11 +786,11 @@ namespace POS.Helper
                     if (id == 0)
                     {
                         //dynamic data = JObject.Parse(JsonInvoiceStr);
-                        response = await client.GetAsync("apipos/SetSalesAndReturnInsertion?JsonInvoiceStr=" + JsonInvoiceStr + "&DateFrom="+ DateFrom + "&DateTo=" + DateTo + "&WHID=" + WHID + "&CompanyID=" + CompanyID + "&SalePosID=" + SalePosID + "");
+                        var response = await client.PostAsync("apipos/SetSalesAndReturnInsertion?DateFrom="+ DateFrom + "&DateTo=" + DateTo + "&WHID=" + WHID + "&CompanyID=" + CompanyID + "&SalePosID=" + SalePosID + "", new StringContent(MyModel.Key, Encoding.UTF8, "application/json"));
                         
-                        var Lengt = JsonInvoiceStr.Length;
-                        if (response.IsSuccessStatusCode)
-                        {
+                        //var Lengt = JsonInvoiceStr.Length;
+                        //if (response.IsSuccessStatusCode)
+                        //{
 
                             var abc = response.Content.ToString();
                             using (Stream stream = response.Content.ReadAsStreamAsync().Result)
@@ -801,7 +802,7 @@ namespace POS.Helper
 
                             }
 
-                        }
+                        //}
                     }
 
                 }

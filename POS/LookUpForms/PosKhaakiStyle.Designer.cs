@@ -124,6 +124,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
+            this.btnSearchProduct = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -813,6 +814,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.btnSearchProduct);
             this.panel5.Controls.Add(this.btnReprintPopup);
             this.panel5.Controls.Add(this.btnCancelInvoice);
             this.panel5.Controls.Add(this.label25);
@@ -1093,6 +1095,7 @@
             // 
             this.cmbProducts.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbProducts.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbProducts.Enabled = false;
             this.cmbProducts.FormattingEnabled = true;
             this.cmbProducts.Items.AddRange(new object[] {
             "select Product"});
@@ -1194,6 +1197,21 @@
             this.txtInvoiceNo.TabIndex = 4;
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
+            // 
+            // btnSearchProduct
+            // 
+            this.btnSearchProduct.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnSearchProduct.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearchProduct.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearchProduct.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnSearchProduct.Location = new System.Drawing.Point(348, 133);
+            this.btnSearchProduct.Name = "btnSearchProduct";
+            this.btnSearchProduct.Size = new System.Drawing.Size(115, 31);
+            this.btnSearchProduct.TabIndex = 38;
+            this.btnSearchProduct.TabStop = false;
+            this.btnSearchProduct.Text = "Search Product";
+            this.btnSearchProduct.UseVisualStyleBackColor = false;
+            this.btnSearchProduct.Click += new System.EventHandler(this.btnSearchProduct_Click);
             // 
             // PosKhaakiStyle
             // 
@@ -1313,6 +1331,7 @@
         private System.Windows.Forms.Button btnCancelInvoice;
         private System.Windows.Forms.Button btnReprintPopup;
         private System.Windows.Forms.Button btnMakeOrder;
+        private System.Windows.Forms.Button btnSearchProduct;
     }
 }
 

@@ -802,30 +802,32 @@ namespace POS
                     if (BarcodeString.Length == 9)
                     {
                         BarcodeString = BarcodeString.Substring(0, BarcodeString.Length - 1);
-                        txtProductCode.Text = BarcodeString;
                     }
+                    txtProductCode.Text = BarcodeString;
                     DataTable dt = getProduct(0, 0, BarcodeString);
 
                     if (dt.Rows.Count == 0)
                     {
-                        using (frmProductLookUp obj = new frmProductLookUp(Convert.ToInt32(cmbSalemenu.SelectedValue.ToString())))
-                        {
-                            if (obj.ShowDialog() == DialogResult.OK)
-                            {
-                                int id = obj.ProductID;
-                                txtProductID.Text = id.ToString();
-                                txtProductCode.Text = obj.ManualNumber;
-                                cmbProducts.SelectedValue = id.ToString();
-                               var dtReturn= getProduct(0, Convert.ToInt32(id));
-                                setAvailableStock(id);
-                                GetRunningPromo(id);
-                                txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
-                                txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
-                                //txtQuantity.
-                                txtQuantity.Text = "1";
-                                txtQuantity_KeyDown(sender, e);
-                            }
-                        };
+                        ProductSearchPopup(sender, e);
+
+                        //using (frmProductLookUp obj = new frmProductLookUp(Convert.ToInt32(cmbSalemenu.SelectedValue.ToString())))
+                        //{
+                        //    if (obj.ShowDialog() == DialogResult.OK)
+                        //    {
+                        //        int id = obj.ProductID;
+                        //        txtProductID.Text = id.ToString();
+                        //        txtProductCode.Text = obj.ManualNumber;
+                        //        cmbProducts.SelectedValue = id.ToString();
+                        //       var dtReturn= getProduct(0, Convert.ToInt32(id));
+                        //        setAvailableStock(id);
+                        //        GetRunningPromo(id);
+                        //        txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
+                        //        txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
+                        //        //txtQuantity.
+                        //        txtQuantity.Text = "1";
+                        //        txtQuantity_KeyDown(sender, e);
+                        //    }
+                        //};
                     }
                     else
                     {
@@ -1078,6 +1080,7 @@ namespace POS
             decimal amountNet = txtNetAmount.Text == "" ? 0 : Convert.ToDecimal(txtNetAmount.Text);
             Int64 invoiceNO = txtInvoiceNo.Text == "" ? 0 : Convert.ToInt64(txtInvoiceNo.Text);
             bool validateReturnOK = true;
+            
             if (ItemSaleGrid.Rows.Count > 0 || SaleInvoiceNo != 0)
             {
 
@@ -1120,9 +1123,15 @@ namespace POS
             else
             {
                 validateReturnOK = false;
-
                 btnSave.Enabled = true;
                 MessageBox.Show("There is no item in cart!");
+                return false;
+            }
+            if (ItemSaleGrid.Rows.Count == 0)
+            {
+                MessageBox.Show("There is no item in cart!");
+                validateReturnOK = false;
+                btnSave.Enabled = true;
             }
             return validateReturnOK;
         }
@@ -1131,8 +1140,6 @@ namespace POS
         {
             loadReturnView();
         }
-
-        
 
         private void txtInvoiceNo_KeyDown(object sender, KeyEventArgs e)
         {
@@ -2649,5 +2656,34 @@ namespace POS
             }
 
         }
+
+        private void btnSearchProduct_Click(object sender, EventArgs e)
+        {
+            KeyEventArgs ek = new KeyEventArgs(Keys.Enter);
+            ProductSearchPopup(sender, ek);
+            
+        }
+        void ProductSearchPopup(object sender, KeyEventArgs e)
+        {
+            using (frmProductLookUp obj = new frmProductLookUp(Convert.ToInt32(cmbSalemenu.SelectedValue.ToString())))
+            {
+                if (obj.ShowDialog() == DialogResult.OK)
+                {
+                    int id = obj.ProductID;
+                    txtProductID.Text = id.ToString();
+                    txtProductCode.Text = obj.ManualNumber;
+                    cmbProducts.SelectedValue = id.ToString();
+                    var dtReturn = getProduct(0, Convert.ToInt32(id));
+                    setAvailableStock(id);
+                    GetRunningPromo(id);
+                    txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
+                    txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
+                    //txtQuantity.
+                    txtQuantity.Text = "1";
+                    txtQuantity_KeyDown(sender, e);
+                }
+            };
+        }
+
     }
 }

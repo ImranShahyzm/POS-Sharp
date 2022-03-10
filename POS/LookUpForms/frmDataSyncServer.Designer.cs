@@ -48,9 +48,9 @@
             this.btnSync.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSync.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSync.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSync.Location = new System.Drawing.Point(71, 9);
+            this.btnSync.Location = new System.Drawing.Point(58, 11);
             this.btnSync.Name = "btnSync";
-            this.btnSync.Size = new System.Drawing.Size(240, 31);
+            this.btnSync.Size = new System.Drawing.Size(260, 40);
             this.btnSync.TabIndex = 21;
             this.btnSync.Text = "Sync Data";
             this.btnSync.UseVisualStyleBackColor = false;
@@ -60,7 +60,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
             this.panel1.Controls.Add(this.btnSync);
-            this.panel1.Location = new System.Drawing.Point(0, 298);
+            this.panel1.Location = new System.Drawing.Point(0, 246);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(384, 62);
             this.panel1.TabIndex = 23;
@@ -89,11 +89,12 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(44, 165);
+            this.label1.Location = new System.Drawing.Point(36, 165);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(92, 19);
             this.label1.TabIndex = 26;
             this.label1.Text = "Select Date:";
+            this.label1.Visible = false;
             // 
             // dtpSaleFromDate
             // 
@@ -103,6 +104,7 @@
             this.dtpSaleFromDate.Name = "dtpSaleFromDate";
             this.dtpSaleFromDate.Size = new System.Drawing.Size(153, 25);
             this.dtpSaleFromDate.TabIndex = 25;
+            this.dtpSaleFromDate.Visible = false;
             this.dtpSaleFromDate.ValueChanged += new System.EventHandler(this.dtpSaleFromDate_ValueChanged);
             // 
             // label2
@@ -124,10 +126,11 @@
             this.dtpSaleToDate.Name = "dtpSaleToDate";
             this.dtpSaleToDate.Size = new System.Drawing.Size(153, 25);
             this.dtpSaleToDate.TabIndex = 27;
+            this.dtpSaleToDate.Visible = false;
             // 
             // btnProgressBar
             // 
-            this.btnProgressBar.Location = new System.Drawing.Point(2, 269);
+            this.btnProgressBar.Location = new System.Drawing.Point(2, 213);
             this.btnProgressBar.Name = "btnProgressBar";
             this.btnProgressBar.Size = new System.Drawing.Size(382, 23);
             this.btnProgressBar.TabIndex = 29;
@@ -135,11 +138,11 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.Red;
-            this.lblStatus.Location = new System.Drawing.Point(-2, 247);
+            this.lblStatus.Location = new System.Drawing.Point(-2, 187);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(144, 15);
+            this.lblStatus.Size = new System.Drawing.Size(226, 22);
             this.lblStatus.TabIndex = 30;
             this.lblStatus.Text = "Stock Data Transferring...";
             this.lblStatus.Visible = false;
@@ -148,7 +151,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 361);
+            this.ClientSize = new System.Drawing.Size(384, 311);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnProgressBar);
             this.Controls.Add(this.label2);
