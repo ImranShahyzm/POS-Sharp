@@ -166,7 +166,10 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
             //string ss = obj.Title;
             //reportViewer1.ProcessingMode = ProcessingMode.Local;
-            rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalPrintFoodMama.rpt"));
+            if (CompanyInfo.POSStyle == "OmanMobileStyle")
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalPrintOMAN.rpt"));
+            else
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalPrintFoodMama.rpt"));
             rpt.Database.Tables[0].SetDataSource(dt);
             rpt.Database.Tables[1].SetDataSource(dt2);
             if (isReturn)
