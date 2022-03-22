@@ -77,7 +77,7 @@ namespace POS
         private async void  btnPreview_Click(object sender, EventArgs e)
         {
             btnProgressBar.Value = 9;
-            lblStatus.Text = "Syncing Locations With Server...";
+            lblStatus.Text = "Syncing Locations With Server..."; lblStatus.Visible = true;
             btnSync.Enabled = false;
             try
             {
@@ -381,7 +381,7 @@ namespace POS
 
                     if (Convert.ToString(RInvoiceRespomnce).Contains("Done"))
                     {
-                        btnProgressBar.Value = 90;
+                        btnProgressBar.Value = 85;
                         lblStatus.Text = "Data Uploaded Successfully...";
 
                     }
@@ -398,13 +398,15 @@ namespace POS
 
 
                 string postingSaleVouchers = await STATICClass.PosAllSaleVouchers(dtpSaleFromDate.Value.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.ToString("dd-MMM-yyyy"), CompanyInfo.WareHouseID.ToString(), CompanyInfo.CompanyID.ToString());
-                btnProgressBar.Value = 95;
+                btnProgressBar.Value = 90;
 
 
                 await STATICClass.GetAllStockDispatcherFromServer(dtpSaleFromDate.Value.Date.ToString("dd-MMM-yyyy"), dtpSaleToDate.Value.Date.ToString("dd-MMM-yyyy"));
-                btnProgressBar.Value = 100;
+                btnProgressBar.Value = 95;
 
                await SyncLiveDataAsync();
+                btnProgressBar.Value = 100;
+
 
             }
             catch (Exception ex)

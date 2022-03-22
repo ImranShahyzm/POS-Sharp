@@ -48,7 +48,7 @@
             this.btnSync.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSync.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSync.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSync.Location = new System.Drawing.Point(58, 11);
+            this.btnSync.Location = new System.Drawing.Point(58, 10);
             this.btnSync.Name = "btnSync";
             this.btnSync.Size = new System.Drawing.Size(260, 40);
             this.btnSync.TabIndex = 21;
@@ -151,7 +151,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 311);
+            this.ClientSize = new System.Drawing.Size(384, 308);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnProgressBar);
             this.Controls.Add(this.label2);

@@ -92,6 +92,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnSearchProduct = new System.Windows.Forms.Button();
             this.btnReprintPopup = new System.Windows.Forms.Button();
             this.btnCancelInvoice = new System.Windows.Forms.Button();
             this.label25 = new System.Windows.Forms.Label();
@@ -102,7 +103,6 @@
             this.txtDtGross = new System.Windows.Forms.TextBox();
             this.txtSchemeID = new System.Windows.Forms.TextBox();
             this.txtMinQty = new System.Windows.Forms.TextBox();
-            this.lblRunningPromo = new System.Windows.Forms.Label();
             this.txtPromoDiscAmt = new System.Windows.Forms.TextBox();
             this.txtPromoDisc = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -124,7 +124,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.btnSearchProduct = new System.Windows.Forms.Button();
+            this.lblRunningPromo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -861,6 +861,21 @@
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
+            // btnSearchProduct
+            // 
+            this.btnSearchProduct.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnSearchProduct.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearchProduct.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearchProduct.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnSearchProduct.Location = new System.Drawing.Point(348, 133);
+            this.btnSearchProduct.Name = "btnSearchProduct";
+            this.btnSearchProduct.Size = new System.Drawing.Size(115, 31);
+            this.btnSearchProduct.TabIndex = 38;
+            this.btnSearchProduct.TabStop = false;
+            this.btnSearchProduct.Text = "Search Product";
+            this.btnSearchProduct.UseVisualStyleBackColor = false;
+            this.btnSearchProduct.Click += new System.EventHandler(this.btnSearchProduct_Click);
+            // 
             // btnReprintPopup
             // 
             this.btnReprintPopup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -964,16 +979,6 @@
             this.txtMinQty.Size = new System.Drawing.Size(87, 20);
             this.txtMinQty.TabIndex = 30;
             this.txtMinQty.Visible = false;
-            // 
-            // lblRunningPromo
-            // 
-            this.lblRunningPromo.AutoSize = true;
-            this.lblRunningPromo.ForeColor = System.Drawing.Color.Maroon;
-            this.lblRunningPromo.Location = new System.Drawing.Point(415, 113);
-            this.lblRunningPromo.Name = "lblRunningPromo";
-            this.lblRunningPromo.Size = new System.Drawing.Size(41, 13);
-            this.lblRunningPromo.TabIndex = 29;
-            this.lblRunningPromo.Text = "label13";
             // 
             // txtPromoDiscAmt
             // 
@@ -1198,20 +1203,16 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // btnSearchProduct
+            // lblRunningPromo
             // 
-            this.btnSearchProduct.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnSearchProduct.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearchProduct.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearchProduct.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSearchProduct.Location = new System.Drawing.Point(348, 133);
-            this.btnSearchProduct.Name = "btnSearchProduct";
-            this.btnSearchProduct.Size = new System.Drawing.Size(115, 31);
-            this.btnSearchProduct.TabIndex = 38;
-            this.btnSearchProduct.TabStop = false;
-            this.btnSearchProduct.Text = "Search Product";
-            this.btnSearchProduct.UseVisualStyleBackColor = false;
-            this.btnSearchProduct.Click += new System.EventHandler(this.btnSearchProduct_Click);
+            this.lblRunningPromo.AutoSize = true;
+            this.lblRunningPromo.ForeColor = System.Drawing.Color.Maroon;
+            this.lblRunningPromo.Location = new System.Drawing.Point(415, 113);
+            this.lblRunningPromo.Name = "lblRunningPromo";
+            this.lblRunningPromo.Size = new System.Drawing.Size(41, 13);
+            this.lblRunningPromo.TabIndex = 29;
+            this.lblRunningPromo.Text = "label13";
+            this.lblRunningPromo.Visible = false;
             // 
             // PosKhaakiStyle
             // 
@@ -1298,7 +1299,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtPromoDisc;
         private System.Windows.Forms.TextBox txtPromoDiscAmt;
-        private System.Windows.Forms.Label lblRunningPromo;
         private System.Windows.Forms.TextBox txtMinQty;
         private System.Windows.Forms.TextBox txtSchemeID;
         private System.Windows.Forms.TextBox txtDtGross;
@@ -1332,6 +1332,7 @@
         private System.Windows.Forms.Button btnReprintPopup;
         private System.Windows.Forms.Button btnMakeOrder;
         private System.Windows.Forms.Button btnSearchProduct;
+        private System.Windows.Forms.Label lblRunningPromo;
     }
 }
 
