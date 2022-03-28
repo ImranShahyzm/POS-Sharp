@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace POS
 {
-    public partial class POSPcWorldStyle : MetroForm
+    public partial class POSOmanMobileStyle : MetroForm
     {
         public bool directReturn = false;
         public int SaleInvoiceNo = 0;
@@ -44,11 +44,11 @@ namespace POS
         public int LinkedBillID = 0;
         public bool InvoiceUpdate = false;
 
-        public POSPcWorldStyle NextObj;
-        public POSPcWorldStyle PreviousObj;
+        public POSOmanMobileStyle NextObj;
+        public POSOmanMobileStyle PreviousObj;
         public int BillNoCount = 0;
         public bool isBillSaved = false;
-        public POSPcWorldStyle()
+        public POSOmanMobileStyle()
         {
             InitializeComponent();
             //SetupDataGridView();
@@ -1575,14 +1575,6 @@ namespace POS
                 return true;
                 //}
             }
-            else if (keyData == (Keys.Alt | Keys.D))
-            {
-                
-                loadDirectReturn();
-
-                return true;
-               
-            }
             else if (keyData == (Keys.Alt | Keys.N))
             {
                 clearAll();
@@ -1790,7 +1782,7 @@ namespace POS
             }
             else
             {
-                NextObj = new POSPcWorldStyle();
+                NextObj = new POSOmanMobileStyle();
                 BillNoCount++;
                 NextObj.lblFindPendingBill.Text = "Pending Bill No " + Convert.ToInt32(BillNoCount);
                 NextObj.BillNoCount = BillNoCount;

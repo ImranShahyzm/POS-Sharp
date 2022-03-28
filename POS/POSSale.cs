@@ -1483,7 +1483,7 @@ namespace POS
             }
             else if (CompanyInfo.POSStyle == "OmanMobileStyle")
             {
-                frmPOSPctabControl frm = new frmPOSPctabControl();
+                frmPOSOMANtabControl frm = new frmPOSOMANtabControl();
                 frm.Show();
             }
             else

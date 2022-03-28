@@ -362,6 +362,12 @@
     <Compile Include="LookUpForms\frmPOSFbrTabControl.Designer.cs">
       <DependentUpon>frmPOSFbrTabControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\frmPOSOMANtabControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSOMANtabControl.Designer.cs">
+      <DependentUpon>frmPOSOMANtabControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmPOSPctabControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -535,6 +541,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmStockArrivalList.Designer.cs">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\POSOmanMobileStyle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\POSOmanMobileStyle.Designer.cs">
+      <DependentUpon>POSOmanMobileStyle.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\POSPcWorldStyle.cs">
       <SubType>Form</SubType>
@@ -763,6 +775,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Report\SaleThermalPrintOMAN.cs">
+      <DependentUpon>SaleThermalPrintOMAN.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Report\SaleThermalPrintFoodMamaClub.cs">
       <DependentUpon>SaleThermalPrintFoodMamaClub.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -916,6 +935,9 @@
     <EmbeddedResource Include="LookUpForms\frmPOSFbrTabControl.resx">
       <DependentUpon>frmPOSFbrTabControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmPOSOMANtabControl.resx">
+      <DependentUpon>frmPOSOMANtabControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmPOSPctabControl.resx">
       <DependentUpon>frmPOSPctabControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1002,6 +1024,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmStockArrivalList.resx">
       <DependentUpon>frmStockArrivalList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\POSOmanMobileStyle.resx">
+      <DependentUpon>POSOmanMobileStyle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\POSPcWorldStyle.resx">
       <DependentUpon>POSPcWorldStyle.cs</DependentUpon>
@@ -1138,6 +1163,11 @@
     <EmbeddedResource Include="Report\SaleThermalFbrPrint.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SaleThermalFbrPrint.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleThermalPrintOMAN.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleThermalPrintOMAN.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleThermalPrintFoodMamaClub.rpt">
@@ -1369,6 +1399,7 @@
     <Content Include="DbScripts\Script 1.0.0.20.sql" />
     <Content Include="DbScripts\Script 1.0.0.69.sql" />
     <Content Include="DbScripts\Script 1.0.0.74.sql" />
+    <Content Include="DbScripts\Script 1.0.0.78.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <None Include="Resources\CorbisPos.png" />
