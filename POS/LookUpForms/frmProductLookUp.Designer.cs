@@ -44,7 +44,7 @@
             this.dgvProducts.Name = "dgvProducts";
             this.dgvProducts.ReadOnly = true;
             this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProducts.Size = new System.Drawing.Size(387, 291);
+            this.dgvProducts.Size = new System.Drawing.Size(475, 291);
             this.dgvProducts.TabIndex = 0;
             this.dgvProducts.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellDoubleClick);
             this.dgvProducts.DoubleClick += new System.EventHandler(this.dgvProducts_DoubleClick);
@@ -52,9 +52,9 @@
             // 
             // txtProductSearch
             // 
-            this.txtProductSearch.Location = new System.Drawing.Point(226, 28);
+            this.txtProductSearch.Location = new System.Drawing.Point(305, 28);
             this.txtProductSearch.Name = "txtProductSearch";
-            this.txtProductSearch.Size = new System.Drawing.Size(123, 20);
+            this.txtProductSearch.Size = new System.Drawing.Size(196, 20);
             this.txtProductSearch.TabIndex = 1;
             this.txtProductSearch.TextChanged += new System.EventHandler(this.txtProductSearch_TextChanged);
             this.txtProductSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductSearch_KeyDown);
@@ -63,11 +63,11 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(78, 31);
+            this.label11.Location = new System.Drawing.Point(230, 31);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(142, 14);
+            this.label11.Size = new System.Drawing.Size(69, 14);
             this.label11.TabIndex = 6;
-            this.label11.Text = "Search By Manual Number:";
+            this.label11.Text = "Search Item:";
             // 
             // txtMainGroupID
             // 
@@ -81,7 +81,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 368);
+            this.ClientSize = new System.Drawing.Size(534, 368);
             this.Controls.Add(this.txtMainGroupID);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.txtProductSearch);
@@ -90,7 +90,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Product LookUp";
             this.Load += new System.EventHandler(this.frmProductLookUp_Load);
-         
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
