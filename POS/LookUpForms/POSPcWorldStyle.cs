@@ -1575,6 +1575,14 @@ namespace POS
                 return true;
                 //}
             }
+            else if (keyData == (Keys.Alt | Keys.D))
+            {
+                
+                loadDirectReturn();
+
+                return true;
+               
+            }
             else if (keyData == (Keys.Alt | Keys.N))
             {
                 clearAll();

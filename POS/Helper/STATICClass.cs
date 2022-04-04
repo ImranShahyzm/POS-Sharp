@@ -237,7 +237,9 @@ namespace POS.Helper
         public static DataTable ExecuteInsert(string StoredProcedureName, List<SqlParameter> list)
         {
             DataTable dt = new DataTable();
-            SqlConnection con = new SqlConnection(STATICClass.Connection()); SqlTransaction tran; con.Open(); tran = con.BeginTransaction();
+            SqlConnection con = new SqlConnection(STATICClass.Connection()); SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
             SqlCommand cmd = new SqlCommand(StoredProcedureName, con);
             cmd.CommandType = CommandType.StoredProcedure; SqlDataAdapter da = new SqlDataAdapter();
             foreach (var item in list)

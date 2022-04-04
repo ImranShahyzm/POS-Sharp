@@ -882,7 +882,7 @@ namespace POS
                 txtCustName.Text = this.CustomerName;
                 txtCustPhone.Text = this.CustomerPhone;
                 txtSalesManID.Text = this.SaleManId;
-                if (Convert.ToInt32(txtSalesManID.Text) == 0)
+                if (Convert.ToInt32("0" + txtSalesManID.Text) == 0)
                 {
                     MessageBox.Show("Please Select Sales Person....!!!");
                     btnSave.Enabled = true;
