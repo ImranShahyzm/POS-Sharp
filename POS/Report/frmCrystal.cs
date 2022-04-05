@@ -1325,7 +1325,7 @@ WHERE
             this.ShowDialog();
             rpt.Dispose();
         }
-        public void CashBook(string StoreProcedure, string ReportName, List<string[]> parameters)
+        public void CashBook(string StoreProcedure, string ReportName, List<string[]> parameters, int PrintStyle)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             ReportDocument rpt = new ReportDocument();
@@ -1348,8 +1348,10 @@ WHERE
             DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
             if (CompanyInfo.CounterID > 0)
             {
-                
+                if(PrintStyle == 0)
                      rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookThermal.rpt"));
+                else if (PrintStyle == 1)
+                    rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookA4.rpt"));
             }
             else
 
