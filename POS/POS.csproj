@@ -621,6 +621,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Report\CashBookThermal.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CashBookThermal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\ClosingReport.cs">
       <DependentUpon>ClosingReport.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -634,13 +640,6 @@
       <DependentUpon>CashSale.rpt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Report\CashBookThermal.cs">
-      <DependentUpon>CashBookThermal.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Report\DayBook.cs">
       <AutoGen>True</AutoGen>
@@ -1082,6 +1081,10 @@
       <LastGenOutput>CashBookA4.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\CashBookThermal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CashBookThermal.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\ClosingReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ClosingReport.cs</LastGenOutput>
@@ -1093,11 +1096,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\DailyCashbook.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Report\CashBookThermal.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CashBookThermal.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\DayBook.rpt">
