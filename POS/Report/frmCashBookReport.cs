@@ -19,8 +19,8 @@ namespace POS
         public frmCashBookReport()
         {
             InitializeComponent();
-            
-          
+            comboBox1.SelectedIndex = 0;
+
         }
 
         
@@ -44,6 +44,7 @@ namespace POS
             var value = new List<string[]>();
             string[] para1 = { "@FromDate", dtpSaleFromDate.Text};
             string[] para2 = { "@ToDate", dtpSaleToDate.Text };
+            int PrintStyle = comboBox1.SelectedIndex;
             value.Add(para1);
             value.Add(para2);
             //using (frmReport obj = new frmReport())
@@ -67,24 +68,20 @@ namespace POS
                     {
                         string[] Para3 = { "@CounterID",Convert.ToString(CompanyInfo.CounterID) };
                         value.Add(Para3);
-                        obj.CashBook("rpt_CashBookCounterWise", reportName, value);
+                        obj.CashBook("rpt_CashBookCounterWise", reportName, value, PrintStyle);
                     }
                     else
                     {
-                        obj.CashBook("rpt_CashBookFoodMama", reportName, value);
+                        obj.CashBook("rpt_CashBookFoodMama", reportName, value, PrintStyle);
                         
                     }
                   
                 }
                 else
                 {
-                    obj.CashBook("rpt_CashBook", reportName, value);
+                    obj.CashBook("rpt_CashBook", reportName, value, PrintStyle);
                 }
                     //obj.ShowDialog();
             };        }
-
-       
-
-
     }
 }
