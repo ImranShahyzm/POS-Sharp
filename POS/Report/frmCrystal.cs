@@ -1349,7 +1349,7 @@ WHERE
             if (CompanyInfo.CounterID > 0)
             {
                 if(PrintStyle == 0)
-                     rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookThermal.rpt"));
+                     rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookThermalStyle.rpt"));
                 else if (PrintStyle == 1)
                     rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookA4.rpt"));
             }
