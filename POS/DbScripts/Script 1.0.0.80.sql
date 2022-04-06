@@ -1,5 +1,4 @@
-USE [PCWORLD_DB]
-GO
+
 
 /****** Object:  StoredProcedure [dbo].[rpt_CashBookCounterWise]    Script Date: 4/5/2022 11:55:30 AM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[rpt_CashBookCounterWise]') AND type in (N'P', N'PC'))
