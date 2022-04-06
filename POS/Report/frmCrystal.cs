@@ -194,6 +194,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             rpt.SetParameterValue("Username", CompanyInfo.username);
             crystalReportViewer1.ReportSource = rpt;
             crystalReportViewer1.Refresh();
+            CompanyInfo.isPrinter = false;
             if (CompanyInfo.isPrinter)
             {
                 rpt.PrintToPrinter(1, false, 0, 0);
@@ -1349,7 +1350,7 @@ WHERE
             if (CompanyInfo.CounterID > 0)
             {
                 if(PrintStyle == 0)
-                     rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookThermal.rpt"));
+                     rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookThermalStyle.rpt"));
                 else if (PrintStyle == 1)
                     rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookA4.rpt"));
             }
