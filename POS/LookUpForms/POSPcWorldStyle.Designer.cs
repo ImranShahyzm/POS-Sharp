@@ -82,6 +82,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.lblFindPendingBill = new System.Windows.Forms.Label();
@@ -119,8 +121,6 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -733,6 +733,28 @@
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(11, 120);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(89, 14);
+            this.label30.TabIndex = 53;
+            this.label30.Text = "Scan / Enter Code";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(283, 121);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(28, 14);
+            this.label29.TabIndex = 52;
+            this.label29.Text = "Rate";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // label28
             // 
             this.label28.AutoSize = true;
@@ -1112,28 +1134,6 @@
             this.txtInvoiceNo.TabIndex = 4;
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(283, 121);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(28, 14);
-            this.label29.TabIndex = 52;
-            this.label29.Text = "Rate";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(11, 120);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(89, 14);
-            this.label30.TabIndex = 53;
-            this.label30.Text = "Scan / Enter Code";
-            this.label30.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // POSPcWorldStyle
             // 
