@@ -1245,6 +1245,7 @@ namespace POS
                 //{
                 //    tran.Rollback();
                 //}
+                tran.Rollback();
                 MessageBox.Show(ex.Message, "Important Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally

@@ -36,6 +36,16 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
+            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dtDiscpercentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DtDiscAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TaxAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label9 = new System.Windows.Forms.Label();
             this.txtProductCode = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -109,16 +119,8 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dtDiscpercentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DtDiscAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TaxAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -216,6 +218,66 @@
             this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
             this.ItemSaleGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ItemSaleGrid_KeyPress);
             this.ItemSaleGrid.Leave += new System.EventHandler(this.ItemSaleGrid_Leave);
+            // 
+            // ProductId
+            // 
+            this.ProductId.HeaderText = "ProductID";
+            this.ProductId.Name = "ProductId";
+            this.ProductId.ReadOnly = true;
+            this.ProductId.Visible = false;
+            // 
+            // ProductName
+            // 
+            this.ProductName.HeaderText = "ProductName";
+            this.ProductName.Name = "ProductName";
+            this.ProductName.ReadOnly = true;
+            this.ProductName.Width = 200;
+            // 
+            // Rate
+            // 
+            this.Rate.HeaderText = "Rate";
+            this.Rate.Name = "Rate";
+            this.Rate.ReadOnly = true;
+            // 
+            // Quantity
+            // 
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            // 
+            // dtDiscpercentage
+            // 
+            this.dtDiscpercentage.HeaderText = "Disc %";
+            this.dtDiscpercentage.Name = "dtDiscpercentage";
+            this.dtDiscpercentage.Width = 80;
+            // 
+            // DtDiscAmt
+            // 
+            this.DtDiscAmt.HeaderText = "Discount Amount";
+            this.DtDiscAmt.Name = "DtDiscAmt";
+            // 
+            // Tax
+            // 
+            this.Tax.HeaderText = "Tax";
+            this.Tax.Name = "Tax";
+            this.Tax.ReadOnly = true;
+            this.Tax.Width = 70;
+            // 
+            // TaxAmount
+            // 
+            this.TaxAmount.HeaderText = "Tax Amount";
+            this.TaxAmount.Name = "TaxAmount";
+            this.TaxAmount.ReadOnly = true;
+            // 
+            // NetAmount
+            // 
+            this.NetAmount.HeaderText = "Net Amount";
+            this.NetAmount.Name = "NetAmount";
+            this.NetAmount.ReadOnly = true;
+            // 
+            // Qty
+            // 
+            this.Qty.HeaderText = "Quantity";
+            this.Qty.Name = "Qty";
             // 
             // label9
             // 
@@ -619,6 +681,8 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.label30);
+            this.panel5.Controls.Add(this.label29);
             this.panel5.Controls.Add(this.label28);
             this.panel5.Controls.Add(this.label27);
             this.panel5.Controls.Add(this.lblFindPendingBill);
@@ -846,7 +910,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(24, 101);
+            this.label13.Location = new System.Drawing.Point(24, 93);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(69, 14);
             this.label13.TabIndex = 28;
@@ -878,7 +942,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(8, 113);
+            this.label10.Location = new System.Drawing.Point(8, 106);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(77, 14);
             this.label10.TabIndex = 24;
@@ -888,7 +952,7 @@
             // 
             // txtProductID
             // 
-            this.txtProductID.Location = new System.Drawing.Point(243, 119);
+            this.txtProductID.Location = new System.Drawing.Point(205, 85);
             this.txtProductID.MaxLength = 10;
             this.txtProductID.Name = "txtProductID";
             this.txtProductID.Size = new System.Drawing.Size(80, 20);
@@ -1049,65 +1113,27 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // ProductId
+            // label29
             // 
-            this.ProductId.HeaderText = "ProductID";
-            this.ProductId.Name = "ProductId";
-            this.ProductId.ReadOnly = true;
-            this.ProductId.Visible = false;
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(283, 121);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(28, 14);
+            this.label29.TabIndex = 52;
+            this.label29.Text = "Rate";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // ProductName
+            // label30
             // 
-            this.ProductName.HeaderText = "ProductName";
-            this.ProductName.Name = "ProductName";
-            this.ProductName.ReadOnly = true;
-            this.ProductName.Width = 200;
-            // 
-            // Rate
-            // 
-            this.Rate.HeaderText = "Rate";
-            this.Rate.Name = "Rate";
-            this.Rate.ReadOnly = true;
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            // 
-            // dtDiscpercentage
-            // 
-            this.dtDiscpercentage.HeaderText = "Disc %";
-            this.dtDiscpercentage.Name = "dtDiscpercentage";
-            this.dtDiscpercentage.Width = 80;
-            // 
-            // DtDiscAmt
-            // 
-            this.DtDiscAmt.HeaderText = "Discount Amount";
-            this.DtDiscAmt.Name = "DtDiscAmt";
-            // 
-            // Tax
-            // 
-            this.Tax.HeaderText = "Tax";
-            this.Tax.Name = "Tax";
-            this.Tax.ReadOnly = true;
-            this.Tax.Width = 70;
-            // 
-            // TaxAmount
-            // 
-            this.TaxAmount.HeaderText = "Tax Amount";
-            this.TaxAmount.Name = "TaxAmount";
-            this.TaxAmount.ReadOnly = true;
-            // 
-            // NetAmount
-            // 
-            this.NetAmount.HeaderText = "Net Amount";
-            this.NetAmount.Name = "NetAmount";
-            this.NetAmount.ReadOnly = true;
-            // 
-            // Qty
-            // 
-            this.Qty.HeaderText = "Quantity";
-            this.Qty.Name = "Qty";
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(11, 120);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(89, 14);
+            this.label30.TabIndex = 53;
+            this.label30.Text = "Scan / Enter Code";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // POSPcWorldStyle
             // 
@@ -1228,6 +1254,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TaxAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label29;
     }
 }
 
