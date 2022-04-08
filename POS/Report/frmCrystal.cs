@@ -21,7 +21,7 @@ namespace POS.Report
         public frmCrystal()
         {
             InitializeComponent();
-          
+
 
 
         }
@@ -47,17 +47,17 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
 
             Sql = Sql + " and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' ";
             Sql = Sql + "   and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
-            if(!string.IsNullOrEmpty(CustomerPhone))
+            if (!string.IsNullOrEmpty(CustomerPhone))
             {
                 Sql = Sql + "   and data_SalePosInfo.CustomerPhone='" + CustomerPhone + "'";
             }
 
             Sql = Sql + " ) a ";
-            if(CategoryID==2)
+            if (CategoryID == 2)
             {
                 Sql = Sql + " where TotalBillAmount - RecoveryAmount > 0";
             }
-            
+
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
@@ -124,7 +124,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             rpt.SummaryInfo.ReportAuthor = "Admin";
             int? LanguageSelection = 1;
             rpt.SetParameterValue("LanguageSelection", Convert.ToInt32(LanguageSelection));
-            rpt.SetParameterValue("TagName","A Lip Licking Flavour");
+            rpt.SetParameterValue("TagName", "A Lip Licking Flavour");
             var ImageValue = (dt2.Rows[0]["CompanyImage"]).ToString();
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             rpt.SetParameterValue("ServerName", Serverpath);
@@ -137,7 +137,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             }
             else
             {
-             
+
                 this.ShowDialog();
                 rpt.Dispose();
             }
@@ -176,7 +176,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             {
                 rpt.SummaryInfo.ReportTitle = "Sales Return Invoice";
             }
-            else if(isReprint)
+            else if (isReprint)
             {
                 rpt.SummaryInfo.ReportTitle = "Reprinted Bill Number";
             }
@@ -205,7 +205,6 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
                 this.ShowDialog();
                 rpt.Dispose();
             }
-
         }
 
 
@@ -421,15 +420,15 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             }
 
         }
-        public DataTable ItemStockReport(int CompanyID ,string ReportName,DateTime dateTo,int CategoryID=0, DateTime? RegisterFrom = null, DateTime? RegitserTo = null,int MenuID=0)
+        public DataTable ItemStockReport(int CompanyID, string ReportName, DateTime dateTo, int CategoryID = 0, DateTime? RegisterFrom = null, DateTime? RegitserTo = null, int MenuID = 0)
         {
             DataTable dt;
 
             string Sql = @"
            select InventItems.ItemSalesPrice as RetailPrice,Format(isnull(InventItems.RegisterInevntoryDate,'01-01-2017') , 'dd-MMM-yyyy') as Age, varnt.VariantDescription,ab.ColorTitle,InventItems.ItemNumber, case when isnull(sum(Quantity) ,0) = 0 then 0 else isnull(Sum(Amount),0)/isnull(sum(Quantity) ,0) end ";
-            
+
             Sql += @"as WeightedRate,  isnull(sum(Quantity) ,0) ";
-            
+
             Sql += @"as Quantity , isnull(Sum(Amount),0)  as StockAmount , s.ItemId , InventItems.ItenName, InventItems.ReOrderLevel , InventUOM.UOMName , InventItems.CategoryID,InventCategory.CategoryName ,InventCategory.ItemGroupID,InventItemGroup.ItemGroupName  
              from (
             select a.StockRate * a.Quantity as Amount,a.Quantity ,a.ItemId   from data_ProductInflow a inner join  InventItems b on a.ItemId =b.ItemId
@@ -499,23 +498,23 @@ left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID
  left join InventItemGroup on InventItemGroup.ItemGroupID=InventCategory.CategoryID
 left join adgen_ColorInfo ab on ab.ColorID=InventItems.ColorID
  left join gen_ItemVariantInfo varnt on varnt.ItemVariantInfoId=InventItems.ItemVarientId where 0=0";
-            if(RegisterFrom!=null && RegitserTo !=null)
+            if (RegisterFrom != null && RegitserTo != null)
             {
-                Sql += " and Isnull(RegisterInevntoryDate,'01-01-2017') between '"+RegisterFrom+"' and '"+RegitserTo+"'";
+                Sql += " and Isnull(RegisterInevntoryDate,'01-01-2017') between '" + RegisterFrom + "' and '" + RegitserTo + "'";
             }
-            if(!CompanyInfo.isKhaakiSoft && MenuID>0)
+            if (!CompanyInfo.isKhaakiSoft && MenuID > 0)
             {
-                Sql += " and  InventCategory.ItemGroupID="+MenuID+" ";
+                Sql += " and  InventCategory.ItemGroupID=" + MenuID + " ";
             }
-Sql += @" group by s.ItemId , InventItems.ItenName ,InventItems.ReOrderLevel, InventUOM.UOMName ,InventItems.CategoryID,InventCategory.ItemGroupID, 
+            Sql += @" group by s.ItemId , InventItems.ItenName ,InventItems.ReOrderLevel, InventUOM.UOMName ,InventItems.CategoryID,InventCategory.ItemGroupID, 
 InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate,CartonSize,Itemnumber,VariantDescription,ColorTitle,ItemSalesPrice";
-            
+
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
         }
 
-        public DataTable DailySale(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo,int CategoryID=0,int MenuID=0)
+        public DataTable DailySale(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int MenuID = 0)
         {
             DataTable dt;
 
@@ -535,7 +534,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
 			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
             where 0 = 0";
             Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom + "' and '" + dateTo + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
-            if(CategoryID>0)
+            if (CategoryID > 0)
             {
                 Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
             }
@@ -543,7 +542,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             {
                 Sql = Sql + " and InventCategory.ItemGroupID=" + MenuID + "";
             }
-            Sql =Sql+ " order by data_SalePosInfo.SalePosDate,SalePosNo";
+            Sql = Sql + " order by data_SalePosInfo.SalePosDate,SalePosNo";
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
@@ -625,7 +624,7 @@ WHERE
             Sql = Sql + @" GROUP BY
    data_SalePosInfo.CompanyID,
    data_SalePosDetail.DiscountPercentage ";
-            
+
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
@@ -660,19 +659,19 @@ WHERE
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
         }
-        public DataTable PrintReceiptList(int CompanyID, string ReportName,  int CategoryID = 0)
+        public DataTable PrintReceiptList(int CompanyID, string ReportName, int CategoryID = 0)
         {
             DataTable dt;
 
             string Sql = @" SELECT        inv.ItemNumber,Inv.ItenName,Inv.ItemSalesPrice,data_StockArrivalDetail.Quantity,data_StockArrivalInfo.ArrivalID,TransferNo,  format(ArrivalDate,'dd-MMM-yyyy') as ArrivalDate, ArrivalNo,data_StockArrivalInfo.Remarks, RefID,cast((Select sum(quantity) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as TotalQuantity,Cast((Select sum(quantity*StockRate) from data_StockArrivalDetail where data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID) as int) as TotalAmount  from data_StockArrivalInfo left join data_RawStockTransfer on data_RawStockTransfer.TransferIDRef=refID
  left join data_StockArrivalDetail on data_StockArrivalDetail.ArrivalID=data_StockArrivalInfo.ArrivalID
  left join InventItems inv on inv.ItemId=data_StockArrivalDetail.ItemId where 0=0 ";
-           
+
             if (CategoryID > 0)
             {
                 Sql = Sql + " and data_StockArrivalInfo.ArrivalID=" + CategoryID;
             }
-         
+
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
@@ -779,8 +778,8 @@ WHERE
         }
         public decimal TillNowSaleCalculation()
         {
-            string query = "Select Sum(NetAmount) as NetAmount from data_salePosinfo where data_SalePosInfo.DirectReturn=0 and WHID=" + CompanyInfo.WareHouseID+"";
-          DataTable  dt = new DataTable();
+            string query = "Select Sum(NetAmount) as NetAmount from data_salePosinfo where data_SalePosInfo.DirectReturn=0 and WHID=" + CompanyInfo.WareHouseID + "";
+            DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
             if (dt.Rows.Count > 0)
             {
@@ -795,7 +794,7 @@ WHERE
             string query = "Select ISNULL(Sum(DiscountAmount),0) as MasterDiscount from data_SalePosInfo where  data_SalePosInfo.DirectReturn=0 and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + "";
             DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
-            
+
             return Convert.ToDecimal(dt.Rows[0]["MasterDiscount"]);
 
         }
@@ -812,16 +811,16 @@ WHERE
             string query = "Select WHID, sum(Quantity*ItemRate) as GrossAmount,sum(DiscountTotal) as DiscountTotal,sum(Quantity) as ReturnQuantity from data_SalePosReturnInfo inner join data_SalePosReturnDetail p on p.SalePosReturnID=data_SalePosReturnInfo.SalePosReturnID where SalePosReturnDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
             DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
-            if(dt.Rows.Count<=0)
+            if (dt.Rows.Count <= 0)
             {
                 DataRow dr = dt.NewRow();
 
                 dr["WHID"] = CompanyInfo.WareHouseID;
-                dr["GrossAmount"] =0;
+                dr["GrossAmount"] = 0;
                 dr["DiscountTotal"] = 0;
 
                 dr["ReturnQuantity"] = 0;
-                
+
                 dt.Rows.Add(dr);
 
             }
@@ -867,7 +866,7 @@ WHERE
             return dt;
         }
 
-        public DataTable DailySaleSummary(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int SaleManID = 0,int CashorCard=0)
+        public DataTable DailySaleSummary(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int SaleManID = 0, int CashorCard = 0)
         {
             DataTable dt;
             string Sql = @"Select AmountReturn,isnull(SaleManInfoID,0) SaleManId,ISNULL(SaleManName,'No Sale Man') as SaleMane,SalePOSNo,SalePosDate,Sum(Quantity) as TSale,Sum(DiscountAmount) as DiscountAmount,sum(Quantity*ItemRate) as GrossAmount,CashPayment,CardPayment,SaleInfo_DAmount from(
@@ -886,7 +885,7 @@ WHERE
 			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
 			left join gen_SaleManInfo SalesMan on SalesMan.SaleManInfoID=data_SalePosInfo.SaleManId where 0=0 and data_SalePosInfo.DirectReturn=0
 ";
-            Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID+ " )temp where 0=0";
+            Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID + " )temp where 0=0";
             //if (CategoryID > 0)
             //{
             //    Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
@@ -895,7 +894,7 @@ WHERE
             {
                 Sql = Sql + " and temp.SaleManInfoID=" + SaleManID + "";
             }
-            if(CashorCard==2)
+            if (CashorCard == 2)
             {
                 Sql = Sql + " and temp.CashPayment>0";
             }
@@ -908,13 +907,13 @@ WHERE
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
         }
-        public DataSet get_StockMovement(DateTime DateFrom,DateTime DateTo, int ItemID = 0,int CategoryID=0,int MenuId=0)
+        public DataSet get_StockMovement(DateTime DateFrom, DateTime DateTo, int ItemID = 0, int CategoryID = 0, int MenuId = 0)
         {
             string DateFromstr = "'" + DateFrom.AddDays(-1).ToString("yyyy-MM-dd") + "'";
             string DateTostr = "'" + DateTo.ToString("yyyy-MM-dd") + "'";
             DataSet ds = new DataSet();
             string PURCHASE = "", PURCHASERETURN = "", SALE = "", SALERETURN = "", StockRETURN = "", MFGOUT = "", MFGIN = "";
-            
+
 
             if (ItemID > 0)
             {
@@ -924,7 +923,7 @@ WHERE
             PURCHASERETURN += " and data_StockIssuancetoPosKitchen.FromWHID=" + CompanyInfo.WareHouseID + " and data_StockIssuancetoPosKitchen.CompanyID=" + CompanyInfo.CompanyID + "   and data_StockIssuancetoPosKitchen.IssuanceDate between '" + DateFrom.ToString("yyyy-MM-dd") + "' and '" + DateTo.ToString("yyyy-MM-dd") + "' ";
             if (ItemID > 0)
             {
-                SALE += " and data_SalePosDetail.ItemId = " +ItemID;
+                SALE += " and data_SalePosDetail.ItemId = " + ItemID;
             }
             SALE += " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID + " and data_SalePosInfo.CompanyID=" + CompanyInfo.CompanyID + "  and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("yyyy-MM-dd") + "' and '" + DateTo.ToString("yyyy-MM-dd") + "' ";
             if (ItemID > 0)
@@ -951,12 +950,12 @@ WHERE
             {
                 WC += " and cat.ItemGroupID = " + MenuId;
             }
-            if(CompanyInfo.isKhaakiSoft)
+            if (CompanyInfo.isKhaakiSoft)
             {
                 WC += " and ISNULL(s.SaleQuantity,0)+ISNULL(sr.SaleReturnQuantity,0)+isnull(pr.PurchaseReturnQuantity,0)>0";
             }
             List<SqlParameter> ParamList = new List<SqlParameter>();
-           
+
             ParamList.Add(new SqlParameter("@PURCHASERETURN", PURCHASERETURN));
             ParamList.Add(new SqlParameter("@SALE", SALE));
             ParamList.Add(new SqlParameter("@SALERETURN", SALERETURN));
@@ -972,23 +971,23 @@ WHERE
         }
 
 
-        public void StockReport(string reportName,DateTime dateTo,int CategoryID =0,DateTime ?RegisterFrom=null,DateTime ?RegitserTo=null,int MenuID=0)
+        public void StockReport(string reportName, DateTime dateTo, int CategoryID = 0, DateTime? RegisterFrom = null, DateTime? RegitserTo = null, int MenuID = 0)
         {
             ReportDocument rpt = new ReportDocument();
-            DataTable dt = ItemStockReport(CompanyInfo.CompanyID,reportName,dateTo,CategoryID,RegisterFrom,RegitserTo,MenuID);
+            DataTable dt = ItemStockReport(CompanyInfo.CompanyID, reportName, dateTo, CategoryID, RegisterFrom, RegitserTo, MenuID);
             if (CompanyInfo.isKhaakiSoft)
             {
-                 rpt.Load(Path.Combine(Application.StartupPath, "Report", "ItemStockKhaakiStyle.rpt"));
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "ItemStockKhaakiStyle.rpt"));
             }
             else
             {
                 rpt.Load(Path.Combine(Application.StartupPath, "Report", "ItemStockReport.rpt"));
             }
-                rpt.Database.Tables[0].SetDataSource(dt);
-            
+            rpt.Database.Tables[0].SetDataSource(dt);
+
             rpt.SummaryInfo.ReportTitle = "Item Stock Report";
-            
-            rpt.SetParameterValue("CompanyName",CompanyInfo.WareHouseName);
+
+            rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
             rpt.SetParameterValue("UserName", CompanyInfo.username);
 
 
@@ -1000,10 +999,10 @@ WHERE
             this.ShowDialog();
             rpt.Dispose();
         }
-        public void DailyStockMovement(string reportName, DateTime DateFrom, DateTime dateTo,int ItemID=0, int CategoryID = 0, int MenuID = 0)
+        public void DailyStockMovement(string reportName, DateTime DateFrom, DateTime dateTo, int ItemID = 0, int CategoryID = 0, int MenuID = 0)
         {
             ReportDocument rpt = new ReportDocument();
-            DataTable dt = get_StockMovement(DateFrom, dateTo,ItemID ,CategoryID,MenuID).Tables[0];
+            DataTable dt = get_StockMovement(DateFrom, dateTo, ItemID, CategoryID, MenuID).Tables[0];
             if (CompanyInfo.isKhaakiSoft)
             {
                 rpt.Load(Path.Combine(Application.StartupPath, "Report", "StockMovementReportWithouValue.rpt"));
@@ -1011,10 +1010,10 @@ WHERE
             else
             {
                 rpt.Load(Path.Combine(Application.StartupPath, "Report", "StockMovementReportFoodMama.rpt"));
-                
+
             }
             rpt.Database.Tables[0].SetDataSource(dt);
-            
+
             rpt.SummaryInfo.ReportTitle = "Stock Movement Report";
 
             rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
@@ -1022,21 +1021,21 @@ WHERE
 
 
             rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
-            
-            rpt.SetParameterValue("WithouClosing",false);
+
+            rpt.SetParameterValue("WithouClosing", false);
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             //rpt.SetParameterValue("ServerName", Serverpath);
             //rpt.SetParameterValue("Username", CompanyInfo.username);
             crystalReportViewer1.ReportSource = rpt;
-            
+
             crystalReportViewer1.Refresh();
             this.ShowDialog();
             rpt.Dispose();
         }
-        public void rptDailySale(string reportName, DateTime DateFrom,DateTime dateTo,int CategoryID=0, int MenuID = 0)
+        public void rptDailySale(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int MenuID = 0)
         {
             ReportDocument rpt = new ReportDocument();
-            DataTable dt = DailySale(CompanyInfo.CompanyID, reportName,DateFrom, dateTo,CategoryID,MenuID);
+            DataTable dt = DailySale(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID, MenuID);
             DataTable CashCard = GetTotalSaleReturns(DateFrom, dateTo);
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleRegister.rpt"));
             rpt.Database.Tables[0].SetDataSource(dt);
@@ -1049,7 +1048,7 @@ WHERE
             rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
 
 
-            rpt.SetParameterValue("ReportFiltration","From "+DateFrom.ToString("dd-MM-yyyy") +" To "+dateTo.ToString("dd-MM-yyyy"));
+            rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
             rpt.SetParameterValue("SuppressTag", false);
 
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
@@ -1100,10 +1099,10 @@ WHERE
             DataTable dt = PrintReceiptList(CompanyInfo.CompanyID, reportName, CategoryID);
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "StockReceiptPrint.rpt"));
             rpt.Database.Tables[0].SetDataSource(dt);
-           
 
-                rpt.SummaryInfo.ReportTitle = "Stock Receipt List";
-         
+
+            rpt.SummaryInfo.ReportTitle = "Stock Receipt List";
+
             rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
             rpt.SetParameterValue("UserName", CompanyInfo.username);
 
@@ -1174,8 +1173,8 @@ WHERE
             rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
             rpt.SetParameterValue("SuppressTag", false);
             rpt.SetParameterValue("NetSale", TillNowSaleCalculation());
-            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom,dateTo));
-            
+            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             //rpt.SetParameterValue("ServerName", Serverpath);
             //rpt.SetParameterValue("Username", CompanyInfo.username);
@@ -1230,13 +1229,13 @@ WHERE
             if (SaleStyle == 1)
             {
                 rpt.Load(Path.Combine(Application.StartupPath, "Report", "CreditCardWise.rpt"));
-                
+
 
             }
             else if (SaleStyle == 2)
             {
                 rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashSale.rpt"));
-                
+
             }
             else
             {
@@ -1278,22 +1277,22 @@ WHERE
             this.ShowDialog();
             rpt.Dispose();
         }
-        public void rptSalesManWise(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0,int SaleManID=0, int SaleStyle = 0)
+        public void rptSalesManWise(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int SaleManID = 0, int SaleStyle = 0)
         {
             ReportDocument rpt = new ReportDocument();
             DataTable dt;
             DataTable CashCard;
             if (SaleStyle == 2)
-            { 
-               rpt.Load(Path.Combine(Application.StartupPath, "Report", "CreditCardWise.rpt"));
-               dt = DailySaleSummary(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID, SaleManID);
-                
+            {
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "CreditCardWise.rpt"));
+                dt = DailySaleSummary(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID, SaleManID);
+
             }
             else
             {
                 rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleRegisterWise.rpt"));
                 dt = DailySaleManWise(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID, SaleManID);
-               
+
             }
             CashCard = GetCashCardPayments(DateFrom, dateTo);
             rpt.Database.Tables[0].SetDataSource(dt);
@@ -1316,7 +1315,7 @@ WHERE
             rpt.SetParameterValue("SuppressTag", false);
             rpt.SetParameterValue("NetSale", TillNowSaleCalculation());
             rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
-           
+
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             //rpt.SetParameterValue("ServerName", Serverpath);
             //rpt.SetParameterValue("Username", CompanyInfo.username);
@@ -1348,8 +1347,8 @@ WHERE
             DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
             if (CompanyInfo.CounterID > 0)
             {
-                if(PrintStyle == 0)
-                     rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookThermalStyle.rpt"));
+                if (PrintStyle == 0)
+                    rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookThermalStyle.rpt"));
                 else if (PrintStyle == 1)
                     rpt.Load(Path.Combine(Application.StartupPath, "Report", "CashBookA4.rpt"));
             }
@@ -1364,9 +1363,9 @@ WHERE
             rpt.SetParameterValue("CompanyName", dt2.Rows[0]["Title"]);
             rpt.SummaryInfo.ReportTitle = "Cash Book";
             rpt.SummaryInfo.ReportAuthor = "Admin";
-           
-            
-         
+
+
+
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             //rpt.SetParameterValue("ServerName", Serverpath);
             //rpt.SetParameterValue("Username", CompanyInfo.username);
@@ -1377,7 +1376,7 @@ WHERE
 
 
         }
-        
+
         private void crystalReportViewer1_Scroll(object sender, ScrollEventArgs e)
         {
             // the tabsheet that the report is shown on.
@@ -1387,16 +1386,16 @@ WHERE
             if (!control.Controls[0].Focused)
                 control.Controls[0].Focus();
         }
-        public DataTable GetOpeningClosingSession (DataTable RecentSession)
+        public DataTable GetOpeningClosingSession(DataTable RecentSession)
         {
             DataTable dt;
             string Sql = @"
 Select * from(select SessionStartTime, SessionClosingTime,CounterID,SourceName,(DebitAmount+CreditAmount) as NetAmount from vw_posSessionWiseOpClosing
-where sessionID="+Convert.ToInt32(RecentSession.Rows[0]["SessionID"])+ @")t
+where sessionID=" + Convert.ToInt32(RecentSession.Rows[0]["SessionID"]) + @")t
 pivot (sum(NetAmount) for SourceName in ([Opening],[Closing],[Account Cash Out],[Manual],[Cash Difference])) as PivotResult
 ";
-          
-          
+
+
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
             return dt;
@@ -1405,7 +1404,7 @@ pivot (sum(NetAmount) for SourceName in ([Opening],[Closing],[Account Cash Out],
         {
             DataTable dt;
             string Sql = @"Select CounterID,Sum(GrossAmount) as GrossBill,sum(OtherCharges) as OtherCharges,sum(DiscountTotal) as DiscountTotal,sum(NetAmount) as NetAmount from data_SalePosInfo 
-where CounterID="+CompanyInfo.CounterID+@" and EntryUserDateTime between 
+where CounterID=" + CompanyInfo.CounterID + @" and EntryUserDateTime between 
 '" + Convert.ToDateTime(RecentSession.Rows[0]["SessionStartTime"]) + @"' and  '" + Convert.ToDateTime(RecentSession.Rows[0]["SessionClosingTime"]) + @"'
 Group By CounterID
 ";
@@ -1438,7 +1437,7 @@ Group By CounterID
 
             dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
-            if(dt.Rows.Count<=0)
+            if (dt.Rows.Count <= 0)
             {
                 DataRow row = dt.NewRow();
                 row["CounterID"] = CompanyInfo.CounterID;
@@ -1463,13 +1462,13 @@ Group By CounterID
 
 
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "ClosingReport.rpt"));
-            
+
             rpt.Database.Tables[0].SetDataSource(Transcations);
             rpt.Database.Tables[1].SetDataSource(Sales);
             rpt.Database.Tables[2].SetDataSource(SalesReturn);
 
             rpt.SetParameterValue("CompanyName", dt2.Rows[0]["Title"]);
-            rpt.SummaryInfo.ReportTitle = "Closing Report Till # "+Convert.ToString(CompanyInfo.CounterID);
+            rpt.SummaryInfo.ReportTitle = "Closing Report Till # " + Convert.ToString(CompanyInfo.CounterID);
             rpt.SummaryInfo.ReportAuthor = CompanyInfo.username;
 
 
@@ -1513,9 +1512,9 @@ ON i.n BETWEEN 1 AND data_barcodePrintDetail.PrintQty/2
                 rpt.Load(Path.Combine(Application.StartupPath, "Report", "ItemBarcodeKhaaki.rpt"));
             }
 
-            DataTable dt =KhaakiBarcodeSelectAll(" where data_barcodePrintMaster.PrintId=" + MasterID + "");
+            DataTable dt = KhaakiBarcodeSelectAll(" where data_barcodePrintMaster.PrintId=" + MasterID + "");
             DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
-           
+
             rpt.Database.Tables[0].SetDataSource(dt);
             rpt.Database.Tables[1].SetDataSource(dt2);
 

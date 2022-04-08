@@ -1057,7 +1057,7 @@ namespace POS
 
         }
 
-        private void SaveForm()
+        private void SaveForm(bool SaveNPrint = false)
         {
             DataTable dt1 = new DataTable();
             dt1.Columns.Add("RowID");
@@ -1186,7 +1186,7 @@ namespace POS
                 valueforLinked.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
-                if (directReturn == false)
+                if (directReturn == false && SaveNPrint)
                 {
                    
                         reportName = "SaleInvoice";
@@ -1459,6 +1459,8 @@ namespace POS
             btnUpdate.Visible = false;
             btnSave.Visible = true;
             btnSave.Text = "Save";
+            btnSaveNPrint.Visible = true;
+            btnSaveNPrint.Text = "Save && Print";
             //txtAmountReceive.ReadOnly = false;
         }
 
@@ -2857,6 +2859,31 @@ namespace POS
             }
         }
 
-        
+        private void btnSaveNPrint_Click(object sender, EventArgs e)
+        {
+            if (validateSave())
+            {
+                GrossAmount_Total();
+                CheckReceivedAmount();
+                this.totalBill = txtReceivableAmount.Text;
+                this.ReceivedAmount = txtAmountReceive.Text;
+                this.ReturnAmount = txtAmountReturn.Text;
+                if (!string.IsNullOrEmpty(txtCustName.Text))
+                {
+                    this.CustomerName = txtCustName.Text;
+                }
+                if (!string.IsNullOrEmpty(txtCustPhone.Text))
+                {
+                    this.CustomerPhone = txtCustPhone.Text;
+                }
+                if (!string.IsNullOrEmpty(txtRiderAmount.Text))
+                {
+                    this.RiderAmount = txtRiderAmount.Text;
+                }
+                
+                SaveForm(true);
+
+            }
+        }
     }
 }
