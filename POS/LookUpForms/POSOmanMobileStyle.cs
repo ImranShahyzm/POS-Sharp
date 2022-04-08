@@ -929,7 +929,7 @@ namespace POS
                                         txtProductCode.Text = obj.ManualNumber;
                                         cmbProducts.SelectedValue = id.ToString();
                                         var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                        setAvailableStock(id);
+                                        //setAvailableStock(id);
                                         txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                         txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                         txtQuantity.Focus();

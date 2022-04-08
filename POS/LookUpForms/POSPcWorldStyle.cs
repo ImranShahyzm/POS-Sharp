@@ -268,6 +268,7 @@ namespace POS
             finally
             {
                 con.Close();
+                con.Dispose();
             }
         }
         private void POSPcWorldStyle_Load(object sender, EventArgs e)
@@ -741,6 +742,7 @@ namespace POS
             DataTable dt = new DataTable();
             sda.Fill(dt);
             cnn.Close();
+            cnn.Dispose();
             return dt;
         }
         private DataTable getProductBarcode(int categoryID, int productID = 0, string ManualNumber = "")
@@ -773,6 +775,7 @@ namespace POS
             DataTable dt = new DataTable();
             sda.Fill(dt);
             cnn.Close();
+            cnn.Dispose();
             return dt;
         }
         private void AddProducts(string productName, int id, decimal rates, decimal taxPercentage, decimal CartonSize = 0)
@@ -941,7 +944,7 @@ namespace POS
                                         txtProductCode.Text = obj.ManualNumber;
                                         cmbProducts.SelectedValue = id.ToString();
                                         var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                        setAvailableStock(id);
+                                        //setAvailableStock(id);
                                         txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                         txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                         txtQuantity.Focus();
@@ -1251,6 +1254,7 @@ namespace POS
             finally
             {
                 con.Close();
+                con.Dispose();
             }
         }
 
@@ -1886,10 +1890,11 @@ namespace POS
             da.SelectCommand = cmd;
             try
             {
-                cmd.Transaction = tran; da.Fill(ds);
+                cmd.Transaction = tran;
+                da.Fill(ds);
+                tran.Commit();
                 dt = ds.Tables[0];
                 dtdetail = ds.Tables[1];
-                tran.Commit();
             }
             catch (Exception ex)
             {
@@ -2031,10 +2036,11 @@ namespace POS
             da.SelectCommand = cmd;
             try
             {
-                cmd.Transaction = tran; da.Fill(ds);
-                dt = ds.Tables[0];
-
+                cmd.Transaction = tran;
+                da.Fill(ds);
                 tran.Commit();
+
+                dt = ds.Tables[0];
             }
             catch (Exception ex)
             {
@@ -2634,10 +2640,12 @@ namespace POS
             da.SelectCommand = cmd;
             try
             {
-                cmd.Transaction = tran; da.Fill(ds);
+                cmd.Transaction = tran;
+                da.Fill(ds);
+                tran.Commit();
                 dt = ds.Tables[0];
                 dtdetail = ds.Tables[1];
-                tran.Commit();
+                
             }
             catch (Exception ex)
             {
