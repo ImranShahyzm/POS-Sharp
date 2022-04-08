@@ -82,6 +82,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.lblFindPendingBill = new System.Windows.Forms.Label();
@@ -119,8 +121,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
+            this.btnSaveNPrint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -171,7 +172,7 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnClear.Location = new System.Drawing.Point(705, 100);
+            this.btnClear.Location = new System.Drawing.Point(662, 100);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(115, 31);
             this.btnClear.TabIndex = 1;
@@ -184,7 +185,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSave.Location = new System.Drawing.Point(828, 100);
+            this.btnSave.Location = new System.Drawing.Point(785, 100);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(115, 31);
             this.btnSave.TabIndex = 15;
@@ -370,6 +371,7 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel1.Controls.Add(this.btnSaveNPrint);
             this.panel1.Controls.Add(this.txtNetDtDiscount);
             this.panel1.Controls.Add(this.btnUpdate);
             this.panel1.Controls.Add(this.label18);
@@ -422,7 +424,7 @@
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdate.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdate.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnUpdate.Location = new System.Drawing.Point(828, 96);
+            this.btnUpdate.Location = new System.Drawing.Point(786, 96);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(115, 38);
             this.btnUpdate.TabIndex = 31;
@@ -732,6 +734,28 @@
             this.panel5.Size = new System.Drawing.Size(1038, 163);
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(11, 120);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(89, 14);
+            this.label30.TabIndex = 53;
+            this.label30.Text = "Scan / Enter Code";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(283, 121);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(28, 14);
+            this.label29.TabIndex = 52;
+            this.label29.Text = "Rate";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label28
             // 
@@ -1113,27 +1137,20 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // label29
+            // btnSaveNPrint
             // 
-            this.label29.AutoSize = true;
-            this.label29.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(283, 121);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(28, 14);
-            this.label29.TabIndex = 52;
-            this.label29.Text = "Rate";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(11, 120);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(89, 14);
-            this.label30.TabIndex = 53;
-            this.label30.Text = "Scan / Enter Code";
-            this.label30.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btnSaveNPrint.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnSaveNPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveNPrint.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveNPrint.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnSaveNPrint.Location = new System.Drawing.Point(910, 100);
+            this.btnSaveNPrint.Name = "btnSaveNPrint";
+            this.btnSaveNPrint.Size = new System.Drawing.Size(115, 31);
+            this.btnSaveNPrint.TabIndex = 33;
+            this.btnSaveNPrint.Text = "Save N Print";
+            this.btnSaveNPrint.UseVisualStyleBackColor = false;
+            this.btnSaveNPrint.Visible = false;
+            this.btnSaveNPrint.Click += new System.EventHandler(this.btnSaveNPrint_Click);
             // 
             // POSPcWorldStyle
             // 
@@ -1256,6 +1273,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Button btnSaveNPrint;
     }
 }
 
