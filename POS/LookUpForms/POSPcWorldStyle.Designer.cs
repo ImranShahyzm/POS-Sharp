@@ -121,7 +121,6 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.btnSaveNPrint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -1136,21 +1135,6 @@
             this.txtInvoiceNo.TabIndex = 4;
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
-            // 
-            // btnSaveNPrint
-            // 
-            this.btnSaveNPrint.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnSaveNPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSaveNPrint.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveNPrint.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSaveNPrint.Location = new System.Drawing.Point(910, 100);
-            this.btnSaveNPrint.Name = "btnSaveNPrint";
-            this.btnSaveNPrint.Size = new System.Drawing.Size(115, 31);
-            this.btnSaveNPrint.TabIndex = 33;
-            this.btnSaveNPrint.Text = "Save N Print";
-            this.btnSaveNPrint.UseVisualStyleBackColor = false;
-            this.btnSaveNPrint.Visible = false;
-            this.btnSaveNPrint.Click += new System.EventHandler(this.btnSaveNPrint_Click);
             // 
             // POSPcWorldStyle
             // 
