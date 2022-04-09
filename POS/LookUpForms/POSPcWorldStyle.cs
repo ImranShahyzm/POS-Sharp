@@ -1463,8 +1463,8 @@ namespace POS
             btnUpdate.Visible = false;
             btnSave.Visible = true;
             btnSave.Text = "Save";
-            btnSaveNPrint.Visible = true;
-            btnSaveNPrint.Text = "Save && Print";
+            btnPrintSave.Visible = true;
+            btnPrintSave.Text = "Save && Print";
             //txtAmountReceive.ReadOnly = false;
         }
 
@@ -1832,6 +1832,7 @@ namespace POS
             txtInvoiceNo.Text = "";
             txtInvoiceNo.Focus();
             btnSave.Text = "Return Invoice";
+            btnPrintSave.Text = "Ret Inv && Print";
        
             SaleReturn = true;
         }
@@ -1842,7 +1843,8 @@ namespace POS
             txtInvoiceNo.ReadOnly = false;
             txtInvoiceNo.Text = "";
             txtInvoiceNo.Focus();
-            btnSave.Visible = false; 
+            btnSave.Visible = false;
+            btnPrintSave.Visible = false; 
             btnUpdate.Visible = true;
             InvoiceUpdate = true;
         }
@@ -2867,7 +2869,7 @@ namespace POS
             }
         }
 
-        private void btnSaveNPrint_Click(object sender, EventArgs e)
+        private void btnPrintSave_Click(object sender, EventArgs e)
         {
             if (validateSave())
             {
@@ -2888,9 +2890,8 @@ namespace POS
                 {
                     this.RiderAmount = txtRiderAmount.Text;
                 }
-                
-                SaveForm(true);
 
+                SaveForm(true);
             }
         }
     }
