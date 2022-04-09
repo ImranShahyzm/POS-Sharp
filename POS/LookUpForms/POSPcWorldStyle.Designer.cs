@@ -33,7 +33,6 @@
             this.btnStock = new System.Windows.Forms.Button();
             this.txtPrint = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
-            this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
             this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,10 +54,13 @@
             this.cmbSalemenu = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnPrintSave = new System.Windows.Forms.Button();
+            this.btnSaveNPrint = new System.Windows.Forms.Button();
             this.txtNetDtDiscount = new System.Windows.Forms.TextBox();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.txtPayableAmount = new System.Windows.Forms.TextBox();
+            this.btnClear = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.txtReceivableAmount = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -146,7 +148,7 @@
             // 
             // txtPrint
             // 
-            this.txtPrint.Location = new System.Drawing.Point(949, 103);
+            this.txtPrint.Location = new System.Drawing.Point(926, 101);
             this.txtPrint.Name = "txtPrint";
             this.txtPrint.Size = new System.Drawing.Size(75, 28);
             this.txtPrint.TabIndex = 11;
@@ -164,19 +166,6 @@
             this.label18.Size = new System.Drawing.Size(230, 18);
             this.label18.TabIndex = 10;
             this.label18.Text = "{ALT+A} = Focuses Amount Recieved";
-            // 
-            // btnClear
-            // 
-            this.btnClear.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClear.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnClear.Location = new System.Drawing.Point(662, 100);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(115, 31);
-            this.btnClear.TabIndex = 1;
-            this.btnClear.Text = "New Sale (ALT+N)";
-            this.btnClear.UseVisualStyleBackColor = false;
             // 
             // btnSave
             // 
@@ -370,6 +359,7 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel1.Controls.Add(this.btnPrintSave);
             this.panel1.Controls.Add(this.btnSaveNPrint);
             this.panel1.Controls.Add(this.txtNetDtDiscount);
             this.panel1.Controls.Add(this.btnUpdate);
@@ -406,6 +396,28 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1034, 140);
             this.panel1.TabIndex = 9;
+            // 
+            // btnPrintSave
+            // 
+            this.btnPrintSave.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnPrintSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPrintSave.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrintSave.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnPrintSave.Location = new System.Drawing.Point(907, 100);
+            this.btnPrintSave.Name = "btnPrintSave";
+            this.btnPrintSave.Size = new System.Drawing.Size(115, 31);
+            this.btnPrintSave.TabIndex = 33;
+            this.btnPrintSave.Text = "Print && Save";
+            this.btnPrintSave.UseVisualStyleBackColor = false;
+            this.btnPrintSave.Visible = false;
+            this.btnPrintSave.Click += new System.EventHandler(this.btnPrintSave_Click);
+            // 
+            // btnSaveNPrint
+            // 
+            this.btnSaveNPrint.Location = new System.Drawing.Point(0, 0);
+            this.btnSaveNPrint.Name = "btnSaveNPrint";
+            this.btnSaveNPrint.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveNPrint.TabIndex = 0;
             // 
             // txtNetDtDiscount
             // 
@@ -452,6 +464,19 @@
             this.txtPayableAmount.Size = new System.Drawing.Size(163, 40);
             this.txtPayableAmount.TabIndex = 22;
             this.txtPayableAmount.TabStop = false;
+            // 
+            // btnClear
+            // 
+            this.btnClear.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClear.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClear.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnClear.Location = new System.Drawing.Point(662, 100);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(115, 31);
+            this.btnClear.TabIndex = 1;
+            this.btnClear.Text = "New Sale (ALT+N)";
+            this.btnClear.UseVisualStyleBackColor = false;
             // 
             // label16
             // 
@@ -1169,7 +1194,6 @@
         private System.Windows.Forms.Button btnStock;
         private System.Windows.Forms.Button txtPrint;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.DataGridView ItemSaleGrid;
         private System.Windows.Forms.Label label22;
@@ -1258,6 +1282,8 @@
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Button btnSaveNPrint;
+        private System.Windows.Forms.Button btnPrintSave;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 
