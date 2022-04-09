@@ -370,7 +370,6 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
-            this.panel1.Controls.Add(this.btnSaveNPrint);
             this.panel1.Controls.Add(this.txtNetDtDiscount);
             this.panel1.Controls.Add(this.btnUpdate);
             this.panel1.Controls.Add(this.label18);
@@ -423,7 +422,7 @@
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpdate.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdate.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnUpdate.Location = new System.Drawing.Point(786, 96);
+            this.btnUpdate.Location = new System.Drawing.Point(785, 96);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(115, 38);
             this.btnUpdate.TabIndex = 31;

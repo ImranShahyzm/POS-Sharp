@@ -131,6 +131,7 @@ namespace POS.Helper
             finally
             {
                 con.Close();
+                con.Dispose();
             }
             return StockQty;
 
