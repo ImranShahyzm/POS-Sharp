@@ -520,7 +520,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
 
             string Sql = @"
 		    select data_SalePosInfo.WHID, VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ManualNumber as ItemNumber,adgen_ColorInfo.ColorTitle,data_SalePosInfo.SalePosID,data_SalePosInfo.SalePosNo ,format(data_SalePosInfo.SalePosDate,'dd-MMM-yyyy') as SalePosDate,data_SalePosInfo.NetAmount as SaleInfo_NetAmount,
-            data_SalePosInfo.DiscountPercentage as SaleInfo_DPer,data_SalePosInfo.DiscountAmount as SaleInfo_DAmount,data_SalePosDetail.ItemId,
+            data_SalePosInfo.DiscountPercentage as SaleInfo_DPer,data_SalePosInfo.DiscountAmount as SaleInfo_DAmount, data_SalePosInfo.DiscountTotal as SaleInfo_DTotal,data_SalePosDetail.ItemId,
  data_SalePosDetail.Quantity,data_SalePosDetail.ItemRate,data_SalePosDetail.DiscountPercentage,data_SalePosDetail.DiscountAmount,
             data_SalePosDetail.TaxAmount,
             InventItems.ItenName
@@ -808,7 +808,7 @@ WHERE
         }
         public DataTable GetTotalSaleReturns(DateTime DateFrom, DateTime dateTo)
         {
-            string query = "Select WHID, sum(Quantity*ItemRate) as GrossAmount,sum(DiscountTotal) as DiscountTotal,sum(Quantity) as ReturnQuantity from data_SalePosReturnInfo inner join data_SalePosReturnDetail p on p.SalePosReturnID=data_SalePosReturnInfo.SalePosReturnID where SalePosReturnDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
+            string query = "Select WHID, sum(Quantity*ItemRate) as GrossAmount, Sum(data_SalePosReturnInfo.TaxAmount) as TaxAmount,sum(DiscountTotal) as DiscountTotal,sum(Quantity) as ReturnQuantity from data_SalePosReturnInfo inner join data_SalePosReturnDetail p on p.SalePosReturnID=data_SalePosReturnInfo.SalePosReturnID where SalePosReturnDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
             DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
             if (dt.Rows.Count <= 0)
