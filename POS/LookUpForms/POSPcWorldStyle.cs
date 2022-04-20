@@ -880,10 +880,34 @@ namespace POS
                         int ItemID = 0;
                         DataTable dt = new DataTable();
                         dt = GetItemByCode(txtProductCode.Text);
-                        if (dt.Rows.Count > 0)
+                        if (dt.Rows.Count == 1)
                         {
                             ItemID = Convert.ToInt32("0" + dt.Rows[0]["ItemId"].ToString());
                         }
+                        else if (dt.Rows.Count > 1)
+                        {
+                            using (frmProductLookUp obj = new frmProductLookUp(Convert.ToInt32(cmbSalemenu.SelectedValue.ToString())))
+                            {
+                                if (obj.ShowDialog() == DialogResult.OK)
+                                {
+                                    int id = obj.ProductID;
+                                    txtProductID.Text = id.ToString();
+                                    txtProductCode.Text = obj.ItemNumber;
+                                    cmbProducts.SelectedValue = id.ToString();
+                                    var dtReturn = getProduct(0, Convert.ToInt32(id));
+                                    //setAvailableStock(id);
+                                    txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
+                                    txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
+                                    txtQuantity.Focus();
+                                    txtQuantity.SelectAll();
+
+                                    //txtQtyPrice.Focus();
+                                    //txtQtyPrice.Select();
+                                }
+                            };
+                            return;
+                        }
+
                         //var ItemID = GetItemIDbyBuiltInBarcodes(txtProductCode.Text);
                         //******* Motext barcode ************//
                         bool isMOtextCode = false;
