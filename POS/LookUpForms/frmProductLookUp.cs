@@ -17,6 +17,7 @@ namespace POS.LookUpForms
     {
         public int ProductID { get; set; }
         public string ManualNumber { get; set; }
+        public string ItemNumber { get; set; }
         public frmProductLookUp(int GroupId=0)
         {
             InitializeComponent();
@@ -71,8 +72,16 @@ namespace POS.LookUpForms
             //{
             //    SqlString=SqlString+ " where InventCategory.ItemGroupID=" + MainGroupId+"";
             //}
-
-            string SqlString = ItemSearchSQL("", MainGroupId);
+            string SqlString = "";
+            if (CompanyInfo.isKhaakiSoft == true)
+            {
+                SqlString = ItemSearchSQL("", MainGroupId);
+            }
+            else
+            {
+                SqlString = ItemSearchSQLWithItemNumber("", MainGroupId);
+            }
+            
 
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
@@ -141,6 +150,64 @@ GROUP BY InventItems.ItemId, ItenName , ManualNumber ";
             return SqlString;
         }
 
+        private string ItemSearchSQLWithItemNumber(string SearchVal = "", int MainGroupId = 0)
+        {
+            string WHERE = " WHERE 0=0 ";
+
+            if (MainGroupId > 0)
+            {
+                WHERE += " and ( InventCategory.ItemGroupID=" + MainGroupId + "";
+                if (SearchVal != null && SearchVal != "")
+                {
+                    WHERE += " or InventItems.ItemNumber like '%" + SearchVal + "%' or InventItems.ItenName like '%" + SearchVal + "%'  ";
+                }
+                WHERE += " ) ";
+            }
+            else
+            {
+                if (SearchVal != null && SearchVal != "")
+                {
+                    WHERE += " and ( InventItems.ItemNumber like '%" + SearchVal + "%' or InventItems.ItenName like '%" + SearchVal + "%'  ) ";
+                }
+            }
+
+            string SqlString = $@"  select InventItems.ItemId, InventItems.ItemNumber, InventItems.ItenName as Product, ISNULL(SUM(s.Quantity) , 0) as [Stock Qty] from 
+ InventItems
+ left join InventCategory on InventCategory.CategoryID = InventItems.CategoryID
+ left join InventItemGroup on InventItemGroup.ItemGroupID = InventCategory.ItemGroupID
+ left join
+ (
+
+    select a.Quantity , a.ItemId
+    from data_ProductInflow a
+
+        inner join  InventItems b on a.ItemId = b.ItemId
+
+        left join InventCategory c on b.CategoryID = c.CategoryID
+
+    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID}
+
+union all
+
+
+    select - a.Quantity as Quantity ,a.ItemId
+     from data_ProductOutflow a
+
+        inner join  InventItems b on a.ItemId = b.ItemId
+
+        left join InventCategory c on b.CategoryID = c.CategoryID
+
+    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID}
+
+)  s ON InventItems.ItemId = s.ItemId
+
+{WHERE}
+
+GROUP BY InventItems.ItemId, ItenName , InventItems.ItemNumber ";
+
+            return SqlString;
+        }
+
         private void txtProductSearch_TextChanged(object sender, EventArgs e)
         {
             string searchValue = txtProductSearch.Text;
@@ -160,8 +227,16 @@ GROUP BY InventItems.ItemId, ItenName , ManualNumber ";
             //    SqlString = SqlString + " and InventCategory.ItemGroupID=" + Convert.ToInt32(txtMainGroupID.Text) + "";
             //}
 
-            string SqlString = ItemSearchSQL(searchValue, Convert.ToInt32("0" + txtMainGroupID.Text));
-
+            string SqlString = "";
+            if (CompanyInfo.isKhaakiSoft == true)
+            {
+                SqlString = ItemSearchSQL(searchValue, Convert.ToInt32("0" + txtMainGroupID.Text));
+            }
+            else
+            {
+                SqlString = ItemSearchSQLWithItemNumber(searchValue, Convert.ToInt32("0" + txtMainGroupID.Text));
+            }
+            
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -215,8 +290,18 @@ GROUP BY InventItems.ItemId, ItenName , ManualNumber ";
         private void dgvProducts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string value = dgvProducts.Rows[e.RowIndex].Cells["ItemId"].Value.ToString();
-            string manualNumber = dgvProducts.Rows[e.RowIndex].Cells["ManualNumber"].Value.ToString();
-            ManualNumber = manualNumber;
+            string ManualNo = "", ItemNo = "";
+            if (CompanyInfo.isKhaakiSoft == true)
+            {
+                ManualNo = dgvProducts.Rows[e.RowIndex].Cells["ManualNumber"].Value.ToString();
+            }
+            else
+            {
+                ItemNo = dgvProducts.Rows[e.RowIndex].Cells["ItemNumber"].Value.ToString();
+            }
+            ManualNumber = ManualNo;
+            ItemNumber = ItemNo;
+
             ProductID = Convert.ToInt32(value);
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -241,8 +326,18 @@ GROUP BY InventItems.ItemId, ItenName , ManualNumber ";
             {
                 DataGridViewRow dgr = dgvProducts.Rows[Index];
                 string value = dgr.Cells["ItemId"].Value.ToString();
-                string manualNumber = dgr.Cells["ManualNumber"].Value.ToString();
-                ManualNumber = manualNumber;
+                string ManualNo = "", ItemNo = "";
+                if (CompanyInfo.isKhaakiSoft == true)
+                {
+                    ManualNo = dgr.Cells["ManualNumber"].Value.ToString();
+                }
+                else
+                {
+                    ItemNo = dgr.Cells["ItemNumber"].Value.ToString();
+                }
+                ManualNumber = ManualNo;
+                ItemNumber = ItemNo;
+                
                 ProductID = Convert.ToInt32(value);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -251,8 +346,18 @@ GROUP BY InventItems.ItemId, ItenName , ManualNumber ";
             {
                 DataGridViewRow dgr = dgvProducts.Rows[0];
                 string value = dgr.Cells["ItemId"].Value.ToString();
-                string manualNumber = dgr.Cells["ManualNumber"].Value.ToString();
-                ManualNumber = manualNumber;
+                string ManualNo = "", ItemNo = "";
+                if (CompanyInfo.isKhaakiSoft == true)
+                {
+                    ManualNo = dgr.Cells["ManualNumber"].Value.ToString();
+                }
+                else
+                {
+                    ItemNo = dgr.Cells["ItemNumber"].Value.ToString();
+                }
+                ManualNumber = ManualNo;
+                ItemNumber = ItemNo;
+                
                 ProductID = Convert.ToInt32(value);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
