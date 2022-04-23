@@ -148,7 +148,7 @@
             // 
             // txtPrint
             // 
-            this.txtPrint.Location = new System.Drawing.Point(926, 101);
+            this.txtPrint.Location = new System.Drawing.Point(946, 63);
             this.txtPrint.Name = "txtPrint";
             this.txtPrint.Size = new System.Drawing.Size(75, 28);
             this.txtPrint.TabIndex = 11;
@@ -403,7 +403,7 @@
             this.btnPrintSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPrintSave.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrintSave.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnPrintSave.Location = new System.Drawing.Point(907, 100);
+            this.btnPrintSave.Location = new System.Drawing.Point(906, 100);
             this.btnPrintSave.Name = "btnPrintSave";
             this.btnPrintSave.Size = new System.Drawing.Size(115, 31);
             this.btnPrintSave.TabIndex = 33;

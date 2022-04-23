@@ -2117,7 +2117,7 @@ namespace POS
             txtTax.ReadOnly = true;
             txtTaxAmount.ReadOnly = true;
             txtdetailAmount.ReadOnly = true;
-            txtRate.ReadOnly = true;
+            //txtRate.ReadOnly = true; //temporarily comment this line
             txtQtyPrice.Clear();
             txtAvailableQty.Clear();
             StockRunningOut.Visible = false;
