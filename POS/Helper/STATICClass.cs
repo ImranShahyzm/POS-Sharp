@@ -126,7 +126,6 @@ namespace POS.Helper
             catch (Exception ex)
             {
                 tran.Rollback();
-                return StockQty;
             }
             finally
             {
