@@ -810,16 +810,7 @@ namespace POS
                     ItemSaleGrid.Rows[i].Cells[8].Value = ((qty) * rate) - discountAmt;
                     var TaxValue = ((Convert.ToDecimal(taxPerctge) * rate) / 100) * qty;
                     ItemSaleGrid.Rows[i].Cells[6].Value = TaxValue;
-
-
-
-
-
-
-
-
-
-
+                    
 
                     recordExist = true;
                     GrossAmount_Total();
@@ -1932,6 +1923,7 @@ namespace POS
             finally
             {
                 con.Close();
+                con.Dispose();
             }
 
             if (dt.Rows.Count > 0)
@@ -2078,6 +2070,7 @@ namespace POS
             finally
             {
                 con.Close();
+                con.Dispose();
             }
 
             if (dt.Rows.Count > 0)
@@ -2683,6 +2676,7 @@ namespace POS
             finally
             {
                 con.Close();
+                con.Dispose();
             }
 
             if (dt.Rows.Count > 0)
