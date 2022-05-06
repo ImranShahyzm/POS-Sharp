@@ -1481,6 +1481,7 @@ namespace POS
             btnPrintSave.Visible = true;
             btnPrintSave.Text = "Save && Print";
             //txtAmountReceive.ReadOnly = false;
+            txtPrint.Visible = false;
         }
 
         private void getInvoiceNumber()
@@ -1868,6 +1869,11 @@ namespace POS
             clearAll();
             lblSaleType.Text = "Direct Return";
             directReturn = true;
+            txtPrint.Visible = false;
+            txtInvoiceNo.Text = "";
+            txtInvoiceNo.ReadOnly = true;
+            txtProductCode.Select();
+            txtProductCode.Focus();
         }
 
         private void btnNewSale_Click(object sender, EventArgs e)
