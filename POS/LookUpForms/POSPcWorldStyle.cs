@@ -27,6 +27,8 @@ namespace POS
         public bool directReturn = false;
         public int SaleInvoiceNo = 0;
         public int SalePosMasterID = 0;
+        public int SalePosReturnID = 0;
+
         public decimal netAmountForReturn = 0;
 
         public string totalBill { get; set; }
@@ -785,8 +787,7 @@ namespace POS
             string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rates)) / 100) * 1).ToString();
             txtPromoDisc.Text = Convert.ToString(txtPromoDisc.Text) == "" ? "0" : Convert.ToString(txtPromoDisc.Text);
             txtPromoDiscAmt.Text = Convert.ToString(txtPromoDiscAmt.Text) == "" ? "0" : Convert.ToString(txtPromoDiscAmt.Text);
-
-
+            //setAvailableStock(id);
             bool recordExist = false;
             for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
             {
@@ -886,7 +887,7 @@ namespace POS
                                     txtProductCode.Text = obj.ItemNumber;
                                     cmbProducts.SelectedValue = id.ToString();
                                     var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                    //setAvailableStock(id);
+                                    setAvailableStock(id);
                                     txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                     txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                     txtQuantity.Focus();
@@ -959,7 +960,7 @@ namespace POS
                                         txtProductCode.Text = obj.ManualNumber;
                                         cmbProducts.SelectedValue = id.ToString();
                                         var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                        //setAvailableStock(id);
+                                        setAvailableStock(id);
                                         txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                         txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                         txtQuantity.Focus();
@@ -1140,14 +1141,20 @@ namespace POS
             else
             {
                 cmd = new SqlCommand("data_SalePosReturnInfo_Insert", con);
-                SalePosMasterID = Convert.ToInt32(SalePosID.Text);
+                if (SalePosID.Text != "")
+                {
+                    SalePosMasterID = Convert.ToInt32(SalePosID.Text);
+                }
             }
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
             SqlParameter p = new SqlParameter("SalePosID", SalePosMasterID);
             p.Direction = ParameterDirection.InputOutput;
+            SqlParameter p2 = new SqlParameter("SalePosReturnID", SalePosReturnID);
+            p2.Direction = ParameterDirection.InputOutput;
             cmd.Parameters.Add(p);
+            cmd.Parameters.Add(p2);
             cmd.Parameters.AddWithValue("@CompanyID", CompanyInfo.CompanyID);
             cmd.Parameters.AddWithValue("@SaleInvoiceNo", SaleInvoiceNo);
             cmd.Parameters.AddWithValue("@UserID", CompanyInfo.UserID);
@@ -1197,14 +1204,19 @@ namespace POS
                 tran.Commit();
                 isBillSaved = true;
                 string SaleInvoiceNO = p.Value.ToString();
+                string SaleReturnNO = p2.Value.ToString();
                 var value = new List<string[]>();
+                if (directReturn || SaleReturn)
+                {
+                    SaleInvoiceNO = SaleReturnNO;
+                }
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
                 value.Add(ss);
                 var valueforLinked = new List<string[]>();
                 valueforLinked.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
-                if (directReturn == false && SaveNPrint)
+                if (  SaveNPrint)
                 {
                    
                         reportName = "SaleInvoice";
@@ -1216,8 +1228,9 @@ namespace POS
                         }
                         else
                         {
-                            if (SaleReturn)
+                            if (SaleReturn||directReturn)
                             {
+                            SaleReturn = true;
                                 obj.loadSaleFoodMamaReport("rpt_saleReturn_invoice", reportName, value, SaleReturn);
                             }
                             else
@@ -1355,12 +1368,12 @@ namespace POS
                 //else
                 if (amountReceivable > 0 && amountReceived < amountReceivable)
                 {
-                    txtAmountReceive.Text = Convert.ToString(txtReceivableAmount.Text);
-                    validateReturnOK = true;
+                    //txtAmountReceive.Text = Convert.ToString(txtReceivableAmount.Text);
+                    //validateReturnOK = true;
 
-                    //txtAmountReceive.Focus();
-                    //MessageBox.Show("Amount Receive should be greater than Receivable Amount!");
-                    //validateReturnOK = false;
+                    txtAmountReceive.Focus();
+                    MessageBox.Show("Amount Receive should be greater than Receivable Amount!");
+                    validateReturnOK = false;
                 }
                 else if (amountReturn < 0)
                 {
@@ -2911,6 +2924,43 @@ namespace POS
 
                 SaveForm(true);
             }
+        }
+
+        private void cmbProducts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClear_Click_1(object sender, EventArgs e)
+        {
+            clearAll();
+            txtProductCode.Select();
+            txtProductCode.Focus();
+        }
+
+        private void txtQuantity_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtRate_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtAmountReceive_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtReceivableAmount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPayableAmount_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -464,6 +464,7 @@
             this.txtPayableAmount.Size = new System.Drawing.Size(163, 40);
             this.txtPayableAmount.TabIndex = 22;
             this.txtPayableAmount.TabStop = false;
+            this.txtPayableAmount.TextChanged += new System.EventHandler(this.txtPayableAmount_TextChanged);
             // 
             // btnClear
             // 
@@ -477,6 +478,7 @@
             this.btnClear.TabIndex = 1;
             this.btnClear.Text = "New Sale (ALT+N)";
             this.btnClear.UseVisualStyleBackColor = false;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click_1);
             // 
             // label16
             // 
@@ -499,6 +501,7 @@
             this.txtReceivableAmount.Size = new System.Drawing.Size(149, 40);
             this.txtReceivableAmount.TabIndex = 20;
             this.txtReceivableAmount.TabStop = false;
+            this.txtReceivableAmount.TextChanged += new System.EventHandler(this.txtReceivableAmount_TextChanged);
             this.txtReceivableAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtReceivableAmount_KeyPress);
             // 
             // label15
@@ -561,6 +564,7 @@
             this.txtAmountReceive.Name = "txtAmountReceive";
             this.txtAmountReceive.Size = new System.Drawing.Size(100, 40);
             this.txtAmountReceive.TabIndex = 14;
+            this.txtAmountReceive.TextChanged += new System.EventHandler(this.txtAmountReceive_TextChanged);
             this.txtAmountReceive.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAmountReceive_KeyDown);
             this.txtAmountReceive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAmountReceive_KeyPress);
             // 
@@ -1044,6 +1048,7 @@
             this.txtRate.Name = "txtRate";
             this.txtRate.Size = new System.Drawing.Size(99, 20);
             this.txtRate.TabIndex = 6;
+            this.txtRate.TextChanged += new System.EventHandler(this.txtRate_TextChanged);
             // 
             // txtQuantity
             // 
@@ -1052,6 +1057,7 @@
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(75, 20);
             this.txtQuantity.TabIndex = 7;
+            this.txtQuantity.TextChanged += new System.EventHandler(this.txtQuantity_TextChanged);
             this.txtQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQuantity_KeyDown);
             this.txtQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtQuantity_KeyPress);
             // 
@@ -1067,6 +1073,7 @@
             this.cmbProducts.Name = "cmbProducts";
             this.cmbProducts.Size = new System.Drawing.Size(186, 21);
             this.cmbProducts.TabIndex = 5;
+            this.cmbProducts.SelectedIndexChanged += new System.EventHandler(this.cmbProducts_SelectedIndexChanged);
             // 
             // lblSaleType
             // 
