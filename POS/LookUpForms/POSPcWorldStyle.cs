@@ -28,6 +28,7 @@ namespace POS
         public int SaleInvoiceNo = 0;
         public int SalePosMasterID = 0;
         public int SalePosReturnID = 0;
+        public int TotalQty = 0;
 
         public decimal netAmountForReturn = 0;
 
@@ -782,7 +783,6 @@ namespace POS
         }
         private void AddProducts(string productName, int id, decimal rates, decimal taxPercentage, decimal CartonSize = 0)
         {
-
             string total = (Convert.ToDecimal(rates) * 1).ToString();
             string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rates)) / 100) * 1).ToString();
             txtPromoDisc.Text = Convert.ToString(txtPromoDisc.Text) == "" ? "0" : Convert.ToString(txtPromoDisc.Text);
@@ -831,7 +831,8 @@ namespace POS
                 var Value = txtQuantity.Text;
                 var Rate = txtRate.Text;
                 var NetAmount = Convert.ToDecimal(Value) * Convert.ToDecimal(Rate);
-
+                TotalQty = Convert.ToInt32(TotalQty) + 1;
+                txtTotalQty.Text = Convert.ToString(TotalQty);
                 //string[] row = { id.ToString(), cmbProducts.Text, txtQuantity.Text, txtStockRate.Text, NetAmount.ToString(), txtProductID.Text };
                 //dgvStockInDetail.Rows.Insert(0, row);
                 //ClearFields();
@@ -1260,6 +1261,8 @@ namespace POS
                 {
                     //MessageBox.Show("Record has been Updated!");
                 }
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
                 loadNewSale();
                 //if (SaleInvoiceNo == 0)
                 //{
@@ -1590,30 +1593,33 @@ namespace POS
                 //}
                 //else
                 //{ 
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
                 loadReturnView();
 
                 return true;
                 //}
             }
-            else if (keyData == (Keys.Alt | Keys.U))
-            {
-                //if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
-                //{
-                //    MessageBox.Show("Please Select Menu First .....");
-                //    cmbSalemenu.Select();
-                //    cmbSalemenu.Focus();
-                //    return false;
-                //}
-                //else
-                //{
-                LoadUpdateView();
+            //else if (keyData == (Keys.Alt | Keys.U))
+            //{
+            //    //if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
+            //    //{
+            //    //    MessageBox.Show("Please Select Menu First .....");
+            //    //    cmbSalemenu.Select();
+            //    //    cmbSalemenu.Focus();
+            //    //    return false;
+            //    //}
+            //    //else
+            //    //{
+            //    LoadUpdateView();
 
-                return true;
-                //}
-            }
+            //    return true;
+            //    //}
+            //}
             else if (keyData == (Keys.Alt | Keys.D))
             {
-                
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
                 loadDirectReturn();
 
                 return true;
@@ -1621,6 +1627,8 @@ namespace POS
             }
             else if (keyData == (Keys.Alt | Keys.N))
             {
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
                 clearAll();
                 loadNewSale();
                 return true;
@@ -2139,14 +2147,15 @@ namespace POS
         private void ItemSaleGrid_KeyDown(object sender, KeyEventArgs e)
         {
             
-            if(e.KeyCode==Keys.Enter)
+            if(e.KeyCode==Keys.Enter || e.KeyCode==Keys.Delete)
             {
                 if (MessageBox.Show("Are You Sure You Want to Delete the Selected Record...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    TotalQty = Convert.ToInt32(TotalQty) - 1;
+                    txtTotalQty.Text = Convert.ToString(TotalQty);
                     ItemSaleGrid.Rows.RemoveAt(ItemSaleGrid.CurrentRow.Index);
                     txtProductCode.Select();
                     txtProductCode.Focus();
-
                     return;
                 }
 
@@ -2157,6 +2166,7 @@ namespace POS
                txtDiscountPercentage.Focus();
 
             }
+
         }
 
         private void txtProductBarCode_KeyDown(object sender, KeyEventArgs e)
@@ -2929,6 +2939,8 @@ namespace POS
                 }
 
                 SaveForm(true);
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
             }
         }
 
@@ -2939,6 +2951,8 @@ namespace POS
 
         private void btnClear_Click_1(object sender, EventArgs e)
         {
+            TotalQty = 0;
+            txtTotalQty.Text = "0";
             clearAll();
             txtProductCode.Select();
             txtProductCode.Focus();
@@ -2965,6 +2979,26 @@ namespace POS
         }
 
         private void txtPayableAmount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtNetDtDiscount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSaveNPrint_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label31_Click(object sender, EventArgs e)
         {
 
         }

@@ -123,6 +123,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
+            this.txtTotalQty = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -414,10 +415,11 @@
             // 
             // btnSaveNPrint
             // 
-            this.btnSaveNPrint.Location = new System.Drawing.Point(0, 0);
+            this.btnSaveNPrint.Location = new System.Drawing.Point(649, 10);
             this.btnSaveNPrint.Name = "btnSaveNPrint";
             this.btnSaveNPrint.Size = new System.Drawing.Size(75, 23);
             this.btnSaveNPrint.TabIndex = 0;
+            this.btnSaveNPrint.Click += new System.EventHandler(this.btnSaveNPrint_Click);
             // 
             // txtNetDtDiscount
             // 
@@ -428,6 +430,7 @@
             this.txtNetDtDiscount.TabIndex = 32;
             this.txtNetDtDiscount.TabStop = false;
             this.txtNetDtDiscount.Visible = false;
+            this.txtNetDtDiscount.TextChanged += new System.EventHandler(this.txtNetDtDiscount_TextChanged);
             // 
             // btnUpdate
             // 
@@ -711,6 +714,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.txtTotalQty);
             this.panel5.Controls.Add(this.label30);
             this.panel5.Controls.Add(this.label29);
             this.panel5.Controls.Add(this.label28);
@@ -1168,6 +1172,18 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
+            // txtTotalQty
+            // 
+            this.txtTotalQty.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalQty.ForeColor = System.Drawing.Color.Green;
+            this.txtTotalQty.Location = new System.Drawing.Point(938, 121);
+            this.txtTotalQty.Name = "txtTotalQty";
+            this.txtTotalQty.Size = new System.Drawing.Size(88, 35);
+            this.txtTotalQty.TabIndex = 54;
+            this.txtTotalQty.Text = "0";
+            this.txtTotalQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtTotalQty.Click += new System.EventHandler(this.label31_Click);
+            // 
             // POSPcWorldStyle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1291,6 +1307,7 @@
         private System.Windows.Forms.Button btnSaveNPrint;
         private System.Windows.Forms.Button btnPrintSave;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Label txtTotalQty;
     }
 }
 
