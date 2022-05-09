@@ -123,6 +123,7 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
+            this.txtTotalQty = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -414,10 +415,11 @@
             // 
             // btnSaveNPrint
             // 
-            this.btnSaveNPrint.Location = new System.Drawing.Point(0, 0);
+            this.btnSaveNPrint.Location = new System.Drawing.Point(649, 10);
             this.btnSaveNPrint.Name = "btnSaveNPrint";
             this.btnSaveNPrint.Size = new System.Drawing.Size(75, 23);
             this.btnSaveNPrint.TabIndex = 0;
+            this.btnSaveNPrint.Click += new System.EventHandler(this.btnSaveNPrint_Click);
             // 
             // txtNetDtDiscount
             // 
@@ -428,6 +430,7 @@
             this.txtNetDtDiscount.TabIndex = 32;
             this.txtNetDtDiscount.TabStop = false;
             this.txtNetDtDiscount.Visible = false;
+            this.txtNetDtDiscount.TextChanged += new System.EventHandler(this.txtNetDtDiscount_TextChanged);
             // 
             // btnUpdate
             // 
@@ -464,6 +467,7 @@
             this.txtPayableAmount.Size = new System.Drawing.Size(163, 40);
             this.txtPayableAmount.TabIndex = 22;
             this.txtPayableAmount.TabStop = false;
+            this.txtPayableAmount.TextChanged += new System.EventHandler(this.txtPayableAmount_TextChanged);
             // 
             // btnClear
             // 
@@ -477,6 +481,7 @@
             this.btnClear.TabIndex = 1;
             this.btnClear.Text = "New Sale (ALT+N)";
             this.btnClear.UseVisualStyleBackColor = false;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click_1);
             // 
             // label16
             // 
@@ -499,6 +504,7 @@
             this.txtReceivableAmount.Size = new System.Drawing.Size(149, 40);
             this.txtReceivableAmount.TabIndex = 20;
             this.txtReceivableAmount.TabStop = false;
+            this.txtReceivableAmount.TextChanged += new System.EventHandler(this.txtReceivableAmount_TextChanged);
             this.txtReceivableAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtReceivableAmount_KeyPress);
             // 
             // label15
@@ -561,6 +567,7 @@
             this.txtAmountReceive.Name = "txtAmountReceive";
             this.txtAmountReceive.Size = new System.Drawing.Size(100, 40);
             this.txtAmountReceive.TabIndex = 14;
+            this.txtAmountReceive.TextChanged += new System.EventHandler(this.txtAmountReceive_TextChanged);
             this.txtAmountReceive.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAmountReceive_KeyDown);
             this.txtAmountReceive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAmountReceive_KeyPress);
             // 
@@ -707,6 +714,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.txtTotalQty);
             this.panel5.Controls.Add(this.label30);
             this.panel5.Controls.Add(this.label29);
             this.panel5.Controls.Add(this.label28);
@@ -1044,6 +1052,7 @@
             this.txtRate.Name = "txtRate";
             this.txtRate.Size = new System.Drawing.Size(99, 20);
             this.txtRate.TabIndex = 6;
+            this.txtRate.TextChanged += new System.EventHandler(this.txtRate_TextChanged);
             // 
             // txtQuantity
             // 
@@ -1052,6 +1061,7 @@
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(75, 20);
             this.txtQuantity.TabIndex = 7;
+            this.txtQuantity.TextChanged += new System.EventHandler(this.txtQuantity_TextChanged);
             this.txtQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQuantity_KeyDown);
             this.txtQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtQuantity_KeyPress);
             // 
@@ -1067,6 +1077,7 @@
             this.cmbProducts.Name = "cmbProducts";
             this.cmbProducts.Size = new System.Drawing.Size(186, 21);
             this.cmbProducts.TabIndex = 5;
+            this.cmbProducts.SelectedIndexChanged += new System.EventHandler(this.cmbProducts_SelectedIndexChanged);
             // 
             // lblSaleType
             // 
@@ -1160,6 +1171,18 @@
             this.txtInvoiceNo.TabIndex = 4;
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
+            // 
+            // txtTotalQty
+            // 
+            this.txtTotalQty.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalQty.ForeColor = System.Drawing.Color.Green;
+            this.txtTotalQty.Location = new System.Drawing.Point(938, 121);
+            this.txtTotalQty.Name = "txtTotalQty";
+            this.txtTotalQty.Size = new System.Drawing.Size(88, 35);
+            this.txtTotalQty.TabIndex = 54;
+            this.txtTotalQty.Text = "0";
+            this.txtTotalQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtTotalQty.Click += new System.EventHandler(this.label31_Click);
             // 
             // POSPcWorldStyle
             // 
@@ -1284,6 +1307,7 @@
         private System.Windows.Forms.Button btnSaveNPrint;
         private System.Windows.Forms.Button btnPrintSave;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Label txtTotalQty;
     }
 }
 

@@ -27,6 +27,9 @@ namespace POS
         public bool directReturn = false;
         public int SaleInvoiceNo = 0;
         public int SalePosMasterID = 0;
+        public int SalePosReturnID = 0;
+        public int TotalQty = 0;
+
         public decimal netAmountForReturn = 0;
 
         public string totalBill { get; set; }
@@ -780,13 +783,11 @@ namespace POS
         }
         private void AddProducts(string productName, int id, decimal rates, decimal taxPercentage, decimal CartonSize = 0)
         {
-
             string total = (Convert.ToDecimal(rates) * 1).ToString();
             string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rates)) / 100) * 1).ToString();
             txtPromoDisc.Text = Convert.ToString(txtPromoDisc.Text) == "" ? "0" : Convert.ToString(txtPromoDisc.Text);
             txtPromoDiscAmt.Text = Convert.ToString(txtPromoDiscAmt.Text) == "" ? "0" : Convert.ToString(txtPromoDiscAmt.Text);
-
-
+            //setAvailableStock(id);
             bool recordExist = false;
             for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
             {
@@ -830,7 +831,8 @@ namespace POS
                 var Value = txtQuantity.Text;
                 var Rate = txtRate.Text;
                 var NetAmount = Convert.ToDecimal(Value) * Convert.ToDecimal(Rate);
-
+                TotalQty = Convert.ToInt32(TotalQty) + 1;
+                txtTotalQty.Text = Convert.ToString(TotalQty);
                 //string[] row = { id.ToString(), cmbProducts.Text, txtQuantity.Text, txtStockRate.Text, NetAmount.ToString(), txtProductID.Text };
                 //dgvStockInDetail.Rows.Insert(0, row);
                 //ClearFields();
@@ -886,7 +888,7 @@ namespace POS
                                     txtProductCode.Text = obj.ItemNumber;
                                     cmbProducts.SelectedValue = id.ToString();
                                     var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                    //setAvailableStock(id);
+                                    setAvailableStock(id);
                                     txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                     txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                     txtQuantity.Focus();
@@ -959,7 +961,7 @@ namespace POS
                                         txtProductCode.Text = obj.ManualNumber;
                                         cmbProducts.SelectedValue = id.ToString();
                                         var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                        //setAvailableStock(id);
+                                        setAvailableStock(id);
                                         txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                         txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                         txtQuantity.Focus();
@@ -1140,14 +1142,20 @@ namespace POS
             else
             {
                 cmd = new SqlCommand("data_SalePosReturnInfo_Insert", con);
-                SalePosMasterID = Convert.ToInt32(SalePosID.Text);
+                if (SalePosID.Text != "")
+                {
+                    SalePosMasterID = Convert.ToInt32(SalePosID.Text);
+                }
             }
             cmd.CommandType = CommandType.StoredProcedure;
             SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
             SqlParameter p = new SqlParameter("SalePosID", SalePosMasterID);
             p.Direction = ParameterDirection.InputOutput;
+            SqlParameter p2 = new SqlParameter("SalePosReturnID", SalePosReturnID);
+            p2.Direction = ParameterDirection.InputOutput;
             cmd.Parameters.Add(p);
+            cmd.Parameters.Add(p2);
             cmd.Parameters.AddWithValue("@CompanyID", CompanyInfo.CompanyID);
             cmd.Parameters.AddWithValue("@SaleInvoiceNo", SaleInvoiceNo);
             cmd.Parameters.AddWithValue("@UserID", CompanyInfo.UserID);
@@ -1197,14 +1205,19 @@ namespace POS
                 tran.Commit();
                 isBillSaved = true;
                 string SaleInvoiceNO = p.Value.ToString();
+                string SaleReturnNO = p2.Value.ToString();
                 var value = new List<string[]>();
+                if (directReturn || SaleReturn)
+                {
+                    SaleInvoiceNO = SaleReturnNO;
+                }
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
                 value.Add(ss);
                 var valueforLinked = new List<string[]>();
                 valueforLinked.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
-                if (directReturn == false && SaveNPrint)
+                if (  SaveNPrint)
                 {
                    
                         reportName = "SaleInvoice";
@@ -1216,8 +1229,9 @@ namespace POS
                         }
                         else
                         {
-                            if (SaleReturn)
+                            if (SaleReturn||directReturn)
                             {
+                            SaleReturn = true;
                                 obj.loadSaleFoodMamaReport("rpt_saleReturn_invoice", reportName, value, SaleReturn);
                             }
                             else
@@ -1247,6 +1261,8 @@ namespace POS
                 {
                     //MessageBox.Show("Record has been Updated!");
                 }
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
                 loadNewSale();
                 //if (SaleInvoiceNo == 0)
                 //{
@@ -1355,12 +1371,12 @@ namespace POS
                 //else
                 if (amountReceivable > 0 && amountReceived < amountReceivable)
                 {
-                    txtAmountReceive.Text = Convert.ToString(txtReceivableAmount.Text);
-                    validateReturnOK = true;
+                    //txtAmountReceive.Text = Convert.ToString(txtReceivableAmount.Text);
+                    //validateReturnOK = true;
 
-                    //txtAmountReceive.Focus();
-                    //MessageBox.Show("Amount Receive should be greater than Receivable Amount!");
-                    //validateReturnOK = false;
+                    txtAmountReceive.Focus();
+                    MessageBox.Show("Amount Receive should be greater than Receivable Amount!");
+                    validateReturnOK = false;
                 }
                 else if (amountReturn < 0)
                 {
@@ -1577,30 +1593,33 @@ namespace POS
                 //}
                 //else
                 //{ 
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
                 loadReturnView();
 
                 return true;
                 //}
             }
-            else if (keyData == (Keys.Alt | Keys.U))
-            {
-                //if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
-                //{
-                //    MessageBox.Show("Please Select Menu First .....");
-                //    cmbSalemenu.Select();
-                //    cmbSalemenu.Focus();
-                //    return false;
-                //}
-                //else
-                //{
-                LoadUpdateView();
+            //else if (keyData == (Keys.Alt | Keys.U))
+            //{
+            //    //if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
+            //    //{
+            //    //    MessageBox.Show("Please Select Menu First .....");
+            //    //    cmbSalemenu.Select();
+            //    //    cmbSalemenu.Focus();
+            //    //    return false;
+            //    //}
+            //    //else
+            //    //{
+            //    LoadUpdateView();
 
-                return true;
-                //}
-            }
+            //    return true;
+            //    //}
+            //}
             else if (keyData == (Keys.Alt | Keys.D))
             {
-                
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
                 loadDirectReturn();
 
                 return true;
@@ -1608,6 +1627,8 @@ namespace POS
             }
             else if (keyData == (Keys.Alt | Keys.N))
             {
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
                 clearAll();
                 loadNewSale();
                 return true;
@@ -2126,14 +2147,15 @@ namespace POS
         private void ItemSaleGrid_KeyDown(object sender, KeyEventArgs e)
         {
             
-            if(e.KeyCode==Keys.Enter)
+            if(e.KeyCode==Keys.Enter || e.KeyCode==Keys.Delete)
             {
                 if (MessageBox.Show("Are You Sure You Want to Delete the Selected Record...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    TotalQty = Convert.ToInt32(TotalQty) - 1;
+                    txtTotalQty.Text = Convert.ToString(TotalQty);
                     ItemSaleGrid.Rows.RemoveAt(ItemSaleGrid.CurrentRow.Index);
                     txtProductCode.Select();
                     txtProductCode.Focus();
-
                     return;
                 }
 
@@ -2144,6 +2166,7 @@ namespace POS
                txtDiscountPercentage.Focus();
 
             }
+
         }
 
         private void txtProductBarCode_KeyDown(object sender, KeyEventArgs e)
@@ -2916,7 +2939,68 @@ namespace POS
                 }
 
                 SaveForm(true);
+                TotalQty = 0;
+                txtTotalQty.Text = "0";
             }
+        }
+
+        private void cmbProducts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClear_Click_1(object sender, EventArgs e)
+        {
+            TotalQty = 0;
+            txtTotalQty.Text = "0";
+            clearAll();
+            txtProductCode.Select();
+            txtProductCode.Focus();
+        }
+
+        private void txtQuantity_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtRate_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtAmountReceive_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtReceivableAmount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPayableAmount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtNetDtDiscount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSaveNPrint_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label31_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
