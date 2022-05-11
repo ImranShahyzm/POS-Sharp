@@ -514,6 +514,39 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             return dt;
         }
 
+        public DataTable DailySaleReturn(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int MenuID = 0)
+        {
+            DataTable dt;
+
+            string Sql = @"select data_SalePosReturnInfo.WHID, VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ManualNumber as ItemNumber,adgen_ColorInfo.ColorTitle,data_SalePosReturnInfo.SalePosID,data_SalePosReturnInfo.SalePosNo ,format(data_SalePosReturnInfo.SalePosReturnDate,'dd-MMM-yyyy') as SalePosReturnDate,data_SalePosReturnInfo.NetAmount as SaleInfo_NetAmount,
+            data_SalePosReturnInfo.DiscountPercentage as SaleInfo_DPer,data_SalePosReturnInfo.DiscountAmount as SaleInfo_DAmount, data_SalePosReturnInfo.DiscountTotal as SaleInfo_DTotal,data_SalePosReturndetail.ItemId,
+ data_SalePosReturndetail.Quantity,data_SalePosReturndetail.ItemRate,data_SalePosReturndetail.DiscountPercentage,data_SalePosReturndetail.DiscountAmount,
+            data_SalePosReturndetail.TaxAmount,
+            InventItems.ItenName
+            from data_SalePosReturnInfo 
+            inner join data_SalePosReturndetail on data_SalePosReturnInfo.SalePosReturnID=data_SalePosReturndetail.SalePosReturnID 
+            left join InventItems on data_SalePosReturndetail.ItemId = InventItems.ItemId 
+            left join InventCategory on InventCategory.CategoryID=InventItems.CategoryID
+            left join InventItemGroup on InventCategory.ItemGroupID=InventItemGroup.ItemGroupID
+            left join InventWareHouse on data_SalePosReturnInfo.WHID=InventWareHouse.WHID
+            left join adgen_ColorInfo on adgen_ColorInfo.ColorID=InventItems.ColorID
+			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
+            where 0 = 0 ";
+            Sql = Sql + " and data_SalePosReturnInfo.SalePosReturnDate  between '" + Convert.ToDateTime(DateFrom).ToString("yyyy-MM-dd") + "' and '" + dateTo.ToString("yyyy-MM-dd") + "'  and data_SalePosReturnInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosReturnInfo.WHID=" + CompanyInfo.WareHouseID;
+            if (CategoryID > 0)
+            {
+                Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
+            }
+            if (MenuID > 0)
+            {
+                Sql = Sql + " and InventCategory.ItemGroupID=" + MenuID + "";
+            }
+            Sql = Sql + " order by data_SalePosReturnInfo.SalePosReturnDate,SalePosNo";
+            dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(Sql).Tables[0];
+            return dt;
+        }
+
         public DataTable DailySale(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int MenuID = 0)
         {
             DataTable dt;
@@ -808,7 +841,13 @@ WHERE
         }
         public DataTable GetTotalSaleReturns(DateTime DateFrom, DateTime dateTo)
         {
-            string query = "Select WHID, sum(Quantity*ItemRate) as GrossAmount, Sum(data_SalePosReturnInfo.TaxAmount) as TaxAmount,sum(DiscountTotal) as DiscountTotal,sum(Quantity) as ReturnQuantity from data_SalePosReturnInfo inner join data_SalePosReturnDetail p on p.SalePosReturnID=data_SalePosReturnInfo.SalePosReturnID where SalePosReturnDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
+            string query = @"Select WHID, sum(p.NetAmount) as GrossAmount, Sum(P.DtTaxAmount) as TaxAmount,sum(DiscountTotal) as DiscountTotal,sum(p.Quantity) as ReturnQuantity from data_SalePosReturnInfo 
+inner join(
+ Select SalePosReturnID, sum(Quantity* ItemRate) as NetAmount,sum(Quantity) as Quantity
+,sum(data_SalePosReturnDetail.TaxAmount) as DtTaxAmount
+from data_SalePosReturnDetail
+   group by SalePosReturnID
+) P on  p.SalePosReturnID = data_SalePosReturnInfo.SalePosReturnID where SalePosReturnDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
             DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
             if (dt.Rows.Count <= 0)
@@ -1059,6 +1098,38 @@ WHERE
             this.ShowDialog();
             rpt.Dispose();
         }
+
+
+
+        public void rptDailySaleReturn(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int MenuID = 0)
+        {
+            ReportDocument rpt = new ReportDocument();
+            DataTable dt = DailySaleReturn(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID, MenuID);
+            DataTable CashCard = GetTotalSaleReturns(DateFrom, dateTo);
+            rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleReturnRegister.rpt"));
+            rpt.Database.Tables[0].SetDataSource(dt);
+            rpt.Database.Tables[1].SetDataSource(CashCard);
+
+            rpt.SummaryInfo.ReportTitle = "Sale Return Report";
+
+            rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
+            rpt.SetParameterValue("UserName", CompanyInfo.username);
+            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+
+
+            rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
+            rpt.SetParameterValue("SuppressTag", false);
+
+            String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
+            //rpt.SetParameterValue("ServerName", Serverpath);
+            //rpt.SetParameterValue("Username", CompanyInfo.username);
+            crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.Refresh();
+            this.ShowDialog();
+            rpt.Dispose();
+        }
+
+
         public void rptMakeOrderKhaaki(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
         {
             ReportDocument rpt = new ReportDocument();
