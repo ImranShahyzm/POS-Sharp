@@ -1600,24 +1600,25 @@ namespace POS
                 return true;
                 //}
             }
-            //else if (keyData == (Keys.Alt | Keys.U))
-            //{
-            //    //if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
-            //    //{
-            //    //    MessageBox.Show("Please Select Menu First .....");
-            //    //    cmbSalemenu.Select();
-            //    //    cmbSalemenu.Focus();
-            //    //    return false;
-            //    //}
-            //    //else
-            //    //{
-            //    LoadUpdateView();
+            else if (keyData == (Keys.Alt | Keys.U))
+            {
+                //if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
+                //{
+                //    MessageBox.Show("Please Select Menu First .....");
+                //    cmbSalemenu.Select();
+                //    cmbSalemenu.Focus();
+                //    return false;
+                //}
+                //else
+                //{
+                LoadUpdateView();
 
-            //    return true;
-            //    //}
-            //}
+                return true;
+                //}
+            }
             else if (keyData == (Keys.Alt | Keys.D))
             {
+                SaleReturn = false;
                 TotalQty = 0;
                 txtTotalQty.Text = "0";
                 loadDirectReturn();
@@ -1996,8 +1997,12 @@ namespace POS
                 {
                     SaleReturn = true;
                 }
+                decimal StockQty = 0;
+                dtdetail.Columns.Add("StockQty", typeof(string));
                     for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
+                     StockQty = STATICClass.GetStockQuantityItem(Convert.ToInt32(dtdetail.Rows[i]["ItemId"]), CompanyInfo.WareHouseID, txtSaleDate.Value, CompanyInfo.CompanyID, "", "", false);
+                    dtdetail.Rows[i]["StockQty"] = StockQty;
                     string[] row = {
                             dtdetail.Rows[i]["ItemId"].ToString(),
                             dtdetail.Rows[i]["ItenName"].ToString(),
@@ -2009,7 +2014,8 @@ namespace POS
                             dtdetail.Rows[i]["DiscountAmount"].ToString(),
                             dtdetail.Rows[i]["TaxPercentage"].ToString(),
                             dtdetail.Rows[i]["TaxAmount"].ToString(),
-                            dtdetail.Rows[i]["TotalAmount"].ToString()
+                            dtdetail.Rows[i]["TotalAmount"].ToString(),
+                            dtdetail.Rows[i]["StockQty"].ToString()
 
                     };
                     ItemSaleGrid.Rows.Add(row);
@@ -2017,10 +2023,13 @@ namespace POS
                     txtProductCode.Select();
                     txtProductCode.Focus();
                 }
-
+                TotalQty = dtdetail.Rows.Count;
+                txtTotalQty.Text = Convert.ToString(TotalQty);
             }
             else
             {
+                TotalQty = 0;
+                txtTotalQty.Text = Convert.ToString(TotalQty);
                 MessageBox.Show("We have no Sale Invoice regarding this No!");
             }
         }
