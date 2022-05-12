@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnStock = new System.Windows.Forms.Button();
             this.txtPrint = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
@@ -84,6 +83,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.txtTotalQty = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
@@ -123,7 +123,9 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.txtTotalQty = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.txtTotalPQty = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -133,23 +135,9 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // btnStock
-            // 
-            this.btnStock.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnStock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStock.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStock.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnStock.Location = new System.Drawing.Point(916, 8);
-            this.btnStock.Name = "btnStock";
-            this.btnStock.Size = new System.Drawing.Size(115, 31);
-            this.btnStock.TabIndex = 12;
-            this.btnStock.Text = "Stock Arrival";
-            this.btnStock.UseVisualStyleBackColor = false;
-            this.btnStock.Click += new System.EventHandler(this.btnStock_Click);
-            // 
             // txtPrint
             // 
-            this.txtPrint.Location = new System.Drawing.Point(946, 63);
+            this.txtPrint.Location = new System.Drawing.Point(946, 74);
             this.txtPrint.Name = "txtPrint";
             this.txtPrint.Size = new System.Drawing.Size(75, 28);
             this.txtPrint.TabIndex = 11;
@@ -162,7 +150,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(724, 45);
+            this.label18.Location = new System.Drawing.Point(710, 79);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(230, 18);
             this.label18.TabIndex = 10;
@@ -360,13 +348,16 @@
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel1.Controls.Add(this.txtTotalPQty);
+            this.panel1.Controls.Add(this.label32);
+            this.panel1.Controls.Add(this.label31);
+            this.panel1.Controls.Add(this.txtTotalQty);
             this.panel1.Controls.Add(this.btnPrintSave);
             this.panel1.Controls.Add(this.btnSaveNPrint);
             this.panel1.Controls.Add(this.txtNetDtDiscount);
             this.panel1.Controls.Add(this.btnUpdate);
             this.panel1.Controls.Add(this.label18);
             this.panel1.Controls.Add(this.txtPrint);
-            this.panel1.Controls.Add(this.btnStock);
             this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.txtPayableAmount);
             this.panel1.Controls.Add(this.btnClear);
@@ -415,7 +406,7 @@
             // 
             // btnSaveNPrint
             // 
-            this.btnSaveNPrint.Location = new System.Drawing.Point(649, 10);
+            this.btnSaveNPrint.Location = new System.Drawing.Point(580, 99);
             this.btnSaveNPrint.Name = "btnSaveNPrint";
             this.btnSaveNPrint.Size = new System.Drawing.Size(75, 23);
             this.btnSaveNPrint.TabIndex = 0;
@@ -423,7 +414,7 @@
             // 
             // txtNetDtDiscount
             // 
-            this.txtNetDtDiscount.Location = new System.Drawing.Point(582, 36);
+            this.txtNetDtDiscount.Location = new System.Drawing.Point(582, 102);
             this.txtNetDtDiscount.Name = "txtNetDtDiscount";
             this.txtNetDtDiscount.ReadOnly = true;
             this.txtNetDtDiscount.Size = new System.Drawing.Size(61, 20);
@@ -511,7 +502,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(779, 17);
+            this.label15.Location = new System.Drawing.Point(579, 85);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(94, 14);
             this.label15.TabIndex = 19;
@@ -645,7 +636,7 @@
             // 
             // txtTotalDiscount
             // 
-            this.txtTotalDiscount.Location = new System.Drawing.Point(582, 9);
+            this.txtTotalDiscount.Location = new System.Drawing.Point(578, 9);
             this.txtTotalDiscount.Name = "txtTotalDiscount";
             this.txtTotalDiscount.ReadOnly = true;
             this.txtTotalDiscount.Size = new System.Drawing.Size(61, 20);
@@ -714,7 +705,6 @@
             // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.txtTotalQty);
             this.panel5.Controls.Add(this.label30);
             this.panel5.Controls.Add(this.label29);
             this.panel5.Controls.Add(this.label28);
@@ -766,6 +756,18 @@
             this.panel5.Size = new System.Drawing.Size(1038, 163);
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // txtTotalQty
+            // 
+            this.txtTotalQty.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalQty.ForeColor = System.Drawing.Color.Green;
+            this.txtTotalQty.Location = new System.Drawing.Point(648, 27);
+            this.txtTotalQty.Name = "txtTotalQty";
+            this.txtTotalQty.Size = new System.Drawing.Size(140, 45);
+            this.txtTotalQty.TabIndex = 54;
+            this.txtTotalQty.Text = "0";
+            this.txtTotalQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtTotalQty.Click += new System.EventHandler(this.label31_Click);
             // 
             // label30
             // 
@@ -1172,17 +1174,39 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // txtTotalQty
+            // label31
             // 
-            this.txtTotalQty.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTotalQty.ForeColor = System.Drawing.Color.Green;
-            this.txtTotalQty.Location = new System.Drawing.Point(938, 121);
-            this.txtTotalQty.Name = "txtTotalQty";
-            this.txtTotalQty.Size = new System.Drawing.Size(88, 35);
-            this.txtTotalQty.TabIndex = 54;
-            this.txtTotalQty.Text = "0";
-            this.txtTotalQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtTotalQty.Click += new System.EventHandler(this.label31_Click);
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.ForeColor = System.Drawing.Color.Blue;
+            this.label31.Location = new System.Drawing.Point(676, 7);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(95, 18);
+            this.label31.TabIndex = 55;
+            this.label31.Text = "Total Products";
+            this.label31.Click += new System.EventHandler(this.label31_Click_1);
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.ForeColor = System.Drawing.Color.Blue;
+            this.label32.Location = new System.Drawing.Point(876, 8);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(95, 18);
+            this.label32.TabIndex = 56;
+            this.label32.Text = "Total Quantity";
+            // 
+            // txtTotalPQty
+            // 
+            this.txtTotalPQty.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalPQty.ForeColor = System.Drawing.Color.Green;
+            this.txtTotalPQty.Location = new System.Drawing.Point(824, 26);
+            this.txtTotalPQty.Name = "txtTotalPQty";
+            this.txtTotalPQty.Size = new System.Drawing.Size(197, 46);
+            this.txtTotalPQty.TabIndex = 57;
+            this.txtTotalPQty.Text = "0";
+            this.txtTotalPQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // POSPcWorldStyle
             // 
@@ -1214,7 +1238,6 @@
 
         #endregion
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button btnStock;
         private System.Windows.Forms.Button txtPrint;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button btnSave;
@@ -1308,6 +1331,9 @@
         private System.Windows.Forms.Button btnPrintSave;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label txtTotalQty;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label txtTotalPQty;
+        private System.Windows.Forms.Label label32;
     }
 }
 

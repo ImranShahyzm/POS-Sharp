@@ -29,6 +29,7 @@ namespace POS
         public int SalePosMasterID = 0;
         public int SalePosReturnID = 0;
         public int TotalQty = 0;
+        public decimal TotalPQty = 0;
 
         public decimal netAmountForReturn = 0;
 
@@ -789,20 +790,22 @@ namespace POS
             txtPromoDiscAmt.Text = Convert.ToString(txtPromoDiscAmt.Text) == "" ? "0" : Convert.ToString(txtPromoDiscAmt.Text);
             //setAvailableStock(id);
             bool recordExist = false;
+            decimal TotalProductsQty = 0;
             for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
             {
                 if (id == Convert.ToInt32(ItemSaleGrid.Rows[i].Cells[0].Value.ToString()))
                 {
 
-                    string value = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
-
+                    TotalProductsQty = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[3].Value.ToString());
                     string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
                     decimal rate = Convert.ToDecimal(rateValue);
-                    decimal qty = Convert.ToDecimal(value);
+                    decimal qty = Convert.ToDecimal(TotalProductsQty);
                     decimal taxPerctge = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[6].Value);
                     decimal DiscPromo = Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
 
                     qty = qty + Convert.ToDecimal(txtQuantity.Text);
+                    TotalPQty = TotalPQty + Convert.ToDecimal(txtQuantity.Text);
+                    txtTotalPQty.Text = Convert.ToString(TotalPQty);
 
                     ItemSaleGrid.Rows[i].Cells[3].Value = qty;
                     var discountAmt = ((Convert.ToDecimal(DiscPromo) * rate) / 100) * qty;
@@ -828,11 +831,12 @@ namespace POS
                     MessageBox.Show("Please Fill All the Fields...");
                     return;
                 }
-                var Value = txtQuantity.Text;
+                TotalProductsQty = Convert.ToDecimal(txtQuantity.Text);
+                TotalPQty = TotalPQty + TotalProductsQty;
+                txtTotalPQty.Text = Convert.ToString(TotalPQty);
                 var Rate = txtRate.Text;
-                var NetAmount = Convert.ToDecimal(Value) * Convert.ToDecimal(Rate);
-                TotalQty = Convert.ToInt32(TotalQty) + 1;
-                txtTotalQty.Text = Convert.ToString(TotalQty);
+                var NetAmount = Convert.ToDecimal(TotalProductsQty) * Convert.ToDecimal(Rate);
+                
                 //string[] row = { id.ToString(), cmbProducts.Text, txtQuantity.Text, txtStockRate.Text, NetAmount.ToString(), txtProductID.Text };
                 //dgvStockInDetail.Rows.Insert(0, row);
                 //ClearFields();
@@ -841,6 +845,8 @@ namespace POS
                 string[] row = { id.ToString(), cmbProducts.Text, txtRate.Text.ToString(), txtQuantity.Text.ToString(), txtPromoDisc.Text.ToString(), txtPromoDiscAmt.Text.ToString(), txtTax.Text.ToString(), txtTaxAmount.Text.ToString(), txtdetailAmount.Text.ToString(), txtAvailableQty.Text.ToString() };
                 ItemSaleGrid.Rows.Insert(0, row);
             }
+            TotalQty = Convert.ToInt32(TotalQty) + 1;
+            txtTotalQty.Text = Convert.ToString(TotalQty);
             GrossAmount_Total();
             ClearFields();
             txtProductCode.Focus();
@@ -978,6 +984,8 @@ namespace POS
                                 {
                                     SetQuantitesBeforAdding(dt);
                                     txtQuantity.Text = "1";
+                                    //TotalPQty = TotalPQty + 1;
+                                    //txtTotalPQty.Text = Convert.ToString(TotalPQty);
                                     txtPromoDisc_KeyDown(sender, e);
                                 }
                                 else
@@ -1263,6 +1271,8 @@ namespace POS
                 }
                 TotalQty = 0;
                 txtTotalQty.Text = "0";
+                TotalPQty = 0;
+                txtTotalPQty.Text = "0";
                 loadNewSale();
                 //if (SaleInvoiceNo == 0)
                 //{
@@ -1595,6 +1605,8 @@ namespace POS
                 //{ 
                 TotalQty = 0;
                 txtTotalQty.Text = "0";
+                TotalPQty = 0;
+                txtTotalPQty.Text = "0";
                 loadReturnView();
 
                 return true;
@@ -1621,6 +1633,8 @@ namespace POS
                 SaleReturn = false;
                 TotalQty = 0;
                 txtTotalQty.Text = "0";
+                TotalPQty = 0;
+                txtTotalPQty.Text = "0";
                 loadDirectReturn();
 
                 return true;
@@ -1630,6 +1644,8 @@ namespace POS
             {
                 TotalQty = 0;
                 txtTotalQty.Text = "0";
+                TotalPQty = 0;
+                txtTotalPQty.Text = "0";
                 clearAll();
                 loadNewSale();
                 return true;
@@ -1667,6 +1683,8 @@ namespace POS
 
             if (e.ColumnIndex == 3)
             {
+                //TotalPQty = TotalPQty + Convert.ToDecimal(ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"].Value.ToString());
+                //txtTotalPQty.Text = Convert.ToString(TotalPQty);
 //                string value = ItemSaleGrid.Rows[e.RowIndex].Cells["Bundle"].Value.ToString();
 //                string rateValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Rate"].Value.ToString();
 //                string taxValue = ItemSaleGrid.Rows[e.RowIndex].Cells["Tax"].Value.ToString();
@@ -1997,11 +2015,13 @@ namespace POS
                 {
                     SaleReturn = true;
                 }
+                decimal PQty = 0;
                 decimal StockQty = 0;
                 dtdetail.Columns.Add("StockQty", typeof(string));
                     for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
-                     StockQty = STATICClass.GetStockQuantityItem(Convert.ToInt32(dtdetail.Rows[i]["ItemId"]), CompanyInfo.WareHouseID, txtSaleDate.Value, CompanyInfo.CompanyID, "", "", false);
+                    PQty += Convert.ToDecimal(dtdetail.Rows[i]["TotalQuantity"]);
+                    StockQty = STATICClass.GetStockQuantityItem(Convert.ToInt32(dtdetail.Rows[i]["ItemId"]), CompanyInfo.WareHouseID, txtSaleDate.Value, CompanyInfo.CompanyID, "", "", false);
                     dtdetail.Rows[i]["StockQty"] = StockQty;
                     string[] row = {
                             dtdetail.Rows[i]["ItemId"].ToString(),
@@ -2025,11 +2045,15 @@ namespace POS
                 }
                 TotalQty = dtdetail.Rows.Count;
                 txtTotalQty.Text = Convert.ToString(TotalQty);
+                TotalPQty = PQty;
+                txtTotalPQty.Text = Convert.ToString(TotalPQty);
             }
             else
             {
                 TotalQty = 0;
                 txtTotalQty.Text = Convert.ToString(TotalQty);
+                TotalPQty = 0;
+                txtTotalPQty.Text = Convert.ToString(TotalPQty);
                 MessageBox.Show("We have no Sale Invoice regarding this No!");
             }
         }
@@ -2156,20 +2180,25 @@ namespace POS
         private void ItemSaleGrid_KeyDown(object sender, KeyEventArgs e)
         {
             
-            if(e.KeyCode==Keys.Enter || e.KeyCode==Keys.Delete)
+            if( e.KeyCode==Keys.Delete)
             {
                 if (MessageBox.Show("Are You Sure You Want to Delete the Selected Record...?", "Confirmation...!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     TotalQty = Convert.ToInt32(TotalQty) - 1;
                     txtTotalQty.Text = Convert.ToString(TotalQty);
+                    TotalPQty = Convert.ToDecimal(TotalPQty) - Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[3].Value);
+                    txtTotalPQty.Text = Convert.ToString(TotalPQty);
                     ItemSaleGrid.Rows.RemoveAt(ItemSaleGrid.CurrentRow.Index);
                     txtProductCode.Select();
                     txtProductCode.Focus();
                     return;
                 }
-
-
             }
+            //else if (e.KeyCode == Keys.Enter)
+            //{
+            //    TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[3].Value);
+            //    txtTotalPQty.Text = Convert.ToString(TotalPQty);
+            //}
             if(e.KeyCode==Keys.Space)
             {
                txtDiscountPercentage.Focus();
@@ -2467,10 +2496,13 @@ namespace POS
         private void txtQuantity_KeyDown(object sender, KeyEventArgs e)
         {
 
+
             if (e.KeyCode == Keys.Enter)
             {
                 try
                 {
+                    //TotalPQty = TotalPQty+Convert.ToDecimal(txtQuantity.Text);
+                    //txtTotalPQty.Text= Convert.ToString(TotalPQty);
                     txtQtyPrice.Focus();
                     txtQtyPrice.SelectAll();
                            
@@ -2498,6 +2530,8 @@ namespace POS
 
         private void ItemSaleGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[3].Value);
+            txtTotalPQty.Text = Convert.ToString(TotalPQty);
             CalculateDetail();
         }
 
@@ -2950,6 +2984,8 @@ namespace POS
                 SaveForm(true);
                 TotalQty = 0;
                 txtTotalQty.Text = "0";
+                TotalPQty = 0;
+                txtTotalPQty.Text = "0";
             }
         }
 
@@ -2962,6 +2998,8 @@ namespace POS
         {
             TotalQty = 0;
             txtTotalQty.Text = "0";
+            TotalPQty = 0;
+            txtTotalPQty.Text = "0";
             clearAll();
             txtProductCode.Select();
             txtProductCode.Focus();
@@ -3008,6 +3046,21 @@ namespace POS
         }
 
         private void label31_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label32_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label33_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label31_Click_1(object sender, EventArgs e)
         {
 
         }
