@@ -122,9 +122,18 @@ namespace POS.Helper
             
                 cmd.Transaction = tran;
                 cmd.CommandTimeout = 0;
-                da.Fill(dt); tran.Commit();
-                StockQty = Convert.ToDecimal(p.Value.ToString());
-                ItemName = Name.Value.ToString();
+                da.Fill(dt);
+                tran.Commit();
+                if (!string.IsNullOrEmpty(Convert.ToString(p.Value)))
+                {
+                    StockQty = Convert.ToDecimal(Convert.ToString(p.Value));
+                    ItemName = Convert.ToString(Name.Value);
+                }
+                else
+                {
+                    StockQty = 0;
+                    ItemName = Convert.ToString(Name.Value);
+                }
             }
             catch (Exception ex)
             {

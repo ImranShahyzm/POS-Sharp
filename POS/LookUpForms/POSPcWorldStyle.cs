@@ -673,7 +673,11 @@ namespace POS
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
-            try
+            if (con != null && con.State == ConnectionState.Closed)
+            {
+                con.Open();
+            }
+                try
             {
                 SqlDataAdapter da = new SqlDataAdapter(@"SELECT   gen_ItemBarCode.*, 
                         InventCategory.CategoryName, InventUOM.UOMName, InventItemBrands.BrandName,
