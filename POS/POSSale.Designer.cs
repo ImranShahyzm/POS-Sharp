@@ -104,6 +104,7 @@
             this.syncToServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pOSFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syncRecpiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dispatchDeskArrivalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashTranscationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cashOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -123,7 +124,7 @@
             this.newCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.makeOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customersListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dispatchDeskArrivalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saleReturnReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -824,6 +825,7 @@
             this.txtCustName.Name = "txtCustName";
             this.txtCustName.Size = new System.Drawing.Size(402, 20);
             this.txtCustName.TabIndex = 10;
+            this.txtCustName.TextChanged += new System.EventHandler(this.txtCustName_TextChanged);
             // 
             // label19
             // 
@@ -993,6 +995,13 @@
             this.syncRecpiesToolStripMenuItem.Text = "Sync Recpies";
             this.syncRecpiesToolStripMenuItem.Click += new System.EventHandler(this.syncRecpiesToolStripMenuItem_Click);
             // 
+            // dispatchDeskArrivalToolStripMenuItem
+            // 
+            this.dispatchDeskArrivalToolStripMenuItem.Name = "dispatchDeskArrivalToolStripMenuItem";
+            this.dispatchDeskArrivalToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.dispatchDeskArrivalToolStripMenuItem.Text = "Dispatch Desk Arrival";
+            this.dispatchDeskArrivalToolStripMenuItem.Click += new System.EventHandler(this.dispatchDeskArrivalToolStripMenuItem_Click);
+            // 
             // cashTranscationsToolStripMenuItem
             // 
             this.cashTranscationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1037,7 +1046,8 @@
             this.paymentMethodWiseToolStripMenuItem,
             this.toolStripMenuItem2,
             this.makeOrderReportToolStripMenuItem,
-            this.toolStripMenuItem3});
+            this.toolStripMenuItem3,
+            this.saleReturnReportToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
             this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.reportsToolStripMenuItem.Text = "Reports";
@@ -1144,12 +1154,12 @@
             this.customersListToolStripMenuItem.Text = "Customers List";
             this.customersListToolStripMenuItem.Click += new System.EventHandler(this.customersListToolStripMenuItem_Click);
             // 
-            // dispatchDeskArrivalToolStripMenuItem
+            // saleReturnReportToolStripMenuItem
             // 
-            this.dispatchDeskArrivalToolStripMenuItem.Name = "dispatchDeskArrivalToolStripMenuItem";
-            this.dispatchDeskArrivalToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.dispatchDeskArrivalToolStripMenuItem.Text = "Dispatch Desk Arrival";
-            this.dispatchDeskArrivalToolStripMenuItem.Click += new System.EventHandler(this.dispatchDeskArrivalToolStripMenuItem_Click);
+            this.saleReturnReportToolStripMenuItem.Name = "saleReturnReportToolStripMenuItem";
+            this.saleReturnReportToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.saleReturnReportToolStripMenuItem.Text = "Sale Return Report";
+            this.saleReturnReportToolStripMenuItem.Click += new System.EventHandler(this.saleReturnReportToolStripMenuItem_Click);
             // 
             // frmPOSSale
             // 
@@ -1285,6 +1295,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem syncRecpiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dispatchDeskArrivalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saleReturnReportToolStripMenuItem;
     }
 }
 
