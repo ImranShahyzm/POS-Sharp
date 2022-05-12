@@ -143,7 +143,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             }
 
         }
-        public void loadSaleFoodMamaReport(string StoreProcedure, string ReportName, List<string[]> parameters, bool isReturn = false, bool isReprint = false)
+        public void loadSaleFoodMamaReport(string StoreProcedure, string ReportName, List<string[]> parameters, bool isReturn = false, bool isReprint = false, bool isA4Style = false)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             ReportDocument rpt = new ReportDocument();
@@ -167,7 +167,16 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             //string ss = obj.Title;
             //reportViewer1.ProcessingMode = ProcessingMode.Local;
             if (CompanyInfo.POSStyle == "OmanMobileStyle")
-                rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalPrintOMAN.rpt"));
+            {
+                if (isA4Style)
+                {
+                    rpt.Load(Path.Combine(Application.StartupPath, "Report", "SalePrintOMAN.rpt"));
+                }
+                else
+                {
+                    rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalPrintOMAN.rpt"));
+                }
+            }
             else
                 rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleThermalPrintFoodMama.rpt"));
             rpt.Database.Tables[0].SetDataSource(dt);
@@ -194,7 +203,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             rpt.SetParameterValue("Username", CompanyInfo.username);
             crystalReportViewer1.ReportSource = rpt;
             crystalReportViewer1.Refresh();
-            if (CompanyInfo.isPrinter)
+            if (CompanyInfo.isPrinter && isA4Style==false)
             {
                 rpt.PrintToPrinter(1, false, 0, 0);
                 rpt.Dispose();
