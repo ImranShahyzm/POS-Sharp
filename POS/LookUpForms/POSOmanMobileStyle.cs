@@ -1193,7 +1193,7 @@ namespace POS
                             }
                             else
                             {
-                                obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value, SaleReturn);
+                                obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value, SaleReturn,false,printType.Checked);
                             }
                         }
 
@@ -2151,7 +2151,7 @@ namespace POS
                 }
                 else
                 {
-                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value,false,true);
+                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value,false,true,printType.Checked);
                 }
                    // obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
             }
@@ -2471,14 +2471,16 @@ namespace POS
                 }
                 else
                 {
-                    if (InvoiceUpdate == true)
-                    {
-                        btnUpdate.Focus();
-                    }
-                    else
-                    {
-                        btnSave.Focus();
-                    }
+                    printType.Focus();
+                    
+                //if (InvoiceUpdate == true)
+                    //{
+                    //    btnUpdate.Focus();
+                    //}
+                    //else
+                    //{
+                    //    btnSave.Focus();
+                    //}
                 }
             }
         }
@@ -2837,7 +2839,30 @@ namespace POS
                 e.Handled = true;
             }
         }
+      
+        private void printType_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                if (InvoiceUpdate == true)
+                {
+                    btnUpdate.Focus();
+                }
+                else
+                {
+                    btnSave.Focus();
+                }
+            }
+        }
 
-        
+        private void printType_Enter(object sender, EventArgs e)
+        {
+            ((CheckBox)sender).BackColor = SystemColors.Highlight;
+        }
+
+        private void printType_Leave(object sender, EventArgs e)
+        {
+            ((CheckBox)sender).BackColor = Color.Transparent;
+        }
     }
 }

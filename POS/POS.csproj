@@ -655,6 +655,12 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\frmDailySaleReturn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\frmDailySaleReturn.Designer.cs">
+      <DependentUpon>frmDailySaleReturn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\frmPendingBillReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -781,8 +787,21 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\SaleReturnRegister1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SaleReturnRegister.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\SaleThermalFbrPrint.cs">
       <DependentUpon>SaleThermalFbrPrint.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Report\SalePrintOMAN.cs">
+      <DependentUpon>SalePrintOMAN.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1115,6 +1134,9 @@
       <LastGenOutput>DayBook.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmDailySaleReturn.resx">
+      <DependentUpon>frmDailySaleReturn.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmPendingBillReport.resx">
       <DependentUpon>frmPendingBillReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -1182,9 +1204,19 @@
       <LastGenOutput>PromoDiscount.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleReturnRegister.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleReturnRegister1.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleThermalFbrPrint.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SaleThermalFbrPrint.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\SalePrintOMAN.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SalePrintOMAN.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleThermalPrintOMAN.rpt">

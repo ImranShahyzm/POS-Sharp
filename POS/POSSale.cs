@@ -49,6 +49,7 @@ namespace POS
                 billWiseRecoveryToolStripMenuItem.Visible = false;
                 toolStripMenuItem3.Visible = false;
                 dispatchDeskArrivalToolStripMenuItem.Visible = true;
+                saleReturnReportToolStripMenuItem.Visible = false;
             }
             else
             {
@@ -1736,6 +1737,19 @@ namespace POS
                 }
 
             };
+        }
+
+        private void txtCustName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saleReturnReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+                frmDailySaleReturn frm = new frmDailySaleReturn();
+                frm.ShowDialog();
+            
         }
     }
 }
