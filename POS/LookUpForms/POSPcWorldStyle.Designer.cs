@@ -53,6 +53,10 @@
             this.cmbSalemenu = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtTotalPQty = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.txtTotalQty = new System.Windows.Forms.Label();
             this.btnPrintSave = new System.Windows.Forms.Button();
             this.btnSaveNPrint = new System.Windows.Forms.Button();
             this.txtNetDtDiscount = new System.Windows.Forms.TextBox();
@@ -83,7 +87,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.txtTotalQty = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
@@ -123,9 +126,6 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.txtTotalPQty = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -191,6 +191,7 @@
             this.ItemSaleGrid.Size = new System.Drawing.Size(993, 281);
             this.ItemSaleGrid.TabIndex = 10;
             this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
+            this.ItemSaleGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellValueEditChanged);
             this.ItemSaleGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellValueChanged);
             this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
             this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
@@ -388,6 +389,52 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1034, 140);
             this.panel1.TabIndex = 9;
+            // 
+            // txtTotalPQty
+            // 
+            this.txtTotalPQty.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalPQty.ForeColor = System.Drawing.Color.Green;
+            this.txtTotalPQty.Location = new System.Drawing.Point(824, 26);
+            this.txtTotalPQty.Name = "txtTotalPQty";
+            this.txtTotalPQty.Size = new System.Drawing.Size(197, 46);
+            this.txtTotalPQty.TabIndex = 57;
+            this.txtTotalPQty.Text = "0";
+            this.txtTotalPQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.ForeColor = System.Drawing.Color.Blue;
+            this.label32.Location = new System.Drawing.Point(876, 8);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(95, 18);
+            this.label32.TabIndex = 56;
+            this.label32.Text = "Total Quantity";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.ForeColor = System.Drawing.Color.Blue;
+            this.label31.Location = new System.Drawing.Point(676, 7);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(95, 18);
+            this.label31.TabIndex = 55;
+            this.label31.Text = "Total Products";
+            this.label31.Click += new System.EventHandler(this.label31_Click_1);
+            // 
+            // txtTotalQty
+            // 
+            this.txtTotalQty.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalQty.ForeColor = System.Drawing.Color.Green;
+            this.txtTotalQty.Location = new System.Drawing.Point(648, 27);
+            this.txtTotalQty.Name = "txtTotalQty";
+            this.txtTotalQty.Size = new System.Drawing.Size(140, 45);
+            this.txtTotalQty.TabIndex = 54;
+            this.txtTotalQty.Text = "0";
+            this.txtTotalQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtTotalQty.Click += new System.EventHandler(this.label31_Click);
             // 
             // btnPrintSave
             // 
@@ -756,18 +803,6 @@
             this.panel5.Size = new System.Drawing.Size(1038, 163);
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
-            // 
-            // txtTotalQty
-            // 
-            this.txtTotalQty.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTotalQty.ForeColor = System.Drawing.Color.Green;
-            this.txtTotalQty.Location = new System.Drawing.Point(648, 27);
-            this.txtTotalQty.Name = "txtTotalQty";
-            this.txtTotalQty.Size = new System.Drawing.Size(140, 45);
-            this.txtTotalQty.TabIndex = 54;
-            this.txtTotalQty.Text = "0";
-            this.txtTotalQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.txtTotalQty.Click += new System.EventHandler(this.label31_Click);
             // 
             // label30
             // 
@@ -1173,40 +1208,6 @@
             this.txtInvoiceNo.TabIndex = 4;
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.ForeColor = System.Drawing.Color.Blue;
-            this.label31.Location = new System.Drawing.Point(676, 7);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(95, 18);
-            this.label31.TabIndex = 55;
-            this.label31.Text = "Total Products";
-            this.label31.Click += new System.EventHandler(this.label31_Click_1);
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.ForeColor = System.Drawing.Color.Blue;
-            this.label32.Location = new System.Drawing.Point(876, 8);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(95, 18);
-            this.label32.TabIndex = 56;
-            this.label32.Text = "Total Quantity";
-            // 
-            // txtTotalPQty
-            // 
-            this.txtTotalPQty.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTotalPQty.ForeColor = System.Drawing.Color.Green;
-            this.txtTotalPQty.Location = new System.Drawing.Point(824, 26);
-            this.txtTotalPQty.Name = "txtTotalPQty";
-            this.txtTotalPQty.Size = new System.Drawing.Size(197, 46);
-            this.txtTotalPQty.TabIndex = 57;
-            this.txtTotalPQty.Text = "0";
-            this.txtTotalPQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // POSPcWorldStyle
             // 

@@ -517,46 +517,34 @@ namespace POS
         {
             try
             {
+                decimal TPQty = 0;
                 for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
                 {
-
-
-
                     int id = Convert.ToInt32(ItemSaleGrid.Rows[i].Cells[0].Value.ToString());
                     DataTable dt = getProduct(0, Convert.ToInt32(id));
                     var taxPercentage = Convert.ToDecimal(dt.Rows[0]["TotalTax"]);
                     var dtDiscpercentage = Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
                     string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
-
                     string total = (Convert.ToDecimal(rateValue) * 1).ToString();
-
                     var DiscontAmountOnRate = (Convert.ToDecimal(rateValue) / 100) * dtDiscpercentage;
                     var DiscountedRate = Convert.ToDecimal(rateValue) - DiscontAmountOnRate;
-
-
-
                     string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rateValue)) / 100) * 1).ToString();
                     string value = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
                     decimal rate = Convert.ToDecimal(rateValue);
 
                     decimal qty = Convert.ToDecimal(value);
-
+                    TPQty += qty;
                     ItemSaleGrid.Rows[i].Cells[3].Value = qty;
                     var discountAmt = ((qty) * rate) - ((Convert.ToDecimal(DiscountedRate)) * qty);
                     ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
 
                     ItemSaleGrid.Rows[i].Cells[8].Value = ((qty) * rate) - discountAmt;
                     ItemSaleGrid.Rows[i].Cells[7].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * (qty);
-
-
-
-
-
                     GrossAmount_Total();
-
-
-
                 }
+                TotalPQty = TPQty;
+                txtTotalPQty.Text = Convert.ToString(TotalPQty);
+
             } catch (Exception e)
             {
 
@@ -808,7 +796,7 @@ namespace POS
                     decimal DiscPromo = Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
 
                     qty = qty + Convert.ToDecimal(txtQuantity.Text);
-                    TotalPQty = TotalPQty + Convert.ToDecimal(txtQuantity.Text);
+                    TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(txtQuantity.Text);
                     txtTotalPQty.Text = Convert.ToString(TotalPQty);
 
                     ItemSaleGrid.Rows[i].Cells[3].Value = qty;
@@ -836,7 +824,7 @@ namespace POS
                     return;
                 }
                 TotalProductsQty = Convert.ToDecimal(txtQuantity.Text);
-                TotalPQty = TotalPQty + TotalProductsQty;
+                TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(TotalProductsQty);
                 txtTotalPQty.Text = Convert.ToString(TotalPQty);
                 var Rate = txtRate.Text;
                 var NetAmount = Convert.ToDecimal(TotalProductsQty) * Convert.ToDecimal(Rate);
@@ -2531,12 +2519,18 @@ namespace POS
 
             CalculateDetail();
         }
-
+        private void ItemSaleGrid_CellValueEditChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            CalculateDetail();
+        }
         private void ItemSaleGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[3].Value);
-            txtTotalPQty.Text = Convert.ToString(TotalPQty);
-            CalculateDetail();
+            if (ItemSaleGrid.Rows.Count > 1)
+            {
+                //TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[3].Value);
+                //txtTotalPQty.Text = Convert.ToString(TotalPQty);
+                CalculateDetail();
+            }
         }
 
         private void label6_Click_1(object sender, EventArgs e)
