@@ -125,6 +125,7 @@ namespace POS.LookUpForms
         left join InventCategory c on b.CategoryID = c.CategoryID
     where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID} and IsTaxable = 0 and a.whid = { CompanyInfo.WareHouseID} and IsDeleted = 0 
 
+
 union all
     select - a.Quantity as Quantity ,a.ItemId
      from data_ProductOutflow a
