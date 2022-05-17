@@ -119,27 +119,18 @@ namespace POS.LookUpForms
  left join InventItemGroup on InventItemGroup.ItemGroupID = InventCategory.ItemGroupID
  left join
  (
-
     select a.Quantity , a.ItemId
     from data_ProductInflow a
-
         inner join  InventItems b on a.ItemId = b.ItemId
-
         left join InventCategory c on b.CategoryID = c.CategoryID
-
-    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID}
+    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID} and IsTaxable = 0 and a.whid = { CompanyInfo.WareHouseID} and IsDeleted = 0 
 
 union all
-
-
     select - a.Quantity as Quantity ,a.ItemId
      from data_ProductOutflow a
-
         inner join  InventItems b on a.ItemId = b.ItemId
-
         left join InventCategory c on b.CategoryID = c.CategoryID
-
-    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID}
+    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID} and IsTaxable = 0 and a.whid = { CompanyInfo.WareHouseID} 
 
 )  s ON InventItems.ItemId = s.ItemId
 
@@ -152,7 +143,7 @@ GROUP BY InventItems.ItemId, ItenName , ManualNumber ";
 
         private string ItemSearchSQLWithItemNumber(string SearchVal = "", int MainGroupId = 0)
         {
-            string WHERE = " WHERE 0=0 ";
+            string WHERE = " WHERE 0=0 " ;
 
             if (MainGroupId > 0)
             {
@@ -177,34 +168,20 @@ GROUP BY InventItems.ItemId, ItenName , ManualNumber ";
  left join InventItemGroup on InventItemGroup.ItemGroupID = InventCategory.ItemGroupID
  left join
  (
-
     select a.Quantity , a.ItemId
     from data_ProductInflow a
-
         inner join  InventItems b on a.ItemId = b.ItemId
-
         left join InventCategory c on b.CategoryID = c.CategoryID
-
-    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID}
-
+    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID} and a.whid = { CompanyInfo.WareHouseID} and IsTaxable = 0 and IsDeleted = 0 
 union all
-
-
     select - a.Quantity as Quantity ,a.ItemId
      from data_ProductOutflow a
-
         inner join  InventItems b on a.ItemId = b.ItemId
-
         left join InventCategory c on b.CategoryID = c.CategoryID
-
-    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID}
-
+    where 0 = 0   and a.CompanyID = {CompanyInfo.CompanyID}  and a.whid = { CompanyInfo.WareHouseID} and IsTaxable = 0
 )  s ON InventItems.ItemId = s.ItemId
-
 {WHERE}
-
 GROUP BY InventItems.ItemId, ItenName , InventItems.ItemNumber ";
-
             return SqlString;
         }
 
