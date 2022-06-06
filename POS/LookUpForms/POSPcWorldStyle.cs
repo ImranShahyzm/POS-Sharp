@@ -857,13 +857,7 @@ namespace POS
         {
             if (e.KeyData == Keys.Enter)
             {
-                //if (Convert.ToInt32(cmbSalemenu.SelectedValue) <= 0)
-                //{
-                //    MessageBox.Show("Please Select Menu First .....");
-                //    cmbSalemenu.Select();
-                //    cmbSalemenu.Focus();
-                //    return ;
-                //}
+                
                 try
                 {
                     if (txtProductCode.Text != "")
