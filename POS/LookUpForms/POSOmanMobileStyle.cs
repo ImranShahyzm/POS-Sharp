@@ -521,14 +521,44 @@ namespace POS
 
                     var dtDiscpercentage = Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
 
+                    //********* Check if Percentage Discount is 0 or Empty
+
+
+                    var EnterdDiscountAmount = Convert.ToString(ItemSaleGrid.Rows[i].Cells[5].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[5].Value);
+
+
+
+
+
+
+
+
+
+
+                    //****************************************************
+
+
+
                     decimal rate = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[2].Value.ToString());
                     decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[3].Value.ToString());
 
                     decimal GrossAmt = qty * rate;
-                    
-                    var discountAmt = (Convert.ToDecimal(dtDiscpercentage) * GrossAmt) / 100;
-                    //Discount Amount Cell
-                    ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
+                    decimal discountAmt = 0;
+                    if (EnterdDiscountAmount <= 0)
+                    {
+
+                         discountAmt = (Convert.ToDecimal(dtDiscpercentage) * GrossAmt) / 100;
+                        //Discount Amount Cell
+                        ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
+
+                    }
+                    else
+                    {
+                        discountAmt = EnterdDiscountAmount;
+                        var DiscountPercentCalc = (Convert.ToDecimal(EnterdDiscountAmount)/GrossAmt) * 100;
+                        //Discount Amount Cell
+                        ItemSaleGrid.Rows[i].Cells[4].Value = DiscountPercentCalc;
+                    }
 
                     decimal TotalTaxAmount = (Convert.ToDecimal(taxPercentage) * GrossAmt) / 100;
                     //Tax Amount Cell
@@ -2414,7 +2444,82 @@ namespace POS
 
         private void ItemSaleGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            CalculateDetail();
+            if (e.ColumnIndex == 4)
+            {
+                DiscountPercentage(4);
+            }
+            else
+            {
+                CalculateDetail();
+            }
+        }
+        private void DiscountPercentage(int ColumnIndex)
+        {
+            try
+            {
+                for (int i = 0; i < ItemSaleGrid.Rows.Count; i++)
+                {
+
+                    int id = Convert.ToInt32(ItemSaleGrid.Rows[i].Cells[0].Value.ToString());
+                    DataTable dt = getProduct(0, Convert.ToInt32(id));
+                    var taxPercentage = Convert.ToDecimal(dt.Rows[0]["TotalTax"]);
+
+                    var dtDiscpercentage = Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
+
+                    //********* Check if Percentage Discount is 0 or Empty
+
+
+                    var EnterdDiscountAmount = Convert.ToString(ItemSaleGrid.Rows[i].Cells[5].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[5].Value);
+
+
+
+
+
+
+
+
+
+
+                    //****************************************************
+
+
+
+                    decimal rate = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[2].Value.ToString());
+                    decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[3].Value.ToString());
+
+                    decimal GrossAmt = qty * rate;
+                    decimal discountAmt = 0;
+                    if (ColumnIndex==4)
+                    {
+
+                        discountAmt = (Convert.ToDecimal(dtDiscpercentage) * GrossAmt) / 100;
+                        //Discount Amount Cell
+                        ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
+
+                    }
+                    else
+                    {
+                        discountAmt = EnterdDiscountAmount;
+                        var DiscountPercentCalc = (Convert.ToDecimal(EnterdDiscountAmount) / GrossAmt) * 100;
+                        //Discount Amount Cell
+                        ItemSaleGrid.Rows[i].Cells[4].Value = DiscountPercentCalc;
+                    }
+
+                    decimal TotalTaxAmount = (Convert.ToDecimal(taxPercentage) * GrossAmt) / 100;
+                    //Tax Amount Cell
+                    ItemSaleGrid.Rows[i].Cells[7].Value = TotalTaxAmount;
+
+                    //Net Amount Cell
+                    ItemSaleGrid.Rows[i].Cells[8].Value = (GrossAmt) - discountAmt + TotalTaxAmount;
+
+                    GrossAmount_Total();
+
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         private void label6_Click_1(object sender, EventArgs e)

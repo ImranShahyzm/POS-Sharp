@@ -563,6 +563,7 @@ namespace POS.Helper
                 try
                 {
                     var id = 0;
+
                     //id == 0 means select all records    
                     if (id == 0)
                     {
