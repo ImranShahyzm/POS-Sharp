@@ -404,18 +404,16 @@ namespace POS
         {
             decimal sum = 0;
             decimal taxAmountTotal = 0;
-
-
-
+            
             decimal TotalDiscount = 0;
             decimal TotalExchanged = 0;
             for (int i = 0; i < ItemSaleGrid.Rows.Count; ++i)
             {
 
-                var NetTotal = Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[3].Value)) * Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[2].Value));
+                var NetTotal = Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value)) * Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[3].Value));
                 sum += NetTotal;
-                taxAmountTotal += Convert.ToString(ItemSaleGrid.Rows[i].Cells[7].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[7].Value);
-                TotalDiscount += Convert.ToString(ItemSaleGrid.Rows[i].Cells[5].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[5].Value);
+                taxAmountTotal += Convert.ToString(ItemSaleGrid.Rows[i].Cells[8].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[8].Value);
+                TotalDiscount += Convert.ToString(ItemSaleGrid.Rows[i].Cells[6].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[6].Value);
             }
 
             txtGrossAmount.Text = Convert.ToString(Math.Ceiling(sum));
@@ -425,11 +423,7 @@ namespace POS
             txtNetDtDiscount.Text = Convert.ToString(Math.Ceiling(TotalDiscount));
 
             CalculateNetTotal();
-
-
-
-
-
+            
         }
 
         private void CalculateNetTotal()
@@ -523,23 +517,23 @@ namespace POS
                     int id = Convert.ToInt32(ItemSaleGrid.Rows[i].Cells[0].Value.ToString());
                     DataTable dt = getProduct(0, Convert.ToInt32(id));
                     var taxPercentage = Convert.ToDecimal(dt.Rows[0]["TotalTax"]);
-                    var dtDiscpercentage = Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
-                    string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
+                    var dtDiscpercentage = Convert.ToString(ItemSaleGrid.Rows[i].Cells[5].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[5].Value);
+                    string rateValue = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
                     string total = (Convert.ToDecimal(rateValue) * 1).ToString();
                     var DiscontAmountOnRate = (Convert.ToDecimal(rateValue) / 100) * dtDiscpercentage;
                     var DiscountedRate = Convert.ToDecimal(rateValue) - DiscontAmountOnRate;
                     string taxAmount = (((Convert.ToDecimal(taxPercentage) * Convert.ToDecimal(rateValue)) / 100) * 1).ToString();
-                    string value = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
+                    string value = ItemSaleGrid.Rows[i].Cells[4].Value.ToString();
                     decimal rate = Convert.ToDecimal(rateValue);
 
                     decimal qty = Convert.ToDecimal(value);
                     TPQty += qty;
-                    ItemSaleGrid.Rows[i].Cells[3].Value = qty;
+                    ItemSaleGrid.Rows[i].Cells[4].Value = qty;
                     var discountAmt = ((qty) * rate) - ((Convert.ToDecimal(DiscountedRate)) * qty);
-                    ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
+                    ItemSaleGrid.Rows[i].Cells[6].Value = discountAmt;
 
-                    ItemSaleGrid.Rows[i].Cells[8].Value = ((qty) * rate) - discountAmt;
-                    ItemSaleGrid.Rows[i].Cells[7].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * (qty);
+                    ItemSaleGrid.Rows[i].Cells[9].Value = ((qty) * rate) - discountAmt;
+                    ItemSaleGrid.Rows[i].Cells[8].Value = ((Convert.ToDecimal(taxPercentage) * rate) / 100) * (qty);
                     GrossAmount_Total();
                 }
                 TotalPQty = TPQty;
@@ -554,7 +548,7 @@ namespace POS
         private void timer1_Tick(object sender, EventArgs e)
         {
             DateTime datetime = DateTime.Now;
-            this.lblDateTime.Text = datetime.ToString("dddd , MMM dd yyyy,hh:mm:ss");
+            this.lblDateTime.Text = datetime.ToString("dddd , MMM dd yyyy , hh:mm:ss");
         }
 
         private void txtDiscountAmount_TextChanged(object sender, EventArgs e)
@@ -626,13 +620,26 @@ namespace POS
 
 
         }
-        public DataTable GetItemByCode(string ProductCode)
+        public DataTable GetItemByCode(string ProductCode, out bool BatchItem)
         {
             string Code = "";
             Int32 CompanyID = CompanyInfo.CompanyID;
             DataTable dt = new DataTable();
             string whereClause = " Where gen_ItemBarCode.CompanyID = " + CompanyID + " ";
-            //First, Check Record for barcodes (12 digit)...
+            //First, Check Record for IMEIs (15 digit)...
+            if (ProductCode.Length == 15)
+            {
+                Code = ProductCode;
+                string Where = $@"  and (b.Param1 = '{Code}' OR b.Param2 = '{Code}' OR b.Param3 = '{Code}') ";
+                dt = STATICClass.IMEISearch_SelectAll(CompanyInfo.WareHouseID, CompanyInfo.CompanyID, Where);
+                if (dt.Rows.Count > 0)
+                {
+                    BatchItem = true;
+                    goto ReturnTable;
+                }
+            }
+            BatchItem = false;
+            //Second, Check Record for barcodes (12 digit)...
             if (ProductCode.Length == 12)
             {
                 Code = ProductCode.Substring(0, ProductCode.Length - 1);
@@ -654,6 +661,7 @@ namespace POS
                     dt = selectallPC(whereClause);
                 }
             }
+            ReturnTable:
             return dt;
 
         }
@@ -695,16 +703,14 @@ namespace POS
             }
             return dt;
         }
-
-
-
+        
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = @" select InventItems.ItemId,InventItems.ItenName,InventItems.ItemSalesPrice,cast(isnull(t.TotalTax,0) as numeric(18,2)) as TotalTax,cast(isnull(((InventItems.ItemSalesPrice*t.TotalTax)/100),0) as numeric(18,2)) as TaxAmount,InventItems.cartonSize
+            string SqlString = @" select InventItems.ItemId,InventItems.ItenName,InventItems.ItemSalesPrice,cast(isnull(t.TotalTax,0) as numeric(18,2)) as TotalTax,cast(isnull(((InventItems.ItemSalesPrice*t.TotalTax)/100),0) as numeric(18,2)) as TaxAmount,InventItems.cartonSize,InventItems.IsBatchItem
                                 from InventItems
                                 left outer
                                 join (select InventItems.ItemId,sum(gen_TaxDetailInfo.TaxPercentage) as TotalTax
@@ -788,26 +794,42 @@ namespace POS
                 if (id == Convert.ToInt32(ItemSaleGrid.Rows[i].Cells[0].Value.ToString()))
                 {
 
-                    TotalProductsQty = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[3].Value.ToString());
-                    string rateValue = ItemSaleGrid.Rows[i].Cells[2].Value.ToString();
+                    DataGridViewCheckBoxCell BatchItemCell =
+                            (DataGridViewCheckBoxCell)ItemSaleGrid.Rows[i].Cells["chkIsBatchItem"];
+                    if (Convert.ToBoolean(BatchItemCell.Value.ToString()) == true)
+                    {
+                        if (ItemSaleGrid.Rows[i].Cells[2].Value.ToString() == txtIMEINumber.Text)
+                        {
+                            MessageBox.Show("IMEI Number is already exist", "IMEI Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ClearFields();
+                            txtProductCode.Focus();
+                            return;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    TotalProductsQty = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value.ToString());
+                    string rateValue = ItemSaleGrid.Rows[i].Cells[3].Value.ToString();
                     decimal rate = Convert.ToDecimal(rateValue);
                     decimal qty = Convert.ToDecimal(TotalProductsQty);
-                    decimal taxPerctge = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[6].Value);
-                    decimal DiscPromo = Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
+                    decimal taxPerctge = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[7].Value);
+                    decimal DiscPromo = Convert.ToString(ItemSaleGrid.Rows[i].Cells[5].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[5].Value);
 
                     qty = qty + Convert.ToDecimal(txtQuantity.Text);
                     TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(txtQuantity.Text);
                     txtTotalPQty.Text = Convert.ToString(TotalPQty);
 
-                    ItemSaleGrid.Rows[i].Cells[3].Value = qty;
+                    ItemSaleGrid.Rows[i].Cells[4].Value = qty;
                     var discountAmt = ((Convert.ToDecimal(DiscPromo) * rate) / 100) * qty;
-                    ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
-
-                    ItemSaleGrid.Rows[i].Cells[8].Value = ((qty) * rate) - discountAmt;
+                    ItemSaleGrid.Rows[i].Cells[6].Value = discountAmt;
                     var TaxValue = ((Convert.ToDecimal(taxPerctge) * rate) / 100) * qty;
-                    ItemSaleGrid.Rows[i].Cells[6].Value = TaxValue;
-                    
+                    ItemSaleGrid.Rows[i].Cells[7].Value = TaxValue;
 
+                    ItemSaleGrid.Rows[i].Cells[9].Value = ((qty * rate) - discountAmt) + TaxValue;
+                    
                     recordExist = true;
                     GrossAmount_Total();
                     ClearFields();
@@ -823,6 +845,10 @@ namespace POS
                     MessageBox.Show("Please Fill All the Fields...");
                     return;
                 }
+                if (Convert.ToBoolean(txtIsBatchItem.Text) == true)
+                {
+                    txtQuantity.Text = "1";
+                }
                 TotalProductsQty = Convert.ToDecimal(txtQuantity.Text);
                 TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(TotalProductsQty);
                 txtTotalPQty.Text = Convert.ToString(TotalPQty);
@@ -833,9 +859,20 @@ namespace POS
                 //dgvStockInDetail.Rows.Insert(0, row);
                 //ClearFields();
                 txtProductID.Focus();
-
-                string[] row = { id.ToString(), cmbProducts.Text, txtRate.Text.ToString(), txtQuantity.Text.ToString(), txtPromoDisc.Text.ToString(), txtPromoDiscAmt.Text.ToString(), txtTax.Text.ToString(), txtTaxAmount.Text.ToString(), txtdetailAmount.Text.ToString(), txtAvailableQty.Text.ToString() };
+                
+                string[] row = { id.ToString(), cmbProducts.Text, txtIMEINumber.Text, txtRate.Text.ToString(), txtQuantity.Text.ToString(), txtPromoDisc.Text.ToString(), txtPromoDiscAmt.Text.ToString(), txtTax.Text.ToString(), txtTaxAmount.Text.ToString(), txtdetailAmount.Text.ToString(), txtAvailableQty.Text.ToString() , txtIsBatchItem.Text };
                 ItemSaleGrid.Rows.Insert(0, row);
+
+                //Fill IMEI Dropdown...
+                //FillComboboxIMEI(0, id.ToString());
+
+                if (Convert.ToBoolean(txtIsBatchItem.Text) == true)
+                {
+                    DataGridViewTextBoxCell QtyCell =
+                        (DataGridViewTextBoxCell)ItemSaleGrid.Rows[0].Cells["Quantity"];
+                    QtyCell.ReadOnly = true;
+                }
+
             }
             TotalQty = Convert.ToInt32(TotalQty) + 1;
             txtTotalQty.Text = Convert.ToString(TotalQty);
@@ -845,11 +882,11 @@ namespace POS
         }
         private void SetQuantitesBeforAdding(DataTable dt)
         {
+            txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
             cmbProducts.SelectedValue = dt.Rows[0]["ItemId"].ToString();
-
             txtRate.Text = Convert.ToString(dt.Rows[0]["ItemSalesPrice"]);
             txtTax.Text = Convert.ToString(dt.Rows[0]["TotalTax"]);
-            txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
+            txtIsBatchItem.Text = Convert.ToString(dt.Rows[0]["IsBatchItem"]);
             setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
         }
 
@@ -862,14 +899,32 @@ namespace POS
                 {
                     if (txtProductCode.Text != "")
                     {
-                        int ItemID = 0;
+                        int ItemID = 0; bool BatchItemSearched = false;
                         DataTable dt = new DataTable();
-                        dt = GetItemByCode(txtProductCode.Text);
-                        if (dt.Rows.Count == 1)
+                        DataTable dtCode = GetItemByCode(txtProductCode.Text, out BatchItemSearched);
+
+                        if (dtCode.Rows.Count == 1)
                         {
-                            ItemID = Convert.ToInt32("0" + dt.Rows[0]["ItemId"].ToString());
+                            ItemID = Convert.ToInt32("0" + dtCode.Rows[0]["ItemId"].ToString());
+                            dt = getProduct(0, ItemID, "");
+                            string ItemName = dt.Rows[0]["ItenName"].ToString();
+                            bool IsBatchItem = Convert.ToBoolean(dt.Rows[0]["IsBatchItem"].ToString());
+                            string IMEINumber = "";
+                            if (BatchItemSearched)
+                            {
+                                IMEINumber = dtCode.Rows[0]["IMEINumber"].ToString();
+                            }
+                            if (BatchItemSelection(IsBatchItem, ItemID, ItemName, BatchItemSearched, IMEINumber) == false)
+                            {
+                                return;
+                            }
+
+                            SetQuantitesBeforAdding(dt);
+                            txtQuantity.Text = "1";
+                            //Now Add to Grid...
+                            txtPromoDisc_KeyDown(sender, e);
                         }
-                        else if (dt.Rows.Count > 1)
+                        else
                         {
                             using (frmProductLookUp obj = new frmProductLookUp(Convert.ToInt32(cmbSalemenu.SelectedValue.ToString())))
                             {
@@ -880,125 +935,24 @@ namespace POS
                                     txtProductCode.Text = obj.ItemNumber;
                                     cmbProducts.SelectedValue = id.ToString();
                                     var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                    setAvailableStock(id);
+
+                                    if (BatchItemSelection(Convert.ToBoolean(dtReturn.Rows[0]["IsBatchItem"]), id, dtReturn.Rows[0]["ItenName"].ToString()) == false)
+                                    {
+                                        return;
+                                    }
+
                                     txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                     txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
+                                    txtIsBatchItem.Text = Convert.ToString(dtReturn.Rows[0]["IsBatchItem"]);
+                                    setAvailableStock(id);
                                     txtQuantity.Focus();
                                     txtQuantity.SelectAll();
-
-                                    //txtQtyPrice.Focus();
-                                    //txtQtyPrice.Select();
+                                    
                                 }
                             };
-                            return;
+                            
                         }
-
-                        //var ItemID = GetItemIDbyBuiltInBarcodes(txtProductCode.Text);
-                        //******* Motext barcode ************//
-                        bool isMOtextCode = false;
-
-                        if (ItemID == 0)
-                        {
-                            string BarcodeNumber = Convert.ToString(txtProductCode.Text).Trim();
-                            var Length = BarcodeNumber.Length;
-                            if (Length >= 13)
-                            {
-
-                                if (!string.IsNullOrEmpty(BarcodeNumber))
-                                {
-
-                                    var BarcodeStd = Convert.ToInt32(BarcodeNumber.Substring(0, 2));
-                                    var ItemCode = Convert.ToInt32(BarcodeNumber.Substring(2, 5));
-                                    var BarQuantity = Convert.ToDecimal(BarcodeNumber.Substring(6 + 1));
-                                    var test = BarcodeNumber.Substring(2, 5);
-                                    dt = getProduct(0, ItemID, Convert.ToString(ItemCode).Trim());
-                                    var text = BarcodeNumber.Substring(6 + 1);
-                                    if (dt.Rows.Count > 0)
-                                    {
-                                        txtQuantity.Text = Convert.ToString(BarQuantity);
-                                        isMOtextCode = true;
-                                        SetQuantitesBeforAdding(dt);
-                                        if (BarcodeStd == 98)
-                                        {
-                                            txtQuantity.Text = "1";
-                                        }
-                                        else
-                                        {
-                                            txtQuantity.Text = Convert.ToString(BarQuantity / 10000);
-                                        }
-
-                                        txtPromoDisc_KeyDown(sender, e);
-                                    }
-
-                                }
-                            }
-
-
-                        }
-
-                        //********************************//
-
-                        if (!isMOtextCode)
-                        {
-                            dt = getProduct(0, ItemID, Convert.ToString(txtProductCode.Text).Trim());
-
-                            if (dt.Rows.Count == 0)
-                            {
-                                using (frmProductLookUp obj = new frmProductLookUp(Convert.ToInt32(cmbSalemenu.SelectedValue.ToString())))
-                                {
-                                    if (obj.ShowDialog() == DialogResult.OK)
-                                    {
-                                        int id = obj.ProductID;
-                                        txtProductID.Text = id.ToString();
-                                        txtProductCode.Text = obj.ManualNumber;
-                                        cmbProducts.SelectedValue = id.ToString();
-                                        var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                        setAvailableStock(id);
-                                        txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
-                                        txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
-                                        txtQuantity.Focus();
-                                        txtQuantity.SelectAll();
-
-                                        //txtQtyPrice.Focus();
-                                        //txtQtyPrice.Select();
-                                    }
-                                };
-                            }
-                            else
-                            {
-                                if (ItemID > 0)
-                                {
-                                    SetQuantitesBeforAdding(dt);
-                                    txtQuantity.Text = "1";
-                                    //TotalPQty = TotalPQty + 1;
-                                    //txtTotalPQty.Text = Convert.ToString(TotalPQty);
-                                    txtPromoDisc_KeyDown(sender, e);
-                                }
-                                else
-                                {
-                                    cmbProducts.SelectedValue = dt.Rows[0]["ItemId"].ToString();
-
-                                    txtRate.Text = Convert.ToString(dt.Rows[0]["ItemSalesPrice"]);
-                                    txtTax.Text = Convert.ToString(dt.Rows[0]["TotalTax"]);
-                                    txtProductID.Text = Convert.ToString(dt.Rows[0]["ItemId"]);
-                                    setAvailableStock(Convert.ToInt32(dt.Rows[0]["ItemId"]));
-                                    txtQuantity.Focus();
-                                    txtQuantity.SelectAll();
-
-                                    //txtQtyPrice.Focus();
-                                    //txtQtyPrice.Select();
-                                }
-                            }
-                        }
-
-                        string ids = cmbProducts.SelectedValue.ToString();
-                        {
-                            if (ids != "0")
-                            {
-                                //DataTable dt1 = getProduct(0, Convert.ToInt32(ids));
-                                //AddProducts(dt1.Rows[0]["itenName"].ToString(), Convert.ToInt32(ids), Convert.ToDecimal(dt1.Rows[0]["ItemSalesPrice"]), Convert.ToDecimal(dt1.Rows[0]["TotalTax"]));
-                            }
-                        }
+                        
                     }
                     else
                     {
@@ -1090,10 +1044,12 @@ namespace POS
             dt1.Columns.Add("SchemeID");
             dt1.Columns.Add("MinQuantity");
             dt1.Columns.Add("isExchange");
+            dt1.Columns.Add("IMEINumber");
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
-                var TQty = Convert.ToDecimal(row.Cells[3].Value.ToString());
+                bool IsBatchItem = Convert.ToBoolean(row.Cells["chkIsBatchItem"].Value.ToString());
+                var TQty = Convert.ToDecimal(row.Cells[4].Value.ToString());
                 if (TQty > 0)
                 {
 
@@ -1103,16 +1059,17 @@ namespace POS
                     dRow[0] = i;
                     dRow[1] = row.Cells[0].Value.ToString();
                     dRow[2] = TQty.ToString();
-                    dRow[3] = row.Cells[2].Value.ToString();
-                    dRow[4] = row.Cells[6].Value.ToString();
-                    dRow[5] = row.Cells[7].Value.ToString();
-                    dRow[6] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[4].Value)) || Convert.ToString(row.Cells[4].Value) == ".") ? "0" : Convert.ToString(row.Cells[4].Value);
-                    dRow[7] = row.Cells[5].Value.ToString();
-                    dRow[8] = row.Cells[8].Value.ToString();
+                    dRow[3] = row.Cells[3].Value.ToString();
+                    dRow[4] = row.Cells[7].Value.ToString();
+                    dRow[5] = row.Cells[8].Value.ToString();
+                    dRow[6] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[5].Value)) || Convert.ToString(row.Cells[5].Value) == ".") ? "0" : Convert.ToString(row.Cells[5].Value);
+                    dRow[7] = row.Cells[6].Value.ToString();
+                    dRow[8] = row.Cells[9].Value.ToString();
                     dRow[9] = 0;//row.Cells[13].Value.ToString();
-                    dRow[10] = 0;// row.Cells[4].Value.ToString();
-                    dRow[11] = TQty;// row.Cells[7].Value.ToString();
+                    dRow[10] = 0;// row.Cells[5].Value.ToString();
+                    dRow[11] = TQty;// row.Cells[8].Value.ToString();
                     dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
+                    dRow["IMEINumber"] = row.Cells[2].Value.ToString();
 
                     dt1.Rows.Add(dRow);
                 }
@@ -1460,6 +1417,8 @@ namespace POS
             txtCustName.Clear();
             txtCustPhone.Clear();
             txtRiderAmount.Clear();
+            txtIsBatchItem.Clear();
+            txtIMEINumber.Clear();
 
             txtLinkedBill.Clear();
             txtPromoDisc.Clear();
@@ -1474,6 +1433,8 @@ namespace POS
             txtAvailableQty.Clear();
             SalePosID.Clear();
             SalePosMasterID = 0;
+
+            StockRunningOut.Visible = false;
         }
 
         private void loadNewSale()
@@ -1717,7 +1678,7 @@ namespace POS
                 //    ItemSaleGrid.Rows[e.RowIndex].Cells["TaxAmount"].Value = ((Convert.ToDecimal(taxValue) * rate) / 100) * qty;
                 //}
             }
-            else if (e.ColumnIndex == 10)
+            else if (e.ColumnIndex == 11)
             {
                 int id = Convert.ToInt32(ItemSaleGrid.Rows[e.RowIndex].Index);
                 ItemSaleGrid.Rows.RemoveAt(id);
@@ -1869,13 +1830,18 @@ namespace POS
         private void loadReturnView()
         {
             clearAll();
-            lblSaleType.Text = "Sale Return";
+            lblSaleType.Text = "Sales Return";
             txtInvoiceNo.ReadOnly = false;
             txtInvoiceNo.Text = "";
             txtInvoiceNo.Focus();
+
             btnSave.Text = "Return Invoice";
             btnPrintSave.Text = "Ret Inv && Print";
-       
+
+            btnUpdate.Visible = false;
+            btnSave.Visible = true;
+            btnPrintSave.Visible = true;
+
             SaleReturn = true;
         }
         private void LoadUpdateView()
@@ -1898,6 +1864,14 @@ namespace POS
             txtPrint.Visible = false;
             txtInvoiceNo.Text = "";
             txtInvoiceNo.ReadOnly = true;
+
+            btnSave.Text = "Save";
+            btnPrintSave.Text = "Save && Print";
+
+            btnUpdate.Visible = false;
+            btnSave.Visible = true;
+            btnPrintSave.Visible = true;
+
             txtProductCode.Select();
             txtProductCode.Focus();
         }
@@ -1962,7 +1936,7 @@ namespace POS
             {
                 if (dtdetail.Rows.Count == 0)
                 {
-                    MessageBox.Show("This Invoice is all ready return!");
+                    MessageBox.Show("This Invoice is already return!");
                     return;
                 }
                 SaleInvoiceNo = Convert.ToInt32(InvoiceNo);
@@ -1996,7 +1970,7 @@ namespace POS
                 {
                     txtAmountReceive.ReadOnly = true;
                 }
-                    txtPrint.Visible = true;
+                txtPrint.Visible = true;
                 if (InvoiceUpdate == false)
                 {
                     SaleReturn = true;
@@ -2004,7 +1978,7 @@ namespace POS
                 decimal PQty = 0;
                 decimal StockQty = 0;
                 dtdetail.Columns.Add("StockQty", typeof(string));
-                    for (int i = 0; i < dtdetail.Rows.Count; i++)
+                for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
                     PQty += Convert.ToDecimal(dtdetail.Rows[i]["TotalQuantity"]);
                     StockQty = STATICClass.GetStockQuantityItem(Convert.ToInt32(dtdetail.Rows[i]["ItemId"]), CompanyInfo.WareHouseID, txtSaleDate.Value, CompanyInfo.CompanyID, "", "", false);
@@ -2012,16 +1986,17 @@ namespace POS
                     string[] row = {
                             dtdetail.Rows[i]["ItemId"].ToString(),
                             dtdetail.Rows[i]["ItenName"].ToString(),
+                            dtdetail.Rows[i]["IMEINumber"].ToString(),
                             dtdetail.Rows[i]["ItemRate"].ToString(),
-                            
-                            
+
                             Convert.ToDecimal(dtdetail.Rows[i]["TotalQuantity"]).ToString(),
                              dtdetail.Rows[i]["DiscountPercentage"].ToString(),
                             dtdetail.Rows[i]["DiscountAmount"].ToString(),
                             dtdetail.Rows[i]["TaxPercentage"].ToString(),
                             dtdetail.Rows[i]["TaxAmount"].ToString(),
                             dtdetail.Rows[i]["TotalAmount"].ToString(),
-                            dtdetail.Rows[i]["StockQty"].ToString()
+                            dtdetail.Rows[i]["StockQty"].ToString() ,
+                            dtdetail.Rows[i]["IsBatchItem"].ToString() 
 
                     };
                     ItemSaleGrid.Rows.Add(row);
@@ -2145,6 +2120,8 @@ namespace POS
 
             txtRate.Clear();
             txtQuantity.Clear();
+            txtIsBatchItem.Clear();
+            txtIMEINumber.Clear();
             txtTax.Clear();
             txtTaxAmount.Clear();
             txtdetailAmount.Clear();
@@ -2172,7 +2149,7 @@ namespace POS
                 {
                     TotalQty = Convert.ToInt32(TotalQty) - 1;
                     txtTotalQty.Text = Convert.ToString(TotalQty);
-                    TotalPQty = Convert.ToDecimal(TotalPQty) - Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[3].Value);
+                    TotalPQty = Convert.ToDecimal(TotalPQty) - Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[4].Value);
                     txtTotalPQty.Text = Convert.ToString(TotalPQty);
                     ItemSaleGrid.Rows.RemoveAt(ItemSaleGrid.CurrentRow.Index);
                     txtProductCode.Select();
@@ -2182,7 +2159,7 @@ namespace POS
             }
             //else if (e.KeyCode == Keys.Enter)
             //{
-            //    TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[3].Value);
+            //    TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[4].Value);
             //    txtTotalPQty.Text = Convert.ToString(TotalPQty);
             //}
             if(e.KeyCode==Keys.Space)
@@ -2422,11 +2399,6 @@ namespace POS
 
         }
 
-        private void dgvStockInDetail_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -2481,25 +2453,36 @@ namespace POS
 
         private void txtQuantity_KeyDown(object sender, KeyEventArgs e)
         {
-
-
             if (e.KeyCode == Keys.Enter)
             {
                 try
                 {
-                    //TotalPQty = TotalPQty+Convert.ToDecimal(txtQuantity.Text);
-                    //txtTotalPQty.Text= Convert.ToString(TotalPQty);
-                    txtQtyPrice.Focus();
-                    txtQtyPrice.SelectAll();
-                           
+                    
+                    if (txtQuantity.Text != "")
+                    {
+                        if (Convert.ToDecimal(txtQuantity.Text) > 0)
+                        {
+                            CalculateNetAmountDetail();
+                            txtPromoDisc_KeyDown(sender, e);
+                            
+                        }
+                    }
+                    else
+                    {
 
-                  
-                }catch(Exception ex)
-                {
+                        txtQuantity.Focus();
+                        txtQuantity.SelectAll();
+
+                    }
+
                     
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-
+            
         
         }
 
@@ -2519,10 +2502,31 @@ namespace POS
         }
         private void ItemSaleGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            //if (ItemSaleGrid.Columns[e.ColumnIndex].Name == "IMEINumber")
+            //{
+            //    DataGridViewComboBoxCell ComboCell =
+            //        (DataGridViewComboBoxCell)ItemSaleGrid.Rows[e.RowIndex].Cells["IMEINumber"];
+            //    DataGridViewTextBoxCell QtyCell =
+            //        (DataGridViewTextBoxCell)ItemSaleGrid.Rows[e.RowIndex].Cells["Quantity"];
+            //    if (ComboCell.Value.ToString() != null && ComboCell.Value.ToString() != "")
+            //    {
+            //        QtyCell.Value = "1";
+            //        QtyCell.ReadOnly = true;
+            //    }
+            //    else
+            //    {
+            //        QtyCell.Value = "1";
+            //        QtyCell.ReadOnly = false;
+            //    }
+
+            //    ItemSaleGrid.Invalidate();
+            //}
             if (ItemSaleGrid.Rows.Count > 1)
             {
-                //TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[3].Value);
+                
+                //TotalPQty = Convert.ToDecimal(TotalPQty) + Convert.ToDecimal(ItemSaleGrid.Rows[ItemSaleGrid.CurrentRow.Index].Cells[4].Value);
                 //txtTotalPQty.Text = Convert.ToString(TotalPQty);
+
                 CalculateDetail();
             }
         }
@@ -3055,6 +3059,76 @@ namespace POS
         private void label31_Click_1(object sender, EventArgs e)
         {
 
+        }
+        
+        private void FillComboboxIMEI(int RowIndex, string ItemIDs = "")
+        {
+            //DataGridViewComboBoxCell cboCell = (DataGridViewComboBoxCell) ItemSaleGrid.Rows[RowIndex].Cells[2];
+
+            //DataTable dt = GetItemsBatchWise(ItemIDs);
+            //DataRow dr = dt.NewRow();
+            //dr["Quantity"] = "0";
+            //dr["Param1"] = "";
+            //dr["Param2"] = "";
+            //dr["Param3"] = "";
+            //dr["IMEINumberVal"] = "";
+            //dr["IMEINumber"] = "--Please Select--";
+            //dr["ItemId"] = "0";
+            //dt.Rows.InsertAt(dr, 0);
+
+            //cboCell.DataSource = new BindingSource(dt, null);
+            //cboCell.ValueMember = "IMEINumberVal";
+            //cboCell.DisplayMember = "IMEINumber";
+
+        }
+        private DataTable GetItemsBatchWise(string ItemIDs = "")
+        {
+            DataTable dtStock = STATICClass.GetStockQuantityItemBatch(ItemIDs, CompanyInfo.WareHouseID, txtSaleDate.Value, CompanyInfo.CompanyID, "", "", false);
+            return dtStock;
+        }
+
+        private void ItemSaleGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (ItemSaleGrid.IsCurrentCellDirty)
+            {
+                ItemSaleGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+        private bool BatchItemSelection(bool IsBatchItem, int ItemID, string ItemName, bool BatchItemSearched = false, string IMEINumber = "")
+        {
+            bool ReturnValue = true;
+            if (IsBatchItem == true)
+            {
+                if (BatchItemSearched == true)
+                {
+                    txtIMEINumber.Text = IMEINumber;
+                }
+                else
+                {
+                    //Now Show Popup for IMEI / Batch Selection...
+                    using (frmIMEILookUp obj = new frmIMEILookUp(ItemID, ItemName))
+                    {
+                        if (obj.ShowDialog() == DialogResult.OK)
+                        {
+                            int id = obj.ItemID;
+                            txtProductID.Text = id.ToString();
+                            txtIMEINumber.Text = obj.IMEINumber_forSelect;
+                            ReturnValue = true;
+                        }
+                    }
+                }
+
+                if (txtIMEINumber.Text == null || txtIMEINumber.Text == "")
+                {
+                    MessageBox.Show("IMEI Number is not selected", "IMEI Number", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearFields();
+                    txtProductCode.Focus();
+                    ReturnValue = false;
+                }
+
+            }
+            
+            return ReturnValue;
         }
     }
 }

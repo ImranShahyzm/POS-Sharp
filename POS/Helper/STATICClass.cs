@@ -147,6 +147,45 @@ namespace POS.Helper
             return StockQty;
 
         }
+        public static DataTable GetStockQuantityItemBatch(string ItemIDs, Int32 WHID, DateTime StockDate, Int32 CompanyID, string SourceName,
+          string EditWC, bool IsTaxable = false)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection con = new SqlConnection(STATICClass.Connection());
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetStockQuantityItemBatchWise", con);
+                cmd.CommandType = CommandType.StoredProcedure; SqlDataAdapter da = new SqlDataAdapter();
+                
+                cmd.Parameters.Add(new SqlParameter("@ItemIDs", ItemIDs));
+                cmd.Parameters.Add(new SqlParameter("@WHID", WHID));
+                cmd.Parameters.Add(new SqlParameter("@StockDate", StockDate));
+                cmd.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+                cmd.Parameters.Add(new SqlParameter("@SourceName", SourceName));
+                cmd.Parameters.Add(new SqlParameter("@EditWC", EditWC));
+                cmd.Parameters.Add(new SqlParameter("@IsTaxable", IsTaxable));
+                da.SelectCommand = cmd;
+
+                cmd.Transaction = tran;
+                cmd.CommandTimeout = 0;
+                da.Fill(dt);
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return dt;
+
+        }
         public static List<T> ConvertToList<T>(DataTable dt)
             {
                 var columnNames = dt.Columns.Cast<DataColumn>().Select(c => c.ColumnName.ToLower()).ToList();
@@ -1169,6 +1208,40 @@ else
             if (ex.InnerException != null)
                 ExMsg += "\r\nInnerException: " + ExceptionMessage(ex.InnerException);
             return ExMsg;
+        }
+        public static DataTable IMEISearch_SelectAll(Int32 WHID, Int32 CompanyID, string Where = "")
+        {
+            DataTable dt = new DataTable();
+            SqlConnection con = new SqlConnection(STATICClass.Connection());
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetBatchStockQuantity_IMEISearch", con);
+                cmd.CommandType = CommandType.StoredProcedure; SqlDataAdapter da = new SqlDataAdapter();
+
+                cmd.Parameters.Add(new SqlParameter("@WHID", WHID));
+                cmd.Parameters.Add(new SqlParameter("@WhereClause", Where));
+                cmd.Parameters.Add(new SqlParameter("@CompanyID", CompanyID));
+                da.SelectCommand = cmd;
+
+                cmd.Transaction = tran;
+                cmd.CommandTimeout = 0;
+                da.Fill(dt);
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+            }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+            return dt;
+
         }
     }
 }

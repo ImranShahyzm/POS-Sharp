@@ -293,8 +293,7 @@ GROUP BY InventItems.ItemId, ItenName , InventItems.ItemNumber ";
                 //int rowIndex = dgvProducts.CurrentCell.OwningRow.Index;
                 int rowIndex = dgvProducts.SelectedRows[0].Index-1;
                 ResultReturn(rowIndex);
-              
-             
+                e.Handled = true;
             }
         }
         private void ResultReturn(int Index)

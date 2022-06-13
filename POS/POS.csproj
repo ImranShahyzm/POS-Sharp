@@ -380,6 +380,12 @@
     <Compile Include="LookUpForms\frmPOSTabControl.Designer.cs">
       <DependentUpon>frmPOSTabControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\frmIMEILookUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmIMEILookUp.Designer.cs">
+      <DependentUpon>frmIMEILookUp.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmRecipeSync.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -975,6 +981,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmPOSTabControl.resx">
       <DependentUpon>frmPOSTabControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmIMEILookUp.resx">
+      <DependentUpon>frmIMEILookUp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmRecipeSync.resx">
       <DependentUpon>frmRecipeSync.cs</DependentUpon>
