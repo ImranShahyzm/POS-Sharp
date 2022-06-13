@@ -380,6 +380,12 @@
     <Compile Include="LookUpForms\frmPOSTabControl.Designer.cs">
       <DependentUpon>frmPOSTabControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LookUpForms\frmIMEILookUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmIMEILookUp.Designer.cs">
+      <DependentUpon>frmIMEILookUp.cs</DependentUpon>
+    </Compile>
     <Compile Include="LookUpForms\frmRecipeSync.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -976,6 +982,9 @@
     <EmbeddedResource Include="LookUpForms\frmPOSTabControl.resx">
       <DependentUpon>frmPOSTabControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmIMEILookUp.resx">
+      <DependentUpon>frmIMEILookUp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmRecipeSync.resx">
       <DependentUpon>frmRecipeSync.cs</DependentUpon>
     </EmbeddedResource>
@@ -1457,6 +1466,7 @@
     <Content Include="DbScripts\Script 1.0.0.74.sql" />
     <Content Include="DbScripts\Script 1.0.0.78.sql" />
     <Content Include="DbScripts\Script 1.0.0.80.sql" />
+    <Content Include="DbScripts\Script 1.0.0.83.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <None Include="Resources\CorbisPos.png" />

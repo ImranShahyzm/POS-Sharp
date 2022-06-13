@@ -36,6 +36,7 @@
             this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
             this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IMEINumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtDiscpercentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +45,7 @@
             this.TaxAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chkIsBatchItem = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.label9 = new System.Windows.Forms.Label();
             this.txtProductCode = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -87,6 +89,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.txtIMEINumber = new System.Windows.Forms.TextBox();
+            this.txtIsBatchItem = new System.Windows.Forms.TextBox();
+            this.lblItem = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
@@ -137,7 +142,7 @@
             // 
             // txtPrint
             // 
-            this.txtPrint.Location = new System.Drawing.Point(946, 74);
+            this.txtPrint.Location = new System.Drawing.Point(946, 66);
             this.txtPrint.Name = "txtPrint";
             this.txtPrint.Size = new System.Drawing.Size(75, 28);
             this.txtPrint.TabIndex = 11;
@@ -178,6 +183,7 @@
             this.ItemSaleGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProductId,
             this.ProductName,
+            this.IMEINumber,
             this.Rate,
             this.Quantity,
             this.dtDiscpercentage,
@@ -185,14 +191,16 @@
             this.Tax,
             this.TaxAmount,
             this.NetAmount,
-            this.Qty});
-            this.ItemSaleGrid.Location = new System.Drawing.Point(36, 243);
+            this.Qty,
+            this.chkIsBatchItem});
+            this.ItemSaleGrid.Location = new System.Drawing.Point(28, 243);
             this.ItemSaleGrid.Name = "ItemSaleGrid";
-            this.ItemSaleGrid.Size = new System.Drawing.Size(993, 281);
+            this.ItemSaleGrid.Size = new System.Drawing.Size(1033, 281);
             this.ItemSaleGrid.TabIndex = 10;
             this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
             this.ItemSaleGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellValueEditChanged);
             this.ItemSaleGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellValueChanged);
+            this.ItemSaleGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.ItemSaleGrid_CurrentCellDirtyStateChanged);
             this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
             this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
             this.ItemSaleGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ItemSaleGrid_KeyPress);
@@ -210,24 +218,34 @@
             this.ProductName.HeaderText = "ProductName";
             this.ProductName.Name = "ProductName";
             this.ProductName.ReadOnly = true;
-            this.ProductName.Width = 200;
+            this.ProductName.Width = 220;
+            // 
+            // IMEINumber
+            // 
+            this.IMEINumber.HeaderText = "IMEI Number";
+            this.IMEINumber.Name = "IMEINumber";
+            this.IMEINumber.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.IMEINumber.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.IMEINumber.Width = 140;
             // 
             // Rate
             // 
             this.Rate.HeaderText = "Rate";
             this.Rate.Name = "Rate";
             this.Rate.ReadOnly = true;
+            this.Rate.Width = 80;
             // 
             // Quantity
             // 
             this.Quantity.HeaderText = "Quantity";
             this.Quantity.Name = "Quantity";
+            this.Quantity.Width = 60;
             // 
             // dtDiscpercentage
             // 
             this.dtDiscpercentage.HeaderText = "Disc %";
             this.dtDiscpercentage.Name = "dtDiscpercentage";
-            this.dtDiscpercentage.Width = 80;
+            this.dtDiscpercentage.Width = 50;
             // 
             // DtDiscAmt
             // 
@@ -257,6 +275,14 @@
             // 
             this.Qty.HeaderText = "Quantity";
             this.Qty.Name = "Qty";
+            this.Qty.ReadOnly = true;
+            this.Qty.Width = 70;
+            // 
+            // chkIsBatchItem
+            // 
+            this.chkIsBatchItem.HeaderText = "Batch Item";
+            this.chkIsBatchItem.Name = "chkIsBatchItem";
+            this.chkIsBatchItem.Visible = false;
             // 
             // label9
             // 
@@ -271,10 +297,10 @@
             // 
             // txtProductCode
             // 
-            this.txtProductCode.Location = new System.Drawing.Point(14, 139);
+            this.txtProductCode.Location = new System.Drawing.Point(5, 138);
             this.txtProductCode.MaxLength = 10000;
             this.txtProductCode.Name = "txtProductCode";
-            this.txtProductCode.Size = new System.Drawing.Size(71, 20);
+            this.txtProductCode.Size = new System.Drawing.Size(95, 20);
             this.txtProductCode.TabIndex = 2;
             this.txtProductCode.TextChanged += new System.EventHandler(this.txtProductCode_TextChanged);
             this.txtProductCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProductCode_KeyDown);
@@ -294,7 +320,7 @@
             // 
             this.txtCustName.Location = new System.Drawing.Point(348, 69);
             this.txtCustName.Name = "txtCustName";
-            this.txtCustName.Size = new System.Drawing.Size(296, 20);
+            this.txtCustName.Size = new System.Drawing.Size(206, 20);
             this.txtCustName.TabIndex = 2;
             this.txtCustName.TextChanged += new System.EventHandler(this.txtCustName_TextChanged);
             this.txtCustName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustName_KeyDown);
@@ -396,7 +422,7 @@
             this.txtTotalPQty.ForeColor = System.Drawing.Color.Green;
             this.txtTotalPQty.Location = new System.Drawing.Point(824, 26);
             this.txtTotalPQty.Name = "txtTotalPQty";
-            this.txtTotalPQty.Size = new System.Drawing.Size(197, 46);
+            this.txtTotalPQty.Size = new System.Drawing.Size(197, 37);
             this.txtTotalPQty.TabIndex = 57;
             this.txtTotalPQty.Text = "0";
             this.txtTotalPQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -430,7 +456,7 @@
             this.txtTotalQty.ForeColor = System.Drawing.Color.Green;
             this.txtTotalQty.Location = new System.Drawing.Point(648, 27);
             this.txtTotalQty.Name = "txtTotalQty";
-            this.txtTotalQty.Size = new System.Drawing.Size(140, 45);
+            this.txtTotalQty.Size = new System.Drawing.Size(140, 36);
             this.txtTotalQty.TabIndex = 54;
             this.txtTotalQty.Text = "0";
             this.txtTotalQty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -752,6 +778,9 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.txtIMEINumber);
+            this.panel5.Controls.Add(this.txtIsBatchItem);
+            this.panel5.Controls.Add(this.lblItem);
             this.panel5.Controls.Add(this.label30);
             this.panel5.Controls.Add(this.label29);
             this.panel5.Controls.Add(this.label28);
@@ -804,13 +833,40 @@
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
+            // txtIMEINumber
+            // 
+            this.txtIMEINumber.Location = new System.Drawing.Point(960, 112);
+            this.txtIMEINumber.Name = "txtIMEINumber";
+            this.txtIMEINumber.Size = new System.Drawing.Size(45, 20);
+            this.txtIMEINumber.TabIndex = 56;
+            this.txtIMEINumber.Visible = false;
+            // 
+            // txtIsBatchItem
+            // 
+            this.txtIsBatchItem.Location = new System.Drawing.Point(960, 138);
+            this.txtIsBatchItem.Name = "txtIsBatchItem";
+            this.txtIsBatchItem.Size = new System.Drawing.Size(45, 20);
+            this.txtIsBatchItem.TabIndex = 55;
+            this.txtIsBatchItem.Visible = false;
+            // 
+            // lblItem
+            // 
+            this.lblItem.AutoSize = true;
+            this.lblItem.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblItem.Location = new System.Drawing.Point(103, 122);
+            this.lblItem.Name = "lblItem";
+            this.lblItem.Size = new System.Drawing.Size(59, 14);
+            this.lblItem.TabIndex = 54;
+            this.lblItem.Text = "Item Name";
+            // 
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(11, 120);
+            this.label30.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.ForeColor = System.Drawing.Color.Crimson;
+            this.label30.Location = new System.Drawing.Point(2, 122);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(89, 14);
+            this.label30.Size = new System.Drawing.Size(101, 15);
             this.label30.TabIndex = 53;
             this.label30.Text = "Scan / Enter Code";
             this.label30.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -819,7 +875,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(283, 121);
+            this.label29.Location = new System.Drawing.Point(376, 122);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(28, 14);
             this.label29.TabIndex = 52;
@@ -830,7 +886,7 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(729, 119);
+            this.label28.Location = new System.Drawing.Point(735, 121);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(64, 14);
             this.label28.TabIndex = 51;
@@ -841,7 +897,7 @@
             // 
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(390, 119);
+            this.label27.Location = new System.Drawing.Point(478, 121);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(48, 14);
             this.label27.TabIndex = 50;
@@ -863,7 +919,7 @@
             // 
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(638, 119);
+            this.label26.Location = new System.Drawing.Point(634, 121);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(67, 14);
             this.label26.TabIndex = 48;
@@ -874,7 +930,7 @@
             // 
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(559, 119);
+            this.label25.Location = new System.Drawing.Point(556, 121);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(39, 14);
             this.label25.TabIndex = 47;
@@ -886,44 +942,47 @@
             this.StockRunningOut.AutoSize = true;
             this.StockRunningOut.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.StockRunningOut.ForeColor = System.Drawing.Color.Red;
-            this.StockRunningOut.Location = new System.Drawing.Point(482, 91);
+            this.StockRunningOut.Location = new System.Drawing.Point(480, 92);
             this.StockRunningOut.Name = "StockRunningOut";
             this.StockRunningOut.Size = new System.Drawing.Size(166, 31);
             this.StockRunningOut.TabIndex = 46;
             this.StockRunningOut.Text = "CORBIS POS";
+            this.StockRunningOut.Visible = false;
             // 
             // label24
             // 
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(470, 119);
+            this.label24.Location = new System.Drawing.Point(809, 88);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(51, 14);
             this.label24.TabIndex = 45;
             this.label24.Text = "Net Price";
             this.label24.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label24.Visible = false;
             // 
             // txtQtyPrice
             // 
-            this.txtQtyPrice.Location = new System.Drawing.Point(473, 138);
+            this.txtQtyPrice.Location = new System.Drawing.Point(852, 92);
             this.txtQtyPrice.MaxLength = 10;
             this.txtQtyPrice.Name = "txtQtyPrice";
             this.txtQtyPrice.Size = new System.Drawing.Size(79, 20);
             this.txtQtyPrice.TabIndex = 44;
+            this.txtQtyPrice.Visible = false;
             this.txtQtyPrice.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQtyPrice_KeyDown);
             // 
             // txtPromoDiscAmt
             // 
-            this.txtPromoDiscAmt.Location = new System.Drawing.Point(641, 138);
+            this.txtPromoDiscAmt.Location = new System.Drawing.Point(637, 138);
             this.txtPromoDiscAmt.MaxLength = 10;
             this.txtPromoDiscAmt.Name = "txtPromoDiscAmt";
             this.txtPromoDiscAmt.ReadOnly = true;
-            this.txtPromoDiscAmt.Size = new System.Drawing.Size(87, 20);
+            this.txtPromoDiscAmt.Size = new System.Drawing.Size(95, 20);
             this.txtPromoDiscAmt.TabIndex = 43;
             // 
             // txtPromoDisc
             // 
-            this.txtPromoDisc.Location = new System.Drawing.Point(562, 138);
+            this.txtPromoDisc.Location = new System.Drawing.Point(559, 138);
             this.txtPromoDisc.MaxLength = 10;
             this.txtPromoDisc.Name = "txtPromoDisc";
             this.txtPromoDisc.ReadOnly = true;
@@ -954,7 +1013,7 @@
             // 
             // txtLinkedBill
             // 
-            this.txtLinkedBill.Location = new System.Drawing.Point(796, 95);
+            this.txtLinkedBill.Location = new System.Drawing.Point(657, 90);
             this.txtLinkedBill.MaxLength = 10;
             this.txtLinkedBill.Name = "txtLinkedBill";
             this.txtLinkedBill.Size = new System.Drawing.Size(146, 20);
@@ -964,9 +1023,9 @@
             // txtRiderAmount
             // 
             this.txtRiderAmount.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRiderAmount.Location = new System.Drawing.Point(481, 91);
+            this.txtRiderAmount.Location = new System.Drawing.Point(610, 27);
             this.txtRiderAmount.Name = "txtRiderAmount";
-            this.txtRiderAmount.Size = new System.Drawing.Size(38, 26);
+            this.txtRiderAmount.Size = new System.Drawing.Size(75, 26);
             this.txtRiderAmount.TabIndex = 38;
             this.txtRiderAmount.Visible = false;
             // 
@@ -981,9 +1040,9 @@
             // 
             // txtRegisterID
             // 
-            this.txtRegisterID.Location = new System.Drawing.Point(427, 98);
+            this.txtRegisterID.Location = new System.Drawing.Point(558, 26);
             this.txtRegisterID.Name = "txtRegisterID";
-            this.txtRegisterID.Size = new System.Drawing.Size(10, 20);
+            this.txtRegisterID.Size = new System.Drawing.Size(45, 20);
             this.txtRegisterID.TabIndex = 29;
             this.txtRegisterID.Visible = false;
             // 
@@ -1014,7 +1073,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(839, 121);
+            this.label11.Location = new System.Drawing.Point(843, 121);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(93, 14);
             this.label11.TabIndex = 26;
@@ -1023,7 +1082,7 @@
             // 
             // txtAvailableQty
             // 
-            this.txtAvailableQty.Location = new System.Drawing.Point(833, 138);
+            this.txtAvailableQty.Location = new System.Drawing.Point(846, 138);
             this.txtAvailableQty.MaxLength = 10;
             this.txtAvailableQty.Name = "txtAvailableQty";
             this.txtAvailableQty.ReadOnly = true;
@@ -1035,7 +1094,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(8, 106);
+            this.label10.Location = new System.Drawing.Point(375, 7);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(77, 14);
             this.label10.TabIndex = 24;
@@ -1045,7 +1104,7 @@
             // 
             // txtProductID
             // 
-            this.txtProductID.Location = new System.Drawing.Point(205, 85);
+            this.txtProductID.Location = new System.Drawing.Point(474, 16);
             this.txtProductID.MaxLength = 10;
             this.txtProductID.Name = "txtProductID";
             this.txtProductID.Size = new System.Drawing.Size(80, 20);
@@ -1056,17 +1115,17 @@
             // 
             // txtdetailAmount
             // 
-            this.txtdetailAmount.Location = new System.Drawing.Point(732, 138);
+            this.txtdetailAmount.Location = new System.Drawing.Point(737, 138);
             this.txtdetailAmount.MaxLength = 10;
             this.txtdetailAmount.Name = "txtdetailAmount";
-            this.txtdetailAmount.Size = new System.Drawing.Size(93, 20);
+            this.txtdetailAmount.Size = new System.Drawing.Size(104, 20);
             this.txtdetailAmount.TabIndex = 22;
             this.txtdetailAmount.TabStop = false;
             this.txtdetailAmount.TextChanged += new System.EventHandler(this.txtdetailAmount_TextChanged);
             // 
             // txtTaxAmount
             // 
-            this.txtTaxAmount.Location = new System.Drawing.Point(732, 138);
+            this.txtTaxAmount.Location = new System.Drawing.Point(744, 138);
             this.txtTaxAmount.MaxLength = 10;
             this.txtTaxAmount.Name = "txtTaxAmount";
             this.txtTaxAmount.Size = new System.Drawing.Size(93, 20);
@@ -1075,7 +1134,7 @@
             // 
             // txtTax
             // 
-            this.txtTax.Location = new System.Drawing.Point(653, 138);
+            this.txtTax.Location = new System.Drawing.Point(639, 138);
             this.txtTax.MaxLength = 10;
             this.txtTax.Name = "txtTax";
             this.txtTax.Size = new System.Drawing.Size(75, 20);
@@ -1084,7 +1143,7 @@
             // 
             // txtRate
             // 
-            this.txtRate.Location = new System.Drawing.Point(283, 139);
+            this.txtRate.Location = new System.Drawing.Point(375, 138);
             this.txtRate.MaxLength = 10;
             this.txtRate.Name = "txtRate";
             this.txtRate.Size = new System.Drawing.Size(99, 20);
@@ -1093,7 +1152,7 @@
             // 
             // txtQuantity
             // 
-            this.txtQuantity.Location = new System.Drawing.Point(392, 138);
+            this.txtQuantity.Location = new System.Drawing.Point(479, 138);
             this.txtQuantity.MaxLength = 10;
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(75, 20);
@@ -1110,9 +1169,9 @@
             this.cmbProducts.FormattingEnabled = true;
             this.cmbProducts.Items.AddRange(new object[] {
             "select Product"});
-            this.cmbProducts.Location = new System.Drawing.Point(91, 138);
+            this.cmbProducts.Location = new System.Drawing.Point(104, 138);
             this.cmbProducts.Name = "cmbProducts";
-            this.cmbProducts.Size = new System.Drawing.Size(186, 21);
+            this.cmbProducts.Size = new System.Drawing.Size(267, 21);
             this.cmbProducts.TabIndex = 5;
             this.cmbProducts.SelectedIndexChanged += new System.EventHandler(this.cmbProducts_SelectedIndexChanged);
             // 
@@ -1152,10 +1211,10 @@
             // lblDateTime
             // 
             this.lblDateTime.AutoSize = true;
-            this.lblDateTime.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateTime.Location = new System.Drawing.Point(830, 36);
+            this.lblDateTime.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDateTime.Location = new System.Drawing.Point(786, 19);
             this.lblDateTime.Name = "lblDateTime";
-            this.lblDateTime.Size = new System.Drawing.Size(61, 15);
+            this.lblDateTime.Size = new System.Drawing.Size(71, 16);
             this.lblDateTime.TabIndex = 8;
             this.lblDateTime.Text = "Date & Time";
             this.lblDateTime.Click += new System.EventHandler(this.lblDateTime_Click);
@@ -1173,7 +1232,7 @@
             // 
             // txtProductBarCode
             // 
-            this.txtProductBarCode.Location = new System.Drawing.Point(100, 113);
+            this.txtProductBarCode.Location = new System.Drawing.Point(368, 15);
             this.txtProductBarCode.Name = "txtProductBarCode";
             this.txtProductBarCode.Size = new System.Drawing.Size(100, 20);
             this.txtProductBarCode.TabIndex = 6;
@@ -1184,7 +1243,7 @@
             // 
             this.txtSaleDate.Location = new System.Drawing.Point(348, 46);
             this.txtSaleDate.Name = "txtSaleDate";
-            this.txtSaleDate.Size = new System.Drawing.Size(200, 20);
+            this.txtSaleDate.Size = new System.Drawing.Size(206, 20);
             this.txtSaleDate.TabIndex = 0;
             this.txtSaleDate.ValueChanged += new System.EventHandler(this.txtSaleDate_ValueChanged);
             // 
@@ -1316,16 +1375,6 @@
         private System.Windows.Forms.Label lblFindPendingBill;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dtDiscpercentage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DtDiscAmt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tax;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TaxAmount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Button btnSaveNPrint;
@@ -1335,6 +1384,21 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label txtTotalPQty;
         private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label lblItem;
+        private System.Windows.Forms.TextBox txtIsBatchItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IMEINumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dtDiscpercentage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DtDiscAmt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TaxAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn chkIsBatchItem;
+        private System.Windows.Forms.TextBox txtIMEINumber;
     }
 }
 
