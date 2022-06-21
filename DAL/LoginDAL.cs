@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,8 @@ namespace DAL
             string where = "";
                 if(CheckIFStoreWiseRights())
             {
-                where += " and CounterPCName='" + obj.NICID+"'";
+                //where += " and   Replace(CounterPCName,',','') like '%" + obj.NICID+"%'";
+                where += GetWhereCondition(obj.NICID);
             }
            
                 var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
@@ -71,7 +73,8 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
             da.SelectCommand = cmd;
             try
             {
-                cmd.Transaction = tran; da.Fill(dt);
+                cmd.Transaction = tran;
+                da.Fill(dt);
                 tran.Commit();
             }
             catch (Exception ex)
@@ -110,6 +113,212 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
             }
 
             return isStoreWiseRights;
+        }
+
+        public DataTable GetActiveCountersList()
+        {
+          
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlDataAdapter adp = new SqlDataAdapter();
+            DataTable dt = new DataTable();
+            SqlTransaction tran;
+            con.Open();
+
+
+
+            tran = con.BeginTransaction();
+            SqlCommand cmd;
+            cmd = new SqlCommand(@"Select * from gen_PosConfiguration", con);
+            cmd.CommandType = CommandType.Text;
+
+            try
+            {
+                adp.SelectCommand = cmd;
+                cmd.Transaction = tran;
+                adp.Fill(dt);
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                throw ex;
+            }
+
+            return dt;
+        }
+
+        private string GetNICIDs()
+        {
+
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            String sMacAddress = string.Empty;
+            foreach (NetworkInterface adapter in nics)
+            {
+                if (adapter.GetPhysicalAddress().ToString() != String.Empty)// only return MAC Address from first card  
+                {
+                    IPInterfaceProperties properties = adapter.GetIPProperties();
+                    sMacAddress = sMacAddress + adapter.GetPhysicalAddress().ToString() + ",";
+                }
+
+            }
+            var MacAddressArray = sMacAddress.Split(',');
+            return sMacAddress;
+
+
+        }
+        private string GetWhereCondition(string sMacAddress)
+        {
+            string WhereClause = " and (";
+           
+            var MacAddressArray = sMacAddress.Split(',');
+            int Count = 0;
+
+            foreach (var macAddress in MacAddressArray)
+            {
+                if (!string.IsNullOrEmpty(macAddress))
+                {
+                    if(Count>0)
+                    {
+                        WhereClause = WhereClause + " OR ";
+                    }
+
+                    WhereClause = WhereClause + "   '"+macAddress+"' in (Select * from dbo.fnSplitString1(CounterPCName,','))";
+                    Count++;
+                }
+                
+            }
+            WhereClause += " )";
+            return WhereClause;
+
+
+        }
+
+        public string SaveConfiguration(int ConfigID,string MacCounterPCName)
+        {
+            string ReturnMessage = "Done";
+            DataTable dt = new DataTable();
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            con.Open();
+            tran = con.BeginTransaction();
+            SqlCommand cmd;
+            cmd = new SqlCommand("gen_PosConfiguration_Insert", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter da = new SqlDataAdapter();
+            SqlParameter p = new SqlParameter("ConfigID", ConfigID);
+            p.Direction = ParameterDirection.InputOutput;
+            cmd.Parameters.Add(p);
+            cmd.Parameters.AddWithValue("@CounterPCName", MacCounterPCName);
+            da.SelectCommand = cmd;
+            try
+            {
+                cmd.Transaction = tran;
+                da.Fill(dt);
+                tran.Commit();
+
+            }catch(Exception e)
+            {
+                ReturnMessage = e.Message.ToString();
+                tran.Rollback();
+            }
+            finally
+                {
+                con.Close();
+            }
+            return ReturnMessage;
+            }
+
+        public string SetMAcAddressIfFirstRun()
+        {
+            string isSaved = "Done";
+            bool isStoreWiseRights = false;
+            int NoOfCountersAllowed = 0;
+            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            SqlDataAdapter adp = new SqlDataAdapter();
+            con.Open();
+            tran = con.BeginTransaction();
+            SqlCommand cmd;
+            cmd = new SqlCommand(@"Select isStoreWiseRights,NoOfCountersAllowed from gen_SystemConfiguration", con);
+            cmd.CommandType = CommandType.Text;
+            adp.SelectCommand = cmd;
+            DataTable dt = new DataTable();
+            try
+            {
+                cmd.Transaction = tran;
+                adp.Fill(dt);
+                tran.Commit();
+                
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                throw ex;
+            }
+
+            if(dt.Rows.Count>0)
+            {
+                isStoreWiseRights= dt.Rows[0][0] is DBNull ? false : Convert.ToBoolean(dt.Rows[0][0].ToString());
+                NoOfCountersAllowed= dt.Rows[0][1] is DBNull ? 0 : Convert.ToInt32(dt.Rows[0][1].ToString());
+            }
+            if(isStoreWiseRights==true && NoOfCountersAllowed>0)
+            {
+                var CountsList = GetActiveCountersList();
+                if(CountsList.Rows.Count< NoOfCountersAllowed)
+                {
+                    string GetNetworkIDs = GetNICIDs();
+                    bool CheckIfAlreadyAdded = false;
+                    foreach(DataRow Row in CountsList.Rows)
+                    {
+                        var AlreadyActiveMacs = Row["CounterPCName"].ToString().Split(',');
+                        foreach (var newMacAddress in GetNetworkIDs.Split(','))
+                        {
+                            foreach (var macAddress in AlreadyActiveMacs)
+                            {
+                                if (!string.IsNullOrEmpty(newMacAddress) && !string.IsNullOrEmpty(macAddress))
+                                {
+                                    if (newMacAddress == macAddress)
+                                    {
+                                        CheckIfAlreadyAdded = true;
+                                    }
+                                }
+                                if(CheckIfAlreadyAdded)
+                                {
+                                    break;
+                                }
+                            }
+                            if (CheckIfAlreadyAdded)
+                            {
+                                break;
+                            }
+                        }
+                        if (CheckIfAlreadyAdded)
+                        {
+                            break;
+                        }
+                    }
+                    if (!CheckIfAlreadyAdded)
+                    {
+
+                        isSaved = SaveConfiguration(0, GetNetworkIDs);
+                        
+
+                    }
+
+                }
+                else
+                {
+                    //isSaved = "Can't Create New Counter as Maximum Counters Limit is Reached...";
+                    isSaved = "Done";
+                }
+
+
+            }
+            return isSaved;
+
         }
 
 
