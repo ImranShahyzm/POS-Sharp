@@ -407,10 +407,10 @@ namespace POS
             for (int i = 0; i < ItemSaleGrid.Rows.Count; ++i)
             {
 
-                var NetTotal = Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[3].Value)) * Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[2].Value));
+                var NetTotal = Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value)) * Convert.ToDecimal(Convert.ToString(ItemSaleGrid.Rows[i].Cells[3].Value));
                 sum += NetTotal;
-                taxAmountTotal += Convert.ToString(ItemSaleGrid.Rows[i].Cells[7].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[7].Value);
-                TotalDiscount += Convert.ToString(ItemSaleGrid.Rows[i].Cells[5].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[5].Value);
+                taxAmountTotal += Convert.ToString(ItemSaleGrid.Rows[i].Cells[8].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[8].Value);
+                TotalDiscount += Convert.ToString(ItemSaleGrid.Rows[i].Cells[6].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[6].Value);
             }
 
             txtGrossAmount.Text = Convert.ToString(Math.Ceiling(sum));
@@ -519,12 +519,12 @@ namespace POS
                     DataTable dt = getProduct(0, Convert.ToInt32(id));
                     var taxPercentage = Convert.ToDecimal(dt.Rows[0]["TotalTax"]);
 
-                    var dtDiscpercentage = Convert.ToString(ItemSaleGrid.Rows[i].Cells[4].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value);
+                    var dtDiscpercentage = Convert.ToString(ItemSaleGrid.Rows[i].Cells[5].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[5].Value);
 
                     //********* Check if Percentage Discount is 0 or Empty
 
 
-                    var EnterdDiscountAmount = Convert.ToString(ItemSaleGrid.Rows[i].Cells[5].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[5].Value);
+                    var EnterdDiscountAmount = Convert.ToString(ItemSaleGrid.Rows[i].Cells[6].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[6].Value);
 
 
 
@@ -539,8 +539,8 @@ namespace POS
 
 
 
-                    decimal rate = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[2].Value.ToString());
-                    decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[3].Value.ToString());
+                    decimal rate = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[3].Value.ToString());
+                    decimal qty = Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[4].Value.ToString());
 
                     decimal GrossAmt = qty * rate;
                     decimal discountAmt = 0;
@@ -549,7 +549,7 @@ namespace POS
 
                          discountAmt = (Convert.ToDecimal(dtDiscpercentage) * GrossAmt) / 100;
                         //Discount Amount Cell
-                        ItemSaleGrid.Rows[i].Cells[5].Value = discountAmt;
+                        ItemSaleGrid.Rows[i].Cells[6].Value = discountAmt;
 
                     }
                     else
@@ -557,15 +557,15 @@ namespace POS
                         discountAmt = EnterdDiscountAmount;
                         var DiscountPercentCalc = (Convert.ToDecimal(EnterdDiscountAmount)/GrossAmt) * 100;
                         //Discount Amount Cell
-                        ItemSaleGrid.Rows[i].Cells[4].Value = DiscountPercentCalc;
+                        ItemSaleGrid.Rows[i].Cells[5].Value = DiscountPercentCalc;
                     }
 
                     decimal TotalTaxAmount = (Convert.ToDecimal(taxPercentage) * GrossAmt) / 100;
                     //Tax Amount Cell
-                    ItemSaleGrid.Rows[i].Cells[7].Value = TotalTaxAmount;
+                    ItemSaleGrid.Rows[i].Cells[8].Value = TotalTaxAmount;
 
                     //Net Amount Cell
-                    ItemSaleGrid.Rows[i].Cells[8].Value = (GrossAmt) - discountAmt + TotalTaxAmount;
+                    ItemSaleGrid.Rows[i].Cells[9].Value = (GrossAmt) - discountAmt + TotalTaxAmount;
                     
                     GrossAmount_Total();
 
@@ -860,7 +860,7 @@ namespace POS
                 //ClearFields();
                 txtProductID.Focus();
 
-                string[] row = { id.ToString(), cmbProducts.Text, txtRate.Text.ToString(), txtQuantity.Text.ToString(), txtPromoDisc.Text.ToString(), txtPromoDiscAmt.Text.ToString(), txtTax.Text.ToString(), txtTaxAmount.Text.ToString(), txtdetailAmount.Text.ToString(), txtAvailableQty.Text.ToString() };
+                string[] row = { id.ToString(), cmbProducts.Text, txtIMEINumber.Text, txtRate.Text.ToString(), txtQuantity.Text.ToString(), txtPromoDisc.Text.ToString(), txtPromoDiscAmt.Text.ToString(), txtTax.Text.ToString(), txtTaxAmount.Text.ToString(), txtdetailAmount.Text.ToString(), txtAvailableQty.Text.ToString() };
                 ItemSaleGrid.Rows.Insert(0, row);
             }
             GrossAmount_Total();
@@ -1095,10 +1095,12 @@ namespace POS
             dt1.Columns.Add("SchemeID");
             dt1.Columns.Add("MinQuantity");
             dt1.Columns.Add("isExchange");
+            dt1.Columns.Add("IMEINumber");
+           
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
-                var TQty = Convert.ToDecimal(row.Cells[3].Value.ToString());
+                var TQty = Convert.ToDecimal(row.Cells[4].Value.ToString());
                 if (TQty > 0)
                 {
 
@@ -1108,17 +1110,17 @@ namespace POS
                     dRow[0] = i;
                     dRow[1] = row.Cells[0].Value.ToString();
                     dRow[2] = TQty.ToString();
-                    dRow[3] = row.Cells[2].Value.ToString();
-                    dRow[4] = row.Cells[6].Value.ToString();
-                    dRow[5] = row.Cells[7].Value.ToString();
-                    dRow[6] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[4].Value)) || Convert.ToString(row.Cells[4].Value) == ".") ? "0" : Convert.ToString(row.Cells[4].Value);
-                    dRow[7] = row.Cells[5].Value.ToString();
-                    dRow[8] = row.Cells[8].Value.ToString();
+                    dRow[3] = row.Cells[3].Value.ToString();
+                    dRow[4] = row.Cells[7].Value.ToString();
+                    dRow[5] = row.Cells[8].Value.ToString();
+                    dRow[6] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[5].Value)) || Convert.ToString(row.Cells[5].Value) == ".") ? "0" : Convert.ToString(row.Cells[5].Value);
+                    dRow[7] = row.Cells[6].Value.ToString();
+                    dRow[8] = row.Cells[9].Value.ToString();
                     dRow[9] = 0;//row.Cells[13].Value.ToString();
                     dRow[10] = 0;// row.Cells[4].Value.ToString();
                     dRow[11] = TQty;// row.Cells[7].Value.ToString();
                     dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
-
+                    dRow["IMEINumber"] = row.Cells[2].Value.ToString();
                     dt1.Rows.Add(dRow);
                 }
             }
@@ -1960,6 +1962,7 @@ namespace POS
                     string[] row = {
                             dtdetail.Rows[i]["ItemId"].ToString(),
                             dtdetail.Rows[i]["ItenName"].ToString(),
+                            dtdetail.Rows[i]["IMEINumber"].ToString(),
                             dtdetail.Rows[i]["ItemRate"].ToString(),
                             
                             

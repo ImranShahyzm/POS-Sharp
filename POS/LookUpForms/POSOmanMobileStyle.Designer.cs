@@ -36,16 +36,6 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
-            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dtDiscpercentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DtDiscAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TaxAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label9 = new System.Windows.Forms.Label();
             this.txtProductCode = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -55,6 +45,7 @@
             this.cmbSalemenu = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.printType = new System.Windows.Forms.CheckBox();
             this.txtNetDtDiscount = new System.Windows.Forms.TextBox();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
@@ -119,7 +110,18 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.printType = new System.Windows.Forms.CheckBox();
+            this.txtIMEINumber = new System.Windows.Forms.TextBox();
+            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IMEINumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dtDiscpercentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DtDiscAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TaxAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -199,6 +201,7 @@
             this.ItemSaleGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ProductId,
             this.ProductName,
+            this.IMEINumber,
             this.Rate,
             this.Quantity,
             this.dtDiscpercentage,
@@ -217,66 +220,6 @@
             this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
             this.ItemSaleGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ItemSaleGrid_KeyPress);
             this.ItemSaleGrid.Leave += new System.EventHandler(this.ItemSaleGrid_Leave);
-            // 
-            // ProductId
-            // 
-            this.ProductId.HeaderText = "ProductID";
-            this.ProductId.Name = "ProductId";
-            this.ProductId.ReadOnly = true;
-            this.ProductId.Visible = false;
-            // 
-            // ProductName
-            // 
-            this.ProductName.HeaderText = "ProductName";
-            this.ProductName.Name = "ProductName";
-            this.ProductName.ReadOnly = true;
-            this.ProductName.Width = 200;
-            // 
-            // Rate
-            // 
-            this.Rate.HeaderText = "Rate";
-            this.Rate.Name = "Rate";
-            this.Rate.ReadOnly = true;
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            // 
-            // dtDiscpercentage
-            // 
-            this.dtDiscpercentage.HeaderText = "Disc %";
-            this.dtDiscpercentage.Name = "dtDiscpercentage";
-            this.dtDiscpercentage.Width = 80;
-            // 
-            // DtDiscAmt
-            // 
-            this.DtDiscAmt.HeaderText = "Discount Amount";
-            this.DtDiscAmt.Name = "DtDiscAmt";
-            // 
-            // Tax
-            // 
-            this.Tax.HeaderText = "Tax";
-            this.Tax.Name = "Tax";
-            this.Tax.ReadOnly = true;
-            this.Tax.Width = 70;
-            // 
-            // TaxAmount
-            // 
-            this.TaxAmount.HeaderText = "Tax Amount";
-            this.TaxAmount.Name = "TaxAmount";
-            this.TaxAmount.ReadOnly = true;
-            // 
-            // NetAmount
-            // 
-            this.NetAmount.HeaderText = "Net Amount";
-            this.NetAmount.Name = "NetAmount";
-            this.NetAmount.ReadOnly = true;
-            // 
-            // Qty
-            // 
-            this.Qty.HeaderText = "Quantity";
-            this.Qty.Name = "Qty";
             // 
             // label9
             // 
@@ -405,6 +348,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1034, 140);
             this.panel1.TabIndex = 9;
+            // 
+            // printType
+            // 
+            this.printType.AutoSize = true;
+            this.printType.Location = new System.Drawing.Point(582, 96);
+            this.printType.Name = "printType";
+            this.printType.Size = new System.Drawing.Size(63, 17);
+            this.printType.TabIndex = 33;
+            this.printType.Text = "Print A4";
+            this.printType.UseVisualStyleBackColor = true;
+            this.printType.Enter += new System.EventHandler(this.printType_Enter);
+            this.printType.KeyDown += new System.Windows.Forms.KeyEventHandler(this.printType_KeyDown);
+            this.printType.Leave += new System.EventHandler(this.printType_Leave);
             // 
             // txtNetDtDiscount
             // 
@@ -681,6 +637,7 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.txtIMEINumber);
             this.panel5.Controls.Add(this.label28);
             this.panel5.Controls.Add(this.label27);
             this.panel5.Controls.Add(this.lblFindPendingBill);
@@ -1111,18 +1068,78 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // printType
+            // txtIMEINumber
             // 
-            this.printType.AutoSize = true;
-            this.printType.Location = new System.Drawing.Point(582, 96);
-            this.printType.Name = "printType";
-            this.printType.Size = new System.Drawing.Size(63, 17);
-            this.printType.TabIndex = 33;
-            this.printType.Text = "Print A4";
-            this.printType.UseVisualStyleBackColor = true;
-            this.printType.Enter += new System.EventHandler(this.printType_Enter);
-            this.printType.KeyDown += new System.Windows.Forms.KeyEventHandler(this.printType_KeyDown);
-            this.printType.Leave += new System.EventHandler(this.printType_Leave);
+            this.txtIMEINumber.Location = new System.Drawing.Point(938, 138);
+            this.txtIMEINumber.Name = "txtIMEINumber";
+            this.txtIMEINumber.Size = new System.Drawing.Size(68, 20);
+            this.txtIMEINumber.TabIndex = 57;
+            this.txtIMEINumber.Visible = false;
+            // 
+            // ProductId
+            // 
+            this.ProductId.HeaderText = "ProductID";
+            this.ProductId.Name = "ProductId";
+            this.ProductId.ReadOnly = true;
+            this.ProductId.Visible = false;
+            // 
+            // ProductName
+            // 
+            this.ProductName.HeaderText = "ProductName";
+            this.ProductName.Name = "ProductName";
+            this.ProductName.ReadOnly = true;
+            this.ProductName.Width = 200;
+            // 
+            // IMEINumber
+            // 
+            this.IMEINumber.HeaderText = "IMEINumber";
+            this.IMEINumber.Name = "IMEINumber";
+            // 
+            // Rate
+            // 
+            this.Rate.HeaderText = "Rate";
+            this.Rate.Name = "Rate";
+            this.Rate.ReadOnly = true;
+            // 
+            // Quantity
+            // 
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            // 
+            // dtDiscpercentage
+            // 
+            this.dtDiscpercentage.HeaderText = "Disc %";
+            this.dtDiscpercentage.Name = "dtDiscpercentage";
+            this.dtDiscpercentage.Width = 80;
+            // 
+            // DtDiscAmt
+            // 
+            this.DtDiscAmt.HeaderText = "Discount Amount";
+            this.DtDiscAmt.Name = "DtDiscAmt";
+            // 
+            // Tax
+            // 
+            this.Tax.HeaderText = "Tax";
+            this.Tax.Name = "Tax";
+            this.Tax.ReadOnly = true;
+            this.Tax.Width = 70;
+            // 
+            // TaxAmount
+            // 
+            this.TaxAmount.HeaderText = "Tax Amount";
+            this.TaxAmount.Name = "TaxAmount";
+            this.TaxAmount.ReadOnly = true;
+            // 
+            // NetAmount
+            // 
+            this.NetAmount.HeaderText = "Net Amount";
+            this.NetAmount.Name = "NetAmount";
+            this.NetAmount.ReadOnly = true;
+            // 
+            // Qty
+            // 
+            this.Qty.HeaderText = "Quantity";
+            this.Qty.Name = "Qty";
             // 
             // POSOmanMobileStyle
             // 
@@ -1233,8 +1250,11 @@
         private System.Windows.Forms.Label lblFindPendingBill;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.CheckBox printType;
+        private System.Windows.Forms.TextBox txtIMEINumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IMEINumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn dtDiscpercentage;
@@ -1243,7 +1263,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TaxAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
-        private System.Windows.Forms.CheckBox printType;
     }
 }
 
