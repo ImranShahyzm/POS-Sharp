@@ -25,7 +25,13 @@ namespace POS
             }
             else
             {
-                Application.Run(new frmLogIn());
+                try
+                {
+                    Application.Run(new frmLogIn());
+                }catch(Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             }
         }
     }

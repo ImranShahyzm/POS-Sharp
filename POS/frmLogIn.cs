@@ -1,5 +1,6 @@
 ﻿using BLL;
 using Common;
+using DAL;
 using MetroFramework.Forms;
 using POS.Helper;
 using POS.Report;
@@ -35,6 +36,15 @@ namespace POS
             //string version = System.Windows.Forms.Application.ProductVersion;
             //this.Text = String.Format("My Application Version {0}", version)
             //clearAll();
+            LoginDAL objDAL = new LoginDAL();
+            string result=objDAL.SetMAcAddressIfFirstRun();
+            if(result!="Done")
+            {
+                if (MessageBox.Show(result, "Important Message...!!", MessageBoxButtons.OK, MessageBoxIcon.Stop) == DialogResult.OK)
+                {
+                    System.Environment.Exit(1);
+                }
+            }
             txtUserName.Focus();
             txtUserName.Select();
         }
@@ -85,9 +95,30 @@ namespace POS
                     sMacAddress = adapter.GetPhysicalAddress().ToString();
                 }
             }
+            GetNICIDs();
             return sMacAddress;
 
           
+        }
+
+        private string GetNICIDs()
+        {
+
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            String sMacAddress = string.Empty;
+            foreach (NetworkInterface adapter in nics)
+            {
+                if (adapter.GetPhysicalAddress().ToString() != String.Empty)// only return MAC Address from first card  
+                {
+                    IPInterfaceProperties properties = adapter.GetIPProperties();
+                    sMacAddress = sMacAddress+adapter.GetPhysicalAddress().ToString()+",";
+                }
+                
+            }
+            var MacAddressArray = sMacAddress.Split(',');
+            return sMacAddress;
+
+
         }
 
         private void SaveForm()
@@ -98,7 +129,7 @@ namespace POS
                 LogInCommon objcom = new LogInCommon();
                 objcom.UserName = txtUserName.Text;
                 objcom.Password = txtPassword.Text;
-                objcom.NICID = GetNICID();
+                objcom.NICID = GetNICIDs();
                 DataTable dt = objbll.checkLoginBLL(objcom);
                 if (dt.Rows.Count > 0)
                 {
