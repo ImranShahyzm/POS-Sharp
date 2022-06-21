@@ -695,6 +695,10 @@ namespace POS
             dt1.Columns.Add("Carton");
             dt1.Columns.Add("TotalQuantity");
             dt1.Columns.Add("SalePosDetailID");
+            dt1.Columns.Add("SchemeID");
+            dt1.Columns.Add("MinQuantity");
+            dt1.Columns.Add("isExchange");
+            dt1.Columns.Add("IMEINumber");
 
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
