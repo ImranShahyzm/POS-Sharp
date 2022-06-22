@@ -225,7 +225,7 @@ namespace POS.LookUpForms
         }
         private void loadProducts()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -251,7 +251,7 @@ namespace POS.LookUpForms
             {
                 BarcodeString = BarcodeString.Substring(0, BarcodeString.Length - 1);
             }
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();

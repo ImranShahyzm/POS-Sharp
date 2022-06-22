@@ -44,7 +44,7 @@ namespace POS
 
 
 
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -71,7 +71,7 @@ namespace POS
         }
         private void loadProducts()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -104,7 +104,7 @@ namespace POS
      Int32 companyID = 0, string companyFieldName = "CompanyID", Int32 FiscalID = 0,
      string FiscalIDFieldName = "FiscalID", bool IsTaxable = false)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             try
             {
                 DataTable dt = new DataTable();
@@ -153,7 +153,7 @@ namespace POS
         }
         private void loadCashSource()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -190,7 +190,7 @@ namespace POS
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
             DataTable dtdetail = new DataTable();
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -279,7 +279,7 @@ namespace POS
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
             DataTable dtdetail = new DataTable();
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -487,7 +487,7 @@ namespace POS
         {
             if (!string.IsNullOrEmpty(PhoneNo))
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+                var connectionString = STATICClass.Connection();
                 SqlConnection cnn;
                 cnn = new SqlConnection(connectionString);
                 cnn.Open();
@@ -517,7 +517,7 @@ namespace POS
         {
             if (!string.IsNullOrEmpty(OrderNo))
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+                var connectionString = STATICClass.Connection();
                 SqlConnection cnn;
                 cnn = new SqlConnection(connectionString);
                 cnn.Open();
@@ -545,7 +545,7 @@ namespace POS
             int CutomerId = 0;
             if (!string.IsNullOrEmpty(PhoneNo))
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+                var connectionString = STATICClass.Connection();
                 SqlConnection cnn;
                 cnn = new SqlConnection(connectionString);
                 cnn.Open();
@@ -1396,7 +1396,7 @@ namespace POS
         }
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -1435,7 +1435,7 @@ namespace POS
         }
         private DataTable getProductBarcode(int categoryID, int productID = 0, string ManualNumber = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -1721,7 +1721,7 @@ namespace POS
         }
         private void GetRunningPromo(int ItemId)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -1865,7 +1865,7 @@ namespace POS
 
 
 
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();

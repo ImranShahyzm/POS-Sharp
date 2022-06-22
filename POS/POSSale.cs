@@ -94,7 +94,7 @@ namespace POS
         }
         private void loadProducts()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -114,7 +114,7 @@ namespace POS
         }
         private void laodCategories()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -210,7 +210,7 @@ namespace POS
 
         private void CheckLastAmountForOpening()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -230,7 +230,7 @@ namespace POS
 
         private void SaveOpening(string amount)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -524,7 +524,7 @@ namespace POS
 
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -563,7 +563,7 @@ namespace POS
         }
         private DataTable getProductBarcode(int categoryID, int productID = 0, string ManualNumber = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -722,7 +722,7 @@ namespace POS
 
                 dt1.Rows.Add(dRow);
             }
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -964,7 +964,7 @@ namespace POS
           Int32 companyID = 0, string companyFieldName = "CompanyID", Int32 FiscalID = 0,
           string FiscalIDFieldName = "FiscalID", bool IsTaxable = false)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             try
             {
                 DataTable dt = new DataTable();
@@ -1231,7 +1231,7 @@ namespace POS
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
             DataTable dtdetail = new DataTable();
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -1754,6 +1754,12 @@ namespace POS
                 frmDailySaleReturn frm = new frmDailySaleReturn();
                 frm.ShowDialog();
             
+        }
+
+        private void counterSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCounterConfiguration frm = new frmCounterConfiguration();
+            frm.ShowDialog();
         }
     }
 }

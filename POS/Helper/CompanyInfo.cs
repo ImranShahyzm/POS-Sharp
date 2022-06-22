@@ -36,6 +36,8 @@ namespace POS.Helper
         public static long POSID { get; set; }
         public static string USIN { get; set; }
 
+        public static string ApiIpAddress { get; set; }
+
 
     }
 }

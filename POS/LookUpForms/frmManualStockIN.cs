@@ -36,7 +36,7 @@ namespace POS.LookUpForms
         Int32 companyID = 0, string companyFieldName = "CompanyID", Int32 FiscalID = 0,
         string FiscalIDFieldName = "FiscalID", bool IsTaxable = false)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             try
             {
                 DataTable dt = new DataTable();
@@ -81,7 +81,7 @@ namespace POS.LookUpForms
         }
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -120,7 +120,7 @@ namespace POS.LookUpForms
         }
         private void loadProducts()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -218,7 +218,7 @@ namespace POS.LookUpForms
         private int GetItemIDbyBuiltInBarcodes(string BarcodeNumber = "")
         {
             string SqlString = "Select Top 1 inv.ItemId,inv.ManualNumber,inv.ItemSalesPrice from data_InventItemsBarcodeDetail dt inner join InventItems inv on inv.ItemId=dt.ItemID";
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -498,7 +498,7 @@ namespace POS.LookUpForms
         }
         public void LoadStockDetailDataMaster(int ArrivalID)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();

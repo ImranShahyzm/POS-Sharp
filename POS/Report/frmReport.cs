@@ -37,7 +37,7 @@ namespace POS.Report
 
         public void loadReport(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -66,7 +66,7 @@ namespace POS.Report
         }
         public void loadSaleReport(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -107,7 +107,7 @@ namespace POS.Report
 
         public void PreviewReport(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -156,7 +156,7 @@ namespace POS.Report
         }
         public DataTable SelectCompanyDetail(string where = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter("select * from [dbo].[GLCompany] " + where, con);

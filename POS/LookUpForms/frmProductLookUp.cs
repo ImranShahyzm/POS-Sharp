@@ -62,7 +62,7 @@ namespace POS.LookUpForms
         }
         private void loadProducts(int MainGroupId=0)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -215,7 +215,7 @@ GROUP BY InventItems.ItemId, ItenName , InventItems.ItemNumber ";
                 SqlString = ItemSearchSQLWithItemNumber(searchValue, Convert.ToInt32("0" + txtMainGroupID.Text));
             }
             
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -248,7 +248,7 @@ GROUP BY InventItems.ItemId, ItenName , InventItems.ItemNumber ";
             {
                 SqlString = SqlString + " and InventCategory.ItemGroupID=" + Convert.ToInt32(txtMainGroupID.Text) + "";
             }
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();

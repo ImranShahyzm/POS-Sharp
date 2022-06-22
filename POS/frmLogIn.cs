@@ -153,6 +153,11 @@ namespace POS
                     CompanyInfo.ISFbrConnectivity = dt.Rows[0]["ISFbrConnectivity"] is DBNull ? 0 : Convert.ToInt32(dt.Rows[0]["ISFbrConnectivity"]);
                     CompanyInfo.POSID = dt.Rows[0]["POSID"] is DBNull ? 0 : Convert.ToInt32(dt.Rows[0]["POSID"]);
                     CompanyInfo.USIN = dt.Rows[0]["USIN"] is DBNull ? "0" : Convert.ToString(dt.Rows[0]["USIN"]);
+
+                    CompanyInfo.ApiIpAddress = Convert.ToString(dt.Rows[0]["ApiIpAddress"]);
+                    STATICClass.BaseURL = CompanyInfo.ApiIpAddress;
+
+
                     frmPOSSale objFrm = new frmPOSSale();
 
                     objcom.Userid = Convert.ToInt32(dt.Rows[0]["Userid"]);
@@ -239,6 +244,12 @@ namespace POS
             {
                 txtPassword.Focus();
             }
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            frmConnection frm = new frmConnection();
+            frm.ShowDialog();
         }
     }
 }

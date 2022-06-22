@@ -120,11 +120,13 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.makeOrderReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.saleReturnReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.orderSectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newCustomerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.makeOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customersListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saleReturnReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.counterSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -916,7 +918,8 @@
             this.stockTranscationsToolStripMenuItem,
             this.cashTranscationsToolStripMenuItem,
             this.reportsToolStripMenuItem,
-            this.orderSectionToolStripMenuItem});
+            this.orderSectionToolStripMenuItem,
+            this.configurationToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1219, 24);
@@ -1122,6 +1125,13 @@
             this.toolStripMenuItem3.Text = "Pending Bills Report";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
+            // saleReturnReportToolStripMenuItem
+            // 
+            this.saleReturnReportToolStripMenuItem.Name = "saleReturnReportToolStripMenuItem";
+            this.saleReturnReportToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.saleReturnReportToolStripMenuItem.Text = "Sale Return Report";
+            this.saleReturnReportToolStripMenuItem.Click += new System.EventHandler(this.saleReturnReportToolStripMenuItem_Click);
+            // 
             // orderSectionToolStripMenuItem
             // 
             this.orderSectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1135,14 +1145,14 @@
             // newCustomerToolStripMenuItem
             // 
             this.newCustomerToolStripMenuItem.Name = "newCustomerToolStripMenuItem";
-            this.newCustomerToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.newCustomerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newCustomerToolStripMenuItem.Text = "New Customer";
             this.newCustomerToolStripMenuItem.Click += new System.EventHandler(this.newCustomerToolStripMenuItem_Click);
             // 
             // makeOrderToolStripMenuItem
             // 
             this.makeOrderToolStripMenuItem.Name = "makeOrderToolStripMenuItem";
-            this.makeOrderToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.makeOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.makeOrderToolStripMenuItem.Text = "Make Order";
             this.makeOrderToolStripMenuItem.Visible = false;
             this.makeOrderToolStripMenuItem.Click += new System.EventHandler(this.makeOrderToolStripMenuItem_Click);
@@ -1150,22 +1160,30 @@
             // customersListToolStripMenuItem
             // 
             this.customersListToolStripMenuItem.Name = "customersListToolStripMenuItem";
-            this.customersListToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.customersListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.customersListToolStripMenuItem.Text = "Customers List";
             this.customersListToolStripMenuItem.Click += new System.EventHandler(this.customersListToolStripMenuItem_Click);
             // 
-            // saleReturnReportToolStripMenuItem
+            // configurationToolStripMenuItem
             // 
-            this.saleReturnReportToolStripMenuItem.Name = "saleReturnReportToolStripMenuItem";
-            this.saleReturnReportToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.saleReturnReportToolStripMenuItem.Text = "Sale Return Report";
-            this.saleReturnReportToolStripMenuItem.Click += new System.EventHandler(this.saleReturnReportToolStripMenuItem_Click);
+            this.configurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.counterSettingsToolStripMenuItem});
+            this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.configurationToolStripMenuItem.Text = "Configuration";
+            // 
+            // counterSettingsToolStripMenuItem
+            // 
+            this.counterSettingsToolStripMenuItem.Name = "counterSettingsToolStripMenuItem";
+            this.counterSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.counterSettingsToolStripMenuItem.Text = "Counter Settings";
+            this.counterSettingsToolStripMenuItem.Click += new System.EventHandler(this.counterSettingsToolStripMenuItem_Click);
             // 
             // frmPOSSale
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::POS.Properties.Resources.slider_01;
+          
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1219, 729);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -1296,6 +1314,8 @@
         private System.Windows.Forms.ToolStripMenuItem syncRecpiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dispatchDeskArrivalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saleReturnReportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem counterSettingsToolStripMenuItem;
     }
 }
 

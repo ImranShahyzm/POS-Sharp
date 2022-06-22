@@ -27,7 +27,7 @@ namespace POS.Report
         }
         public DataTable SelectCompanyDetail(string where = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter("select * from [dbo].[GLCompany] " + where, con);
@@ -96,7 +96,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
         }
         public void loadSaleReport(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -145,7 +145,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
         }
         public void loadSaleFoodMamaReport(string StoreProcedure, string ReportName, List<string[]> parameters, bool isReturn = false, bool isReprint = false, bool isA4Style = false)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -220,7 +220,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
 
         public void loadSaleFoodMamaReportLinked(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -270,7 +270,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
 
         public void PrintFbrInvoice(string StoreProcedure, string ReportName, List<string[]> parameters, bool isReturn = false, bool isReprint = false)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -333,7 +333,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
 
         public void loadKhaakiInvoice(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -382,7 +382,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
         }
         public void loadSaleKitchenReport(string StoreProcedure, string ReportName, List<string[]> parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -1406,7 +1406,7 @@ from data_SalePosReturnDetail
         }
         public void CashBook(string StoreProcedure, string ReportName, List<string[]> parameters, int PrintStyle)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
@@ -1531,7 +1531,7 @@ Group By CounterID
         }
         public void GenerateClosing(DataTable SessionDt)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
             DataTable Transcations = GetOpeningClosingSession(SessionDt);
 

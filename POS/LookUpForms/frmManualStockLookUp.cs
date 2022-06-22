@@ -69,7 +69,7 @@ namespace POS.LookUpForms
         }
         private void loadProducts()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -96,7 +96,7 @@ namespace POS.LookUpForms
             {
                 SqlString = " Select ArrivalID,Format(ArrivalDate , 'dd-MMM-yyyy') as ArrivalDate,ManualNo,VehicleNo from data_StockArrivalInfo Where ArrivalToWHID=" + CompanyInfo.WareHouseID + " and  ManualNumber= '" + searchValue + "'";
             }
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
