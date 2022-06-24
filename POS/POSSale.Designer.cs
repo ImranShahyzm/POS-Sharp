@@ -1145,14 +1145,14 @@
             // newCustomerToolStripMenuItem
             // 
             this.newCustomerToolStripMenuItem.Name = "newCustomerToolStripMenuItem";
-            this.newCustomerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newCustomerToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.newCustomerToolStripMenuItem.Text = "New Customer";
             this.newCustomerToolStripMenuItem.Click += new System.EventHandler(this.newCustomerToolStripMenuItem_Click);
             // 
             // makeOrderToolStripMenuItem
             // 
             this.makeOrderToolStripMenuItem.Name = "makeOrderToolStripMenuItem";
-            this.makeOrderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.makeOrderToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.makeOrderToolStripMenuItem.Text = "Make Order";
             this.makeOrderToolStripMenuItem.Visible = false;
             this.makeOrderToolStripMenuItem.Click += new System.EventHandler(this.makeOrderToolStripMenuItem_Click);
@@ -1160,7 +1160,7 @@
             // customersListToolStripMenuItem
             // 
             this.customersListToolStripMenuItem.Name = "customersListToolStripMenuItem";
-            this.customersListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.customersListToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.customersListToolStripMenuItem.Text = "Customers List";
             this.customersListToolStripMenuItem.Click += new System.EventHandler(this.customersListToolStripMenuItem_Click);
             // 
@@ -1175,7 +1175,7 @@
             // counterSettingsToolStripMenuItem
             // 
             this.counterSettingsToolStripMenuItem.Name = "counterSettingsToolStripMenuItem";
-            this.counterSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.counterSettingsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.counterSettingsToolStripMenuItem.Text = "Counter Settings";
             this.counterSettingsToolStripMenuItem.Click += new System.EventHandler(this.counterSettingsToolStripMenuItem_Click);
             // 
@@ -1183,7 +1183,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-          
+            this.BackgroundImage = global::POS.Properties.Resources.slider_01;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1219, 729);
             this.Controls.Add(this.tableLayoutPanel1);
