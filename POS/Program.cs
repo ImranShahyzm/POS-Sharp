@@ -1,4 +1,6 @@
-﻿using DAL;
+﻿using Common;
+using DAL;
+using POS.Helper;
 using POS.LookUpForms;
 using POS.Report;
 using System;
@@ -19,20 +21,28 @@ namespace POS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (new LoginDAL().CheckIfBarcodePrinterExe() == 1)
+            try
             {
-                Application.Run(new frmOnScreenBarcodePrint());
-            }
-            else
-            {
-                try
+                if(String.IsNullOrEmpty(CommonClass.ConnectionString))
                 {
+                    CommonClass.ConnectionString = STATICClass.Connection();
+                }
+                if (new LoginDAL().CheckIfBarcodePrinterExe() == 1)
+                {
+                    Application.Run(new frmOnScreenBarcodePrint());
+                }
+                else
+                {
+
                     Application.Run(new frmLogIn());
-                }catch(Exception e)
-                {
-                    MessageBox.Show(e.Message);
+
                 }
             }
-        }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        
+}
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,7 +14,7 @@ namespace DAL
     {
         public DataTable GetAllPendingArrival(int BranchID ,int WHID)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString =CommonClass.ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();

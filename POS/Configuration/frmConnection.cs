@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using POS.Helper;
+using Common;
 
 namespace POS
 {
@@ -42,6 +43,7 @@ namespace POS
                createConnection(Convert.ToString(txtServer.Text), Convert.ToString(txtDatabase.Text),
                     Convert.ToString(txtID.Text), Convert.ToString(txtPassword.Text));
                 STATICClass.SetConnectionString();
+                CommonClass.ConnectionString = STATICClass.Connection();
                 this.Close();
             }
             catch (Exception ex)

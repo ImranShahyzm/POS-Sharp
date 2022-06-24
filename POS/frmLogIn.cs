@@ -36,6 +36,7 @@ namespace POS
             //string version = System.Windows.Forms.Application.ProductVersion;
             //this.Text = String.Format("My Application Version {0}", version)
             //clearAll();
+            CommonClass.ConnectionString = STATICClass.Connection();
             LoginDAL objDAL = new LoginDAL();
             string result=objDAL.SetMAcAddressIfFirstRun();
             if(result!="Done")

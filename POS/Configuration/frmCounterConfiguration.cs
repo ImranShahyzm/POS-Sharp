@@ -177,8 +177,8 @@ namespace POS
                     txtConfigID.Text = Convert.ToString(dt.Rows[0]["ConfigID"]);
                     txtCounterID.Text = Convert.ToString(dt.Rows[0]["CounterID"]);
                     txtCounterTitle.Text = Convert.ToString(dt.Rows[0]["CounterTitle"]);
-                    cmbRevenueAccount.SelectedValue = Convert.ToString(dt.Rows[0]["RevenueAccountPOS"]);
-                    cmbCashAccount.SelectedValue = Convert.ToString(dt.Rows[0]["CashAccountPos"]);
+                    cmbRevenueAccount.SelectedValue = Convert.ToString(dt.Rows[0]["RevenueAccountPOS"])==""?"0": Convert.ToString(dt.Rows[0]["RevenueAccountPOS"]);
+                    cmbCashAccount.SelectedValue = Convert.ToString(dt.Rows[0]["CashAccountPos"]) == "" ? "0" : Convert.ToString(dt.Rows[0]["CashAccountPos"]); 
                     cmbPosStyle.SelectedValue = Convert.ToString(dt.Rows[0]["POSStyle"]);
                     cmbTranscation.SelectedValue = Convert.ToString(dt.Rows[0]["OpeningSourceID"]);
                     cmbClosingSource.SelectedValue = Convert.ToString(dt.Rows[0]["ClosingSourceID"]);
