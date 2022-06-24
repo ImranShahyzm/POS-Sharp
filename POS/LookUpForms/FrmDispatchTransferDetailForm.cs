@@ -220,7 +220,7 @@ namespace POS.LookUpForms
         }
         private void loadProducts()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -240,7 +240,7 @@ namespace POS.LookUpForms
         }
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();

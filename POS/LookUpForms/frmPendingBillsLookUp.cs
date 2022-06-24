@@ -1,4 +1,5 @@
 ﻿using MetroFramework.Forms;
+using POS.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -88,7 +89,7 @@ namespace POS.LookUpForms
         }
         private void loadSaleInvoices()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
 

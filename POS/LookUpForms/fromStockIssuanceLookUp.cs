@@ -69,7 +69,7 @@ namespace POS.LookUpForms
         }
         private void loadProducts()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -96,7 +96,7 @@ namespace POS.LookUpForms
             {
                 SqlString = " Select IssuanceID,IssuanceNo,Format(IssuanceDate , 'dd-MMM-yyyy') as ArrivalDate from data_StockIssuancetoPosKitchen Where FromWHID=" + CompanyInfo.WareHouseID + " and  IssuanceNo= '" + searchValue + "'";
             }
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();

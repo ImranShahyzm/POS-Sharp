@@ -1,4 +1,5 @@
 ﻿using MetroFramework.Forms;
+using POS.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,7 +33,7 @@ namespace POS
 
         private void loadCashSource()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -67,7 +68,7 @@ namespace POS
 
         private void SaveForm()
         {
-            //var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            //var connectionString = STATICClass.Connection();
             //SqlConnection con = new SqlConnection(connectionString);
             //SqlTransaction tran;
             //con.Open();

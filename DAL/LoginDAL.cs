@@ -22,7 +22,7 @@ namespace DAL
                 where += GetWhereCondition(obj.NICID);
             }
            
-                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+                var connectionString =CommonClass.ConnectionString;
                 SqlConnection con = new SqlConnection(connectionString);
                 SqlTransaction tran;
                 con.Open();
@@ -32,7 +32,7 @@ namespace DAL
                 tran = con.BeginTransaction();
                 SqlCommand cmd;
                 cmd = new SqlCommand(@"select CounterPCName,CounterTitle, ISNULL(ShopUserType,0) as ShopUserType,InventWareHouse.BranchID,GLUser.Userid,GLUser.UserPassword,GLUser.UserName,GLCompany.*,gen_PosConfiguration.WHID,FiscalID,InventWareHouse.WHDesc as WareHouseName,gen_PosConfiguration.LocationID,gen_PosConfiguration.IsKhaakiSoft,gen_PosConfiguration.PosStyle,CounterID,
-gen_PosConfiguration.ISFbrConnectivity , gen_PosConfiguration.POSID,gen_PosConfiguration.USIN , gen_PosConfiguration.NoOfInvoicePrint
+gen_PosConfiguration.ISFbrConnectivity , gen_PosConfiguration.POSID,gen_PosConfiguration.USIN , gen_PosConfiguration.NoOfInvoicePrint,gen_PosConfiguration.ApiIpAddress
 from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner join gen_PosConfiguration on gen_PosConfiguration.CompanyID=GLCompany.Companyid
            inner join InventWareHouse on InventWareHouse.WHID=gen_PosConfiguration.WHID
             where UserPassword = '" + obj.Password + "' and UserName = '" + obj.UserName + "' "+where+" ", con);
@@ -55,7 +55,7 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
         }
         public DataTable StoreWiseLogin(LogInCommon obj)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString =CommonClass.ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -88,7 +88,7 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
         public bool CheckIFStoreWiseRights()
         {
             bool isStoreWiseRights = false;
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString =CommonClass.ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -118,7 +118,7 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
         public DataTable GetActiveCountersList()
         {
           
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString =CommonClass.ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
             SqlDataAdapter adp = new SqlDataAdapter();
             DataTable dt = new DataTable();
@@ -198,7 +198,7 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
         {
             string ReturnMessage = "Done";
             DataTable dt = new DataTable();
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString =CommonClass.ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -235,7 +235,7 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
             string isSaved = "Done";
             bool isStoreWiseRights = false;
             int NoOfCountersAllowed = 0;
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString =CommonClass.ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             SqlDataAdapter adp = new SqlDataAdapter();
@@ -325,7 +325,7 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
         public int CheckIfBarcodePrinterExe()
         {
             int IsBarcodePrinter = 0;
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString =CommonClass.ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();

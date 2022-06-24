@@ -103,9 +103,29 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SettingsIco {
+            get {
+                object obj = ResourceManager.GetObject("SettingsIco", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap slider_01 {
             get {
                 object obj = ResourceManager.GetObject("slider-01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SqlICo1 {
+            get {
+                object obj = ResourceManager.GetObject("SqlICo1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

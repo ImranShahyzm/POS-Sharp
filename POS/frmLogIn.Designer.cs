@@ -35,8 +35,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.txtUserName = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.AppVersion = new System.Windows.Forms.Label();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -121,16 +122,6 @@
             this.txtUserName.TabIndex = 27;
             this.txtUserName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserName_KeyDown);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::POS.Properties.Resources.business_solution;
-            this.pictureBox1.Location = new System.Drawing.Point(24, 64);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(307, 274);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 28;
-            this.pictureBox1.TabStop = false;
-            // 
             // AppVersion
             // 
             this.AppVersion.AutoSize = true;
@@ -142,11 +133,32 @@
             this.AppVersion.TabIndex = 29;
             this.AppVersion.Text = "Version 1.0.0.41";
             // 
+            // btnSettings
+            // 
+            this.btnSettings.Image = global::POS.Properties.Resources.SettingsIco;
+            this.btnSettings.Location = new System.Drawing.Point(667, 318);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(57, 35);
+            this.btnSettings.TabIndex = 56;
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::POS.Properties.Resources.business_solution;
+            this.pictureBox1.Location = new System.Drawing.Point(24, 64);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(307, 274);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 28;
+            this.pictureBox1.TabStop = false;
+            // 
             // frmLogIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 361);
+            this.ClientSize = new System.Drawing.Size(755, 371);
+            this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.AppVersion);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtUserName);
@@ -174,5 +186,6 @@
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label AppVersion;
+        private System.Windows.Forms.Button btnSettings;
     }
 }

@@ -43,7 +43,7 @@ namespace POS
 
 
 
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -66,7 +66,7 @@ namespace POS
         {
             if (!string.IsNullOrEmpty(PhoneNo))
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+                var connectionString = STATICClass.Connection();
                 SqlConnection cnn;
                 cnn = new SqlConnection(connectionString);
                 cnn.Open();
@@ -86,7 +86,7 @@ namespace POS
 
         private void loadCashSource()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -117,7 +117,7 @@ namespace POS
 
         private void SaveForm()
         {
-            //var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            //var connectionString = STATICClass.Connection();
             //SqlConnection con = new SqlConnection(connectionString);
             //SqlTransaction tran;
             //con.Open();

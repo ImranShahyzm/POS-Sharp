@@ -1,4 +1,5 @@
 ﻿using MetroFramework.Forms;
+using POS.Helper;
 using POS.Report;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace POS
 
 
 
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();

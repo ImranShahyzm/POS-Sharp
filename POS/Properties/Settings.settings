@@ -2,19 +2,20 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="POS.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SAGERPConnectionString" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Data Source=KHAAKI-PC;
-           Initial Catalog=kHAAKIdb;
-           User ID=sa;
-           Password=@Mispldesk&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=KHAAKI-PC;
-           Initial Catalog=kHAAKIdb;
-           User ID=sa;
-           Password=@Mispldesk</Value>
+    <Setting Name="Database" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PCWORLD_DB</Value>
+    </Setting>
+    <Setting Name="ID" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sa</Value>
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">deskpro@1122</Value>
+    </Setting>
+    <Setting Name="Server" Type="System.String" Scope="User">
+      <Value Profile="(Default)">103.86.135.181\SQLENTERPRISE</Value>
+    </Setting>
+    <Setting Name="SAGERPConnectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

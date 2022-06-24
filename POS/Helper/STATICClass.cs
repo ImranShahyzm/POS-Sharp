@@ -24,6 +24,7 @@ namespace POS.Helper
 
         public static DateTime DemoEndDate = Convert.ToDateTime("2022-03-01");
 
+        public static string ConfigurationPassword="789654258";
         //*****Khaaki Api URL **********//
         //public static string BaseURL = "http://72.255.39.154:1011/";
         //******************************//
@@ -34,15 +35,23 @@ namespace POS.Helper
 
         //public static string BaseURL = "http://192.168.18.29:1011/";
 
-        static string BaseURL = "http://localhost:44333/";
+       public static string BaseURL = "http://localhost:44333/";
 
         public static string Connection()
         {
-            return ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            return SetConnectionString();
         }
+        public static string SetConnectionString()
+        {
+            string connectionString;
+            connectionString = "server=" + Properties.Settings.Default["Server"] + ";database=" + Properties.Settings.Default["Database"] + ";User ID=" + Properties.Settings.Default["ID"] + ";Password=" + Properties.Settings.Default["Password"] + ";";
+
+               return connectionString;
+        }
+
         public static DataTable GetActiveShift()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -66,7 +75,7 @@ namespace POS.Helper
         }
         public static DataTable GetActiveSessionID()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();

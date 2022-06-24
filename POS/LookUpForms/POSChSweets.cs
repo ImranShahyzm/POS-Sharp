@@ -63,7 +63,7 @@ namespace POS
         }
         private void loadProducts()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -97,7 +97,7 @@ namespace POS
         }
         private void laodCategories()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -158,7 +158,7 @@ namespace POS
 
 
 
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -217,7 +217,7 @@ namespace POS
 
         private void CheckLastAmountForOpening()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -237,7 +237,7 @@ namespace POS
 
         private void SaveOpening(string amount)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -591,7 +591,7 @@ namespace POS
         }
         private DataTable getCategories(int ItemGroupID, int CategoryID = 0, string ManualNumber = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -609,7 +609,7 @@ namespace POS
         private int GetItemIDbyBuiltInBarcodes(string BarcodeNumber = "")
         {
             string SqlString = "Select Top 1 inv.ItemId,inv.ManualNumber,inv.ItemSalesPrice from data_InventItemsBarcodeDetail dt inner join InventItems inv on inv.ItemId=dt.ItemID";
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -639,7 +639,7 @@ namespace POS
 
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -681,7 +681,7 @@ namespace POS
         }
         private DataTable getProductBarcode(int categoryID, int productID = 0, string ManualNumber = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -1034,7 +1034,7 @@ namespace POS
                     dt1.Rows.Add(dRow);
                 }
             }
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -1407,7 +1407,7 @@ namespace POS
           Int32 companyID = 0, string companyFieldName = "CompanyID", Int32 FiscalID = 0,
           string FiscalIDFieldName = "FiscalID", bool IsTaxable = false,Int32 MenuId=0,string CounterField = "")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             try
             {
                 DataTable dt = new DataTable();
@@ -1790,7 +1790,7 @@ namespace POS
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
             DataTable dtdetail = new DataTable();
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -1937,7 +1937,7 @@ namespace POS
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
             DataTable dtdetail = new DataTable();
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
@@ -2538,7 +2538,7 @@ namespace POS
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
             DataTable dtdetail = new DataTable();
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();

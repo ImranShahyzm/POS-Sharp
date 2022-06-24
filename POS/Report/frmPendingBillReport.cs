@@ -85,7 +85,7 @@ namespace POS
         private void laodCategories()
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -110,7 +110,7 @@ namespace POS
         private void LoadCustomers()
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -185,7 +185,7 @@ namespace POS
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
             DataTable dtdetail = new DataTable();
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();

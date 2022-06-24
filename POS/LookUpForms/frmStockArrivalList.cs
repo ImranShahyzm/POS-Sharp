@@ -24,7 +24,7 @@ namespace POS.LookUpForms
         }
         public void LoadStockDataMaster()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -56,7 +56,7 @@ namespace POS.LookUpForms
         }
         public void LoadStockDataMasterDateSearch()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -92,7 +92,7 @@ namespace POS.LookUpForms
 
         public void LoadStockDetailDataMaster(int ArrivalID)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();

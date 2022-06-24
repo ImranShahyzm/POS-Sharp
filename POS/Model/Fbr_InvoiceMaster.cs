@@ -143,7 +143,7 @@ namespace POS.Model
           
 
             DataTable dt = new DataTable();
-            var connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringName"].ConnectionString;
+            var connectionString = STATICClass.Connection();
             SqlConnection con = new SqlConnection(connectionString);
             SqlTransaction tran;
             con.Open();
