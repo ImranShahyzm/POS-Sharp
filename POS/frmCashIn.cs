@@ -45,7 +45,7 @@ namespace POS
             SqlConnection cnn;
             cnn = new SqlConnection(connectionString);
             cnn.Open();
-            string SqlString = " Select ShiftID,ShiftName from PosData_ShiftRecords where LastExecuted!='"+System.DateTime.Now.Date+ "' and ISNULL(ISCuurentlyRunning,0)=0";
+            string SqlString = " Select ShiftID,ShiftName from PosData_ShiftRecords where ISNULL(LastExecuted,getDate())!='"+System.DateTime.Now.Date+ "' and ISNULL(ISCuurentlyRunning,0)=0";
             SqlDataAdapter sda = new SqlDataAdapter(SqlString, cnn);
             DataTable dt = new DataTable();
             sda.Fill(dt);
