@@ -41,6 +41,7 @@ namespace POS
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                Application.Run(new frmLogIn());
             }
         
 }

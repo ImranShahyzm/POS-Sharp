@@ -36,46 +36,52 @@ namespace POS
             //string version = System.Windows.Forms.Application.ProductVersion;
             //this.Text = String.Format("My Application Version {0}", version)
             //clearAll();
-            CommonClass.ConnectionString = STATICClass.Connection();
-            LoginDAL objDAL = new LoginDAL();
-            string result=objDAL.SetMAcAddressIfFirstRun();
-            if(result!="Done")
+            try
             {
-                if (MessageBox.Show(result, "Important Message...!!", MessageBoxButtons.OK, MessageBoxIcon.Stop) == DialogResult.OK)
+                CommonClass.ConnectionString = STATICClass.Connection();
+                LoginDAL objDAL = new LoginDAL();
+                string result = objDAL.SetMAcAddressIfFirstRun();
+                if (result != "Done")
                 {
-                    System.Environment.Exit(1);
+                    if (MessageBox.Show(result, "Important Message...!!", MessageBoxButtons.OK, MessageBoxIcon.Stop) == DialogResult.OK)
+                    {
+                        System.Environment.Exit(1);
+                    }
                 }
-            }
-            string EncryptedDate = objDAL.GetExpiryDate();
-            string DecryptExpiryDate = STATICClass.Decrypt(EncryptedDate, STATICClass.ExpiryDateKey);
-            if (DecryptExpiryDate != "No" && !string.IsNullOrEmpty(DecryptExpiryDate))
-            {
-                STATICClass.IsDemo = true;
-                var CurrentDate = System.DateTime.Now;
-                var ExpiryDate = Convert.ToDateTime(DecryptExpiryDate);
-                var Days = (ExpiryDate.Date - CurrentDate.Date).TotalDays;
-                if (Days <= 0)
+                string EncryptedDate = objDAL.GetExpiryDate();
+                string DecryptExpiryDate = STATICClass.Decrypt(EncryptedDate, STATICClass.ExpiryDateKey);
+                if (DecryptExpiryDate != "No" && !string.IsNullOrEmpty(DecryptExpiryDate))
                 {
-                    lblLicense.Text = "Software License has been Expired. Please Contact with Corbis Team.Thanks";
+                    STATICClass.IsDemo = true;
+                    var CurrentDate = System.DateTime.Now;
+                    var ExpiryDate = Convert.ToDateTime(DecryptExpiryDate);
+                    var Days = (ExpiryDate.Date - CurrentDate.Date).TotalDays;
+                    if (Days <= 0)
+                    {
+                        lblLicense.Text = "Software License has been Expired. Please Contact with Corbis Team.Thanks";
+                    }
+                    else
+                    {
+                        lblLicense.Text = "Software License will Expire in " + Convert.ToString(Days) + " Days. Please Contact with Corbis Team before that..Thanks";
+                    }
+                    STATICClass.DemoEndDate = ExpiryDate;
+                    if (Days <= 7)
+                    {
+                        lblLicense.Visible = true;
+                    }
+                }
+                else if (DecryptExpiryDate == "No")
+                {
+                    STATICClass.IsDemo = false;
                 }
                 else
                 {
-                    lblLicense.Text = "Software License will Expire in " + Convert.ToString(Days) + " Days. Please Contact with Corbis Team before that..Thanks";
+                    STATICClass.IsDemo = true;
+                    STATICClass.DemoEndDate = System.DateTime.Now;
                 }
-                STATICClass.DemoEndDate = ExpiryDate;
-                if (Days <= 7)
-                {
-                    lblLicense.Visible = true;
-                }
-            }
-            else if (DecryptExpiryDate == "No")
+            }catch(Exception e)
             {
-                STATICClass.IsDemo = false ;
-            }
-            else
-            {
-                STATICClass.IsDemo = true;
-                STATICClass.DemoEndDate = System.DateTime.Now;
+                MessageBox.Show(e.Message);
             }
 
             txtUserName.Focus();
