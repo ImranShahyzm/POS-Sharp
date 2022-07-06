@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -21,7 +22,7 @@ namespace POS.Helper
     public static class STATICClass
     {
         public static bool IsDemo = false;
-
+        public static string ExpiryDateKey = "CorbisKey";
         public static DateTime DemoEndDate = Convert.ToDateTime("2022-03-01");
 
         public static string ConfigurationPassword="789654258";
@@ -1252,5 +1253,35 @@ else
             return dt;
 
         }
+
+        public static string Encrypt(string source, string key)
+        {
+            using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
+            {
+                using (MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider())
+                {
+                    byte[] byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
+                    tripleDESCryptoService.Key = byteHash;
+                    tripleDESCryptoService.Mode = CipherMode.ECB;
+                    byte[] data = Encoding.Unicode.GetBytes(source);
+                    return Convert.ToBase64String(tripleDESCryptoService.CreateEncryptor().TransformFinalBlock(data, 0, data.Length));
+                }
+            }
+        }
+        public static string Decrypt(string encrypt, string key)
+        {
+            using (TripleDESCryptoServiceProvider tripleDESCryptoService = new TripleDESCryptoServiceProvider())
+            {
+                using (MD5CryptoServiceProvider hashMD5Provider = new MD5CryptoServiceProvider())
+                {
+                    byte[] byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
+                    tripleDESCryptoService.Key = byteHash;
+                    tripleDESCryptoService.Mode = CipherMode.ECB;//CBC, CFB
+                    byte[] byteBuff = Convert.FromBase64String(encrypt);
+                    return Encoding.Unicode.GetString(tripleDESCryptoService.CreateDecryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
+                }
+            }
+        }
+
     }
 }

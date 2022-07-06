@@ -206,7 +206,26 @@ namespace POS
                         cbxIsFbrConnected.Checked = Convert.ToBoolean(isFbrConnectivty);
                     }
 
+                    var IsSessionHandling = dt.Rows[0]["IsSessionHandling"];
+                    if (IsSessionHandling is DBNull)
+                    {
+                        chkIsSessionhandle.Checked = false;
+                    }
+                    else
+                    {
+                        chkIsSessionhandle.Checked = Convert.ToBoolean(IsSessionHandling);
+                    }
 
+                    var EncryptedDateExpiry= Convert.ToString(dt.Rows[0]["SystemColumnDt"]);
+                    string DecryptExpiryDate = STATICClass.Decrypt(EncryptedDateExpiry, STATICClass.ExpiryDateKey);
+                    if(DecryptExpiryDate!="No")
+                    {
+                        txtExpiryDate.Value = Convert.ToDateTime(DecryptExpiryDate);
+                    }
+                    else
+                    {
+                        txtExpiryDate.Value = txtExpiryDate.MinDate;
+                    }
 
                 }
                 else
@@ -272,6 +291,11 @@ namespace POS
             lblFbrConnected.Visible = false;
             txtApiAddress.Enabled = false;
 
+            lblSessionhandling.Visible = false;
+            lblDateExpiry.Visible = false;
+            chkIsSessionhandle.Visible = false;
+            txtExpiryDate.Visible = false;
+
             txtFbrPOSID.Visible = false;
             txtApiAddress.Visible = false;
 
@@ -305,6 +329,12 @@ namespace POS
                 lblServerOffline.Visible = true;
                 lblFbrPOSID.Visible = true;
                 lblFbrConnected.Visible = true;
+
+                lblSessionhandling.Visible = true;
+                lblDateExpiry.Visible = true;
+                chkIsSessionhandle.Visible = true;
+                txtExpiryDate.Visible = true;
+
             }
             else
             {
@@ -392,6 +422,16 @@ namespace POS
         private void SaveForm()
         {
 
+            string EncryptDateExpiry = "";
+            if(txtExpiryDate.Value!=txtExpiryDate.MinDate)
+            {
+                EncryptDateExpiry = STATICClass.Encrypt(Convert.ToString(txtExpiryDate.Value), STATICClass.ExpiryDateKey);
+            }
+            else
+            {
+                EncryptDateExpiry = STATICClass.Encrypt("No", STATICClass.ExpiryDateKey);
+            }
+
             int ConfigID = Convert.ToInt32(txtConfigID.Text);
            
             DataTable dt = new DataTable();
@@ -427,12 +467,22 @@ namespace POS
             {
                 cmd.Parameters.AddWithValue("@ISFbrConnectivity", 0);
             }
+            if (chkIsSessionhandle.Checked)
+            {
+                cmd.Parameters.AddWithValue("@IsSessionHandling", 1);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@IsSessionHandling", 0);
+            }
             cmd.Parameters.AddWithValue("@ClosingSourceID", Convert.ToInt32(cmbClosingSource.SelectedValue));
             cmd.Parameters.AddWithValue("@OpeningSourceID", Convert.ToInt32(cmbTranscation.SelectedValue));
             cmd.Parameters.AddWithValue("@ApiIpAddress", Convert.ToString(txtApiAddress.Text));
             cmd.Parameters.AddWithValue("@POSID", Convert.ToString(txtFbrPOSID.Text));
             cmd.Parameters.AddWithValue("@NoOfInvoicePrint", Convert.ToString(txtNoOfInvoicePrint.Text));
             cmd.Parameters.AddWithValue("@BillPreFix", Convert.ToString(txtBillPrefix.Text));
+            cmd.Parameters.AddWithValue("@SystemColumnDt", EncryptDateExpiry);
+
             da.SelectCommand = cmd;
             try
             {
