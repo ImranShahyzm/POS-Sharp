@@ -10,9 +10,6 @@ BEGIN TRANSACTION
 COMMIT
 END
 GO
-
-
-
 IF NOT EXISTS (SELECT 1 FROM sys.columns 
 				WHERE name = N'NoOfInvoicePrint' 
 				and object_id = object_id(N'dbo.gen_PosConfiguration'))
@@ -23,7 +20,6 @@ BEGIN TRANSACTION
 COMMIT
 END
 GO
-
 
 IF NOT EXISTS (SELECT 1 FROM sys.columns 
 				WHERE name = N'SystemColumnDt' 
@@ -36,9 +32,10 @@ COMMIT
 END
 GO
 
+UPDATE gen_PosConfiguration SET SystemColumnDt= 'TMR69aFW0Og='
 
 
-
+Go
 
 
 
