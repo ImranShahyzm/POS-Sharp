@@ -351,5 +351,36 @@ from GLUser inner join GLCompany on GLUser.CompanyID=GLCompany.Companyid inner j
 
             return IsBarcodePrinter;
         }
+
+
+        public string GetExpiryDate()
+        {
+            string EncryptedDate=""; ;
+            var connectionString = CommonClass.ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            SqlTransaction tran;
+            con.Open();
+
+
+
+            tran = con.BeginTransaction();
+            SqlCommand cmd;
+            cmd = new SqlCommand(@"Select top 1 SystemColumnDt from gen_PosConfiguration", con);
+            cmd.CommandType = CommandType.Text;
+
+            try
+            {
+                cmd.Transaction = tran;
+                EncryptedDate = cmd.ExecuteScalar() is DBNull ? "" : Convert.ToString(cmd.ExecuteScalar());
+                tran.Commit();
+            }
+            catch (Exception ex)
+            {
+                tran.Rollback();
+                throw ex;
+            }
+
+            return EncryptedDate;
+        }
     }
 }

@@ -46,8 +46,41 @@ namespace POS
                     System.Environment.Exit(1);
                 }
             }
+            string EncryptedDate = objDAL.GetExpiryDate();
+            string DecryptExpiryDate = STATICClass.Decrypt(EncryptedDate, STATICClass.ExpiryDateKey);
+            if (DecryptExpiryDate != "No" && !string.IsNullOrEmpty(DecryptExpiryDate))
+            {
+                STATICClass.IsDemo = true;
+                var CurrentDate = System.DateTime.Now;
+                var ExpiryDate = Convert.ToDateTime(DecryptExpiryDate);
+                var Days = (ExpiryDate.Date - CurrentDate.Date).TotalDays;
+                if (Days <= 0)
+                {
+                    lblLicense.Text = "Software License has been Expired. Please Contact with Corbis Team.Thanks";
+                }
+                else
+                {
+                    lblLicense.Text = "Software License will Expire in " + Convert.ToString(Days) + " Days. Please Contact with Corbis Team before that..Thanks";
+                }
+                STATICClass.DemoEndDate = ExpiryDate;
+                if (Days <= 7)
+                {
+                    lblLicense.Visible = true;
+                }
+            }
+            else if (DecryptExpiryDate == "No")
+            {
+                STATICClass.IsDemo = false ;
+            }
+            else
+            {
+                STATICClass.IsDemo = true;
+                STATICClass.DemoEndDate = System.DateTime.Now;
+            }
+
             txtUserName.Focus();
             txtUserName.Select();
+
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -55,9 +88,9 @@ namespace POS
             {
                 var CurrentDate = System.DateTime.Now.Date;
 
-                if (CurrentDate >= STATICClass.DemoEndDate)
+                if (CurrentDate.Date >= STATICClass.DemoEndDate.Date)
                 {
-                    MessageBox.Show("Your Demo Version has Been Expired Please Contact with Corbissoft Multan...0612080200");
+                    MessageBox.Show("Your Software License has Been Expired Please Contact with Corbissoft Multan...0612080200");
                     return;
                 }
             }

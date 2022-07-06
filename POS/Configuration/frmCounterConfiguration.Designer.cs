@@ -60,6 +60,10 @@
             this.lblCode = new System.Windows.Forms.Label();
             this.txtCounterTitle = new System.Windows.Forms.TextBox();
             this.lblCompanyName = new System.Windows.Forms.Label();
+            this.lblSessionhandling = new System.Windows.Forms.Label();
+            this.chkIsSessionhandle = new System.Windows.Forms.CheckBox();
+            this.lblDateExpiry = new System.Windows.Forms.Label();
+            this.txtExpiryDate = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -97,13 +101,17 @@
             this.panel1.BackColor = System.Drawing.Color.Gainsboro;
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.btnSave);
-            this.panel1.Location = new System.Drawing.Point(47, 384);
+            this.panel1.Location = new System.Drawing.Point(47, 419);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(710, 62);
             this.panel1.TabIndex = 23;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtExpiryDate);
+            this.groupBox1.Controls.Add(this.lblDateExpiry);
+            this.groupBox1.Controls.Add(this.chkIsSessionhandle);
+            this.groupBox1.Controls.Add(this.lblSessionhandling);
             this.groupBox1.Controls.Add(this.txtCounterID);
             this.groupBox1.Controls.Add(this.txtConfigID);
             this.groupBox1.Controls.Add(this.txtManualPasswordField);
@@ -135,7 +143,7 @@
             this.groupBox1.ForeColor = System.Drawing.Color.MidnightBlue;
             this.groupBox1.Location = new System.Drawing.Point(47, 86);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(710, 292);
+            this.groupBox1.Size = new System.Drawing.Size(710, 328);
             this.groupBox1.TabIndex = 25;
             this.groupBox1.TabStop = false;
             // 
@@ -433,11 +441,52 @@
             this.lblCompanyName.TabIndex = 26;
             this.lblCompanyName.Text = "Company name of the Client";
             // 
+            // lblSessionhandling
+            // 
+            this.lblSessionhandling.AutoSize = true;
+            this.lblSessionhandling.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSessionhandling.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.lblSessionhandling.Location = new System.Drawing.Point(69, 293);
+            this.lblSessionhandling.Name = "lblSessionhandling";
+            this.lblSessionhandling.Size = new System.Drawing.Size(104, 14);
+            this.lblSessionhandling.TabIndex = 48;
+            this.lblSessionhandling.Text = "Enable Sessions :";
+            // 
+            // chkIsSessionhandle
+            // 
+            this.chkIsSessionhandle.AutoSize = true;
+            this.chkIsSessionhandle.Location = new System.Drawing.Point(171, 294);
+            this.chkIsSessionhandle.Name = "chkIsSessionhandle";
+            this.chkIsSessionhandle.Size = new System.Drawing.Size(15, 14);
+            this.chkIsSessionhandle.TabIndex = 49;
+            this.chkIsSessionhandle.UseVisualStyleBackColor = true;
+            // 
+            // lblDateExpiry
+            // 
+            this.lblDateExpiry.AutoSize = true;
+            this.lblDateExpiry.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDateExpiry.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.lblDateExpiry.Location = new System.Drawing.Point(308, 293);
+            this.lblDateExpiry.Name = "lblDateExpiry";
+            this.lblDateExpiry.Size = new System.Drawing.Size(82, 14);
+            this.lblDateExpiry.TabIndex = 50;
+            this.lblDateExpiry.Text = "System Date :";
+            // 
+            // txtExpiryDate
+            // 
+            this.txtExpiryDate.CustomFormat = "dd-MMM-yyyy";
+            this.txtExpiryDate.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtExpiryDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.txtExpiryDate.Location = new System.Drawing.Point(391, 289);
+            this.txtExpiryDate.Name = "txtExpiryDate";
+            this.txtExpiryDate.Size = new System.Drawing.Size(215, 23);
+            this.txtExpiryDate.TabIndex = 51;
+            // 
             // frmCounterConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(825, 457);
+            this.ClientSize = new System.Drawing.Size(825, 496);
             this.Controls.Add(this.lblCompanyName);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
@@ -486,5 +535,9 @@
         private System.Windows.Forms.TextBox txtManualPasswordField;
         private System.Windows.Forms.TextBox txtCounterID;
         private System.Windows.Forms.TextBox txtConfigID;
+        private System.Windows.Forms.Label lblDateExpiry;
+        private System.Windows.Forms.CheckBox chkIsSessionhandle;
+        private System.Windows.Forms.Label lblSessionhandling;
+        private System.Windows.Forms.DateTimePicker txtExpiryDate;
     }
 }
