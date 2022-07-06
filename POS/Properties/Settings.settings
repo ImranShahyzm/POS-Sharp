@@ -3,16 +3,16 @@
   <Profiles />
   <Settings>
     <Setting Name="Database" Type="System.String" Scope="User">
-      <Value Profile="(Default)">PCWORLD_DB</Value>
+      <Value Profile="(Default)">OmanMobileShop</Value>
     </Setting>
     <Setting Name="ID" Type="System.String" Scope="User">
       <Value Profile="(Default)">sa</Value>
     </Setting>
     <Setting Name="Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">deskpro@1122</Value>
+      <Value Profile="(Default)">@Mispldesk</Value>
     </Setting>
     <Setting Name="Server" Type="System.String" Scope="User">
-      <Value Profile="(Default)">103.86.135.181\SQLENTERPRISE</Value>
+      <Value Profile="(Default)">103.86.135.182,1433</Value>
     </Setting>
     <Setting Name="SAGERPConnectionString" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

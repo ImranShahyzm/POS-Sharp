@@ -25,7 +25,7 @@ namespace POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("PCWORLD_DB")]
+        [global::System.Configuration.DefaultSettingValueAttribute("OmanMobileShop")]
         public string Database {
             get {
                 return ((string)(this["Database"]));
@@ -49,7 +49,7 @@ namespace POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("deskpro@1122")]
+        [global::System.Configuration.DefaultSettingValueAttribute("@Mispldesk")]
         public string Password {
             get {
                 return ((string)(this["Password"]));
@@ -61,7 +61,7 @@ namespace POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("103.86.135.181\\SQLENTERPRISE")]
+        [global::System.Configuration.DefaultSettingValueAttribute("103.86.135.182,1433")]
         public string Server {
             get {
                 return ((string)(this["Server"]));
