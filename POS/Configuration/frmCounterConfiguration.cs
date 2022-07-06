@@ -217,7 +217,12 @@ namespace POS
                     }
 
                     var EncryptedDateExpiry= Convert.ToString(dt.Rows[0]["SystemColumnDt"]);
-                    string DecryptExpiryDate = STATICClass.Decrypt(EncryptedDateExpiry, STATICClass.ExpiryDateKey);
+                    string DecryptExpiryDate = "No";
+                    if (!string.IsNullOrEmpty(EncryptedDateExpiry))
+                    {
+                        DecryptExpiryDate=STATICClass.Decrypt(EncryptedDateExpiry, STATICClass.ExpiryDateKey);
+                    }
+                   
                     if(DecryptExpiryDate!="No")
                     {
                         txtExpiryDate.Value = Convert.ToDateTime(DecryptExpiryDate);
