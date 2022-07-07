@@ -288,7 +288,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
-    <Content Include="DbScripts\NewChanges.sql" />
+    <Content Include="DbScripts\Script 1.0.0.89.sql" />
     <Content Include="DbScripts\Script 1.0.0.88.sql" />
     <Content Include="DbScripts\Script 1.0.0.86.sql" />
     <Content Include="DbScripts\Script 1.0.0.85.sql" />
