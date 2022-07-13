@@ -761,6 +761,10 @@ WHERE
             {
                 Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
             }
+            if (CompanyInfo.CounterID > 0)
+            {
+                Sql = Sql + " and data_SalePosInfo.CounterID=" + CompanyInfo.CounterID + "";
+            }
             Sql = Sql + " Group by  DiscountTotal,ExchangeAmount,data_SalePosInfo.DiscountAmount,GrossAmount,salePosdate,SalePOSNo,data_SalePosInfo.CustomerName,data_SalePosInfo.CustomerPhone ";
             Sql = Sql + " order by data_SalePosInfo.SalePosDate,SalePOSNo";
             dt = new DataTable();
@@ -813,6 +817,10 @@ WHERE
             if (CategoryID > 0)
             {
                 SQL += " and InventItems.CateGoryID=" + CategoryID + "";
+            }
+            if (CompanyInfo.CounterID > 0)
+            {
+                SQL += " and data_SalePosInfo.CounterID=" + CompanyInfo.CounterID + "";
             }
 
             SQL += @" GROUP BY
@@ -1272,6 +1280,7 @@ from data_SalePosReturnDetail
 
         public void SaleActivityReport(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0)
         {
+
             ReportDocument rpt = new ReportDocument();
             DataTable dt = SaleActivity(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
             DataTable dtPromo = SaleActivityPromo(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID);
