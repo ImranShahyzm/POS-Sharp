@@ -561,11 +561,11 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             DataTable dt;
 
             string Sql = @"
-		    select data_SalePosInfo.WHID, VariantDescription, InventCategory.CategoryID,CategoryName,InventItems.ManualNumber as ItemNumber,adgen_ColorInfo.ColorTitle,data_SalePosInfo.SalePosID,data_SalePosInfo.SalePosNo ,format(data_SalePosInfo.SalePosDate,'dd-MMM-yyyy') as SalePosDate,data_SalePosInfo.NetAmount as SaleInfo_NetAmount,
+		    select data_SalePosInfo.WHID, VariantDescription, InventCategory.CategoryID,CategoryName,CASE WHEN InventItems.ManualNumber IS NULL OR InventItems.ManualNumber='' THEN (ItemNumber) ELSE InventItems.ManualNumber END  as ItemNumber,adgen_ColorInfo.ColorTitle,data_SalePosInfo.SalePosID,data_SalePosInfo.SalePosNo ,format(data_SalePosInfo.SalePosDate,'dd-MMM-yyyy') as SalePosDate,data_SalePosInfo.NetAmount as SaleInfo_NetAmount,
             data_SalePosInfo.DiscountPercentage as SaleInfo_DPer,data_SalePosInfo.DiscountAmount as SaleInfo_DAmount, data_SalePosInfo.DiscountTotal as SaleInfo_DTotal,data_SalePosDetail.ItemId,
  data_SalePosDetail.Quantity,data_SalePosDetail.ItemRate,data_SalePosDetail.DiscountPercentage,data_SalePosDetail.DiscountAmount,
             data_SalePosDetail.TaxAmount,
-            InventItems.ItenName
+            InventItems.ItenName,data_SalePosDetail.IMEINumber
             from data_SalePosInfo 
             inner join data_SalePosDetail on data_SalePosInfo.SalePosID=data_SalePosDetail.SalePosID 
             left join InventItems on data_SalePosDetail.ItemId = InventItems.ItemId 
@@ -583,6 +583,10 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             if (MenuID > 0)
             {
                 Sql = Sql + " and InventCategory.ItemGroupID=" + MenuID + "";
+            }
+            if (CompanyInfo.CounterID > 0)
+            {
+                Sql = Sql + " and data_SalePosInfo.CounterID=" + CompanyInfo.CounterID + "";
             }
             Sql = Sql + " order by data_SalePosInfo.SalePosDate,SalePosNo";
             dt = new DataTable();
