@@ -1,9 +1,147 @@
 ﻿
-/****** Object:  StoredProcedure [dbo].[data_SalePosInfo_Insert]    Script Date: 7/14/2022 2:48:17 PM ******/
+/****** Object:  StoredProcedure [dbo].[data_SalePosReturnInfo_AutoAccountsInsert]    Script Date: 7/14/2022 4:04:48 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[data_SalePosReturnInfo_AutoAccountsInsert]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[data_SalePosReturnInfo_AutoAccountsInsert]
+GO
+/****** Object:  StoredProcedure [dbo].[data_SalePosInfo_Insert]    Script Date: 7/14/2022 4:04:48 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[data_SalePosInfo_Insert]') AND type in (N'P', N'PC'))
 DROP PROCEDURE [dbo].[data_SalePosInfo_Insert]
 GO
-/****** Object:  StoredProcedure [dbo].[data_SalePosInfo_Insert]    Script Date: 7/14/2022 2:48:17 PM ******/
+/****** Object:  StoredProcedure [dbo].[data_SalePosInfo_AutoAccountsInsert]    Script Date: 7/14/2022 4:04:48 PM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[data_SalePosInfo_AutoAccountsInsert]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[data_SalePosInfo_AutoAccountsInsert]
+GO
+/****** Object:  StoredProcedure [dbo].[data_SalePosInfo_AutoAccountsInsert]    Script Date: 7/14/2022 4:04:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[data_SalePosInfo_AutoAccountsInsert]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[data_SalePosInfo_AutoAccountsInsert] AS' 
+END
+GO
+
+
+
+
+
+
+
+
+ALTER proc [dbo].[data_SalePosInfo_AutoAccountsInsert]
+@UserID int = null , 
+@CompanyID int = null , 
+@FiscalID int = null ,
+@SaleDate date = null ,
+@WHID int ,
+@isTaxable bit=0,
+@CounterID int=0,
+@EditMode BIT=0
+AS
+
+--raiserror(' This Is Error',16,1)
+
+declare @data_SalePosDetail  data_SalePosDetail
+declare @SalePosID int 
+declare Cur cursor for
+select SalePosID from dbo.data_SalePosInfo where CompanyID = @CompanyID and CounterID = @CounterID 
+AND dbo.data_SalePosInfo.AccountVoucherID IS NULL AND MONTH(dbo.data_SalePosInfo.SalePosDate)=MONTH(@SaleDate) AND YEAR(dbo.data_SalePosInfo.SalePosDate)=YEAR(@SaleDate)
+open cur
+fetch next from cur into @SalePosID
+
+while @@FETCH_STATUS = 0
+BEGIN
+
+
+
+insert into @data_SalePosDetail  (RowID,
+		ItemId,
+		Quantity,
+		ItemRate,
+		TaxPercentage,
+		TaxAmount,
+		DiscountPercentage,
+		DiscountAmount,
+		TotalAmount,
+		CartonSize,
+		Carton,
+		TotalQuantity,
+		SchemeID,
+		MinQuantity,
+		isExchange,
+		IMEINumber
+
+
+)
+select  SalePosDetailID,ItemId,
+		Quantity,
+		ItemRate,
+		TaxPercentage,
+		TaxAmount,
+		DiscountPercentage,
+		DiscountAmount,
+		TotalAmount,
+		CartonSize,
+		Carton,
+		TotalQuantity,
+		SchemeID,
+		MinQuantity,
+		isExchange,
+		IMEINumber
+from dbo.data_SalePosDetail
+where SalePosID = @SalePosID
+
+
+declare @SaleInvoiceNo INT=0 , 
+@SalePosDate DATE, 
+@DiscountPercent numeric(8, 3) , 
+@DiscountAmount numeric(10, 2) , 
+@Remarks varchar(300)  , 
+@AmountReceivable numeric(18, 2) , 
+@NetAmount numeric(18, 2) , 
+
+@GroupLevelID int , 
+@CategoryLevelID int , 
+@PaymentTermID int , 
+@TransporterID int ,
+@TransporterFreightAmount numeric(18, 2) 
+select  
+@WHID = WHID , 
+@SalePosDate = SalePosDate , 
+@SaleInvoiceNo = SalePOSNo , 
+@DiscountAmount = DiscountAmount , 
+@AmountReceivable = AmountReceivable , 
+@NetAmount = NetAmount,
+@FiscalID=FiscalID 
+from dbo.data_SalePosInfo where SalePosID = @SalePosID
+
+SELECT TOP 1 @FiscalID=Fiscalid FROM dbo.GLFiscalYear WHERE @SalePosDate BETWEEN dbo.GLFiscalYear.StartYear AND EndYear AND Companyid=@CompanyID
+
+exec  data_SalePOSInfo_InsertAccountOffline @CounterID=@CounterID,@SalePosID = @SalePosID, @CompanyID = @CompanyID, @SalePosDate = @SalePosDate , @WHID = @WHID , 
+@NetAmount = @NetAmount , @SaleInvoiceNo = @SaleInvoiceNo , @UserID = @UserID , @FiscalID = @FiscalID ,@EditMode = @EditMode,
+@AmountReceivable = @AmountReceivable,@data_SalePosDetail=@data_SalePosDetail
+
+
+delete from @data_SalePosDetail
+
+fetch next from cur into @SalePosID
+
+END
+
+close cur
+deallocate cur
+
+
+
+
+
+
+
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[data_SalePosInfo_Insert]    Script Date: 7/14/2022 4:04:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -600,6 +738,144 @@ END
 
 
 
+
+
+
+
+
+
+
+
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[data_SalePosReturnInfo_AutoAccountsInsert]    Script Date: 7/14/2022 4:04:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[data_SalePosReturnInfo_AutoAccountsInsert]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[data_SalePosReturnInfo_AutoAccountsInsert] AS' 
+END
+GO
+-- Server : 103.86.135.181\SQLENTERPRISE -- 
+
+
+
+
+
+
+
+
+
+
+ALTER proc [dbo].[data_SalePosReturnInfo_AutoAccountsInsert]
+@UserID int = null , 
+@CompanyID int = null , 
+@FiscalID int = null ,
+@SaleDate date = null ,
+@WHID int ,
+@isTaxable bit=0,
+@CounterID int=0,
+@EditMode BIT=0
+AS
+
+--raiserror(' This Is Error',16,1)
+
+declare @data_SalePosDetail  data_SalePosDetail
+declare @SalePosReturnID int 
+declare Cur cursor for
+select SalePosReturnID from dbo.data_SalePosReturnInfo where CompanyID = @CompanyID and CounterID = @CounterID 
+AND dbo.data_SalePosReturnInfo.AccountVoucherID IS NULL
+AND MONTH(SalePosReturnDate)=MONTH(@SaleDate)
+AND Year(SalePosReturnDate)=Year(@SaleDate)
+open cur
+fetch next from cur into @SalePosReturnID
+
+while @@FETCH_STATUS = 0
+BEGIN
+
+
+
+insert into @data_SalePosDetail  (RowID,
+		SalePosDetailID,
+		ItemId,
+		Quantity,
+		ItemRate,
+		TaxPercentage,
+		TaxAmount,
+		DiscountPercentage,
+		DiscountAmount,
+		TotalAmount,
+		CartonSize,
+		Carton,
+		TotalQuantity,
+		SchemeID,
+		MinQuantity , 
+		IMEINumber
+
+
+)
+select  SalePosReturnDetailID,
+SalePosDetailID,
+		ItemId,
+		Quantity,
+		ItemRate,
+		TaxPercentage,
+		TaxAmount,
+		DiscountPercentage,
+		DiscountAmount,
+		TotalAmount,
+		CartonSize,
+		Carton,
+		TotalQuantity,
+		SchemeID,
+		MinQuantity , 
+		IMEINumber
+from dbo.data_SalePosReturnDetail
+where SalePosReturnID = @SalePosReturnID
+
+
+declare @SaleInvoiceNo INT=0 , 
+@SalePosDate DATE, 
+@DiscountPercent numeric(8, 3) , 
+@DiscountAmount numeric(10, 2) , 
+@Remarks varchar(300)  , 
+@AmountReceivable numeric(18, 2) , 
+@NetAmount numeric(18, 2) , 
+
+@SalePosID int , 
+@CategoryLevelID int , 
+@PaymentTermID int , 
+@TransporterID int ,
+@TransporterFreightAmount numeric(18, 2) 
+select  
+@WHID = WHID , 
+@SalePosDate = SalePosReturnDate , 
+@SaleInvoiceNo = SalePOSNo , 
+@DiscountAmount = DiscountAmount , 
+@AmountReceivable = AmountReceivable , 
+@NetAmount = NetAmount,
+@FiscalID=FiscalID 
+from dbo.data_SalePosReturnInfo where SalePosReturnID = @SalePosReturnID
+
+SELECT TOP 1 @FiscalID=Fiscalid FROM dbo.GLFiscalYear WHERE @SalePosDate BETWEEN dbo.GLFiscalYear.StartYear AND EndYear AND Companyid=@CompanyID
+
+
+exec  data_SalePOSReturnInfo_InsertAccountOffline @CounterID=@CounterID,@SalePosReturnID=@SalePosReturnID, @SalePosID = @SalePosID, @CompanyID = @CompanyID, @SalePosDate = @SalePosDate , @WHID = @WHID , 
+@NetAmount = @NetAmount , @SaleInvoiceNo = @SaleInvoiceNo , @UserID = @UserID , @FiscalID = @FiscalID ,@EditMode = @EditMode,
+ @AmountReceivable = @NetAmount,@data_SalePosDetail=@data_SalePosDetail
+
+
+delete from @data_SalePosDetail
+
+fetch next from cur into @SalePosReturnID
+
+END
+
+close cur
+deallocate cur
 
 
 
