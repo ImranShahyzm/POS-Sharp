@@ -77,7 +77,7 @@ namespace POS
                 //  WhereClause = " Cash Book Detail From " + dtpSaleFromDate.Text + " To " + dtpSaleToDate.Text + "";
                 try
                 {
-                    obj.rptDailySale(reportName, dtpSaleFromDate.Value, dtpSaleToDate.Value,Convert.ToInt32(cmbCategory.SelectedValue), Convert.ToInt32(cmbSalemenu.SelectedValue));
+                    obj.rptDailySale(reportName, dtpSaleFromDate.Value, dtpSaleToDate.Value,Convert.ToInt32(cmbCategory.SelectedValue), Convert.ToInt32(cmbSalemenu.SelectedValue), Convert.ToInt32(cmbReportStyle.SelectedValue));
 
                 }
                 catch(Exception ex)
@@ -89,6 +89,16 @@ namespace POS
 
         private void frmDailySale_Load(object sender, EventArgs e)
         {
+            cmbReportStyle.DisplayMember = "Text";
+            cmbReportStyle.ValueMember = "Value";
+
+            var items = new[] {
+    new { Text = "Both (Tax + Non Tax)", Value = "1" },
+    new { Text = "Tax Sale only", Value = "2" },
+    new { Text = "Non Tax Sales", Value = "3" }
+};
+
+            cmbReportStyle.DataSource = items;
 
         }
         private void laodCategories()
