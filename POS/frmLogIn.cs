@@ -169,6 +169,10 @@ namespace POS
                 LogInCommon objcom = new LogInCommon();
                 objcom.UserName = txtUserName.Text;
                 objcom.Password = txtPassword.Text;
+
+                var EncryptedPassword = STATICClass.Encrypt(txtPassword.Text.Trim(), STATICClass.ExpiryDateKey);
+                objcom.Password = EncryptedPassword;
+
                 objcom.NICID = GetNICIDs();
                 DataTable dt = objbll.checkLoginBLL(objcom);
                 if (dt.Rows.Count > 0)
