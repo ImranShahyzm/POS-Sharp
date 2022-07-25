@@ -38,6 +38,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.cmbSalemenu = new System.Windows.Forms.ComboBox();
             this.label22 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbReportStyle = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,7 +49,7 @@
             this.btnPreview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPreview.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPreview.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnPreview.Location = new System.Drawing.Point(233, 11);
+            this.btnPreview.Location = new System.Drawing.Point(524, 18);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(115, 41);
             this.btnPreview.TabIndex = 21;
@@ -61,14 +63,14 @@
             this.panel1.Controls.Add(this.btnPreview);
             this.panel1.Location = new System.Drawing.Point(-27, 276);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(615, 62);
+            this.panel1.Size = new System.Drawing.Size(712, 62);
             this.panel1.TabIndex = 23;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(17, 115);
+            this.label1.Location = new System.Drawing.Point(143, 90);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 17);
             this.label1.TabIndex = 26;
@@ -78,11 +80,11 @@
             // dtpSaleFromDate
             // 
             this.dtpSaleFromDate.CustomFormat = "dd-MMM-yyyy";
-            this.dtpSaleFromDate.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpSaleFromDate.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
             this.dtpSaleFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpSaleFromDate.Location = new System.Drawing.Point(106, 115);
+            this.dtpSaleFromDate.Location = new System.Drawing.Point(236, 83);
             this.dtpSaleFromDate.Name = "dtpSaleFromDate";
-            this.dtpSaleFromDate.Size = new System.Drawing.Size(215, 26);
+            this.dtpSaleFromDate.Size = new System.Drawing.Size(376, 26);
             this.dtpSaleFromDate.TabIndex = 25;
             this.dtpSaleFromDate.ValueChanged += new System.EventHandler(this.dtpSaleFromDate_ValueChanged);
             // 
@@ -90,7 +92,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(35, 156);
+            this.label2.Location = new System.Drawing.Point(161, 122);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 17);
             this.label2.TabIndex = 28;
@@ -102,9 +104,9 @@
             this.dtpSaleToDate.CustomFormat = "dd-MMM-yyyy";
             this.dtpSaleToDate.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpSaleToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpSaleToDate.Location = new System.Drawing.Point(106, 156);
+            this.dtpSaleToDate.Location = new System.Drawing.Point(236, 115);
             this.dtpSaleToDate.Name = "dtpSaleToDate";
-            this.dtpSaleToDate.Size = new System.Drawing.Size(215, 26);
+            this.dtpSaleToDate.Size = new System.Drawing.Size(376, 26);
             this.dtpSaleToDate.TabIndex = 27;
             // 
             // cmbCategory
@@ -114,20 +116,20 @@
             this.cmbCategory.FormattingEnabled = true;
             this.cmbCategory.Items.AddRange(new object[] {
             "select Product"});
-            this.cmbCategory.Location = new System.Drawing.Point(106, 221);
+            this.cmbCategory.Location = new System.Drawing.Point(236, 180);
             this.cmbCategory.Name = "cmbCategory";
-            this.cmbCategory.Size = new System.Drawing.Size(215, 21);
+            this.cmbCategory.Size = new System.Drawing.Size(376, 21);
             this.cmbCategory.TabIndex = 29;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(23, 221);
+            this.label3.Location = new System.Drawing.Point(105, 180);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 17);
+            this.label3.Size = new System.Drawing.Size(121, 17);
             this.label3.TabIndex = 30;
-            this.label3.Text = "Category :";
+            this.label3.Text = "Select Category :";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // cmbSalemenu
@@ -138,27 +140,51 @@
             this.cmbSalemenu.FormattingEnabled = true;
             this.cmbSalemenu.Items.AddRange(new object[] {
             "select Product"});
-            this.cmbSalemenu.Location = new System.Drawing.Point(106, 188);
+            this.cmbSalemenu.Location = new System.Drawing.Point(236, 147);
             this.cmbSalemenu.Name = "cmbSalemenu";
-            this.cmbSalemenu.Size = new System.Drawing.Size(213, 27);
+            this.cmbSalemenu.Size = new System.Drawing.Size(376, 27);
             this.cmbSalemenu.TabIndex = 33;
             // 
             // label22
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(1, 191);
+            this.label22.Location = new System.Drawing.Point(127, 147);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(99, 19);
             this.label22.TabIndex = 34;
             this.label22.Text = "Select Menu:";
             this.label22.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(127, 210);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(99, 17);
+            this.label4.TabIndex = 35;
+            this.label4.Text = "Report Style :";
+            // 
+            // cmbReportStyle
+            // 
+            this.cmbReportStyle.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbReportStyle.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbReportStyle.FormattingEnabled = true;
+            this.cmbReportStyle.Items.AddRange(new object[] {
+            "select Product"});
+            this.cmbReportStyle.Location = new System.Drawing.Point(236, 210);
+            this.cmbReportStyle.Name = "cmbReportStyle";
+            this.cmbReportStyle.Size = new System.Drawing.Size(376, 21);
+            this.cmbReportStyle.TabIndex = 36;
+            // 
             // frmDailySale
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(357, 361);
+            this.ClientSize = new System.Drawing.Size(635, 361);
+            this.Controls.Add(this.cmbReportStyle);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.cmbSalemenu);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.label3);
@@ -188,5 +214,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbSalemenu;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbReportStyle;
     }
 }

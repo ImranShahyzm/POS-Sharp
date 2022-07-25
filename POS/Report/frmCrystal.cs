@@ -556,7 +556,7 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             return dt;
         }
 
-        public DataTable DailySale(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int MenuID = 0)
+        public DataTable DailySale(int CompanyID, string ReportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int MenuID = 0, int ReportType = 0)
         {
             DataTable dt;
 
@@ -579,6 +579,14 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             if (CategoryID > 0)
             {
                 Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
+            }
+            if (ReportType == 2)
+            {
+                Sql = Sql + " and data_SalePosInfo.TaxAmount>0";
+            }
+            else if (ReportType == 3)
+            {
+                Sql = Sql + " and data_SalePosInfo.TaxAmount<=0";
             }
             if (MenuID > 0)
             {
@@ -860,7 +868,7 @@ WHERE
             return dt;
 
         }
-        public DataTable GetTotalSaleReturns(DateTime DateFrom, DateTime dateTo)
+        public DataTable GetTotalSaleReturns(DateTime DateFrom, DateTime dateTo, int ReportType = 0)
         {
             string query = @"Select WHID, sum(p.NetAmount) as GrossAmount, Sum(P.DtTaxAmount) as TaxAmount,sum(DiscountTotal) as DiscountTotal,sum(p.Quantity) as ReturnQuantity from data_SalePosReturnInfo 
 inner join(
@@ -868,7 +876,18 @@ inner join(
 ,sum(data_SalePosReturnDetail.TaxAmount) as DtTaxAmount
 from data_SalePosReturnDetail
    group by SalePosReturnID
-) P on  p.SalePosReturnID = data_SalePosReturnInfo.SalePosReturnID where SalePosReturnDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
+) P on  p.SalePosReturnID = data_SalePosReturnInfo.SalePosReturnID where SalePosReturnDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID ;
+
+            if (ReportType == 2)
+            {
+                query = query + " and data_SalePosReturnInfo.TaxAmount>0";
+            }
+            else if (ReportType == 3)
+            {
+                query = query + " and data_SalePosReturnInfo.TaxAmount<=0";
+            }
+            query =query+ " group by WHID";
+
             DataTable dt = new DataTable();
             dt = STATICClass.SelectAllFromQuery(query).Tables[0];
             if (dt.Rows.Count <= 0)
@@ -1092,11 +1111,11 @@ from data_SalePosReturnDetail
             this.ShowDialog();
             rpt.Dispose();
         }
-        public void rptDailySale(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int MenuID = 0)
+        public void rptDailySale(string reportName, DateTime DateFrom, DateTime dateTo, int CategoryID = 0, int MenuID = 0,int ReportType=0)
         {
             ReportDocument rpt = new ReportDocument();
-            DataTable dt = DailySale(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID, MenuID);
-            DataTable CashCard = GetTotalSaleReturns(DateFrom, dateTo);
+            DataTable dt = DailySale(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID, MenuID, ReportType);
+            DataTable CashCard = GetTotalSaleReturns(DateFrom, dateTo, ReportType);
             rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleRegister.rpt"));
             rpt.Database.Tables[0].SetDataSource(dt);
             rpt.Database.Tables[1].SetDataSource(CashCard);
