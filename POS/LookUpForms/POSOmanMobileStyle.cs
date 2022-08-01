@@ -413,11 +413,11 @@ namespace POS
                 TotalDiscount += Convert.ToString(ItemSaleGrid.Rows[i].Cells[6].Value) == "" ? 0 : Convert.ToDecimal(ItemSaleGrid.Rows[i].Cells[6].Value);
             }
 
-            txtGrossAmount.Text = Convert.ToString(Math.Ceiling(sum));
-            txtTotalTax.Text = Convert.ToString(Math.Ceiling(taxAmountTotal));
+            txtGrossAmount.Text = Convert.ToString((sum));
+            txtTotalTax.Text = Convert.ToString((taxAmountTotal));
             decimal discAmount = txtDiscountAmount.Text == "" ? 0 : Convert.ToDecimal(txtDiscountAmount.Text);
-            txtTotalDiscount.Text = Convert.ToString(Math.Ceiling(discAmount));
-            txtNetDtDiscount.Text = Convert.ToString(Math.Ceiling(TotalDiscount));
+            txtTotalDiscount.Text = Convert.ToString((discAmount));
+            txtNetDtDiscount.Text = Convert.ToString((TotalDiscount));
 
             CalculateNetTotal();
 
@@ -2559,6 +2559,7 @@ namespace POS
         {
             if(e.KeyCode==Keys.Enter)
             {
+              
                 decimal payableAmount = txtReceivableAmount.Text == "" ? 0 : Convert.ToDecimal(txtReceivableAmount.Text);
                 decimal returnAmount = txtAmountReturn.Text == "" ? 0 : Convert.ToDecimal(txtAmountReturn.Text);
                 //if (payableAmount==0 && returnAmount>0)
@@ -2568,8 +2569,10 @@ namespace POS
                 //else if (payableAmount>0)
                 //{
                 //txtAmountReceive.ReadOnly = false;
+               
+
+                txtAmountReceive.Text = txtAmountReceive.Text == "" || txtAmountReceive.Text == "0" ? Convert.ToString(payableAmount) : Convert.ToString(txtAmountReceive.Text);
                 decimal recAmount = txtAmountReceive.Text == "" ? payableAmount : Convert.ToDecimal(txtAmountReceive.Text);
-                txtAmountReceive.Text = txtAmountReceive.Text == "" ? Convert.ToString(payableAmount) : Convert.ToString(txtAmountReceive.Text);
                 txtAmountReturn.Text = (recAmount - payableAmount).ToString();
                 //}
                 if (string.IsNullOrEmpty(txtAmountReceive.Text) || Convert.ToDecimal(txtAmountReceive.Text) < Convert.ToDecimal(txtReceivableAmount.Text))
