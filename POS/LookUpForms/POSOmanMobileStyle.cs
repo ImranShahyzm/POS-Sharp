@@ -959,7 +959,7 @@ namespace POS
                                         txtProductCode.Text = obj.ManualNumber;
                                         cmbProducts.SelectedValue = id.ToString();
                                         var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                        //setAvailableStock(id);
+                                        setAvailableStock(id);
                                         txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                         txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                         txtQuantity.Focus();
@@ -1096,7 +1096,8 @@ namespace POS
             dt1.Columns.Add("MinQuantity");
             dt1.Columns.Add("isExchange");
             dt1.Columns.Add("IMEINumber");
-           
+            dt1.Columns.Add("Remarks");
+
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
@@ -1121,6 +1122,8 @@ namespace POS
                     dRow[11] = TQty;// row.Cells[7].Value.ToString();
                     dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
                     dRow["IMEINumber"] = row.Cells[2].Value.ToString();
+                    dRow["Remarks"] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[11].Value)) || Convert.ToString(row.Cells[11].Value) == "") ? "" : Convert.ToString(row.Cells[11].Value);
+
                     dt1.Rows.Add(dRow);
                 }
             }
@@ -1184,14 +1187,12 @@ namespace POS
             cmd.Parameters.AddWithValue("@CustomerName", txtCustName.Text == "" ? null : Convert.ToString(txtCustName.Text));
             cmd.Parameters.AddWithValue("@RiderAmount", txtRiderAmount.Text == "" ? null : Convert.ToString(txtRiderAmount.Text));
             cmd.Parameters.AddWithValue("@LinckedBill", txtLinkedBill.Text == "" ? null : Convert.ToString(txtLinkedBill.Text));
-
             if (directReturn == true)
             {
                 cmd.Parameters.AddWithValue("@DirectReturn", true);
             }
             cmd.Parameters.AddWithValue("@CounterID", CompanyInfo.CounterID);
             cmd.Parameters.AddWithValue("@data_SalePosDetail", dt1);
-
             da.SelectCommand = cmd;
             try
             {
@@ -1957,21 +1958,25 @@ namespace POS
                 {
                     SaleReturn = true;
                 }
-                    for (int i = 0; i < dtdetail.Rows.Count; i++)
+                decimal StockQty = 0;
+                dtdetail.Columns.Add("StockQty", typeof(string));
+                for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
+                    StockQty = STATICClass.GetStockQuantityItem(Convert.ToInt32(dtdetail.Rows[i]["ItemId"]), CompanyInfo.WareHouseID, txtSaleDate.Value, CompanyInfo.CompanyID, "", "", false);
+                    dtdetail.Rows[i]["StockQty"] = StockQty;
                     string[] row = {
                             dtdetail.Rows[i]["ItemId"].ToString(),
                             dtdetail.Rows[i]["ItenName"].ToString(),
                             dtdetail.Rows[i]["IMEINumber"].ToString(),
                             dtdetail.Rows[i]["ItemRate"].ToString(),
-                            
-                            
                             Convert.ToDecimal(dtdetail.Rows[i]["TotalQuantity"]).ToString(),
                              dtdetail.Rows[i]["DiscountPercentage"].ToString(),
                             dtdetail.Rows[i]["DiscountAmount"].ToString(),
                             dtdetail.Rows[i]["TaxPercentage"].ToString(),
                             dtdetail.Rows[i]["TaxAmount"].ToString(),
-                            dtdetail.Rows[i]["TotalAmount"].ToString()
+                            dtdetail.Rows[i]["TotalAmount"].ToString(),
+                            dtdetail.Rows[i]["StockQty"].ToString(),
+                             dtdetail.Rows[i]["Remarks"].ToString()
 
                     };
                     ItemSaleGrid.Rows.Add(row);
