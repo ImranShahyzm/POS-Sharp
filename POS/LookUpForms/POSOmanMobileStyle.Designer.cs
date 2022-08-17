@@ -35,7 +35,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
             this.label9 = new System.Windows.Forms.Label();
             this.txtProductCode = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -73,6 +72,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtGrossAmount = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.txtIMEINumber = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.lblFindPendingBill = new System.Windows.Forms.Label();
@@ -110,21 +110,22 @@
             this.txtSaleDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
-            this.txtIMEINumber = new System.Windows.Forms.TextBox();
-            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IMEINumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dtDiscpercentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DtDiscAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TaxAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
+            this.NetAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TaxAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DtDiscAmt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dtDiscpercentage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IMEINumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ItemSaleGrid = new System.Windows.Forms.DataGridView();
+            this.Remarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -192,34 +193,6 @@
             this.btnSave.Text = "Save (ALT+S)";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // ItemSaleGrid
-            // 
-            this.ItemSaleGrid.AllowUserToAddRows = false;
-            this.ItemSaleGrid.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ItemSaleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ItemSaleGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ProductId,
-            this.ProductName,
-            this.IMEINumber,
-            this.Rate,
-            this.Quantity,
-            this.dtDiscpercentage,
-            this.DtDiscAmt,
-            this.Tax,
-            this.TaxAmount,
-            this.NetAmount,
-            this.Qty});
-            this.ItemSaleGrid.Location = new System.Drawing.Point(36, 243);
-            this.ItemSaleGrid.Name = "ItemSaleGrid";
-            this.ItemSaleGrid.Size = new System.Drawing.Size(993, 281);
-            this.ItemSaleGrid.TabIndex = 10;
-            this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
-            this.ItemSaleGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellValueChanged);
-            this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
-            this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
-            this.ItemSaleGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ItemSaleGrid_KeyPress);
-            this.ItemSaleGrid.Leave += new System.EventHandler(this.ItemSaleGrid_Leave);
             // 
             // label9
             // 
@@ -688,6 +661,14 @@
             this.panel5.TabIndex = 10;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
+            // txtIMEINumber
+            // 
+            this.txtIMEINumber.Location = new System.Drawing.Point(938, 138);
+            this.txtIMEINumber.Name = "txtIMEINumber";
+            this.txtIMEINumber.Size = new System.Drawing.Size(68, 20);
+            this.txtIMEINumber.TabIndex = 57;
+            this.txtIMEINumber.Visible = false;
+            // 
             // label28
             // 
             this.label28.AutoSize = true;
@@ -1068,54 +1049,22 @@
             this.txtInvoiceNo.TextChanged += new System.EventHandler(this.txtInvoiceNo_TextChanged);
             this.txtInvoiceNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInvoiceNo_KeyDown);
             // 
-            // txtIMEINumber
+            // Qty
             // 
-            this.txtIMEINumber.Location = new System.Drawing.Point(938, 138);
-            this.txtIMEINumber.Name = "txtIMEINumber";
-            this.txtIMEINumber.Size = new System.Drawing.Size(68, 20);
-            this.txtIMEINumber.TabIndex = 57;
-            this.txtIMEINumber.Visible = false;
+            this.Qty.HeaderText = "Quantity";
+            this.Qty.Name = "Qty";
             // 
-            // ProductId
+            // NetAmount
             // 
-            this.ProductId.HeaderText = "ProductID";
-            this.ProductId.Name = "ProductId";
-            this.ProductId.ReadOnly = true;
-            this.ProductId.Visible = false;
+            this.NetAmount.HeaderText = "Net Amount";
+            this.NetAmount.Name = "NetAmount";
+            this.NetAmount.ReadOnly = true;
             // 
-            // ProductName
+            // TaxAmount
             // 
-            this.ProductName.HeaderText = "ProductName";
-            this.ProductName.Name = "ProductName";
-            this.ProductName.ReadOnly = true;
-            this.ProductName.Width = 200;
-            // 
-            // IMEINumber
-            // 
-            this.IMEINumber.HeaderText = "IMEINumber";
-            this.IMEINumber.Name = "IMEINumber";
-            // 
-            // Rate
-            // 
-            this.Rate.HeaderText = "Rate";
-            this.Rate.Name = "Rate";
-            this.Rate.ReadOnly = true;
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            // 
-            // dtDiscpercentage
-            // 
-            this.dtDiscpercentage.HeaderText = "Disc %";
-            this.dtDiscpercentage.Name = "dtDiscpercentage";
-            this.dtDiscpercentage.Width = 80;
-            // 
-            // DtDiscAmt
-            // 
-            this.DtDiscAmt.HeaderText = "Discount Amount";
-            this.DtDiscAmt.Name = "DtDiscAmt";
+            this.TaxAmount.HeaderText = "Tax Amount";
+            this.TaxAmount.Name = "TaxAmount";
+            this.TaxAmount.ReadOnly = true;
             // 
             // Tax
             // 
@@ -1124,22 +1073,80 @@
             this.Tax.ReadOnly = true;
             this.Tax.Width = 70;
             // 
-            // TaxAmount
+            // DtDiscAmt
             // 
-            this.TaxAmount.HeaderText = "Tax Amount";
-            this.TaxAmount.Name = "TaxAmount";
-            this.TaxAmount.ReadOnly = true;
+            this.DtDiscAmt.HeaderText = "Discount Amount";
+            this.DtDiscAmt.Name = "DtDiscAmt";
             // 
-            // NetAmount
+            // dtDiscpercentage
             // 
-            this.NetAmount.HeaderText = "Net Amount";
-            this.NetAmount.Name = "NetAmount";
-            this.NetAmount.ReadOnly = true;
+            this.dtDiscpercentage.HeaderText = "Disc %";
+            this.dtDiscpercentage.Name = "dtDiscpercentage";
+            this.dtDiscpercentage.Width = 80;
             // 
-            // Qty
+            // Quantity
             // 
-            this.Qty.HeaderText = "Quantity";
-            this.Qty.Name = "Qty";
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            // 
+            // Rate
+            // 
+            this.Rate.HeaderText = "Rate";
+            this.Rate.Name = "Rate";
+            this.Rate.ReadOnly = true;
+            // 
+            // IMEINumber
+            // 
+            this.IMEINumber.HeaderText = "IMEINumber";
+            this.IMEINumber.Name = "IMEINumber";
+            // 
+            // ProductName
+            // 
+            this.ProductName.HeaderText = "ProductName";
+            this.ProductName.Name = "ProductName";
+            this.ProductName.ReadOnly = true;
+            this.ProductName.Width = 200;
+            // 
+            // ProductId
+            // 
+            this.ProductId.HeaderText = "ProductID";
+            this.ProductId.Name = "ProductId";
+            this.ProductId.ReadOnly = true;
+            this.ProductId.Visible = false;
+            // 
+            // ItemSaleGrid
+            // 
+            this.ItemSaleGrid.AllowUserToAddRows = false;
+            this.ItemSaleGrid.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ItemSaleGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ItemSaleGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ProductId,
+            this.ProductName,
+            this.IMEINumber,
+            this.Rate,
+            this.Quantity,
+            this.dtDiscpercentage,
+            this.DtDiscAmt,
+            this.Tax,
+            this.TaxAmount,
+            this.NetAmount,
+            this.Qty,
+            this.Remarks});
+            this.ItemSaleGrid.Location = new System.Drawing.Point(36, 243);
+            this.ItemSaleGrid.Name = "ItemSaleGrid";
+            this.ItemSaleGrid.Size = new System.Drawing.Size(1016, 281);
+            this.ItemSaleGrid.TabIndex = 10;
+            this.ItemSaleGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellContentClick);
+            this.ItemSaleGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.ItemSaleGrid_CellValueChanged);
+            this.ItemSaleGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ItemSaleGrid_EditingControlShowing);
+            this.ItemSaleGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ItemSaleGrid_KeyDown);
+            this.ItemSaleGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ItemSaleGrid_KeyPress);
+            this.ItemSaleGrid.Leave += new System.EventHandler(this.ItemSaleGrid_Leave);
+            // 
+            // Remarks
+            // 
+            this.Remarks.HeaderText = "Remarks";
+            this.Remarks.Name = "Remarks";
             // 
             // POSOmanMobileStyle
             // 
@@ -1159,11 +1166,11 @@
             this.ShadowType = MetroFramework.Forms.MetroForm.MetroFormShadowType.None;
             this.Text = "Corbis Solution";
             this.Load += new System.EventHandler(this.POSPcWorldStyle_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ItemSaleGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1176,7 +1183,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.DataGridView ItemSaleGrid;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.ComboBox cmbSalemenu;
         private System.Windows.Forms.Label lblShopName;
@@ -1252,17 +1258,19 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.CheckBox printType;
         private System.Windows.Forms.TextBox txtIMEINumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IMEINumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dtDiscpercentage;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DtDiscAmt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tax;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TaxAmount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NetAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TaxAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DtDiscAmt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dtDiscpercentage;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IMEINumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ProductId;
+        private System.Windows.Forms.DataGridView ItemSaleGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Remarks;
     }
 }
 

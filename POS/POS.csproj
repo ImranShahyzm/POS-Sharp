@@ -1496,6 +1496,7 @@
     <Content Include="DbScripts\Script 1.0.0.90.sql" />
     <Content Include="DbScripts\Script 1.0.0.91.sql" />
     <Content Include="DbScripts\Script 1.0.0.92.sql" />
+    <Content Include="DbScripts\Script 1.0.0.93.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <None Include="Resources\CorbisPos.png" />
