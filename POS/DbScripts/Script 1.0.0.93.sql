@@ -13,7 +13,16 @@ COMMIT
 END
 
 
+IF NOT EXISTS (SELECT 1 FROM sys.columns 
+				WHERE name = N'Remarks' 
+				and object_id = object_id(N'dbo.data_SalePosReturnDetail'))
+BEGIN
+BEGIN TRANSACTION
 
+ALTER TABLE dbo.data_SalePosReturnDetail ADD
+	Remarks  NVARCHAR(1000) NULL
+COMMIT
+END
 
 
 
