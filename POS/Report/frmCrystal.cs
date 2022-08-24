@@ -164,6 +164,14 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             cnn.Close();
 
             DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
+            DataTable Config = new DataTable();
+            bool IsTaxable = false;
+            string query = "Select IsTaxableMode from gen_SystemConfiguration where CompanyId =" + CompanyInfo.CompanyID ;
+            Config = STATICClass.SelectAllFromQuery(query).Tables[0];
+            if (Config.Rows.Count > 0)
+            {
+                IsTaxable= Convert.ToBoolean(Config.Rows[0]["IsTaxableMode"]);
+            }        
             //string ss = obj.Title;
             //reportViewer1.ProcessingMode = ProcessingMode.Local;
             if (CompanyInfo.POSStyle == "OmanMobileStyle")
@@ -201,7 +209,11 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             rpt.SetParameterValue("ServerName", Serverpath);
             rpt.SetParameterValue("Username", CompanyInfo.username);
-            crystalReportViewer1.ReportSource = rpt;
+            if (CompanyInfo.POSStyle == "OmanMobileStyle")
+            {
+                rpt.SetParameterValue("IsTaxable", IsTaxable);
+            }
+                crystalReportViewer1.ReportSource = rpt;
             crystalReportViewer1.Refresh();
             if (CompanyInfo.isPrinter && isA4Style==false)
             {
