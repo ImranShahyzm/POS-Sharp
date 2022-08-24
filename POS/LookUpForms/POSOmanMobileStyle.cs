@@ -27,6 +27,8 @@ namespace POS
         public bool directReturn = false;
         public int SaleInvoiceNo = 0;
         public int SalePosMasterID = 0;
+        public int SalePosReturnID = 0;
+
         public decimal netAmountForReturn = 0;
 
         public string totalBill { get; set; }
@@ -1153,7 +1155,10 @@ namespace POS
             DataTable dt = new DataTable();
             SqlParameter p = new SqlParameter("SalePosID", SalePosMasterID);
             p.Direction = ParameterDirection.InputOutput;
+            SqlParameter p2 = new SqlParameter("SalePosReturnID", SalePosReturnID);
+            p2.Direction = ParameterDirection.InputOutput;
             cmd.Parameters.Add(p);
+            cmd.Parameters.Add(p2);
             cmd.Parameters.AddWithValue("@CompanyID", CompanyInfo.CompanyID);
             cmd.Parameters.AddWithValue("@SaleInvoiceNo", SaleInvoiceNo);
             cmd.Parameters.AddWithValue("@UserID", CompanyInfo.UserID);
@@ -1201,7 +1206,12 @@ namespace POS
                 tran.Commit();
                 isBillSaved = true;
                 string SaleInvoiceNO = p.Value.ToString();
+                string SaleReturnNO = p2.Value.ToString();
                 var value = new List<string[]>();
+                if (directReturn || SaleReturn)
+                {
+                    SaleInvoiceNO = SaleReturnNO;
+                }
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
                 value.Add(ss);
                 var valueforLinked = new List<string[]>();
