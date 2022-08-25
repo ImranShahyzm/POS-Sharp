@@ -143,7 +143,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             }
 
         }
-        public void loadSaleFoodMamaReport(string StoreProcedure, string ReportName, List<string[]> parameters, bool isReturn = false, bool isReprint = false, bool isA4Style = false)
+        public void loadSaleFoodMamaReport(string StoreProcedure, string ReportName, List<string[]> parameters, bool isReturn = false, bool isReprint = false, bool isA4Style = false,bool IsTaxable=false)
         {
             var connectionString = STATICClass.Connection();
             ReportDocument rpt = new ReportDocument();
@@ -165,13 +165,6 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
 
             DataTable dt2 = SelectCompanyDetail(" where companyid = " + CompanyInfo.CompanyID);
             DataTable Config = new DataTable();
-            bool IsTaxable = false;
-            string query = "Select IsTaxableMode from gen_SystemConfiguration where CompanyId =" + CompanyInfo.CompanyID ;
-            Config = STATICClass.SelectAllFromQuery(query).Tables[0];
-            if (Config.Rows.Count > 0)
-            {
-                IsTaxable= Convert.ToBoolean(Config.Rows[0]["IsTaxableMode"]);
-            }        
             //string ss = obj.Title;
             //reportViewer1.ProcessingMode = ProcessingMode.Local;
             if (CompanyInfo.POSStyle == "OmanMobileStyle")
