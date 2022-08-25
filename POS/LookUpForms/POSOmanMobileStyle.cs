@@ -1218,6 +1218,11 @@ namespace POS
                 valueforLinked.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
+                bool IsTaxable = false;
+                if (txtTotalTax.Text == "")
+                    IsTaxable = false;
+                else if (Convert.ToDecimal(txtTotalTax.Text)>0)
+                    IsTaxable = true ;
                 if (directReturn == false)
                 {
                    
@@ -1232,11 +1237,11 @@ namespace POS
                         {
                             if (SaleReturn)
                             {
-                                obj.loadSaleFoodMamaReport("rpt_saleReturn_invoice", reportName, value, SaleReturn);
+                                obj.loadSaleFoodMamaReport("rpt_saleReturn_invoice", reportName, value, SaleReturn, false, printType.Checked, IsTaxable);
                             }
                             else
                             {
-                                obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value, SaleReturn,false,printType.Checked);
+                                obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value, SaleReturn,false,printType.Checked, IsTaxable);
                             }
                         }
 
