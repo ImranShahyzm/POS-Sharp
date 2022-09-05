@@ -570,6 +570,11 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             data_SalePosInfo.DiscountPercentage as SaleInfo_DPer,data_SalePosInfo.DiscountAmount as SaleInfo_DAmount, data_SalePosInfo.DiscountTotal as SaleInfo_DTotal,data_SalePosDetail.ItemId,
  data_SalePosDetail.Quantity,data_SalePosDetail.ItemRate,data_SalePosDetail.DiscountPercentage,data_SalePosDetail.DiscountAmount,
             data_SalePosDetail.TaxAmount,
+ISNULL((select TOP 1 M.SalePosReturnID from data_SalePosReturnDetail D
+JOIN data_SalePosReturnInfo M ON M.SalePosReturnID=D.SalePosReturnID
+WHERE 0=0 and M.SalePosID=data_SalePosInfo.SalePosID and D.ItemId=data_SalePosDetail.ItemId
+GROUP BY M.SalePosReturnID
+), 0) as SalePosReturnID,
             InventItems.ItenName,data_SalePosDetail.IMEINumber
             from data_SalePosInfo 
             inner join data_SalePosDetail on data_SalePosInfo.SalePosID=data_SalePosDetail.SalePosID 
@@ -1121,7 +1126,15 @@ from data_SalePosReturnDetail
             ReportDocument rpt = new ReportDocument();
             DataTable dt = DailySale(CompanyInfo.CompanyID, reportName, DateFrom, dateTo, CategoryID, MenuID, ReportType);
             DataTable CashCard = GetTotalSaleReturns(DateFrom, dateTo, ReportType);
-            rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleRegister.rpt"));
+            if (CompanyInfo.POSStyle == "OmanMobileStyle")
+            {
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleRegisterForOMANMobile.rpt"));
+            }
+            else
+            {
+                rpt.Load(Path.Combine(Application.StartupPath, "Report", "SaleRegister.rpt"));
+            }
+            
             rpt.Database.Tables[0].SetDataSource(dt);
             rpt.Database.Tables[1].SetDataSource(CashCard);
 
