@@ -206,7 +206,7 @@ from data_salePosInfo where data_SalePosInfo.InvoiceType > 1 and 0=0";
             {
                 rpt.SetParameterValue("IsTaxable", IsTaxable);
             }
-                crystalReportViewer1.ReportSource = rpt;
+            crystalReportViewer1.ReportSource = rpt;
             crystalReportViewer1.Refresh();
             if (CompanyInfo.isPrinter && isA4Style==false)
             {
