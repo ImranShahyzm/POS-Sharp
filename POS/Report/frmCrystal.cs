@@ -582,11 +582,11 @@ InventCategory.CategoryName, InventItemGroup.ItemGroupName,RegisterInevntoryDate
             }
             if (ReportType == 2)
             {
-                Sql = Sql + " and data_SalePosInfo.TaxAmount>0";
+                Sql = Sql + " and data_SalePosDetail.TaxAmount>0";
             }
             else if (ReportType == 3)
             {
-                Sql = Sql + " and data_SalePosInfo.TaxAmount<=0";
+                Sql = Sql + " and data_SalePosDetail.TaxAmount<=0";
             }
             if (MenuID > 0)
             {
@@ -1124,7 +1124,9 @@ from data_SalePosReturnDetail
 
             rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
             rpt.SetParameterValue("UserName", CompanyInfo.username);
-            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+           
+                rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+            rpt.SetParameterValue("ReportType", ReportType);
 
 
             rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
