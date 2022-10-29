@@ -815,6 +815,13 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Report\SaleRegisterForOMANMobile.cs">
+      <DependentUpon>SaleRegisterForOMANMobile.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Report\SaleReturnRegister1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1237,6 +1244,11 @@
       <LastGenOutput>PromoDiscount.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\SaleRegisterForOMANMobile.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SaleRegisterForOMANMobile.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\SaleReturnRegister.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>SaleReturnRegister1.cs</LastGenOutput>
@@ -1496,6 +1508,8 @@
     <Content Include="DbScripts\Script 1.0.0.90.sql" />
     <Content Include="DbScripts\Script 1.0.0.91.sql" />
     <Content Include="DbScripts\Script 1.0.0.92.sql" />
+    <Content Include="DbScripts\Script 1.0.0.93.sql" />
+    <Content Include="DbScripts\Script 1.0.0.94.sql" />
     <Content Include="MetroFramework.txt" />
     <Content Include="Oxygen-Icons.org-Oxygen-Apps-preferences-system-login.ico" />
     <None Include="Resources\CorbisPos.png" />

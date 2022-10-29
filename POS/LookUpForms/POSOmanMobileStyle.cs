@@ -27,6 +27,8 @@ namespace POS
         public bool directReturn = false;
         public int SaleInvoiceNo = 0;
         public int SalePosMasterID = 0;
+        public int SalePosReturnID = 0;
+
         public decimal netAmountForReturn = 0;
 
         public string totalBill { get; set; }
@@ -959,7 +961,7 @@ namespace POS
                                         txtProductCode.Text = obj.ManualNumber;
                                         cmbProducts.SelectedValue = id.ToString();
                                         var dtReturn = getProduct(0, Convert.ToInt32(id));
-                                        //setAvailableStock(id);
+                                        setAvailableStock(id);
                                         txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                         txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                         txtQuantity.Focus();
@@ -1096,7 +1098,8 @@ namespace POS
             dt1.Columns.Add("MinQuantity");
             dt1.Columns.Add("isExchange");
             dt1.Columns.Add("IMEINumber");
-           
+            dt1.Columns.Add("Remarks");
+
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
@@ -1121,6 +1124,8 @@ namespace POS
                     dRow[11] = TQty;// row.Cells[7].Value.ToString();
                     dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
                     dRow["IMEINumber"] = row.Cells[2].Value.ToString();
+                    dRow["Remarks"] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[11].Value)) || Convert.ToString(row.Cells[11].Value) == "") ? "" : Convert.ToString(row.Cells[11].Value);
+
                     dt1.Rows.Add(dRow);
                 }
             }
@@ -1150,7 +1155,10 @@ namespace POS
             DataTable dt = new DataTable();
             SqlParameter p = new SqlParameter("SalePosID", SalePosMasterID);
             p.Direction = ParameterDirection.InputOutput;
+            SqlParameter p2 = new SqlParameter("SalePosReturnID", SalePosReturnID);
+            p2.Direction = ParameterDirection.InputOutput;
             cmd.Parameters.Add(p);
+            cmd.Parameters.Add(p2);
             cmd.Parameters.AddWithValue("@CompanyID", CompanyInfo.CompanyID);
             cmd.Parameters.AddWithValue("@SaleInvoiceNo", SaleInvoiceNo);
             cmd.Parameters.AddWithValue("@UserID", CompanyInfo.UserID);
@@ -1184,14 +1192,12 @@ namespace POS
             cmd.Parameters.AddWithValue("@CustomerName", txtCustName.Text == "" ? null : Convert.ToString(txtCustName.Text));
             cmd.Parameters.AddWithValue("@RiderAmount", txtRiderAmount.Text == "" ? null : Convert.ToString(txtRiderAmount.Text));
             cmd.Parameters.AddWithValue("@LinckedBill", txtLinkedBill.Text == "" ? null : Convert.ToString(txtLinkedBill.Text));
-
             if (directReturn == true)
             {
                 cmd.Parameters.AddWithValue("@DirectReturn", true);
             }
             cmd.Parameters.AddWithValue("@CounterID", CompanyInfo.CounterID);
             cmd.Parameters.AddWithValue("@data_SalePosDetail", dt1);
-
             da.SelectCommand = cmd;
             try
             {
@@ -1200,13 +1206,23 @@ namespace POS
                 tran.Commit();
                 isBillSaved = true;
                 string SaleInvoiceNO = p.Value.ToString();
+                string SaleReturnNO = p2.Value.ToString();
                 var value = new List<string[]>();
+                if (directReturn || SaleReturn)
+                {
+                    SaleInvoiceNO = SaleReturnNO;
+                }
                 string[] ss = { "@SaleInvoice", SaleInvoiceNO };
                 value.Add(ss);
                 var valueforLinked = new List<string[]>();
                 valueforLinked.Add(ss);
                 frmCrystal obj = new frmCrystal();
                 string reportName = "";
+                bool IsTaxable = false;
+                if (txtTotalTax.Text == "")
+                    IsTaxable = false;
+                else if (Convert.ToDecimal(txtTotalTax.Text)>0)
+                    IsTaxable = true ;
                 if (directReturn == false)
                 {
                    
@@ -1221,11 +1237,11 @@ namespace POS
                         {
                             if (SaleReturn)
                             {
-                                obj.loadSaleFoodMamaReport("rpt_saleReturn_invoice", reportName, value, SaleReturn);
+                                obj.loadSaleFoodMamaReport("rpt_saleReturn_invoice", reportName, value, SaleReturn, false, printType.Checked, IsTaxable);
                             }
                             else
                             {
-                                obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value, SaleReturn,false,printType.Checked);
+                                obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value, SaleReturn,false,printType.Checked, IsTaxable);
                             }
                         }
 
@@ -1957,21 +1973,25 @@ namespace POS
                 {
                     SaleReturn = true;
                 }
-                    for (int i = 0; i < dtdetail.Rows.Count; i++)
+                decimal StockQty = 0;
+                dtdetail.Columns.Add("StockQty", typeof(string));
+                for (int i = 0; i < dtdetail.Rows.Count; i++)
                 {
+                    StockQty = STATICClass.GetStockQuantityItem(Convert.ToInt32(dtdetail.Rows[i]["ItemId"]), CompanyInfo.WareHouseID, txtSaleDate.Value, CompanyInfo.CompanyID, "", "", false);
+                    dtdetail.Rows[i]["StockQty"] = StockQty;
                     string[] row = {
                             dtdetail.Rows[i]["ItemId"].ToString(),
                             dtdetail.Rows[i]["ItenName"].ToString(),
                             dtdetail.Rows[i]["IMEINumber"].ToString(),
                             dtdetail.Rows[i]["ItemRate"].ToString(),
-                            
-                            
                             Convert.ToDecimal(dtdetail.Rows[i]["TotalQuantity"]).ToString(),
                              dtdetail.Rows[i]["DiscountPercentage"].ToString(),
                             dtdetail.Rows[i]["DiscountAmount"].ToString(),
                             dtdetail.Rows[i]["TaxPercentage"].ToString(),
                             dtdetail.Rows[i]["TaxAmount"].ToString(),
-                            dtdetail.Rows[i]["TotalAmount"].ToString()
+                            dtdetail.Rows[i]["TotalAmount"].ToString(),
+                            dtdetail.Rows[i]["StockQty"].ToString(),
+                             dtdetail.Rows[i]["Remarks"].ToString()
 
                     };
                     ItemSaleGrid.Rows.Add(row);
@@ -2172,6 +2192,11 @@ namespace POS
             valueforLinked.Add(ss);
             frmCrystal obj = new frmCrystal();
             string reportName = "";
+            bool IsTaxable = false;
+            if (txtTotalTax.Text == "")
+                IsTaxable = false;
+            else if (Convert.ToDecimal(txtTotalTax.Text) > 0)
+                IsTaxable = true;
             if (directReturn == false)
             {
                 reportName = "SaleInvoice";
@@ -2184,7 +2209,7 @@ namespace POS
                 }
                 else
                 {
-                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value,false,true,printType.Checked);
+                    obj.loadSaleFoodMamaReport("rpt_sale_invoice", reportName, value,false,true,printType.Checked, IsTaxable);
                 }
                    // obj.loadSaleKitchenReport("rpt_sale_invoiceKitchen", reportName, value);
             }
