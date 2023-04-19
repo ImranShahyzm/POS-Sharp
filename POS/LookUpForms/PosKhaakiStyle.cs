@@ -917,6 +917,8 @@ namespace POS
             dt1.Columns.Add("MinQuantity");
             dt1.Columns.Add("isExchange");
             dt1.Columns.Add("IMEINumber");
+            dt1.Columns.Add("Remarks");
+            dt1.Columns.Add("MaxDiscountPercentage");
 
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
@@ -942,6 +944,8 @@ namespace POS
                 dRow[13] = Convert.ToString(row.Cells[13].Value);
                 dRow[14] = Convert.ToString(row.Cells[12].Value);
                 dRow[15] = Convert.ToBoolean(row.Cells[14].Value);
+                dRow[18] = 0;
+              
                 dt1.Rows.Add(dRow);
             }
             var connectionString = STATICClass.Connection();

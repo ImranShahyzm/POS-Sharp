@@ -288,6 +288,7 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Content Include="DbScripts\Script 1.0.0.95.sql" />
     <Content Include="DbScripts\Script 1.0.0.89.sql" />
     <Content Include="DbScripts\Script 1.0.0.88.sql" />
     <Content Include="DbScripts\Script 1.0.0.86.sql" />
@@ -384,6 +385,12 @@
     </Compile>
     <Compile Include="LookUpForms\frmPOSOMANtabControl.Designer.cs">
       <DependentUpon>frmPOSOMANtabControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSStandardControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\frmPOSStandardControl.Designer.cs">
+      <DependentUpon>frmPOSStandardControl.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\frmPOSPctabControl.cs">
       <SubType>Form</SubType>
@@ -570,6 +577,12 @@
     </Compile>
     <Compile Include="LookUpForms\POSOmanMobileStyle.Designer.cs">
       <DependentUpon>POSOmanMobileStyle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LookUpForms\POSStandardStyle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LookUpForms\POSStandardStyle.Designer.cs">
+      <DependentUpon>POSStandardStyle.cs</DependentUpon>
     </Compile>
     <Compile Include="LookUpForms\POSPcWorldStyle.cs">
       <SubType>Form</SubType>
@@ -1012,6 +1025,9 @@
     <EmbeddedResource Include="LookUpForms\frmPOSOMANtabControl.resx">
       <DependentUpon>frmPOSOMANtabControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\frmPOSStandardControl.resx">
+      <DependentUpon>frmPOSStandardControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\frmPOSPctabControl.resx">
       <DependentUpon>frmPOSPctabControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1104,6 +1120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\POSOmanMobileStyle.resx">
       <DependentUpon>POSOmanMobileStyle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LookUpForms\POSStandardStyle.resx">
+      <DependentUpon>POSStandardStyle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LookUpForms\POSPcWorldStyle.resx">
       <DependentUpon>POSPcWorldStyle.cs</DependentUpon>

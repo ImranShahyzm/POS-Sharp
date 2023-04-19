@@ -703,7 +703,66 @@ namespace POS
             }
             return dt;
         }
-        
+        private void GetRunningPromo(int ItemId)
+        {
+            var connectionString = STATICClass.Connection();
+            SqlConnection cnn;
+            cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            string SqlString = " Select * from vw_khaakiPromo";
+            //string whereClause = " where BookingStartDate<='"+txtSaleDate.Value+ "' and BookingEndDate>='"+txtSaleDate.Value+"' and WHID="+CompanyInfo.WareHouseID+" and ItemId="+ItemId+"" ;
+            DateTime StartDate = Convert.ToDateTime(txtSaleDate.Value);
+            DateTime EndDate = StartDate;
+            string whereClause = " where ((vw_khaakiPromo.BookingStartDate between '" + Convert.ToDateTime(StartDate) + "' and '" + Convert.ToDateTime(EndDate) + "') OR " +
+                " (vw_khaakiPromo.BookingEndDate between '" + Convert.ToDateTime(StartDate) + "' and '" + Convert.ToDateTime(EndDate) + "') OR (BookingStartDate<='" + Convert.ToDateTime(StartDate) + "' and BookingEndDate >='" + Convert.ToDateTime(EndDate) + "')) and vw_khaakiPromo.WHID=" + Convert.ToInt32(CompanyInfo.WareHouseID) + " and ItemId=" + ItemId + "";
+            SqlDataAdapter sda = new SqlDataAdapter(SqlString + whereClause, cnn);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            cnn.Close();
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    int SchemeID = Convert.ToInt32(dt.Rows[i]["SchemeID"]);
+                    string SchemeTitle = Convert.ToString(dt.Rows[i]["PromoName"]);
+                  
+                    txtPromoDisc.Text = Convert.ToString(dt.Rows[i]["AdditionPercentage"]);
+                  
+                }
+            }
+            else
+            {
+                whereClause = " where ((vw_khaakiPromoonAll.BookingStartDate between '" + Convert.ToDateTime(StartDate) + "' and '" + Convert.ToDateTime(EndDate) + "') OR " +
+                " (vw_khaakiPromoonAll.BookingEndDate between '" + Convert.ToDateTime(StartDate) + "' and '" + Convert.ToDateTime(EndDate) + "') OR (BookingStartDate<='" + Convert.ToDateTime(StartDate) + "' and BookingEndDate >='" + Convert.ToDateTime(EndDate) + "')) and vw_khaakiPromoonAll.WHID=" + Convert.ToInt32(CompanyInfo.WareHouseID) + "";
+                cnn.Open();
+                sda = new SqlDataAdapter("Select * from  vw_khaakiPromoonAll " + whereClause, cnn);
+                dt = new DataTable();
+                sda.Fill(dt);
+                cnn.Close();
+
+                if (dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        int SchemeID = Convert.ToInt32(dt.Rows[i]["SchemeID"]);
+                        string SchemeTitle = Convert.ToString(dt.Rows[i]["PromoName"]);
+                      
+                        txtPromoDisc.Text = Convert.ToString(dt.Rows[i]["AdditionPercentage"]);
+                       
+
+                    }
+                }
+                else
+                {
+                    txtPromoDisc.Text = "0";
+                  
+                    txtPromoDiscAmt.Text = "0";
+                }
+            }
+
+
+
+        }
         private DataTable getProduct(int categoryID, int productID = 0, string ManualNumber = "")
         {
             var connectionString = STATICClass.Connection();
@@ -922,6 +981,7 @@ namespace POS
                             SetQuantitesBeforAdding(dt);
                             txtQuantity.Text = "1";
                             //Now Add to Grid...
+                            GetRunningPromo(Convert.ToInt32(ItemID));
                             txtPromoDisc_KeyDown(sender, e);
                         }
                         else
@@ -944,6 +1004,7 @@ namespace POS
                                     txtRate.Text = Convert.ToString(dtReturn.Rows[0]["ItemSalesPrice"]);
                                     txtTax.Text = Convert.ToString(dtReturn.Rows[0]["TotalTax"]);
                                     txtIsBatchItem.Text = Convert.ToString(dtReturn.Rows[0]["IsBatchItem"]);
+                                    GetRunningPromo(Convert.ToInt32(obj.ProductID));
                                     setAvailableStock(id);
                                     txtQuantity.Focus();
                                     txtQuantity.SelectAll();
@@ -1046,6 +1107,7 @@ namespace POS
             dt1.Columns.Add("isExchange");
             dt1.Columns.Add("IMEINumber");
             dt1.Columns.Add("Remarks");
+            dt1.Columns.Add("MaxDiscountPercentage");
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
@@ -1071,7 +1133,7 @@ namespace POS
                     dRow[11] = TQty;// row.Cells[8].Value.ToString();
                     dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
                     dRow["IMEINumber"] = row.Cells[2].Value.ToString();
-
+                    dRow[18] = 0;
                     dt1.Rows.Add(dRow);
                 }
             }

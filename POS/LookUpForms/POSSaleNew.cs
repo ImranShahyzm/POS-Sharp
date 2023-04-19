@@ -801,6 +801,9 @@ namespace POS
             dt1.Columns.Add("MinQuantity");
             dt1.Columns.Add("isExchange");
             dt1.Columns.Add("IMEINumber");
+            dt1.Columns.Add("Remarks");
+            dt1.Columns.Add("MaxDiscountPercentage");
+
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
