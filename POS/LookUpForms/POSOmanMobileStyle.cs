@@ -1099,7 +1099,7 @@ namespace POS
             dt1.Columns.Add("isExchange");
             dt1.Columns.Add("IMEINumber");
             dt1.Columns.Add("Remarks");
-
+            dt1.Columns.Add("MaxDiscountPercentage");
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
@@ -1125,7 +1125,7 @@ namespace POS
                     dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
                     dRow["IMEINumber"] = row.Cells[2].Value.ToString();
                     dRow["Remarks"] = (string.IsNullOrEmpty(Convert.ToString(row.Cells[11].Value)) || Convert.ToString(row.Cells[11].Value) == "") ? "" : Convert.ToString(row.Cells[11].Value);
-
+                    dRow[18] = 0;
                     dt1.Rows.Add(dRow);
                 }
             }

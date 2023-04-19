@@ -40,7 +40,9 @@ namespace POS
     new { Text = "PC World Style", Value = "POSPcWorldStyle" },
     new { Text = "Cresent Style", Value = "CrescentStyle" },
     new { Text = "Oman Mobile Style", Value = "OmanMobileStyle" },
-    new { Text = "Default Style", Value = "Default" }
+    new { Text = "Default Style", Value = "Default" },
+     new { Text = "Standard Style", Value = "POSStandardStyle" },
+    
 };
 
             cmbPosStyle.DataSource = PosStyleList;

@@ -1007,6 +1007,8 @@ namespace POS
             dt1.Columns.Add("MinQuantity");
             dt1.Columns.Add("isExchange");
             dt1.Columns.Add("IMEINumber");
+            dt1.Columns.Add("Remarks");
+            dt1.Columns.Add("MaxDiscountPercentage");
             int i = 0;
             foreach (DataGridViewRow row in ItemSaleGrid.Rows)
             {
@@ -1030,7 +1032,7 @@ namespace POS
                     dRow[10] = 0;// row.Cells[4].Value.ToString();
                     dRow[11] = TQty;// row.Cells[7].Value.ToString();
                     dRow[12] = 0; //Convert.ToString(row.Cells[14].Value);
-
+                    dRow[18] = 0;
                     dt1.Rows.Add(dRow);
                 }
             }

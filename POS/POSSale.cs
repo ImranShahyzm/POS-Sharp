@@ -36,6 +36,8 @@ namespace POS
             loadNewSale();
             syncRecpiesToolStripMenuItem.Visible = false;
             dispatchDeskArrivalToolStripMenuItem.Visible = false;
+            warehouseArrivalToolStripMenuItem.Visible = false;
+            stockReturnToolStripMenuItem.Visible = false;
             if (true)
             {
                tableLayoutPanel1.Hide();
@@ -50,6 +52,7 @@ namespace POS
                 toolStripMenuItem3.Visible = false;
                 dispatchDeskArrivalToolStripMenuItem.Visible = true;
                 saleReturnReportToolStripMenuItem.Visible = false;
+                warehouseArrivalToolStripMenuItem.Visible = true;
             }
             else
             {
@@ -89,6 +92,7 @@ namespace POS
                 {
                     syncRecpiesToolStripMenuItem.Visible = true; 
                 }
+                syncRecpiesToolStripMenuItem.Visible = false;
             }
 
         }
@@ -1481,6 +1485,12 @@ namespace POS
                 frmPOSPctabControl frm = new frmPOSPctabControl();
                 frm.Show();
             }
+            else if (CompanyInfo.POSStyle == "POSStandardStyle")
+            {
+                frmPOSStandardControl frm = new frmPOSStandardControl();
+                frm.Show();
+            }
+            
             else if (CompanyInfo.POSStyle == "CrescentStyle")
             {
                 frmPOSPctabControl frm = new frmPOSPctabControl();
