@@ -92,7 +92,20 @@ namespace POS
                 {
                     syncRecpiesToolStripMenuItem.Visible = true; 
                 }
-                syncRecpiesToolStripMenuItem.Visible = false;
+               
+                if (CompanyInfo.POSStyle == "POSStandardStyle")
+                {
+                    syncRecpiesToolStripMenuItem.Visible = false;
+                    syncToServerToolStripMenuItem.Visible = false;
+                    syncToServerToolStripMenuItem.Visible = false;
+                    warehouseArrivalToolStripMenuItem.Visible = false;
+
+                    stockArrivalListToolStripMenuItem.Visible = false;
+                    toolStripMenuItem4.Visible = false;
+                    manualStockInToolStripMenuItem.Visible = false;
+                    orderSectionToolStripMenuItem.Visible = false;
+
+                }
             }
 
         }

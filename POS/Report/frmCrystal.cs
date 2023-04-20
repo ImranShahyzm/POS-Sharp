@@ -870,6 +870,15 @@ WHERE
             return Convert.ToDecimal(dt.Rows[0]["MasterDiscount"]);
 
         }
+        public decimal SaleMasterDiscountNew(DateTime DateFrom, DateTime dateTo)
+        {
+            string query = "Select ISNULL(Sum(DiscountTotal),0) as MasterDiscount from data_SalePosInfo where  data_SalePosInfo.DirectReturn=0 and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + "";
+            DataTable dt = new DataTable();
+            dt = STATICClass.SelectAllFromQuery(query).Tables[0];
+
+            return Convert.ToDecimal(dt.Rows[0]["MasterDiscount"]);
+
+        }
         public DataTable GetCashCardPayments(DateTime DateFrom, DateTime dateTo)
         {
             string query = "Select WHID,Sum(ISNULL(CardPayment, 0)) as CardPayment,(SUm(ISNULL(CashPayment,0)+ISNULL(CardPayment,0)-NetAmount)) as ExchangeAmount,Sum(CashPayment) as CashPayment from data_SalePosInfo where data_SalePosInfo.DirectReturn=0 and SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "' and WHID=" + CompanyInfo.WareHouseID + " group by WHID";
@@ -1143,7 +1152,7 @@ from data_SalePosReturnDetail
             rpt.SetParameterValue("CompanyName", CompanyInfo.WareHouseName);
             rpt.SetParameterValue("UserName", CompanyInfo.username);
            
-                rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+                rpt.SetParameterValue("MasterDiscount", SaleMasterDiscountNew(DateFrom, dateTo));
             rpt.SetParameterValue("ReportType", ReportType);
 
 
@@ -1399,7 +1408,7 @@ from data_SalePosReturnDetail
             rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
             rpt.SetParameterValue("SuppressTag", false);
             rpt.SetParameterValue("NetSale", TillNowSaleCalculation());
-            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscountNew(DateFrom, dateTo));
 
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             //rpt.SetParameterValue("ServerName", Serverpath);
@@ -1446,7 +1455,7 @@ from data_SalePosReturnDetail
             rpt.SetParameterValue("ReportFiltration", "From " + DateFrom.ToString("dd-MM-yyyy") + " To " + dateTo.ToString("dd-MM-yyyy"));
             rpt.SetParameterValue("SuppressTag", false);
             rpt.SetParameterValue("NetSale", TillNowSaleCalculation());
-            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscount(DateFrom, dateTo));
+            rpt.SetParameterValue("MasterDiscount", SaleMasterDiscountNew(DateFrom, dateTo));
 
             String Serverpath = Convert.ToString(Path.Combine(Application.StartupPath, "Resources", "logo.jpeg"));
             //rpt.SetParameterValue("ServerName", Serverpath);
