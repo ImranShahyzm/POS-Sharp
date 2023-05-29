@@ -585,7 +585,7 @@ GROUP BY M.SalePosReturnID
             left join adgen_ColorInfo on adgen_ColorInfo.ColorID=InventItems.ColorID
 			left join gen_ItemVariantInfo on InventItems.ItemVarientId=gen_ItemVariantInfo.ItemVariantInfoId
             where 0 = 0";
-            Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom + "' and '" + dateTo + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
+            Sql = Sql + " and data_SalePosInfo.SalePosDate between '" + DateFrom.ToString("dd-MMM-yyyy") + "' and '" + dateTo.ToString("dd-MMM-yyyy") + "'  and data_SalePosInfo.Companyid=" + CompanyInfo.CompanyID + " and data_SalePosInfo.WHID=" + CompanyInfo.WareHouseID;
             if (CategoryID > 0)
             {
                 Sql = Sql + " and InventItems.CateGoryID=" + CategoryID + "";
